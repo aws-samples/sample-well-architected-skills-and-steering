@@ -1,65 +1,153 @@
-# Well-Architected Skills & Steering for Kiro
+# Well-Architected Skills & Steering for AI Coding Agents
 
-Reusable steering files and skills that teach [Kiro](https://kiro.dev) how to apply the AWS Well-Architected Framework in every conversation.
+Reusable skills and steering that teach AI coding agents how to apply the AWS Well-Architected Framework. Works with Kiro, Claude Code, Cursor, Codex, Windsurf, GitHub Copilot, and Cline.
 
 ## What's inside
 
-```
-steering/          Steering files — always-on context that shapes Kiro's behavior
-  well-architected.md   WA Framework pillars, design principles, review process
+```text
+steering/                           Steering (Kiro) — always-on context
+  well-architected.md                 WA Framework pillars, design principles, review process
 
-skills/            Skills — step-by-step playbooks Kiro follows for specific tasks
-  (coming soon)
+skills/                             Skills — standalone step-by-step playbooks (tool-agnostic)
+  wa-review/                          Full Well-Architected review across all 6 pillars
+  reliability-improvement-plan/       Identify SPOFs and produce a reliability remediation plan
+  security-assessment/                Deep-dive security posture assessment
+  cost-optimization-audit/            Find waste, right-sizing, pricing model improvements
+  performance-efficiency/             Resource selection, scaling, caching, optimization
+  sustainability-optimization/        Carbon footprint reduction via utilization and architecture
+  migration-readiness/                7 Rs assessment with migration plan
+  architecture-decision-record/       WA-aligned ADRs with pillar impact analysis
+
+adapters/                           Tool-specific config files
+  claude-code/                        CLAUDE.md + .claude/commands/*.md
+  cursor/                             .cursor/rules/*.md
+  codex/                              AGENTS.md
+  windsurf/                           .windsurfrules
+  github-copilot/                     .github/copilot-instructions.md
+  cline/                              .clinerules
+
+install.sh                          Setup script for any tool
 ```
 
 ## Quick start
 
-### Option 1: Copy into your project (recommended)
-
-Copy the files you want into your project's `.kiro/` directory:
+### Install script (recommended)
 
 ```bash
-# From your project root
-mkdir -p .kiro/steering
+# Install for a specific tool
+./install.sh ~/my-project --tool claude-code
+./install.sh ~/my-project --tool cursor
+./install.sh ~/my-project --tool kiro
+
+# Install for multiple tools
+./install.sh ~/my-project --tool kiro --tool claude-code --tool cursor
+
+# Install for all supported tools
+./install.sh ~/my-project --tool all
+
+# Use symlinks for automatic updates
+./install.sh ~/my-project --tool claude-code --symlink
+
+# Install globally (applies to all projects)
+./install.sh --global --tool claude-code
+```
+
+Run `./install.sh --help` for full usage.
+
+### Manual installation
+
+#### Kiro
+
+```bash
+mkdir -p .kiro/steering .kiro/skills
 cp path/to/this-repo/steering/well-architected.md .kiro/steering/
+cp -r path/to/this-repo/skills/* .kiro/skills/
 ```
 
-Kiro automatically loads all `.md` files under `.kiro/steering/` as context for every conversation in that workspace.
-
-### Option 2: Symlink for automatic updates
+#### Claude Code
 
 ```bash
-mkdir -p .kiro/steering
-ln -s /absolute/path/to/this-repo/steering/well-architected.md .kiro/steering/well-architected.md
+cp path/to/this-repo/adapters/claude-code/CLAUDE.md ./CLAUDE.md
+cp -r path/to/this-repo/adapters/claude-code/commands .claude/commands
 ```
 
-### Option 3: Install globally
-
-Place files in your global Kiro config to apply them across all projects:
+#### Cursor
 
 ```bash
-mkdir -p ~/.kiro/steering
-cp path/to/this-repo/steering/well-architected.md ~/.kiro/steering/
+cp -r path/to/this-repo/adapters/cursor/rules .cursor/rules
+```
+
+#### Codex (OpenAI)
+
+```bash
+cp path/to/this-repo/adapters/codex/AGENTS.md ./AGENTS.md
+cp -r path/to/this-repo/skills ./skills
+```
+
+#### Windsurf
+
+```bash
+cp path/to/this-repo/adapters/windsurf/.windsurfrules ./.windsurfrules
+```
+
+#### GitHub Copilot
+
+```bash
+mkdir -p .github
+cp path/to/this-repo/adapters/github-copilot/.github/copilot-instructions.md .github/
+```
+
+#### Cline
+
+```bash
+cp path/to/this-repo/adapters/cline/.clinerules ./.clinerules
 ```
 
 ## How it works
 
-**Steering files** (`.kiro/steering/**/*.md`) are loaded automatically into every Kiro conversation. They act as persistent instructions — think of them as "always-on rules" that guide Kiro's responses without you having to repeat yourself.
+**Skills** (`skills/*/SKILL.md`) are self-contained, tool-agnostic playbooks. Any AI coding agent can follow them step-by-step. They don't depend on steering or on each other.
 
-**Skills** (`.kiro/skills/*/SKILL.md`) are task-specific playbooks that Kiro follows step-by-step when triggered by certain phrases or requests.
+**Steering** (`steering/*.md`) is Kiro-specific always-on context loaded into every conversation. Other tools use equivalent mechanisms (see adapters).
 
-## Verifying it's loaded
+**Adapters** (`adapters/`) translate the steering into each tool's native config format and wire up skills as commands or rules.
 
-Start a Kiro chat in your project and ask:
+| Tool | Steering mechanism | Skills mechanism |
+| ---- | ----------------- | --------------- |
+| Kiro | `.kiro/steering/*.md` | `.kiro/skills/*/SKILL.md` |
+| Claude Code | `CLAUDE.md` | `.claude/commands/*.md` (slash commands) |
+| Cursor | `.cursor/rules/*.md` | Rules with conditional activation |
+| Codex | `AGENTS.md` | References `skills/` directory |
+| Windsurf | `.windsurfrules` | References `skills/` directory |
+| GitHub Copilot | `.github/copilot-instructions.md` | Inline (no separate skill mechanism) |
+| Cline | `.clinerules` | References `skills/` directory |
 
-```
+## Skills overview
+
+| Skill | Pillar(s) | Use when you need to... |
+| ----- | --------- | ----------------------- |
+| `wa-review` | All 6 | Run a full Well-Architected review |
+| `reliability-improvement-plan` | Reliability | Find and eliminate single points of failure |
+| `security-assessment` | Security | Assess IAM, detection, data protection, incident response |
+| `cost-optimization-audit` | Cost Optimization | Identify waste and right-sizing opportunities |
+| `performance-efficiency` | Performance Efficiency | Evaluate resource selection, scaling, and caching |
+| `sustainability-optimization` | Sustainability | Reduce carbon footprint and resource waste |
+| `migration-readiness` | All 6 | Assess readiness to migrate a workload to AWS |
+| `architecture-decision-record` | All 6 | Document a design decision with WA pillar impact |
+
+## Verifying it works
+
+Ask your AI coding agent:
+
+```text
 What Well-Architected pillars should I consider for this architecture?
 ```
 
-If the steering is loaded, Kiro will reference all six pillars with specific guidance rather than giving a generic answer.
+If configured correctly, it will reference all six pillars with specific guidance rather than giving a generic answer. For Claude Code, try `/wa-review` to invoke the full review skill.
 
 ## Contributing
 
-1. Fork this repo
-2. Add or edit files under `steering/` or `skills/`
-3. Open a merge request with a description of what guidance you added or changed
+See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines on adding skills or modifying steering files.
+
+## License
+
+This project is licensed under the [MIT-0 License](LICENSE).
