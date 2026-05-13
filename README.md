@@ -2,6 +2,8 @@
 
 Reusable skills and steering that teach AI coding agents how to apply the AWS Well-Architected Framework. Works with Kiro, Claude Code, Cursor, Codex, Windsurf, GitHub Copilot, and Cline.
 
+> ⚠️ **Important:** This sample is provided for educational and demonstrative purposes. It is not intended for production use without additional review and testing appropriate to your environment.
+
 ## What's inside
 
 ```text
@@ -144,6 +146,10 @@ What Well-Architected pillars should I consider for this architecture?
 
 If configured correctly, it will reference all six pillars with specific guidance rather than giving a generic answer. For Claude Code, try `/wa-review` to invoke the full review skill.
 
+## Security
+
+See [CONTRIBUTING](CONTRIBUTING.md#security-issue-notifications) for more information.
+
 ## Contributing
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines on adding skills or modifying steering files.
@@ -151,3 +157,9 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines on adding skills or modify
 ## License
 
 This project is licensed under the [MIT-0 License](LICENSE).
+
+## Related Resources
+
+- [AWS Well-Architected Framework](https://docs.aws.amazon.com/wellarchitected/latest/framework/welcome.html)
+- [AWS Well-Architected Tool](https://aws.amazon.com/well-architected-tool/)
+- [Kiro — AI-powered IDE](https://kiro.dev)
