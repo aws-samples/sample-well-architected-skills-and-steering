@@ -56,6 +56,10 @@ install.sh                          Setup script for any tool
 
 Run `./install.sh --help` for full usage.
 
+> **Note on `--global`**: Global installation places configuration files directly in your home directory (e.g., `~/CLAUDE.md`, `~/AGENTS.md`, `~/.clinerules`, `~/.windsurfrules`) or in global tool-specific directories (e.g., `~/.kiro/`, `~/.claude/`, `~/.cursor/`). These files apply to all projects that don't have their own project-level configuration. Use project-level installation (the default) if you only want Well-Architected guidance for specific projects.
+>
+> **Note on existing files**: The installer will prompt before overwriting any existing files. Use `--force` to skip the prompt and overwrite without confirmation.
+
 ### Manual installation
 
 #### Kiro

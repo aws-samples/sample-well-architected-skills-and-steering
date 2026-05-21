@@ -18,6 +18,7 @@ Options:
                 Valid: kiro, claude-code, cursor, codex, windsurf, github-copilot, cline, all
   --symlink     Use symlinks instead of copies (auto-updates when this repo changes)
   --global      Install to global config (~/.kiro, ~/.claude, etc.) instead of project
+  --force       Overwrite existing files without prompting
   --help        Show this help message
 
 Examples:
@@ -25,6 +26,7 @@ Examples:
   ./install.sh ~/my-project --tool all
   ./install.sh ~/my-project --tool cursor --symlink
   ./install.sh --global --tool claude-code
+  ./install.sh ~/my-project --tool all --force
 EOF
   exit 0
 }
@@ -32,6 +34,7 @@ EOF
 TOOLS=()
 SYMLINK=false
 GLOBAL=false
+FORCE=false
 
 while [[ $# -gt 0 ]]; do
   case $1 in
@@ -45,6 +48,10 @@ while [[ $# -gt 0 ]]; do
       ;;
     --global)
       GLOBAL=true
+      shift
+      ;;
+    --force)
+      FORCE=true
       shift
       ;;
     --help|-h)
@@ -68,6 +75,16 @@ copy_or_link() {
   local dest="$2"
 
   mkdir -p "$(dirname "$dest")"
+
+  if [[ -e "$dest" || -L "$dest" ]] && [[ "$FORCE" != true ]]; then
+    echo "  WARNING: $dest already exists."
+    printf "  Overwrite? [y/N] "
+    read -r answer
+    if [[ "$answer" != "y" && "$answer" != "Y" ]]; then
+      echo "  Skipped: $dest"
+      return 0
+    fi
+  fi
 
   if [[ "$SYMLINK" == true ]]; then
     ln -sf "$src" "$dest"

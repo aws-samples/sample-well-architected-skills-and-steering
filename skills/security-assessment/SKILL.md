@@ -56,7 +56,7 @@ Evaluate:
 - Is sensitive data classified and tagged?
 - Are backup and recovery mechanisms in place?
 - Is data access audited?
-- Are secrets managed properly? (Secrets Manager, no hardcoded credentials)
+- Are secrets managed properly? (Secrets Manager or Parameter Store SecureString — not environment variables, not hardcoded credentials, not config files)
 
 ## Step 6: Assess Incident Response
 
