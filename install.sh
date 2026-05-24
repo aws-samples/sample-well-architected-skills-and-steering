@@ -15,7 +15,7 @@ Arguments:
 
 Options:
   --tool TOOL   Install only for a specific tool. Can be repeated.
-                Valid: kiro, claude-code, cursor, codex, windsurf, github-copilot, cline, all
+                Valid: kiro, claude-code, cursor, codex, windsurf, github-copilot, cline, gemini-cli, antigravity, all
   --symlink     Use symlinks instead of copies (auto-updates when this repo changes)
   --global      Install to global config (~/.kiro, ~/.claude, etc.) instead of project
   --force       Overwrite existing files without prompting
@@ -230,6 +230,59 @@ install_cline() {
   echo ""
 }
 
+install_gemini_cli() {
+  local base="$TARGET_DIR"
+  if [[ "$GLOBAL" == true ]]; then
+    base="$HOME/.gemini"
+  fi
+
+  echo "Installing for Gemini CLI..."
+  copy_or_link "$SCRIPT_DIR/adapters/gemini-cli/GEMINI.md" "$base/GEMINI.md"
+
+  mkdir -p "$base/skills"
+  for skill_dir in "$SCRIPT_DIR/skills"/*/; do
+    local skill_name
+    skill_name="$(basename "$skill_dir")"
+    copy_or_link "$skill_dir/SKILL.md" "$base/skills/$skill_name/SKILL.md"
+  done
+  echo "  Done. Gemini CLI will load GEMINI.md automatically and reference skills/ on demand."
+  echo ""
+}
+
+install_antigravity() {
+  local base="$TARGET_DIR"
+
+  if [[ "$GLOBAL" == true ]]; then
+    echo "Installing for Antigravity (Global)..."
+    copy_or_link "$SCRIPT_DIR/adapters/gemini-cli/GEMINI.md" "$HOME/.gemini/GEMINI.md"
+    
+    mkdir -p "$HOME/.gemini/skills"
+    for skill_dir in "$SCRIPT_DIR/skills"/*/; do
+      local skill_name
+      skill_name="$(basename "$skill_dir")"
+      copy_or_link "$skill_dir/SKILL.md" "$HOME/.gemini/skills/$skill_name/SKILL.md"
+    done
+    echo "  Done. Global rules installed to ~/.gemini/GEMINI.md."
+  else
+    echo "Installing for Antigravity..."
+    mkdir -p "$base/.agents/rules"
+    for rule_file in "$SCRIPT_DIR/adapters/antigravity/rules"/*.md; do
+      local rule_name
+      rule_name="$(basename "$rule_file")"
+      copy_or_link "$rule_file" "$base/.agents/rules/$rule_name"
+    done
+
+    mkdir -p "$base/.agents/skills"
+    for skill_dir in "$SCRIPT_DIR/skills"/*/; do
+      local skill_name
+      skill_name="$(basename "$skill_dir")"
+      copy_or_link "$skill_dir/SKILL.md" "$base/.agents/skills/$skill_name/SKILL.md"
+    done
+    echo "  Done. Workspace rules in .agents/rules/ and skills in .agents/skills/."
+  fi
+  echo ""
+}
+
 echo "================================================"
 echo " Well-Architected Skills & Steering Installer"
 echo "================================================"
@@ -250,6 +303,8 @@ for tool in "${TOOLS[@]}"; do
     windsurf)       install_windsurf ;;
     github-copilot) install_github_copilot ;;
     cline)          install_cline ;;
+    gemini-cli)     install_gemini_cli ;;
+    antigravity)    install_antigravity ;;
     all)
       install_kiro
       install_claude_code
@@ -258,10 +313,12 @@ for tool in "${TOOLS[@]}"; do
       install_windsurf
       install_github_copilot
       install_cline
+      install_gemini_cli
+      install_antigravity
       ;;
     *)
       echo "Unknown tool: $tool"
-      echo "Valid options: kiro, claude-code, cursor, codex, windsurf, github-copilot, cline, all"
+      echo "Valid options: kiro, claude-code, cursor, codex, windsurf, github-copilot, cline, gemini-cli, antigravity, all"
       exit 1
       ;;
   esac

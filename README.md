@@ -27,6 +27,8 @@ adapters/                           Tool-specific config files
   windsurf/                           .windsurfrules
   github-copilot/                     .github/copilot-instructions.md
   cline/                              .clinerules
+  gemini-cli/                         GEMINI.md
+  antigravity/                        .agents/rules/*.md
 
 install.sh                          Setup script for any tool
 ```
@@ -109,6 +111,25 @@ cp path/to/this-repo/adapters/github-copilot/.github/copilot-instructions.md .gi
 cp path/to/this-repo/adapters/cline/.clinerules ./.clinerules
 ```
 
+#### Gemini CLI
+
+```bash
+cp path/to/this-repo/adapters/gemini-cli/GEMINI.md ./GEMINI.md
+cp -r path/to/this-repo/skills ./skills
+```
+
+#### Antigravity
+
+```bash
+mkdir -p .agents/rules .agents/skills
+cp -r path/to/this-repo/adapters/antigravity/rules/* .agents/rules/
+for skill_dir in path/to/this-repo/skills/*/; do
+  skill_name=$(basename "$skill_dir")
+  mkdir -p ".agents/skills/$skill_name"
+  cp "$skill_dir/SKILL.md" ".agents/skills/$skill_name/SKILL.md"
+done
+```
+
 ## How it works
 
 **Skills** (`skills/*/SKILL.md`) are self-contained, tool-agnostic playbooks. Any AI coding agent can follow them step-by-step. They don't depend on steering or on each other.
@@ -126,6 +147,8 @@ cp path/to/this-repo/adapters/cline/.clinerules ./.clinerules
 | Windsurf | `.windsurfrules` | References `skills/` directory |
 | GitHub Copilot | `.github/copilot-instructions.md` | Inline (no separate skill mechanism) |
 | Cline | `.clinerules` | References `skills/` directory |
+| Gemini CLI | `GEMINI.md` | References `skills/` directory |
+| Antigravity | `.agents/rules/well-architected.md` | `.agents/skills/*/SKILL.md` |
 
 ## Skills overview
 
