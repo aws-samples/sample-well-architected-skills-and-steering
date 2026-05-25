@@ -1,6 +1,6 @@
 # Well-Architected Skills & Steering for AI Coding Agents
 
-Reusable skills and steering that teach AI coding agents how to apply the AWS Well-Architected Framework. Works with Kiro, Claude Code, Cursor, Codex, Windsurf, GitHub Copilot, and Cline.
+Reusable skills and steering that teach AI coding agents how to apply the AWS Well-Architected Framework. Works with Kiro, Claude Code, Cursor, Codex, Windsurf, GitHub Copilot, Gemini CLI, Antigravity, Cline and AWS DevOps Agent.
 
 > ⚠️ **Important:** This sample is provided for educational and demonstrative purposes. It is not intended for production use without additional review and testing appropriate to your environment.
 
