@@ -15,7 +15,7 @@ Arguments:
 
 Options:
   --tool TOOL   Install only for a specific tool. Can be repeated.
-                Valid: kiro, claude-code, cursor, codex, windsurf, github-copilot, cline, gemini-cli, antigravity, all
+                Valid: kiro, claude-code, cursor, codex, windsurf, github-copilot, cline, gemini-cli, antigravity, devops-agent, all
   --symlink     Use symlinks instead of copies (auto-updates when this repo changes)
   --global      Install to global config (~/.kiro, ~/.claude, etc.) instead of project
   --force       Overwrite existing files without prompting
@@ -255,7 +255,7 @@ install_antigravity() {
   if [[ "$GLOBAL" == true ]]; then
     echo "Installing for Antigravity (Global)..."
     copy_or_link "$SCRIPT_DIR/adapters/gemini-cli/GEMINI.md" "$HOME/.gemini/GEMINI.md"
-    
+
     mkdir -p "$HOME/.gemini/skills"
     for skill_dir in "$SCRIPT_DIR/skills"/*/; do
       local skill_name
@@ -283,6 +283,52 @@ install_antigravity() {
   echo ""
 }
 
+install_devops_agent() {
+  local base="$TARGET_DIR"
+  if [[ "$GLOBAL" == true ]]; then
+    base="$HOME/.devops-agent-skills"
+  fi
+
+  echo "Installing for AWS DevOps Agent..."
+  mkdir -p "$base/devops-agent-skills"
+
+  for skill_dir in "$SCRIPT_DIR/skills"/*/; do
+    local skill_name
+    skill_name="$(basename "$skill_dir")"
+    [[ "$skill_name" == "_shared" ]] && continue
+
+    local out_dir="$base/devops-agent-skills/$skill_name"
+    mkdir -p "$out_dir/assets"
+
+    copy_or_link "$skill_dir/SKILL.md" "$out_dir/SKILL.md"
+
+    if [[ -d "$skill_dir/references" ]]; then
+      mkdir -p "$out_dir/references"
+      for ref_file in "$skill_dir/references"/*; do
+        [[ -f "$ref_file" ]] && copy_or_link "$ref_file" "$out_dir/references/$(basename "$ref_file")"
+      done
+    fi
+
+    if [[ -d "$skill_dir/assets" ]]; then
+      for asset_file in "$skill_dir/assets"/*; do
+        [[ -f "$asset_file" ]] && copy_or_link "$asset_file" "$out_dir/assets/$(basename "$asset_file")"
+      done
+    fi
+
+    if [[ -d "$SCRIPT_DIR/assets" ]]; then
+      cp -r "$SCRIPT_DIR/assets/." "$out_dir/assets/"
+      echo "  Included shared assets in $skill_name"
+    fi
+
+    if [[ "$SYMLINK" != true ]]; then
+      (cd "$base/devops-agent-skills" && zip -qr "$base/devops-agent-skills/$skill_name.zip" "$skill_name/")
+      echo "  Packaged: $base/devops-agent-skills/$skill_name.zip"
+    fi
+  done
+  echo "  Done. Upload .zip files to your DevOps Agent Space via the Operator Web App."
+  echo ""
+}
+
 echo "================================================"
 echo " Well-Architected Skills & Steering Installer"
 echo "================================================"
@@ -305,6 +351,7 @@ for tool in "${TOOLS[@]}"; do
     cline)          install_cline ;;
     gemini-cli)     install_gemini_cli ;;
     antigravity)    install_antigravity ;;
+    devops-agent)   install_devops_agent ;;
     all)
       install_kiro
       install_claude_code
@@ -315,10 +362,11 @@ for tool in "${TOOLS[@]}"; do
       install_cline
       install_gemini_cli
       install_antigravity
+      install_devops_agent
       ;;
     *)
       echo "Unknown tool: $tool"
-      echo "Valid options: kiro, claude-code, cursor, codex, windsurf, github-copilot, cline, gemini-cli, antigravity, all"
+      echo "Valid options: kiro, claude-code, cursor, codex, windsurf, github-copilot, cline, gemini-cli, antigravity, devops-agent, all"
       exit 1
       ;;
   esac

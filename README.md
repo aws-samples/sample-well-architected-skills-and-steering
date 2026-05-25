@@ -18,7 +18,15 @@ skills/                             Skills — standalone step-by-step playbooks
   performance-efficiency/             Resource selection, scaling, caching, optimization
   sustainability-optimization/        Carbon footprint reduction via utilization and architecture
   migration-readiness/                7 Rs assessment with migration plan
+  operational-excellence/              CI/CD, observability, incident mgmt, operational maturity
   architecture-decision-record/       WA-aligned ADRs with pillar impact analysis
+
+assets/                             Shared reference material (WA best practices, metrics, patterns)
+  v13/                                Well-Architected Framework v13 best practices by ID
+  well-architected-best-practices.md  Per-pillar best practices with investigation checklists
+  cloudwatch-metrics-reference.md     Metric thresholds by service + composite alarm patterns
+  incident-investigation-patterns.md  Triage, RCA, mitigation playbooks, post-mortem template
+  skill-authoring-guide.md            Guide for writing effective DevOps Agent skills
 
 adapters/                           Tool-specific config files
   claude-code/                        CLAUDE.md + .claude/commands/*.md
@@ -29,6 +37,7 @@ adapters/                           Tool-specific config files
   cline/                              .clinerules
   gemini-cli/                         GEMINI.md
   antigravity/                        .agents/rules/*.md
+  devops-agent/                       Assets + packaging for AWS DevOps Agent
 
 install.sh                          Setup script for any tool
 ```
@@ -130,6 +139,14 @@ for skill_dir in path/to/this-repo/skills/*/; do
 done
 ```
 
+#### AWS DevOps Agent
+
+```bash
+# Package all skills as zip files for upload to your Agent Space
+./install.sh ~/output-dir --tool devops-agent
+# Then upload each .zip from ~/output-dir/devops-agent-skills/ via the Operator Web App
+```
+
 ## How it works
 
 **Skills** (`skills/*/SKILL.md`) are self-contained, tool-agnostic playbooks. Any AI coding agent can follow them step-by-step. They don't depend on steering or on each other.
@@ -149,6 +166,7 @@ done
 | Cline | `.clinerules` | References `skills/` directory |
 | Gemini CLI | `GEMINI.md` | References `skills/` directory |
 | Antigravity | `.agents/rules/well-architected.md` | `.agents/skills/*/SKILL.md` |
+| AWS DevOps Agent | N/A (skills are self-contained) | `SKILL.md` zip upload to Agent Space |
 
 ## Skills overview
 
@@ -161,6 +179,7 @@ done
 | `performance-efficiency` | Performance Efficiency | Evaluate resource selection, scaling, and caching |
 | `sustainability-optimization` | Sustainability | Reduce carbon footprint and resource waste |
 | `migration-readiness` | All 6 | Assess readiness to migrate a workload to AWS |
+| `operational-excellence` | Operational Excellence | Assess CI/CD, observability, incident management, operational maturity |
 | `architecture-decision-record` | All 6 | Document a design decision with WA pillar impact |
 
 ## Verifying it works
@@ -190,3 +209,4 @@ This project is licensed under the [MIT-0 License](LICENSE).
 - [AWS Well-Architected Framework](https://docs.aws.amazon.com/wellarchitected/latest/framework/welcome.html)
 - [AWS Well-Architected Tool](https://aws.amazon.com/well-architected-tool/)
 - [Kiro — AI-powered IDE](https://kiro.dev)
+- [AWS DevOps Agent](https://docs.aws.amazon.com/devopsagent/latest/userguide/)
