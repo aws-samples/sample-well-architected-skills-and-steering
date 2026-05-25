@@ -63,4 +63,5 @@ For structured assessments, read and follow the step-by-step instructions in the
 - `performance-efficiency` — Resource selection, scaling, caching assessment
 - `sustainability-optimization` — Utilization and carbon reduction assessment
 - `migration-readiness` — 7 Rs assessment with migration plan
+- `operational-excellence` — CI/CD, observability, incident management, operational maturity
 - `architecture-decision-record` — ADR with WA pillar impact analysis
