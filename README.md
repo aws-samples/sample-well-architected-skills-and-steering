@@ -1,10 +1,10 @@
 # 🏗️ Well-Architected Skills & Steering for AI Coding Agents
 
-Reusable skills and steering that teach AI coding agents how to apply the [AWS Well-Architected Framework](https://docs.aws.amazon.com/wellarchitected/latest/framework/welcome.html). One set of playbooks, **10 supported tools**.
+Reusable skills and steering that teach AI coding agents how to apply the [AWS Well-Architected Framework](https://docs.aws.amazon.com/wellarchitected/latest/framework/welcome.html). One set of playbooks, **12 supported tools**.
 
 <div align="center">
 
-**Kiro** · **Claude Code** · **Cursor** · **Codex** · **Windsurf** · **GitHub Copilot** · **Gemini CLI** · **Antigravity** · **Cline** · **AWS DevOps Agent**
+**Kiro** · **Claude Code** · **Cursor** · **Codex** · **Windsurf** · **GitHub Copilot** · **Gemini CLI** · **Antigravity** · **Junie** · **Amp** · **Cline** · **AWS DevOps Agent**
 
 </div>
 
@@ -20,7 +20,7 @@ Developers don't stop to consult documentation — they ask their AI assistant. 
 This project embeds WA best practices **where development actually happens**: in the IDE, at the moment code is being written. Instead of treating architecture reviews as a separate gate, teams get continuous, contextual guidance that:
 
 - ✅ Reduces rework by catching misalignments early
-- ✅ Works across 10 AI coding tools with a single source of truth
+- ✅ Works across 12 AI coding tools with a single source of truth
 - ✅ Requires no AWS credentials, no API calls — everything runs locally
 - ✅ Follows the open [Agent Skills specification](https://agentskills.io/)
 
@@ -59,6 +59,8 @@ adapters/                           Tool-specific configuration
   cline/                              .clinerules
   gemini-cli/                         GEMINI.md
   antigravity/                        .agents/rules/*.md
+  junie/                              .junie/guidelines + .junie/skills
+  amp/                                .agents/skills/*.md
   devops-agent/                       Packaging for AWS DevOps Agent
 
 install.sh                          One-command setup for any tool
@@ -188,6 +190,28 @@ done
 </details>
 
 <details>
+<summary><strong>🔹 Junie (JetBrains)</strong></summary>
+
+```bash
+mkdir -p .junie/guidelines .junie/skills
+cp path/to/this-repo/adapters/junie/guidelines.md .junie/guidelines/well-architected.md
+cp -r path/to/this-repo/skills/* .junie/skills/
+```
+
+</details>
+
+<details>
+<summary><strong>🔹 Amp</strong></summary>
+
+```bash
+cp path/to/this-repo/adapters/amp/AGENTS.md ./AGENTS.md
+mkdir -p .agents/skills
+cp -r path/to/this-repo/skills/* .agents/skills/
+```
+
+</details>
+
+<details>
 <summary><strong>🔹 Cline</strong></summary>
 
 ```bash
@@ -223,6 +247,8 @@ graph LR
     A --> GH[GitHub Copilot]
     A --> G[Gemini CLI]
     A --> AG[Antigravity]
+    A --> J[Junie]
+    A --> AM[Amp]
     A --> CL[Cline]
     A --> DA[DevOps Agent]
 ```
@@ -247,6 +273,8 @@ graph LR
 | Cline | `.clinerules` | References `skills/` directory |
 | Gemini CLI | `GEMINI.md` | References `skills/` directory |
 | Antigravity | `.agents/rules/*.md` | `.agents/skills/*/SKILL.md` |
+| Junie | `.junie/guidelines/*.md` | `.junie/skills/*/SKILL.md` |
+| Amp | `AGENTS.md` | `.agents/skills/*/SKILL.md` |
 | AWS DevOps Agent | N/A (skills are self-contained) | `SKILL.md` zip upload to Agent Space |
 
 ---

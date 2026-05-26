@@ -15,7 +15,7 @@ Arguments:
 
 Options:
   --tool TOOL   Install only for a specific tool. Can be repeated.
-                Valid: kiro, claude-code, cursor, codex, windsurf, github-copilot, cline, gemini-cli, antigravity, devops-agent, all
+                Valid: kiro, claude-code, cursor, codex, windsurf, github-copilot, cline, gemini-cli, antigravity, junie, amp, devops-agent, all
   --symlink     Use symlinks instead of copies (auto-updates when this repo changes)
   --global      Install to global config (~/.kiro, ~/.claude, etc.) instead of project
   --force       Overwrite existing files without prompting
@@ -283,6 +283,50 @@ install_antigravity() {
   echo ""
 }
 
+install_junie() {
+  local base="$TARGET_DIR"
+  if [[ "$GLOBAL" == true ]]; then
+    base="$HOME"
+  fi
+
+  echo "Installing for Junie (JetBrains)..."
+  copy_or_link "$SCRIPT_DIR/adapters/junie/guidelines.md" "$base/.junie/guidelines/well-architected.md"
+
+  for skill_dir in "$SCRIPT_DIR/skills"/*/; do
+    local skill_name
+    skill_name="$(basename "$skill_dir")"
+    [[ "$skill_name" == "_shared" ]] && continue
+    copy_or_link "$skill_dir/SKILL.md" "$base/.junie/skills/$skill_name/SKILL.md"
+  done
+  echo "  Done. Guidelines are always-on; skills activate on demand."
+  echo ""
+}
+
+install_amp() {
+  local base="$TARGET_DIR"
+  if [[ "$GLOBAL" == true ]]; then
+    base="$HOME/.config/agents"
+  fi
+
+  echo "Installing for Amp..."
+  copy_or_link "$SCRIPT_DIR/adapters/amp/AGENTS.md" "$base/AGENTS.md"
+
+  mkdir -p "$base/.agents/skills" 2>/dev/null || mkdir -p "$base/skills"
+  local skills_dir="$base/.agents/skills"
+  if [[ "$GLOBAL" == true ]]; then
+    skills_dir="$base/skills"
+  fi
+
+  for skill_dir in "$SCRIPT_DIR/skills"/*/; do
+    local skill_name
+    skill_name="$(basename "$skill_dir")"
+    [[ "$skill_name" == "_shared" ]] && continue
+    copy_or_link "$skill_dir/SKILL.md" "$skills_dir/$skill_name/SKILL.md"
+  done
+  echo "  Done. Amp will discover skills from .agents/skills/ automatically."
+  echo ""
+}
+
 install_devops_agent() {
   local base="$TARGET_DIR"
   if [[ "$GLOBAL" == true ]]; then
@@ -351,6 +395,8 @@ for tool in "${TOOLS[@]}"; do
     cline)          install_cline ;;
     gemini-cli)     install_gemini_cli ;;
     antigravity)    install_antigravity ;;
+    junie)          install_junie ;;
+    amp)            install_amp ;;
     devops-agent)   install_devops_agent ;;
     all)
       install_kiro
@@ -362,11 +408,13 @@ for tool in "${TOOLS[@]}"; do
       install_cline
       install_gemini_cli
       install_antigravity
+      install_junie
+      install_amp
       install_devops_agent
       ;;
     *)
       echo "Unknown tool: $tool"
-      echo "Valid options: kiro, claude-code, cursor, codex, windsurf, github-copilot, cline, gemini-cli, antigravity, devops-agent, all"
+      echo "Valid options: kiro, claude-code, cursor, codex, windsurf, github-copilot, cline, gemini-cli, antigravity, junie, amp, devops-agent, all"
       exit 1
       ;;
   esac
