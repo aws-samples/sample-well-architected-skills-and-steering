@@ -2,7 +2,7 @@
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-TARGET_DIR="${1:-.}"
+TARGET_DIR="."
 
 usage() {
   cat <<EOF
@@ -74,7 +74,7 @@ copy_or_link() {
   local src="$1"
   local dest="$2"
 
-  mkdir -p "$(dirname "$dest")"
+  mkdir -p "$(dirname -- "$dest")"
 
   if [[ -e "$dest" || -L "$dest" ]] && [[ "$FORCE" != true ]]; then
     echo "  WARNING: $dest already exists."
@@ -111,6 +111,7 @@ install_kiro() {
   for skill_dir in "$SCRIPT_DIR/skills"/*/; do
     local skill_name
     skill_name="$(basename "$skill_dir")"
+    [[ "$skill_name" == "_shared" ]] && continue
     copy_or_link "$skill_dir/SKILL.md" "$base/.kiro/skills/$skill_name/SKILL.md"
   done
   echo "  Done. Kiro will load steering automatically and skills on demand."
@@ -154,6 +155,7 @@ install_cursor() {
   for skill_dir in "$SCRIPT_DIR/skills"/*/; do
     local skill_name
     skill_name="$(basename "$skill_dir")"
+    [[ "$skill_name" == "_shared" ]] && continue
     copy_or_link "$skill_dir/SKILL.md" "$base/.cursor/skills/$skill_name/SKILL.md"
   done
   echo "  Done. The well-architected rule is always-on; wa-review activates on demand."
@@ -173,6 +175,7 @@ install_codex() {
   for skill_dir in "$SCRIPT_DIR/skills"/*/; do
     local skill_name
     skill_name="$(basename "$skill_dir")"
+    [[ "$skill_name" == "_shared" ]] && continue
     copy_or_link "$skill_dir/SKILL.md" "$base/skills/$skill_name/SKILL.md"
   done
   echo "  Done. Codex will read AGENTS.md and reference skills/ on demand."
@@ -192,6 +195,7 @@ install_windsurf() {
   for skill_dir in "$SCRIPT_DIR/skills"/*/; do
     local skill_name
     skill_name="$(basename "$skill_dir")"
+    [[ "$skill_name" == "_shared" ]] && continue
     copy_or_link "$skill_dir/SKILL.md" "$base/skills/$skill_name/SKILL.md"
   done
   echo "  Done. Windsurf will load .windsurfrules automatically."
@@ -224,6 +228,7 @@ install_cline() {
   for skill_dir in "$SCRIPT_DIR/skills"/*/; do
     local skill_name
     skill_name="$(basename "$skill_dir")"
+    [[ "$skill_name" == "_shared" ]] && continue
     copy_or_link "$skill_dir/SKILL.md" "$base/skills/$skill_name/SKILL.md"
   done
   echo "  Done. Cline will load .clinerules automatically."
@@ -243,6 +248,7 @@ install_gemini_cli() {
   for skill_dir in "$SCRIPT_DIR/skills"/*/; do
     local skill_name
     skill_name="$(basename "$skill_dir")"
+    [[ "$skill_name" == "_shared" ]] && continue
     copy_or_link "$skill_dir/SKILL.md" "$base/skills/$skill_name/SKILL.md"
   done
   echo "  Done. Gemini CLI will load GEMINI.md automatically and reference skills/ on demand."
@@ -260,6 +266,7 @@ install_antigravity() {
     for skill_dir in "$SCRIPT_DIR/skills"/*/; do
       local skill_name
       skill_name="$(basename "$skill_dir")"
+    [[ "$skill_name" == "_shared" ]] && continue
       copy_or_link "$skill_dir/SKILL.md" "$HOME/.gemini/skills/$skill_name/SKILL.md"
     done
     echo "  Done. Global rules installed to ~/.gemini/GEMINI.md."
@@ -276,6 +283,7 @@ install_antigravity() {
     for skill_dir in "$SCRIPT_DIR/skills"/*/; do
       local skill_name
       skill_name="$(basename "$skill_dir")"
+    [[ "$skill_name" == "_shared" ]] && continue
       copy_or_link "$skill_dir/SKILL.md" "$base/.agents/skills/$skill_name/SKILL.md"
     done
     echo "  Done. Workspace rules in .agents/rules/ and skills in .agents/skills/."
