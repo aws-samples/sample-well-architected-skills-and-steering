@@ -44,7 +44,7 @@ skills/                             Step-by-step playbooks (tool-agnostic)
   architecture-decision-record/       WA-aligned ADRs with pillar impact
 
 assets/                             Shared reference material
-  v13/                                308 WA Framework best practices (by ID)
+  v13/                                307 WA Framework best practices (by ID)
   well-architected-best-practices.md  Per-pillar investigation checklists
   cloudwatch-metrics-reference.md     Metric thresholds + composite alarm patterns
   incident-investigation-patterns.md  Triage, RCA, mitigation playbooks
