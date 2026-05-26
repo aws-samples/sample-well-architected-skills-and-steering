@@ -268,7 +268,8 @@ Write-Host "Scope:   $(if ($Global) { 'global' } else { 'project' })"
 Write-Host "Tools:   $($Tool -join ', ')"
 Write-Host ""
 
-$TargetDir = (Resolve-Path $TargetDir -ErrorAction SilentlyContinue)?.Path ?? $TargetDir
+$resolved = Resolve-Path $TargetDir -ErrorAction SilentlyContinue
+if ($resolved) { $TargetDir = $resolved.Path }
 
 $validTools = @("kiro", "claude-code", "cursor", "codex", "windsurf", "github-copilot", "cline", "gemini-cli", "antigravity", "junie", "amp", "devops-agent", "all")
 
