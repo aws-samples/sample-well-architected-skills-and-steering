@@ -336,6 +336,22 @@ If configured correctly, it will reference all six pillars with specific guidanc
 
 ---
 
+## 🧪 Evaluating skills
+
+Each skill includes structured evaluations in `skills/*/evals/evals.json` following the [Agent Skills eval spec](https://agentskills.io/skill-creation/evaluating-skills). Evals let you measure whether the skills produce better outputs than a bare agent.
+
+Each test case includes:
+- A realistic user prompt
+- Expected output description
+- 5-7 concrete assertions (gradable as PASS/FAIL)
+
+To run evals, execute each prompt **with** and **without** the skill loaded, then grade the assertions against the outputs. See the spec for the full workflow including grading, benchmarking, and iteration.
+
+> [!TIP]
+> Start by running a single eval manually. Compare the with-skill and without-skill outputs side by side — the difference in structure and specificity is usually immediately obvious.
+
+---
+
 ## 🤝 Contributing
 
 We welcome contributions from the community and internal teams alike! See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines on adding skills, modifying steering files, or adding new tool adapters.

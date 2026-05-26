@@ -1,0 +1,45 @@
+{
+  "skill_name": "operational-excellence",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Assess our operational excellence: we deploy manually via SSH once a week, monitor with basic CloudWatch dashboards, have no runbooks, incidents are handled by whoever notices them on Slack, and post-mortems happen 'when we have time' (rarely). Team of 5 engineers.",
+      "expected_output": "An operational excellence assessment identifying critical gaps in CI/CD, incident management, and continuous improvement, with a phased roadmap to improve.",
+      "assertions": [
+        "Identifies manual deployments as a critical gap",
+        "Flags lack of runbooks as an operational readiness issue",
+        "Flags ad-hoc incident response as a major gap",
+        "Flags missing post-mortems as an improvement blocker",
+        "Provides a maturity scorecard with scores per domain",
+        "Includes a phased remediation roadmap",
+        "Recommendations are practical for a 5-person team"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "opex assessment: CDK Pipelines with canary deployments, CloudWatch + X-Ray + structured logging, PagerDuty on-call rotation, documented runbooks in Confluence, weekly operational reviews. But we have 200+ alarms and the team is drowning in alert fatigue. MTTR is 45 minutes.",
+      "expected_output": "An assessment that recognizes the strong foundation but focuses on the alert fatigue problem and MTTR improvement opportunities.",
+      "assertions": [
+        "Acknowledges strong CI/CD and observability practices",
+        "Focuses on alert fatigue as the primary issue",
+        "Recommends alarm consolidation, composite alarms, or severity tiering",
+        "Addresses MTTR improvement specifically",
+        "Does NOT recommend basic practices already in place (runbooks, on-call, etc.)",
+        "Suggests concrete solutions for reducing alarm noise"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "We're migrating from a monolith to microservices. Currently we have a single CI/CD pipeline, one CloudWatch dashboard, and one on-call rotation for everything. As we split into 6 services owned by different teams, what operational excellence practices should we put in place?",
+      "expected_output": "An assessment focused on operational readiness for a microservices transition — per-service ownership, observability per service, distributed tracing, independent deployment pipelines.",
+      "assertions": [
+        "Recommends per-service deployment pipelines",
+        "Recommends per-service dashboards and alerting",
+        "Addresses distributed tracing as essential for microservices",
+        "Recommends clear service ownership and on-call per team",
+        "Addresses the operational complexity increase from microservices",
+        "Suggests incremental rollout rather than big-bang migration"
+      ]
+    }
+  ]
+}

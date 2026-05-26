@@ -1,0 +1,43 @@
+{
+  "skill_name": "security-assessment",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Assess the security of my AWS environment: we have 3 accounts (dev, staging, prod) managed by AWS Organizations, IAM Identity Center for SSO, GuardDuty enabled, but no Security Hub, no WAF, and developers have admin access in dev accounts. CloudTrail is on but only in us-east-1.",
+      "expected_output": "A security assessment identifying gaps in detection (no Security Hub), infrastructure protection (no WAF), overly broad access (admin in dev), and incomplete logging (single-region CloudTrail).",
+      "assertions": [
+        "Identifies missing Security Hub as a detection gap",
+        "Flags absence of WAF as an infrastructure protection issue",
+        "Flags developer admin access as overly permissive",
+        "Identifies single-region CloudTrail as insufficient",
+        "Produces a security scorecard with scores per domain",
+        "Includes a remediation roadmap with prioritized actions"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "security review for our app: API keys stored in environment variables on ECS tasks, no encryption at rest for S3 buckets, TLS 1.0 still supported on the ALB, root account has no MFA, and we have no incident response plan documented.",
+      "expected_output": "A critical security assessment flagging multiple high-severity findings across data protection, identity management, and incident response.",
+      "assertions": [
+        "Flags API keys in environment variables as a data protection issue and recommends Secrets Manager",
+        "Flags unencrypted S3 as a data protection finding",
+        "Flags TLS 1.0 as a critical infrastructure protection issue",
+        "Flags root account without MFA as a Critical finding",
+        "Identifies lack of incident response plan",
+        "Overall assessment indicates critical security posture"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "We need a security assessment for SOC2 compliance. We use IAM Identity Center, enforce MFA, have SCPs blocking risky actions, GuardDuty + Security Hub active, all data encrypted with CMKs, VPC with private subnets, and an incident response runbook. What are we missing?",
+      "expected_output": "An assessment that validates existing controls against SOC2 requirements and identifies remaining gaps or hardening opportunities rather than flagging critical issues.",
+      "assertions": [
+        "References SOC2 compliance requirements",
+        "Acknowledges existing strong controls",
+        "Identifies remaining gaps or hardening opportunities",
+        "Does NOT flag numerous Critical findings (posture is solid)",
+        "Suggests specific SOC2-relevant improvements"
+      ]
+    }
+  ]
+}
