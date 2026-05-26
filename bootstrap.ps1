@@ -1,3 +1,5 @@
+# Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: MIT-0
 # One-liner remote installer for Well-Architected Skills & Steering (Windows)
 # Usage: irm https://raw.githubusercontent.com/aws-samples/sample-well-architected-skills-and-steering/main/bootstrap.ps1 | iex
 # Then run: Install-WellArchitected -Tool claude-code -TargetDir C:\Projects\my-app
