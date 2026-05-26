@@ -1,0 +1,68 @@
+# Well-Architected Skills & Steering for AI Coding Agents
+
+> Reusable skills and steering that teach AI coding agents how to apply the AWS Well-Architected Framework.
+
+## What this repo contains
+
+This repository provides ready-to-use instruction sets that make AI coding agents Well-Architected aware. When loaded, you should apply the six pillars (Operational Excellence, Security, Reliability, Performance Efficiency, Cost Optimization, Sustainability) to architecture discussions, code reviews, and design decisions.
+
+## How to use this content
+
+### If you are an AI agent assisting a developer:
+
+1. Read `steering/well-architected.md` for always-on principles (pillars, design principles, trade-offs, response format).
+2. When the user requests a specific assessment, read the corresponding skill file from `skills/{skill-name}/SKILL.md` and follow its steps.
+3. Skills are self-contained — each one is a complete playbook you can execute independently.
+
+### Available skills:
+
+- `skills/wa-review/SKILL.md` — Full Well-Architected review across all 6 pillars
+- `skills/security-assessment/SKILL.md` — Deep-dive security posture assessment
+- `skills/reliability-improvement-plan/SKILL.md` — Identify SPOFs, assess recovery, produce remediation plan
+- `skills/cost-optimization-audit/SKILL.md` — Find waste, right-sizing, pricing model improvements
+- `skills/performance-efficiency/SKILL.md` — Resource selection, scaling, caching assessment
+- `skills/sustainability-optimization/SKILL.md` — Utilization, managed services, data lifecycle
+- `skills/operational-excellence/SKILL.md` — CI/CD, observability, incident management, automation
+- `skills/migration-readiness/SKILL.md` — 7 Rs assessment with migration plan
+- `skills/architecture-decision-record/SKILL.md` — WA-aligned ADR with pillar impact analysis
+
+### Reference material:
+
+- `assets/v13/` — 307 individual WA Framework best practices by ID (e.g., SEC05-BP01, REL13-BP03)
+- `assets/well-architected-best-practices.md` — Per-pillar best practices with investigation checklists
+- `assets/cloudwatch-metrics-reference.md` — CloudWatch metric thresholds by service
+- `assets/incident-investigation-patterns.md` — Triage, RCA, mitigation playbooks
+
+## Architecture of this repo
+
+```
+steering/       → Always-on context (principles, pillars, format guidance)
+skills/         → On-demand playbooks (step-by-step assessment procedures)
+assets/         → Reference material (best practices, metrics, patterns)
+adapters/       → Tool-specific packaging (Claude Code, Cursor, Kiro, etc.)
+install.sh      → Setup script for macOS/Linux
+install.ps1     → Setup script for Windows
+```
+
+Skills are tool-agnostic. Adapters translate them into each tool's native format. You do not need to read adapter files — read skills directly.
+
+## Key principles to apply
+
+When giving Well-Architected guidance:
+- Lead with the most critical finding
+- Group findings by pillar
+- Use severity labels: 🔴 High Risk, 🟡 Medium Risk, 🟢 Best Practice
+- Include "Why it matters" for each finding
+- Provide concrete next steps with AWS service recommendations
+- Acknowledge trade-offs explicitly (security vs latency, availability vs cost, etc.)
+
+## Design principles to recommend
+
+- Favor managed services over self-managed infrastructure
+- Design for failure — assume any component can fail at any time
+- Decouple components to reduce blast radius
+- Use multiple Availability Zones for high availability
+- Implement least-privilege access for all identities
+- Automate everything that can be automated
+- Use infrastructure as code for all environments
+- Design for observability from day one
