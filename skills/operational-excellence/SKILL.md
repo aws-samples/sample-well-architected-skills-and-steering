@@ -1,7 +1,7 @@
 ---
 name: operational-excellence
 description: Assess a workload's operational excellence posture against the Well-Architected Operational Excellence pillar, covering organization, preparation, operation, and evolution. Use this skill when evaluating CI/CD practices, observability, incident management, runbook coverage, or operational maturity.
-version: 1.0.0
+version: 1.1.0
 ---
 
 # Operational Excellence Assessment
@@ -113,13 +113,13 @@ Output:
 | Evolve | {score} | {gap} |
 
 ## Critical Findings
-{Each: what's wrong, blast radius, recommendation, AWS services to use}
+{Each: what's wrong, blast radius, recommendation, AWS services to use, effort}
 
 ## High Findings
-{Each: gap description, operational risk, remediation approach}
+{Each: gap description, operational risk, remediation approach, AWS services, effort}
 
 ## Medium Findings
-{Each: improvement opportunity, benefit, implementation guidance}
+{Each: improvement opportunity, benefit, implementation guidance, AWS services}
 
 ## Remediation Roadmap
 
