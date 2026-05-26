@@ -1,4 +1,12 @@
-# Well-Architected Framework
+# Project Instructions
+
+## Git Workflow
+
+Never push directly to main. Always create a feature branch and open a Pull Request. This applies to all changes — no exceptions.
+
+---
+
+## Well-Architected Framework
 
 ## When to Apply
 
