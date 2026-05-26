@@ -1,7 +1,7 @@
 ---
 name: reliability-improvement-plan
 description: Identify single points of failure, assess recovery capabilities, and produce a prioritized remediation plan aligned with the Well-Architected Reliability pillar.
-version: 1.0.0
+version: 1.1.0
 ---
 
 # Reliability Improvement Plan
@@ -22,10 +22,15 @@ If context is already provided, proceed directly.
 
 For each component, ask: "What happens if this fails?"
 
+Classify each SPOF by severity:
+- 🔴 **High Risk** — total outage or data loss if this component fails
+- 🟡 **Medium Risk** — degraded experience or partial outage
+- 🟢 **Low Risk** — minimal impact, graceful degradation
+
 Check for:
 - Single-AZ deployments (databases, compute, caches)
 - Single-region dependencies with no failover
-- Undeplicated data stores (no backups, no read replicas)
+- Unreplicated data stores (no backups, no read replicas)
 - Hard dependencies on third-party services without fallback
 - Single NAT Gateway, single bastion, single load balancer
 - Shared-nothing vs shared-everything bottlenecks
@@ -64,31 +69,65 @@ Output:
 ```markdown
 # Reliability Improvement Plan: {Workload Name}
 
-## Current State
+## Summary
+- **Date**: {date}
 - **Availability target**: {target}
 - **Estimated current availability**: {estimate}
 - **RTO**: {current} → {target}
 - **RPO**: {current} → {target}
+- **Findings**: {X} High Risk, {Y} Medium Risk, {Z} Low Risk
+
+## Reliability Scorecard
+| Domain | Score (1-5) | Key Gap |
+|--------|-------------|---------|
+| Fault Tolerance | {score} | {gap} |
+| Recovery & Backup | {score} | {gap} |
+| Scaling & Capacity | {score} | {gap} |
+| Change Management | {score} | {gap} |
+| Testing & Validation | {score} | {gap} |
 
 ## Single Points of Failure
-| Component | Failure Impact | Current Mitigation | Gap |
-|-----------|---------------|-------------------|-----|
-| {component} | {impact} | {mitigation or "None"} | {what's missing} |
+| Component | Severity | Failure Impact | Current Mitigation | Gap | AWS Service to Fix |
+|-----------|----------|---------------|-------------------|-----|-------------------|
+| {component} | 🔴/🟡/🟢 | {impact} | {mitigation or "None"} | {what's missing} | {service} |
+
+## High Risk Findings
+{Each: SPOF description, blast radius, recommendation, AWS services, effort}
 
 ## Remediation Plan
 
-### Phase 1: Critical (address immediately)
-{Each: SPOF to eliminate, how, AWS services to use, expected availability gain}
+### Quick Wins (< 1 week)
+{Low-effort high-impact: enable backups, turn on Multi-AZ, add health checks}
 
-### Phase 2: Important (next 30 days)
-{Each: improvement, implementation approach, benefit}
+### Foundation (1-4 weeks)
+{Multi-AZ compute, auto-scaling, circuit breakers, deployment safety}
 
-### Phase 3: Hardening (next 90 days)
-{Each: advanced resilience measure, chaos testing, multi-region}
+### Advanced (1-3 months)
+{Multi-region, chaos engineering, automated failover drills}
 
 ## Architecture Recommendations
 {Specific changes: multi-AZ, read replicas, circuit breakers, async patterns, etc.}
 
 ## Testing Plan
-{How to validate each improvement: failover drills, load tests, game days}
+| Test | What it validates | Frequency | AWS Service |
+|------|-------------------|-----------|-------------|
+| AZ failover drill | Compute continues in remaining AZs | Monthly | FIS |
+| Database failover | RDS/Aurora failover < 60s | Quarterly | FIS |
+| Load test | Capacity handles 2x peak | Before releases | Distributed Load Testing |
+| Backup restore | RPO is met, data is recoverable | Monthly | AWS Backup |
+| Deployment rollback | Bad deploy is reverted < 5 min | Every deploy | CodeDeploy |
+
+## Next Steps
+{Concrete actions the team should take this week}
 ```
+
+## Step 7: Offer follow-up
+
+After delivering the plan, offer:
+
+> Would you like me to:
+> - Design the multi-AZ architecture in detail?
+> - Create a chaos engineering experiment plan using AWS FIS?
+> - Build a failover testing runbook?
+> - Estimate the cost of the reliability improvements?
+> - Design circuit breaker patterns for your service dependencies?

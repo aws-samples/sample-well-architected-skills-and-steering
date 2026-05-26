@@ -1,0 +1,46 @@
+{
+  "skill_name": "migration-readiness",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Assess migration readiness: we have a .NET monolith on Windows Server 2012 (end of support), SQL Server 2016 Standard on-premises, 5TB database, connected to an on-prem Active Directory. Business driver is end-of-life hardware and compliance pressure. Timeline: 6 months.",
+      "expected_output": "A migration readiness assessment recommending replatform strategy, identifying Windows/SQL licensing implications, AD integration needs, and data transfer planning for 5TB.",
+      "assertions": [
+        "Recommends Replatform or Rehost strategy (not Refactor given the 6-month timeline)",
+        "Addresses Windows Server licensing (BYOL vs license-included)",
+        "Addresses SQL Server migration options (RDS SQL Server, or modernize to Aurora/PostgreSQL)",
+        "Identifies Active Directory integration requirement (AD Connector or AWS Managed AD)",
+        "Addresses the 5TB data migration plan (DMS, Snowball, or direct transfer)",
+        "Produces a readiness scorecard with pillar scores",
+        "Includes a phased migration plan with timeline"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "migration assessment: containerized microservices on Kubernetes (self-managed, 3 nodes), PostgreSQL on a VM, Redis on a VM, CI/CD via GitLab. Want to move to AWS for better scaling. No compliance requirements. Team is experienced with containers.",
+      "expected_output": "An assessment showing high readiness, recommending EKS or Fargate, managed RDS/ElastiCache, with minimal blockers given the team's container experience.",
+      "assertions": [
+        "Identifies high overall readiness (already containerized, experienced team)",
+        "Recommends EKS or ECS/Fargate for compute",
+        "Recommends RDS PostgreSQL and ElastiCache Redis (managed equivalents)",
+        "Does NOT over-complicate the migration (workload is already cloud-ready)",
+        "Addresses CI/CD migration (GitLab can stay, just point at EKS/ECR)",
+        "Provides a short timeline estimate (this should be fast given readiness)"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "We want to migrate our Oracle RAC database (12TB, 50k TPS) to AWS. It's connected to 15 downstream applications via DB links. We have Oracle Enterprise License with 3 years remaining. PCI-DSS compliance required. Can we migrate?",
+      "expected_output": "A complex migration assessment identifying Oracle licensing as a major blocker, DB link dependencies as high risk, and PCI-DSS as a constraint on region/service selection. Should recommend a cautious approach.",
+      "assertions": [
+        "Identifies Oracle licensing with 3 years remaining as a significant cost/contractual blocker",
+        "Addresses DB link dependencies as high migration risk (15 downstream apps)",
+        "Discusses options: RDS for Oracle (BYOL), or gradual migration to Aurora PostgreSQL",
+        "Addresses PCI-DSS compliance requirements for AWS (regions, encryption, network isolation)",
+        "Flags the 12TB/50k TPS as requiring careful capacity planning",
+        "Overall readiness should be 'Conditionally Ready' or 'Not Ready' given the blockers",
+        "Recommends phased approach rather than big-bang migration"
+      ]
+    }
+  ]
+}

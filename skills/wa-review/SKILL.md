@@ -1,7 +1,7 @@
 ---
 name: wa-review
 description: Perform a full AWS Well-Architected Framework review of a workload, evaluating all six pillars and producing a prioritized findings report with actionable recommendations.
-version: 1.0.0
+version: 1.1.0
 ---
 
 # Well-Architected Review
@@ -33,31 +33,37 @@ For each of the six pillars, assess the workload against key best practices:
 - How are changes deployed? (CI/CD, IaC, rollback strategy)
 - How is the workload monitored? (metrics, alarms, dashboards)
 - How are operational events handled? (runbooks, on-call, post-incident reviews)
+- Is there a continuous improvement process?
 
 ### Security
 - How are identities and permissions managed? (IAM, least privilege, federation)
 - How is data protected? (encryption at rest/transit, key management)
 - How are security events detected and responded to? (GuardDuty, Security Hub, incident response)
+- Is network segmentation in place? (VPC, WAF, private subnets)
 
 ### Reliability
 - How does the workload handle component failures? (multi-AZ, retries, circuit breakers)
 - How is capacity managed? (auto-scaling, load testing, quotas)
 - How are changes managed to avoid outages? (deployment strategies, health checks)
+- Are backups and DR tested?
 
 ### Performance Efficiency
-- Are the right resource types and sizes selected? (instance types, storage tiers)
+- Are the right resource types and sizes selected? (instance types, storage tiers, Graviton)
 - How is performance monitored? (latency percentiles, bottleneck identification)
 - Are there opportunities for caching, CDN, or async processing?
+- Are database access patterns optimized?
 
 ### Cost Optimization
 - Are resources right-sized? (utilization metrics, Savings Plans, Reserved Instances)
 - Are there idle or orphaned resources?
 - Is the pricing model appropriate? (on-demand vs spot vs reserved, serverless vs provisioned)
+- Is cost visibility and allocation in place?
 
 ### Sustainability
 - Is resource utilization maximized? (right-sizing, scaling to zero)
 - Are managed services used where possible?
 - Is data lifecycle managed? (tiering, expiration, compression)
+- Are efficient compute options used? (Graviton, serverless)
 
 ## Step 4: Classify findings
 
@@ -66,6 +72,7 @@ For each finding, assign:
 - **Pillar**: Which pillar it belongs to
 - **Impact**: What could go wrong if not addressed
 - **Effort**: Low / Medium / High to remediate
+- **AWS Services**: Which services to use for remediation
 
 ## Step 5: Produce the report
 
@@ -80,20 +87,38 @@ Output a structured report:
 - **Lens applied**: {lens or "General"}
 - **Findings**: {X} HRI, {Y} MRI, {Z} Improvements
 
+## Pillar Scorecard
+| Pillar | Score (1-5) | Key Gap |
+|--------|-------------|---------|
+| Operational Excellence | {score} | {gap} |
+| Security | {score} | {gap} |
+| Reliability | {score} | {gap} |
+| Performance Efficiency | {score} | {gap} |
+| Cost Optimization | {score} | {gap} |
+| Sustainability | {score} | {gap} |
+
 ## High Risk Issues
-{For each HRI: description, impact, recommendation, effort, AWS services to use}
+{For each HRI: pillar, description, impact, recommendation, effort, AWS services to use}
 
 ## Medium Risk Issues
-{For each MRI: description, impact, recommendation, effort}
+{For each MRI: pillar, description, impact, recommendation, effort, AWS services}
 
 ## Improvement Opportunities
-{For each improvement: description, benefit, recommendation}
+{For each improvement: pillar, description, benefit, recommendation, AWS services}
 
 ## Prioritized Remediation Plan
-{Ordered list of actions by impact and effort}
+
+### Quick Wins (< 1 week)
+{Low-effort, high-impact fixes — configuration changes, enabling services}
+
+### Foundation (1-4 weeks)
+{Core architectural improvements — multi-AZ, monitoring, CI/CD}
+
+### Strategic (1-3 months)
+{Major changes — re-architecture, multi-region, compliance programs}
 
 ## Next Steps
-{Concrete actions the team should take}
+{Concrete actions the team should take this week}
 ```
 
 ## Step 6: Offer follow-up
@@ -105,3 +130,4 @@ After delivering the report, offer:
 > - Create an implementation plan for a specific finding?
 > - Generate IaC templates to remediate an issue?
 > - Compare alternative approaches for a recommendation?
+> - Run a focused assessment (security, reliability, cost, etc.)?
