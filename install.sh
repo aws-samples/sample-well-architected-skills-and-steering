@@ -4,6 +4,8 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 TARGET_DIR="."
 
+VERSION="1.3.0"
+
 usage() {
   cat <<EOF
 Usage: ./install.sh [TARGET_DIR] [OPTIONS]
@@ -15,18 +17,23 @@ Arguments:
 
 Options:
   --tool TOOL   Install only for a specific tool. Can be repeated.
-                Valid: kiro, claude-code, cursor, codex, windsurf, github-copilot, cline, gemini-cli, antigravity, junie, amp, devops-agent, all
+                Valid: kiro, claude-code, cursor, codex, windsurf, github-copilot, cline, gemini-cli, antigravity, junie, amp, devops-agent, auto, all
+  --uninstall   Remove previously installed WA files from the target directory
+  --check-update  Check if a newer version is available on GitHub
   --symlink     Use symlinks instead of copies (auto-updates when this repo changes)
   --global      Install to global config (~/.kiro, ~/.claude, etc.) instead of project
   --force       Overwrite existing files without prompting
   --help        Show this help message
 
 Examples:
+  ./install.sh ~/my-project --tool auto
   ./install.sh ~/my-project --tool kiro --tool claude-code
   ./install.sh ~/my-project --tool all
   ./install.sh ~/my-project --tool cursor --symlink
   ./install.sh --global --tool claude-code
   ./install.sh ~/my-project --tool all --force
+  ./install.sh ~/my-project --uninstall --tool claude-code
+  ./install.sh --check-update
 EOF
   exit 0
 }
@@ -35,6 +42,8 @@ TOOLS=()
 SYMLINK=false
 GLOBAL=false
 FORCE=false
+UNINSTALL=false
+CHECK_UPDATE=false
 
 while [[ $# -gt 0 ]]; do
   case $1 in
@@ -52,6 +61,14 @@ while [[ $# -gt 0 ]]; do
       ;;
     --force)
       FORCE=true
+      shift
+      ;;
+    --uninstall)
+      UNINSTALL=true
+      shift
+      ;;
+    --check-update)
+      CHECK_UPDATE=true
       shift
       ;;
     --help|-h)
@@ -381,6 +398,121 @@ install_devops_agent() {
   echo ""
 }
 
+detect_tools() {
+  local dir="$1"
+  local detected=()
+
+  [[ -d "$dir/.kiro" ]] && detected+=("kiro")
+  [[ -f "$dir/CLAUDE.md" || -d "$dir/.claude" ]] && detected+=("claude-code")
+  [[ -d "$dir/.cursor" ]] && detected+=("cursor")
+  [[ -f "$dir/AGENTS.md" ]] && detected+=("codex")
+  [[ -f "$dir/.windsurfrules" ]] && detected+=("windsurf")
+  [[ -d "$dir/.github" ]] && detected+=("github-copilot")
+  [[ -f "$dir/.clinerules" ]] && detected+=("cline")
+  [[ -f "$dir/GEMINI.md" || -d "$dir/.gemini" ]] && detected+=("gemini-cli")
+  [[ -d "$dir/.agents" ]] && detected+=("antigravity")
+  [[ -d "$dir/.junie" ]] && detected+=("junie")
+
+  if [[ ${#detected[@]} -eq 0 ]]; then
+    echo "  No AI tools detected in $dir. Installing for all tools."
+    echo "all"
+  else
+    echo "  Detected: ${detected[*]}" >&2
+    printf '%s\n' "${detected[@]}"
+  fi
+}
+
+uninstall_tool() {
+  local tool="$1"
+  local base="$TARGET_DIR"
+  if [[ "$GLOBAL" == true ]]; then
+    base="$HOME"
+  fi
+
+  case "$tool" in
+    kiro)
+      rm -f "$base/.kiro/steering/well-architected.md"
+      rm -rf "$base/.kiro/skills"
+      echo "  Removed: Kiro steering and skills"
+      ;;
+    claude-code)
+      rm -f "$base/CLAUDE.md"
+      rm -rf "$base/.claude/commands"
+      echo "  Removed: Claude Code CLAUDE.md and commands"
+      ;;
+    cursor)
+      rm -f "$base/.cursor/rules/well-architected.md" "$base/.cursor/rules/wa-review.md"
+      rm -rf "$base/.cursor/skills"
+      echo "  Removed: Cursor rules and skills"
+      ;;
+    codex)
+      rm -f "$base/AGENTS.md"
+      rm -rf "$base/skills"
+      echo "  Removed: Codex AGENTS.md and skills"
+      ;;
+    windsurf)
+      rm -f "$base/.windsurfrules"
+      rm -rf "$base/skills"
+      echo "  Removed: Windsurf .windsurfrules and skills"
+      ;;
+    github-copilot)
+      rm -f "$base/.github/copilot-instructions.md"
+      echo "  Removed: GitHub Copilot instructions"
+      ;;
+    cline)
+      rm -f "$base/.clinerules"
+      rm -rf "$base/skills"
+      echo "  Removed: Cline .clinerules and skills"
+      ;;
+    gemini-cli)
+      rm -f "$base/GEMINI.md"
+      rm -rf "$base/skills"
+      echo "  Removed: Gemini CLI GEMINI.md and skills"
+      ;;
+    antigravity)
+      rm -rf "$base/.agents/rules" "$base/.agents/skills"
+      echo "  Removed: Antigravity rules and skills"
+      ;;
+    junie)
+      rm -f "$base/.junie/guidelines/well-architected.md"
+      rm -rf "$base/.junie/skills"
+      echo "  Removed: Junie guidelines and skills"
+      ;;
+    amp)
+      rm -f "$base/AGENTS.md"
+      rm -rf "$base/.agents/skills"
+      echo "  Removed: Amp AGENTS.md and skills"
+      ;;
+    devops-agent)
+      rm -rf "$base/devops-agent-skills"
+      echo "  Removed: DevOps Agent skill packages"
+      ;;
+  esac
+}
+
+check_update() {
+  local latest
+  latest="$(curl -sL https://api.github.com/repos/aws-samples/sample-well-architected-skills-and-steering/releases/latest 2>/dev/null | grep '"tag_name"' | sed 's/.*"v\(.*\)".*/\1/')"
+
+  if [[ -z "$latest" ]]; then
+    echo "  Could not check for updates (no network or API rate limited)."
+    return
+  fi
+
+  if [[ "$latest" == "$VERSION" ]]; then
+    echo "  You are up to date (v$VERSION)."
+  else
+    echo "  Update available: v$VERSION → v$latest"
+    echo "  Run the bootstrap one-liner or git pull to update."
+    echo "  https://github.com/aws-samples/sample-well-architected-skills-and-steering/releases/tag/v$latest"
+  fi
+}
+
+if [[ "$CHECK_UPDATE" == true ]]; then
+  check_update
+  exit 0
+fi
+
 echo "================================================"
 echo " Well-Architected Skills & Steering Installer"
 echo "================================================"
@@ -391,6 +523,31 @@ echo "Mode:    $(if [[ "$SYMLINK" == true ]]; then echo "symlink"; else echo "co
 echo "Scope:   $(if [[ "$GLOBAL" == true ]]; then echo "global"; else echo "project"; fi)"
 echo "Tools:   ${TOOLS[*]}"
 echo ""
+
+# Handle auto-detection
+if [[ "${TOOLS[*]}" == "auto" ]]; then
+  TOOLS=()
+  while IFS= read -r t; do
+    TOOLS+=("$t")
+  done < <(detect_tools "$TARGET_DIR")
+fi
+
+# Handle uninstall mode
+if [[ "$UNINSTALL" == true ]]; then
+  echo "Uninstalling..."
+  for tool in "${TOOLS[@]}"; do
+    if [[ "$tool" == "all" ]]; then
+      for t in kiro claude-code cursor codex windsurf github-copilot cline gemini-cli antigravity junie amp devops-agent; do
+        uninstall_tool "$t"
+      done
+    else
+      uninstall_tool "$tool"
+    fi
+  done
+  echo ""
+  echo "Uninstall complete!"
+  exit 0
+fi
 
 for tool in "${TOOLS[@]}"; do
   case "$tool" in
@@ -422,7 +579,7 @@ for tool in "${TOOLS[@]}"; do
       ;;
     *)
       echo "Unknown tool: $tool"
-      echo "Valid options: kiro, claude-code, cursor, codex, windsurf, github-copilot, cline, gemini-cli, antigravity, junie, amp, devops-agent, all"
+      echo "Valid options: kiro, claude-code, cursor, codex, windsurf, github-copilot, cline, gemini-cli, antigravity, junie, amp, devops-agent, auto, all"
       exit 1
       ;;
   esac
