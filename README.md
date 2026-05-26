@@ -73,9 +73,13 @@ install.ps1                         One-command setup (Windows PowerShell)
 
 ### One-liner (no clone needed)
 
+**macOS / Linux:**
+
 ```bash
 curl -sL https://raw.githubusercontent.com/aws-samples/sample-well-architected-skills-and-steering/main/bootstrap.sh | bash
 ```
+
+**Windows (PowerShell):**
 
 ```powershell
 & ([scriptblock]::Create((irm https://raw.githubusercontent.com/aws-samples/sample-well-architected-skills-and-steering/main/bootstrap.ps1)))
@@ -89,7 +93,7 @@ To install for a specific tool instead:
 # macOS / Linux
 curl -sL .../bootstrap.sh | bash -s -- --tool kiro
 
-# Windows
+# Windows (PowerShell)
 & ([scriptblock]::Create((irm .../bootstrap.ps1))) -Tool kiro
 ```
 
