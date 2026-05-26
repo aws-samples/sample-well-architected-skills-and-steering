@@ -1,7 +1,7 @@
 ---
 name: security-assessment
 description: Deep-dive security posture assessment against the Well-Architected Security pillar, covering identity, detection, infrastructure protection, data protection, and incident response.
-version: 1.0.0
+version: 1.1.0
 ---
 
 # Security Assessment
@@ -97,5 +97,24 @@ Output:
 | Incident Response | {1-5} | {gap} |
 
 ## Remediation Roadmap
-{Prioritized actions: quick wins first, then foundational improvements}
+
+### Quick Wins (< 1 week)
+{Low-effort, high-impact security improvements}
+
+### Foundation (1-4 weeks)
+{Core security controls and detection capabilities}
+
+### Advanced (1-3 months)
+{Automated response, advanced detection, compliance hardening}
 ```
+
+## Step 8: Offer follow-up
+
+After delivering the assessment, offer:
+
+> Would you like me to:
+> - Design IAM policies following least privilege for a specific role?
+> - Create an incident response playbook for a specific threat?
+> - Generate IaC for security controls (GuardDuty, Security Hub, Config rules)?
+> - Map findings to a specific compliance framework (SOC2, HIPAA, PCI)?
+> - Design a network segmentation architecture?
