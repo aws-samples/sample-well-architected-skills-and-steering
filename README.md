@@ -97,11 +97,14 @@ Downloads the repo to a temp directory, auto-detects your AI tools (`.cursor/`, 
 
 ### Install script (from local clone)
 
+**macOS / Linux:**
+
 ```bash
+# Auto-detect tools in your project
+./install.sh ~/my-project --tool auto
+
 # Install for a specific tool
 ./install.sh ~/my-project --tool claude-code
-./install.sh ~/my-project --tool cursor
-./install.sh ~/my-project --tool kiro
 
 # Install for multiple tools at once
 ./install.sh ~/my-project --tool kiro --tool claude-code --tool cursor
@@ -116,13 +119,23 @@ Downloads the repo to a temp directory, auto-detects your AI tools (`.cursor/`, 
 ./install.sh --global --tool claude-code
 ```
 
-Run `./install.sh --help` for full usage.
-
 **Windows (PowerShell):**
 
 ```powershell
+# Auto-detect tools in your project
+.\install.ps1 -TargetDir C:\Projects\my-app -Tool auto
+
+# Install for a specific tool
 .\install.ps1 -TargetDir C:\Projects\my-app -Tool claude-code
+
+# Install for multiple tools at once
+.\install.ps1 -Tool kiro, claude-code, cursor
+
+# Install for all supported tools
 .\install.ps1 -Tool all -Force
+
+# Install globally (applies to all projects)
+.\install.ps1 -Global -Tool claude-code
 ```
 
 > [!TIP]
