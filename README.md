@@ -76,16 +76,24 @@ install.ps1                         One-command setup (Windows PowerShell)
 **macOS / Linux:**
 
 ```bash
-curl -sL https://raw.githubusercontent.com/aws-samples/sample-well-architected-skills-and-steering/main/bootstrap.sh | bash -s -- --tool claude-code ~/my-project
+# Auto-detects your AI tools and installs for all of them
+curl -sL https://raw.githubusercontent.com/aws-samples/sample-well-architected-skills-and-steering/main/bootstrap.sh | bash
+
+# Or specify a tool explicitly
+curl -sL https://raw.githubusercontent.com/aws-samples/sample-well-architected-skills-and-steering/main/bootstrap.sh | bash -s -- --tool claude-code
 ```
 
 **Windows (PowerShell):**
 
 ```powershell
-& ([scriptblock]::Create((irm https://raw.githubusercontent.com/aws-samples/sample-well-architected-skills-and-steering/main/bootstrap.ps1))) -Tool claude-code -TargetDir .\my-project
+# Auto-detects your AI tools and installs for all of them
+& ([scriptblock]::Create((irm https://raw.githubusercontent.com/aws-samples/sample-well-architected-skills-and-steering/main/bootstrap.ps1)))
+
+# Or specify a tool explicitly
+& ([scriptblock]::Create((irm https://raw.githubusercontent.com/aws-samples/sample-well-architected-skills-and-steering/main/bootstrap.ps1))) -Tool claude-code
 ```
 
-Downloads the repo to a temp directory, runs the installer, and cleans up. All flags work (`--tool`, `--symlink`, `--global`, `--force`).
+Downloads the repo to a temp directory, auto-detects your AI tools (`.cursor/`, `.claude/`, `.kiro/`, etc.), installs, and cleans up. Pass flags to override: `--tool`, `--symlink`, `--global`, `--force`.
 
 ### Install script (from local clone)
 

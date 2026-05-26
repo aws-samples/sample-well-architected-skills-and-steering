@@ -6,11 +6,12 @@
 #
 # Or as a true one-liner:
 # & ([scriptblock]::Create((irm https://raw.githubusercontent.com/aws-samples/sample-well-architected-skills-and-steering/main/bootstrap.ps1))) -Tool claude-code -TargetDir .\my-project
+# Defaults to --tool auto with --force in current directory (auto-detects installed AI tools)
 
 param(
-    [string[]]$Tool = @("all"),
+    [string[]]$Tool = @("auto"),
     [string]$TargetDir = ".",
-    [switch]$Force,
+    [switch]$Force = $true,
     [switch]$Global,
     [switch]$Symlink
 )
