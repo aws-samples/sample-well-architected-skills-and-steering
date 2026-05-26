@@ -1,0 +1,43 @@
+{
+  "skill_name": "cost-optimization-audit",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Audit our AWS costs: we're spending $45k/month. We have 20 m5.xlarge EC2 instances running 24/7 (average CPU 15%), 50TB in S3 Standard (80% hasn't been accessed in 6 months), RDS db.r5.2xlarge at 30% utilization, and everything is on-demand pricing. No Savings Plans.",
+      "expected_output": "A cost optimization audit identifying right-sizing opportunities, storage tiering savings, and pricing model recommendations with estimated savings.",
+      "assertions": [
+        "Identifies EC2 instances as significantly over-provisioned (15% CPU)",
+        "Recommends right-sizing or smaller instance types",
+        "Recommends S3 Intelligent-Tiering or Glacier for cold data",
+        "Identifies RDS as over-provisioned and recommends downsizing",
+        "Recommends Savings Plans or Reserved Instances for steady-state workloads",
+        "Provides estimated dollar savings for key recommendations",
+        "Prioritizes recommendations by savings impact"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "we're getting killed on data transfer costs — $8k/month just on cross-region transfers and NAT gateway. We have services in us-east-1 and eu-west-1 that talk to each other constantly. Also spending $3k/month on CloudWatch logs we never look at.",
+      "expected_output": "A focused cost audit addressing data transfer patterns and logging costs with architecture-level recommendations (not just 'turn things off').",
+      "assertions": [
+        "Addresses cross-region data transfer with architecture recommendations",
+        "Suggests reducing NAT gateway costs (VPC endpoints, architecture changes)",
+        "Recommends log retention policies or tiering for CloudWatch",
+        "Provides specific alternatives (e.g., VPC endpoints, caching, regional placement)",
+        "Does not just recommend 'delete everything' but offers architectural solutions"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "cost review: serverless app with Lambda (2M invocations/month, 512MB, avg 200ms), DynamoDB on-demand (unpredictable traffic, spiky), API Gateway REST API, CloudFront. Monthly bill is $2k which seems high for the traffic.",
+      "expected_output": "An audit assessing whether serverless costs are reasonable for the workload, identifying specific optimization opportunities within the serverless model.",
+      "assertions": [
+        "Evaluates whether Lambda memory/duration is optimized (power tuning)",
+        "Assesses DynamoDB on-demand vs provisioned trade-off given the traffic pattern",
+        "Considers API Gateway pricing alternatives (HTTP API vs REST API)",
+        "Does not recommend moving away from serverless without justification",
+        "Provides context on whether $2k is reasonable for the described workload"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,43 @@
+{
+  "skill_name": "wa-review",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "I have a serverless e-commerce app on AWS using API Gateway, Lambda, DynamoDB, S3, and CloudFront. It handles about 10k orders per day. Can you do a Well-Architected review?",
+      "expected_output": "A structured WA review covering all 6 pillars with findings classified by severity, specific recommendations with AWS services, and a prioritized remediation plan.",
+      "assertions": [
+        "The output includes all 6 pillars: Operational Excellence, Security, Reliability, Performance Efficiency, Cost Optimization, and Sustainability",
+        "Each finding has a severity label (High Risk, Medium Risk, or Improvement)",
+        "The output includes a prioritized remediation plan",
+        "Recommendations reference specific AWS services",
+        "The review considers the serverless architecture pattern specifically"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "review my architecture: we have a monolithic Java app on a single EC2 instance, MySQL on RDS single-AZ, no backups configured, SSH access with shared keys, no monitoring besides CloudWatch basic metrics. It's a customer-facing SaaS product.",
+      "expected_output": "A review identifying multiple High Risk Issues including single points of failure, lack of backups, shared SSH keys, and minimal monitoring. Should flag this as critically under-architected.",
+      "assertions": [
+        "Identifies the single EC2 instance as a single point of failure (High Risk)",
+        "Flags the lack of backups as a High Risk issue",
+        "Flags shared SSH keys as a Security High Risk",
+        "Identifies single-AZ RDS as a reliability gap",
+        "Recommends multi-AZ deployment",
+        "The output includes a summary with finding counts",
+        "Recommendations are ordered by priority"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Can you do a quick WA review? We use ECS Fargate with ALB, Aurora PostgreSQL multi-AZ, ElastiCache Redis, CloudFront, WAF, GuardDuty, and deploy via CDK Pipelines with canary deployments. We have CloudWatch dashboards, X-Ray tracing, and automated scaling. Savings Plans are in place.",
+      "expected_output": "A review that acknowledges the architecture is generally well-designed, identifies mostly medium-risk or improvement opportunities rather than critical issues, and suggests advanced improvements like chaos engineering, multi-region, or sustainability optimizations.",
+      "assertions": [
+        "Does NOT flag numerous High Risk issues (the architecture is solid)",
+        "Identifies improvement opportunities rather than critical gaps",
+        "Suggests advanced improvements like chaos engineering, multi-region, or game days",
+        "Acknowledges existing good practices (canary deployments, multi-AZ, WAF)",
+        "Covers all 6 pillars including Sustainability"
+      ]
+    }
+  ]
+}

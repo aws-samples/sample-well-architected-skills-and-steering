@@ -1,0 +1,45 @@
+{
+  "skill_name": "reliability-improvement-plan",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "My workload runs on a single EC2 instance in us-east-1a with a local PostgreSQL database. We have no auto-scaling, no health checks beyond basic ping, and deployments are done by SSH-ing in and pulling from git. Availability target is 99.9%. Help me make it reliable.",
+      "expected_output": "A reliability improvement plan identifying multiple SPOFs, assessing recovery capabilities as poor, and providing a phased remediation plan to reach 99.9% availability.",
+      "assertions": [
+        "Identifies the single EC2 instance as a SPOF",
+        "Identifies the local PostgreSQL as a SPOF (no replication, no managed service)",
+        "Identifies single-AZ as a SPOF",
+        "Estimates current availability as significantly below 99.9%",
+        "Provides a phased remediation plan (immediate, 30-day, 90-day)",
+        "Recommends moving to RDS or Aurora for the database",
+        "Includes a testing plan for validating improvements"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "We have a microservices app on ECS Fargate across 2 AZs, Aurora PostgreSQL multi-AZ, SQS between services, but no circuit breakers, no chaos testing, and deployments are all-at-once with manual rollback. RTO target is 15 minutes, RPO is 1 hour. We had 2 outages last month from bad deploys.",
+      "expected_output": "A plan focused on deployment safety, dependency isolation, and testing — addressing the specific pain points (bad deploys causing outages) while improving RTO/RPO posture.",
+      "assertions": [
+        "Addresses deployment strategy as a key issue (recommends canary or blue/green)",
+        "Recommends circuit breakers for service-to-service calls",
+        "Recommends automated rollback on health check failure",
+        "Addresses the RTO/RPO targets with specific recommendations",
+        "Suggests chaos engineering or game days",
+        "References the recent outages as evidence for prioritization"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "assess reliability for a data pipeline: S3 → Lambda → Step Functions → Glue → Redshift. Processing 5TB daily. No DLQ on Lambda, no retry logic in Step Functions, single Redshift cluster, Glue jobs have no timeout configured. We need 99.95% availability.",
+      "expected_output": "A reliability plan specific to data pipelines — covering message loss, retry/DLQ patterns, processing failures, and data durability rather than just compute redundancy.",
+      "assertions": [
+        "Identifies missing DLQ on Lambda as a data loss risk",
+        "Recommends retry policies and error handling in Step Functions",
+        "Identifies single Redshift cluster as a SPOF",
+        "Addresses Glue job timeouts as a reliability gap",
+        "Provides pipeline-specific recommendations (not just generic multi-AZ advice)",
+        "Addresses the 99.95% target feasibility"
+      ]
+    }
+  ]
+}
