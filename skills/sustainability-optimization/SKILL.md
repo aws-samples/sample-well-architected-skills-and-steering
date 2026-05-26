@@ -1,7 +1,7 @@
 ---
 name: sustainability-optimization
 description: Assess a workload's environmental sustainability posture against the Well-Architected Sustainability pillar, identifying opportunities to reduce carbon footprint through resource efficiency, managed services, and architectural optimization.
-version: 1.0.0
+version: 1.1.0
 ---
 
 # Sustainability Optimization Assessment
@@ -109,7 +109,15 @@ Output:
 | Software Efficiency | {1-5} | {gap} |
 
 ## Prioritized Remediation Plan
-{Ordered by carbon impact and implementation effort}
+
+### Quick Wins (< 1 week)
+{Scheduling, lifecycle policies, enabling Intelligent-Tiering}
+
+### Foundation (1-4 weeks)
+{Right-sizing, Graviton migration, scale-to-zero for non-prod}
+
+### Strategic (1-3 months)
+{Architecture changes, serverless migration, region optimization}
 
 ## AWS Sustainability Tools
 - **Customer Carbon Footprint Tool** — Track emissions in the AWS console

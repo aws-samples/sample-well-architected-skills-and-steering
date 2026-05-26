@@ -1,7 +1,7 @@
 ---
 name: performance-efficiency
 description: Evaluate a workload's performance efficiency against the Well-Architected Performance Efficiency pillar, covering resource selection, scaling, monitoring, and optimization opportunities.
-version: 1.0.0
+version: 1.1.0
 ---
 
 # Performance Efficiency Assessment
@@ -19,6 +19,11 @@ Ask the user:
 If context is already provided, proceed directly.
 
 ## Step 2: Evaluate resource selection
+
+Classify findings by severity:
+- 🔴 **Critical** — actively causing user-facing performance degradation
+- 🟡 **High** — suboptimal performance, noticeable under load
+- 🟢 **Medium** — optimization opportunity, not yet impacting users
 
 Assess whether optimal resource types are used:
 
@@ -76,40 +81,49 @@ Output:
 # Performance Efficiency Assessment: {Workload Name}
 
 ## Summary
+- **Date**: {date}
 - **Latency target**: {target} | **Current**: {p50/p95/p99}
 - **Throughput target**: {target} | **Current**: {actual}
 - **Findings**: {X} Critical, {Y} High, {Z} Medium
 
+## Performance Scorecard
+| Domain | Score (1-5) | Key Gap |
+|--------|-------------|---------|
+| Resource Selection | {score} | {gap} |
+| Scaling & Elasticity | {score} | {gap} |
+| Caching | {score} | {gap} |
+| Data & Network | {score} | {gap} |
+| Monitoring & Optimization | {score} | {gap} |
+
 ## Critical Performance Issues
-{Each: what's bottlenecked, impact on user experience, how to fix it, expected improvement}
+{Each: what's bottlenecked, severity, impact on user experience, recommendation, expected improvement, AWS service}
 
 ## Optimization Opportunities
 
 ### Resource Selection
-| Resource | Current | Recommended | Expected Improvement |
-|----------|---------|-------------|---------------------|
-| {resource} | {current config} | {recommended} | {improvement} |
+| Resource | Current | Recommended | Expected Improvement | AWS Service |
+|----------|---------|-------------|---------------------|-------------|
+| {resource} | {current config} | {recommended} | {improvement} | {service} |
 
 ### Scaling Improvements
-{Each: current limitation, recommended change, implementation approach}
+{Each: current limitation, recommended change, AWS service, implementation approach}
 
 ### Caching Opportunities
-{Each: cache layer to add/improve, expected hit ratio, latency reduction}
+{Each: cache layer to add/improve, expected hit ratio, latency reduction, AWS service}
 
 ### Data and Network Optimizations
-{Each: current pattern, optimized pattern, expected benefit}
+{Each: current pattern, optimized pattern, expected benefit, AWS service}
 
-## Performance Scorecard
-| Domain | Score | Key Gap |
-|--------|-------|---------|
-| Resource Selection | {1-5} | {gap} |
-| Scaling & Elasticity | {1-5} | {gap} |
-| Caching | {1-5} | {gap} |
-| Data & Network | {1-5} | {gap} |
-| Monitoring & Optimization | {1-5} | {gap} |
+## Remediation Plan
 
-## Prioritized Remediation Plan
-{Ordered by impact and effort: quick wins first, then architectural changes}
+### Quick Wins (< 1 week)
+{Configuration changes, enabling features, easy right-sizing}
+
+### Foundation (1-4 weeks)
+{Caching layers, scaling policies, monitoring improvements}
+
+### Strategic (1-3 months)
+{Architecture changes, database migrations, global distribution}
 
 ## Next Steps
 {Concrete actions: load test scenarios to run, metrics to instrument, experiments to try}
@@ -122,5 +136,6 @@ After delivering the assessment, offer:
 > Would you like me to:
 > - Deep-dive into a specific bottleneck?
 > - Design a caching strategy for a particular data flow?
-> - Create a load testing plan?
+> - Create a load testing plan with target scenarios?
 > - Evaluate alternative architectures for a specific component?
+> - Model the performance impact of a scaling change?

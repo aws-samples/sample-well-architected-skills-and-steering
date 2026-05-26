@@ -1,7 +1,7 @@
 ---
 name: architecture-decision-record
 description: Generate a Well-Architected-aligned Architecture Decision Record (ADR) that documents a design decision with context, options evaluated, trade-offs, and WA pillar impact.
-version: 1.0.0
+version: 1.1.0
 ---
 
 # Architecture Decision Record
@@ -91,6 +91,12 @@ Output using the standard ADR format:
 ## Consequences
 {What becomes easier or harder because of this decision?}
 
+## Implementation Notes
+- **Effort**: {Low / Medium / High}
+- **Timeline**: {estimated}
+- **AWS Services**: {key services involved}
+- **Reversibility**: {Easy / Hard / Irreversible}
+
 ## Review Triggers
 {Under what conditions should this decision be revisited?}
 - {trigger 1}
@@ -106,3 +112,4 @@ After producing the ADR, offer:
 > - Deep-dive into a specific pillar's impact?
 > - Create an implementation plan for the chosen option?
 > - Generate IaC for the decision?
+> - Draft a follow-up ADR for a related decision?

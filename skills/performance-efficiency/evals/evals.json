@@ -1,0 +1,45 @@
+{
+  "skill_name": "performance-efficiency",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Assess performance for our API: Node.js on ECS Fargate (1 vCPU, 2GB), Aurora PostgreSQL, no caching layer. p99 latency is 2.3s (target: 500ms), average CPU at 85%. We get 500 req/s at peak. The slowest endpoints are search and dashboard aggregation.",
+      "expected_output": "A performance assessment identifying compute saturation, missing caching, and database query optimization as key issues, with specific recommendations for each bottleneck.",
+      "assertions": [
+        "Identifies CPU saturation (85%) as a critical bottleneck",
+        "Recommends scaling strategy (horizontal scaling or larger tasks)",
+        "Recommends adding a caching layer (ElastiCache or CloudFront)",
+        "Addresses the search endpoint specifically (suggests OpenSearch or query optimization)",
+        "Addresses dashboard aggregation (suggests read replicas, materialized views, or caching)",
+        "Includes a performance scorecard with domain scores",
+        "Provides time-boxed remediation plan"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "performance review: global SaaS app, users in US, EU, and APAC. Single region (us-east-1), no CDN, no caching. Users in APAC report 3-5s page loads. We use React SPA with a REST API, images served from S3 directly.",
+      "expected_output": "An assessment focused on latency for global users — recommending CDN, edge caching, regional deployment, and asset optimization.",
+      "assertions": [
+        "Identifies single-region as the root cause of APAC latency",
+        "Recommends CloudFront for static assets and API caching",
+        "Recommends S3 Transfer Acceleration or CloudFront for images",
+        "Suggests multi-region or edge computing for API layer",
+        "Addresses frontend optimization (compression, code splitting, lazy loading)",
+        "Does not focus on compute scaling since the issue is network latency"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Our Lambda functions are timing out. 128MB memory, 30s timeout, processing S3 events (CSV parsing, 50-500MB files). About 40% of invocations hit the timeout. We're also seeing throttling during peak hours (1000 concurrent).",
+      "expected_output": "A Lambda-specific performance assessment addressing memory/CPU allocation, timeout configuration, concurrency limits, and architectural alternatives for large file processing.",
+      "assertions": [
+        "Identifies 128MB as severely under-provisioned for file processing",
+        "Recommends Lambda Power Tuning to find optimal memory/cost balance",
+        "Addresses the timeout with memory increase (more memory = more CPU = faster)",
+        "Addresses throttling with reserved concurrency or provisioned concurrency",
+        "Suggests architectural alternative for large files (Step Functions, ECS, or chunked processing)",
+        "Provides specific memory recommendations (512MB-1024MB+ for file processing)"
+      ]
+    }
+  ]
+}

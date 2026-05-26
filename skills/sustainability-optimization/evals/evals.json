@@ -1,0 +1,45 @@
+{
+  "skill_name": "sustainability-optimization",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Assess sustainability for our workload: 20 m5.xlarge EC2 instances running 24/7 (avg 15% CPU), 100TB in S3 Standard (60% not accessed in 12 months), dev/staging environments running 24/7 identical to prod, all in us-east-1. No lifecycle policies anywhere.",
+      "expected_output": "A sustainability assessment identifying massive over-provisioning, storage waste, and unnecessary always-on environments as key improvement areas.",
+      "assertions": [
+        "Identifies 15% CPU utilization as severe over-provisioning",
+        "Recommends right-sizing or Graviton migration for better perf/watt",
+        "Identifies 60% cold S3 data as waste and recommends lifecycle tiering (Glacier/Deep Archive)",
+        "Recommends scheduling dev/staging environments off during nights/weekends",
+        "Provides a sustainability scorecard with domain scores",
+        "Includes time-boxed remediation phases (Quick Wins, Foundation, Strategic)",
+        "References AWS Customer Carbon Footprint Tool"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "sustainability review: serverless architecture using Lambda (arm64/Graviton), DynamoDB on-demand, S3 with Intelligent-Tiering, CloudFront, no EC2 instances. Already using scale-to-zero everywhere. What else can we improve?",
+      "expected_output": "An assessment that acknowledges the architecture is already sustainability-optimized and focuses on advanced improvements — code efficiency, payload optimization, regional carbon intensity.",
+      "assertions": [
+        "Acknowledges the architecture is already well-optimized for sustainability",
+        "Does NOT recommend basic improvements already in place (Graviton, scale-to-zero, serverless)",
+        "Suggests advanced improvements (code efficiency, payload compression, caching to reduce invocations)",
+        "Mentions regional carbon intensity as a factor for workload placement",
+        "Identifies client-side impact opportunities (page weight, fewer API calls)",
+        "Scores sustainability domains highly overall"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "We run a data pipeline processing 10TB daily: Kafka on EC2 (6 i3.2xlarge), Spark on EMR (20 m5.4xlarge for 8 hours/day), results to Redshift. Kafka runs 24/7 but peak throughput is only 4 hours/day. What's our sustainability posture?",
+      "expected_output": "A data pipeline-specific sustainability assessment recommending managed services, scheduling optimization, and right-sizing for the burst pattern.",
+      "assertions": [
+        "Identifies Kafka running 24/7 for 4h peak as wasteful",
+        "Recommends Amazon MSK Serverless or scaling Kafka capacity to match demand",
+        "Recommends Graviton instances for EMR or suggests EMR Serverless",
+        "Addresses the 8h/day EMR cluster (already somewhat right-sized, but could use Spot)",
+        "Recommends S3 as intermediate storage instead of Kafka retention for cold data",
+        "Provides specific resource-hours or percentage waste estimates"
+      ]
+    }
+  ]
+}

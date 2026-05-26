@@ -1,0 +1,47 @@
+{
+  "skill_name": "architecture-decision-record",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Create an ADR for: we need to choose between DynamoDB and Aurora PostgreSQL for our new order service. It handles 10k orders/day, needs strong consistency for financial data, and will be queried by order ID, customer ID, and date range. Team knows SQL well.",
+      "expected_output": "An ADR evaluating both options against WA pillars, recommending one with clear trade-off analysis, considering the team's SQL expertise and the query patterns.",
+      "assertions": [
+        "Evaluates both DynamoDB and Aurora PostgreSQL as options",
+        "Assesses impact on all 6 WA pillars for each option",
+        "Considers the team's SQL expertise as a factor (favoring Aurora)",
+        "Addresses the query patterns (date range queries favor relational)",
+        "Addresses strong consistency requirement",
+        "States explicit trade-offs of the chosen option",
+        "Includes review triggers (when to revisit the decision)"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "ADR: should we go multi-region active-active or single-region with cross-region backup for our SaaS platform? We have users in US and EU, current monthly revenue $200k, 99.95% SLA commitment.",
+      "expected_output": "An ADR weighing the significant cost/complexity increase of active-active against the business risk of single-region, tied to the revenue and SLA commitment.",
+      "assertions": [
+        "Evaluates both options (active-active and single-region with backup)",
+        "Addresses cost difference between options (active-active is significantly more expensive)",
+        "References the $200k revenue and 99.95% SLA as decision-driving factors",
+        "Assesses Reliability pillar impact deeply (this is the core trade-off)",
+        "Assesses Cost pillar impact (significant difference)",
+        "States conditions under which to revisit (revenue growth, SLA increase, outage)",
+        "Includes implementation notes with effort and timeline"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Document our decision: we're choosing ECS Fargate over EKS for our new microservices platform. We're a team of 4 with no Kubernetes experience, building 6 services, need to ship MVP in 3 months.",
+      "expected_output": "An ADR documenting ECS Fargate as the decision, with EKS as the evaluated alternative, clearly showing that team size and timeline drove the choice over raw capability.",
+      "assertions": [
+        "Documents ECS Fargate as the chosen option and EKS as the alternative",
+        "Identifies team size (4) and no K8s experience as primary decision drivers",
+        "Addresses the 3-month timeline as a constraint favoring simpler option",
+        "Does NOT recommend EKS (the decision is already made, document it)",
+        "Identifies trade-offs (less ecosystem/flexibility vs faster time-to-market)",
+        "Includes review triggers (team growth, need for advanced orchestration, multi-cloud)",
+        "Assesses Operational Excellence impact (simpler ops with Fargate for small team)"
+      ]
+    }
+  ]
+}
