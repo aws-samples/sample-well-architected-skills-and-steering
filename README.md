@@ -63,7 +63,8 @@ adapters/                           Tool-specific configuration
   amp/                                .agents/skills/*.md
   devops-agent/                       Packaging for AWS DevOps Agent
 
-install.sh                          One-command setup for any tool
+install.sh                          One-command setup (macOS/Linux)
+install.ps1                         One-command setup (Windows PowerShell)
 ```
 
 ---
@@ -93,8 +94,15 @@ install.sh                          One-command setup for any tool
 
 Run `./install.sh --help` for full usage.
 
+**Windows (PowerShell):**
+
+```powershell
+.\install.ps1 -TargetDir C:\Projects\my-app -Tool claude-code
+.\install.ps1 -Tool all -Force
+```
+
 > [!TIP]
-> Use `--symlink` to create symbolic links instead of copies. When this repo updates, your project gets the changes automatically without reinstalling.
+> Use `--symlink` (bash) or `-Symlink` (PowerShell) to create symbolic links instead of copies. When this repo updates, your project gets the changes automatically without reinstalling. On Windows, symlinks require elevated permissions.
 
 > [!NOTE]
 > **Global installs** place files in your home directory (`~/CLAUDE.md`, `~/.kiro/`, `~/.cursor/`, etc.) and apply to all projects without their own config. Use project-level installation (the default) if you only want WA guidance for specific projects.
