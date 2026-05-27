@@ -192,6 +192,10 @@ def main():
         "--save", action="store_true",
         help="Save results to evals/results/"
     )
+    parser.add_argument(
+        "--runs", type=int, default=1,
+        help="Number of runs per skill for statistical significance (default: 1)"
+    )
     args = parser.parse_args()
 
     if args.list:
@@ -212,15 +216,60 @@ def main():
             print(f"Available: {', '.join(list_skills())}")
             sys.exit(1)
 
-    all_results = []
-    for skill_name in skills_to_run:
-        result = run_skill_evals(config, skill_name, verbose=args.verbose)
-        all_results.append(result)
+    num_runs = args.runs
 
-    print_report(all_results)
+    if num_runs > 1:
+        print(f"\n  Running {num_runs} iterations for statistical significance...\n")
+
+    all_run_results = []
+    for run_idx in range(num_runs):
+        if num_runs > 1:
+            print(f"\n{'#'*60}")
+            print(f"  RUN {run_idx + 1} of {num_runs}")
+            print(f"{'#'*60}")
+
+        run_results = []
+        for skill_name in skills_to_run:
+            result = run_skill_evals(config, skill_name, verbose=args.verbose)
+            run_results.append(result)
+
+        all_run_results.append(run_results)
+
+    # Aggregate across runs
+    if num_runs == 1:
+        final_results = all_run_results[0]
+    else:
+        final_results = []
+        for skill_idx, skill_name in enumerate(skills_to_run):
+            baselines = [all_run_results[r][skill_idx]["aggregate"]["baseline_avg"] for r in range(num_runs)]
+            skills = [all_run_results[r][skill_idx]["aggregate"]["skill_avg"] for r in range(num_runs)]
+
+            avg_baseline = sum(baselines) / len(baselines)
+            avg_skill = sum(skills) / len(skills)
+
+            final_results.append({
+                "skill_name": skill_name,
+                "cases": all_run_results[-1][skill_idx]["cases"],
+                "aggregate": {
+                    "baseline_avg": avg_baseline,
+                    "skill_avg": avg_skill,
+                    "delta": avg_skill - avg_baseline,
+                },
+                "runs": num_runs,
+                "per_run_baseline": baselines,
+                "per_run_skill": skills,
+            })
+
+        print(f"\n\n  Per-run breakdown:")
+        for result in final_results:
+            print(f"\n  {result['skill_name']}:")
+            for i, (b, s) in enumerate(zip(result["per_run_baseline"], result["per_run_skill"])):
+                print(f"    Run {i+1}: baseline={b:.0%}  skill={s:.0%}  delta={s-b:+.0%}")
+
+    print_report(final_results)
 
     if args.save:
-        save_results(all_results)
+        save_results(final_results)
 
 
 if __name__ == "__main__":

@@ -56,7 +56,7 @@ Assess:
 - **Scheduled scaling** — Are predictable low-traffic periods handled with reduced capacity?
 - **Right-sizing cadence** — How often are instance types and sizes reviewed?
 - **Spot Instances** — Are fault-tolerant workloads using Spot for better resource pooling?
-- **Region-aware scheduling** — Are flexible workloads routed to regions with lower carbon intensity?
+- **Region carbon intensity** (required finding) — Always assess whether current region selection considers carbon intensity. State whether workloads could benefit from running in lower-carbon regions, or explain why current placement is justified (latency, compliance, data residency).
 
 ## Step 6: Assess software and code efficiency
 
@@ -66,7 +66,7 @@ Evaluate:
 - **Caching** — Does caching reduce redundant computation and data retrieval?
 - **Payload optimization** — Are API responses, assets, and transfers minimized?
 - **Framework efficiency** — Are lightweight runtimes used where possible? (compiled languages vs interpreted for compute-heavy tasks)
-- **Client impact** — Is downstream device energy considered? (page weight, client-side computation)
+- **Client-side impact** (required finding) — Always assess downstream/end-user energy impact: page weight, unnecessary API calls, unoptimized assets, client-side computation. Even for well-optimized backends, there are usually client-side opportunities. If not applicable (headless/API-only), state why.
 
 ## Step 7: Produce findings
 

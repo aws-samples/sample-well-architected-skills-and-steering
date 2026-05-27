@@ -74,6 +74,12 @@ For each finding, assign:
 - **Effort**: Low / Medium / High to remediate
 - **AWS Services**: Which services to use for remediation
 
+**Calibration guidance:**
+- If the architecture already follows best practices (multi-AZ, WAF, canary deployments, encryption, monitoring), most findings should be 🟢 Improvement opportunities — not 🔴 HRI
+- A mature architecture should score 4–5 on most pillars. Resist over-flagging where good practices exist.
+- For well-architected systems, focus on *advanced* improvements: chaos engineering, multi-region DR, cost modeling, game days, sustainability gains
+- Acknowledge existing strengths explicitly before listing gaps
+
 ## Step 5: Produce the report
 
 Output a structured report:

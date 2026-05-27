@@ -35,6 +35,15 @@ Check for:
 - Single NAT Gateway, single bastion, single load balancer
 - Shared-nothing vs shared-everything bottlenecks
 
+**If the workload is a data pipeline** (S3/Lambda/Step Functions/Glue/EMR/Kinesis/Kafka/Redshift):
+- Prioritize **data durability** over compute availability — message/data loss is worse than temporary processing delay
+- Check: DLQ on every async invocation (Lambda, SQS, EventBridge)
+- Check: retry policies with exponential backoff and max attempts
+- Check: idempotency guarantees (duplicate processing must be safe)
+- Check: poison pill handling (malformed messages must not block the pipeline)
+- Check: single-cluster SPOFs in data sinks (Redshift, OpenSearch, RDS) — a single cluster with no failover is a 🔴 High Risk
+- Check: timeout configuration on all processing steps (Glue, Lambda, Step Functions)
+
 ## Step 3: Assess recovery capabilities
 
 Evaluate:

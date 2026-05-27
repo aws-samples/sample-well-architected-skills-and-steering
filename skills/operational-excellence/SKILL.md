@@ -88,6 +88,12 @@ Evaluate:
 
 ## Step 6: Produce the assessment
 
+**Calibration guidance:**
+- Before making recommendations, explicitly list which practices the user already has in place and acknowledge them as strengths
+- Do NOT recommend practices the user has described as already implemented — focus only on gaps and new requirements
+- If the user mentions a specific pain point (e.g., alert fatigue, slow MTTR), prioritize that over generic findings
+- For architecture transitions (monolith → microservices, on-prem → cloud), focus on what the *new* architecture introduces as operational requirements rather than restating current good practices
+
 Output:
 
 ```markdown

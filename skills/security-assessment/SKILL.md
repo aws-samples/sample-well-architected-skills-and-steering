@@ -47,6 +47,11 @@ Evaluate:
 - Are public endpoints minimized and protected?
 - Are compute resources hardened? (patching, SSM, no SSH)
 - Is there protection against DDoS? (Shield Advanced, CloudFront)
+- **Protocol-level risks** (always flag explicitly):
+  - TLS 1.0 or 1.1 still supported → **Critical** severity (deprecated, exploitable)
+  - Weak cipher suites (RC4, DES, 3DES, MD5-based MACs) → **High** severity
+  - Self-signed or expired certificates in production → **High** severity
+  - HTTP endpoints without redirect-to-HTTPS → **High** severity
 
 ## Step 5: Assess Data Protection
 
@@ -68,6 +73,13 @@ Evaluate:
 - Are game days or tabletop exercises conducted?
 
 ## Step 7: Produce findings
+
+**Calibration guidance:**
+- If the environment demonstrates strong controls (MFA, SCPs, encryption, Security Hub, incident response plan), acknowledge this explicitly in the summary
+- A "Strong" or "Satisfactory" overall posture is a valid assessment — not every review must produce Critical findings
+- For compliance-focused assessments, map controls directly to the relevant framework criteria (SOC2 CC, PCI-DSS requirements, HIPAA safeguards)
+- Do not invent findings that aren't supported by the provided architecture details
+- Focus on gaps and hardening opportunities rather than re-flagging controls already in place
 
 Output:
 
