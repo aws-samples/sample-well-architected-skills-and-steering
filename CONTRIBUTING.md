@@ -16,7 +16,12 @@ Open an issue on GitHub describing the problem, including which steering file or
    - Step-by-step instructions that Kiro can follow
    - A structured output template
    - Cross-references to relevant sections in `steering/well-architected.md`
-3. Open a pull request with a description of what the skill does and which WA pillar(s) it covers.
+3. Add evaluations in `skills/my-new-skill/evals/evals.json`:
+   - Include at least 3 test cases with realistic user prompts
+   - Each case should have 5–7 concrete assertions (gradable as PASS/FAIL)
+   - Cover a range of scenarios: critical gaps, well-architected baselines, and edge cases
+   - Run `uv run python run.py --skill my-new-skill --verbose` from the `evals/` directory to verify skill impact
+4. Open a pull request with a description of what the skill does and which WA pillar(s) it covers.
 
 ### Modifying a Steering File
 

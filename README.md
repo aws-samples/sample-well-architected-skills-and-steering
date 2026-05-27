@@ -63,6 +63,13 @@ adapters/                           Tool-specific configuration
   amp/                                .agents/skills/*.md
   devops-agent/                       Packaging for AWS DevOps Agent
 
+evals/                              Automated evaluation runner (Bedrock)
+  run.py                              CLI entry point
+  grade.py                            LLM-as-judge grader
+  report.py                           Scoring and terminal output
+  config.yaml                         Bedrock region and model config
+  pyproject.toml                      Dependencies (use uv sync)
+
 install.sh                          One-command setup (macOS/Linux)
 install.ps1                         One-command setup (Windows PowerShell)
 ```
@@ -155,10 +162,20 @@ curl -sL .../bootstrap.sh | bash -s -- --tool kiro
 <details>
 <summary><strong>🔹 Kiro</strong></summary>
 
+macOS / Linux:
+
 ```bash
 mkdir -p .kiro/steering .kiro/skills
 cp path/to/this-repo/steering/well-architected.md .kiro/steering/
 cp -r path/to/this-repo/skills/* .kiro/skills/
+```
+
+Windows (PowerShell):
+
+```powershell
+New-Item -ItemType Directory -Force -Path .kiro\steering, .kiro\skills
+Copy-Item path\to\this-repo\steering\well-architected.md .kiro\steering\
+Copy-Item -Recurse path\to\this-repo\skills\* .kiro\skills\
 ```
 
 </details>
@@ -166,9 +183,18 @@ cp -r path/to/this-repo/skills/* .kiro/skills/
 <details>
 <summary><strong>🔹 Claude Code</strong></summary>
 
+macOS / Linux:
+
 ```bash
 cp path/to/this-repo/adapters/claude-code/CLAUDE.md ./CLAUDE.md
 cp -r path/to/this-repo/adapters/claude-code/commands .claude/commands
+```
+
+Windows (PowerShell):
+
+```powershell
+Copy-Item path\to\this-repo\adapters\claude-code\CLAUDE.md .\CLAUDE.md
+Copy-Item -Recurse path\to\this-repo\adapters\claude-code\commands .claude\commands
 ```
 
 </details>
@@ -176,8 +202,16 @@ cp -r path/to/this-repo/adapters/claude-code/commands .claude/commands
 <details>
 <summary><strong>🔹 Cursor</strong></summary>
 
+macOS / Linux:
+
 ```bash
 cp -r path/to/this-repo/adapters/cursor/rules .cursor/rules
+```
+
+Windows (PowerShell):
+
+```powershell
+Copy-Item -Recurse path\to\this-repo\adapters\cursor\rules .cursor\rules
 ```
 
 </details>
@@ -185,9 +219,18 @@ cp -r path/to/this-repo/adapters/cursor/rules .cursor/rules
 <details>
 <summary><strong>🔹 Codex (OpenAI)</strong></summary>
 
+macOS / Linux:
+
 ```bash
 cp path/to/this-repo/adapters/codex/AGENTS.md ./AGENTS.md
 cp -r path/to/this-repo/skills ./skills
+```
+
+Windows (PowerShell):
+
+```powershell
+Copy-Item path\to\this-repo\adapters\codex\AGENTS.md .\AGENTS.md
+Copy-Item -Recurse path\to\this-repo\skills .\skills
 ```
 
 </details>
@@ -195,8 +238,16 @@ cp -r path/to/this-repo/skills ./skills
 <details>
 <summary><strong>🔹 Windsurf</strong></summary>
 
+macOS / Linux:
+
 ```bash
 cp path/to/this-repo/adapters/windsurf/.windsurfrules ./.windsurfrules
+```
+
+Windows (PowerShell):
+
+```powershell
+Copy-Item path\to\this-repo\adapters\windsurf\.windsurfrules .\.windsurfrules
 ```
 
 </details>
@@ -204,9 +255,18 @@ cp path/to/this-repo/adapters/windsurf/.windsurfrules ./.windsurfrules
 <details>
 <summary><strong>🔹 GitHub Copilot</strong></summary>
 
+macOS / Linux:
+
 ```bash
 mkdir -p .github
 cp path/to/this-repo/adapters/github-copilot/.github/copilot-instructions.md .github/
+```
+
+Windows (PowerShell):
+
+```powershell
+New-Item -ItemType Directory -Force -Path .github
+Copy-Item path\to\this-repo\adapters\github-copilot\.github\copilot-instructions.md .github\
 ```
 
 </details>
@@ -214,15 +274,26 @@ cp path/to/this-repo/adapters/github-copilot/.github/copilot-instructions.md .gi
 <details>
 <summary><strong>🔹 Gemini CLI</strong></summary>
 
+macOS / Linux:
+
 ```bash
 cp path/to/this-repo/adapters/gemini-cli/GEMINI.md ./GEMINI.md
 cp -r path/to/this-repo/skills ./skills
+```
+
+Windows (PowerShell):
+
+```powershell
+Copy-Item path\to\this-repo\adapters\gemini-cli\GEMINI.md .\GEMINI.md
+Copy-Item -Recurse path\to\this-repo\skills .\skills
 ```
 
 </details>
 
 <details>
 <summary><strong>🔹 Antigravity</strong></summary>
+
+macOS / Linux:
 
 ```bash
 mkdir -p .agents/rules .agents/skills
@@ -234,10 +305,23 @@ for skill_dir in path/to/this-repo/skills/*/; do
 done
 ```
 
+Windows (PowerShell):
+
+```powershell
+New-Item -ItemType Directory -Force -Path .agents\rules, .agents\skills
+Copy-Item -Recurse path\to\this-repo\adapters\antigravity\rules\* .agents\rules\
+Get-ChildItem path\to\this-repo\skills -Directory | ForEach-Object {
+    New-Item -ItemType Directory -Force -Path ".agents\skills\$($_.Name)"
+    Copy-Item "$($_.FullName)\SKILL.md" ".agents\skills\$($_.Name)\SKILL.md"
+}
+```
+
 </details>
 
 <details>
 <summary><strong>🔹 Junie (JetBrains)</strong></summary>
+
+macOS / Linux:
 
 ```bash
 mkdir -p .junie/guidelines .junie/skills
@@ -245,10 +329,20 @@ cp path/to/this-repo/adapters/junie/guidelines.md .junie/guidelines/well-archite
 cp -r path/to/this-repo/skills/* .junie/skills/
 ```
 
+Windows (PowerShell):
+
+```powershell
+New-Item -ItemType Directory -Force -Path .junie\guidelines, .junie\skills
+Copy-Item path\to\this-repo\adapters\junie\guidelines.md .junie\guidelines\well-architected.md
+Copy-Item -Recurse path\to\this-repo\skills\* .junie\skills\
+```
+
 </details>
 
 <details>
 <summary><strong>🔹 Amp</strong></summary>
+
+macOS / Linux:
 
 ```bash
 cp path/to/this-repo/adapters/amp/AGENTS.md ./AGENTS.md
@@ -256,13 +350,29 @@ mkdir -p .agents/skills
 cp -r path/to/this-repo/skills/* .agents/skills/
 ```
 
+Windows (PowerShell):
+
+```powershell
+Copy-Item path\to\this-repo\adapters\amp\AGENTS.md .\AGENTS.md
+New-Item -ItemType Directory -Force -Path .agents\skills
+Copy-Item -Recurse path\to\this-repo\skills\* .agents\skills\
+```
+
 </details>
 
 <details>
 <summary><strong>🔹 Cline</strong></summary>
 
+macOS / Linux:
+
 ```bash
 cp path/to/this-repo/adapters/cline/.clinerules ./.clinerules
+```
+
+Windows (PowerShell):
+
+```powershell
+Copy-Item path\to\this-repo\adapters\cline\.clinerules .\.clinerules
 ```
 
 </details>
@@ -270,10 +380,20 @@ cp path/to/this-repo/adapters/cline/.clinerules ./.clinerules
 <details>
 <summary><strong>🔹 AWS DevOps Agent</strong></summary>
 
+macOS / Linux:
+
 ```bash
 # Package all skills as zip files for upload to your Agent Space
 ./install.sh ~/output-dir --tool devops-agent
 # Then upload each .zip from ~/output-dir/devops-agent-skills/ via the Operator Web App
+```
+
+Windows (PowerShell):
+
+```powershell
+# Package all skills as zip files for upload to your Agent Space
+.\install.ps1 -TargetDir C:\output-dir -Tool devops-agent
+# Then upload each .zip from C:\output-dir\devops-agent-skills\ via the Operator Web App
 ```
 
 </details>
@@ -364,14 +484,106 @@ If configured correctly, it will reference all six pillars with specific guidanc
 Each skill includes structured evaluations in `skills/*/evals/evals.json` following the [Agent Skills eval spec](https://agentskills.io/skill-creation/evaluating-skills). Evals let you measure whether the skills produce better outputs than a bare agent.
 
 Each test case includes:
+
 - A realistic user prompt
 - Expected output description
 - 5-7 concrete assertions (gradable as PASS/FAIL)
 
-To run evals, execute each prompt **with** and **without** the skill loaded, then grade the assertions against the outputs. See the spec for the full workflow including grading, benchmarking, and iteration.
+### Automated eval runner
+
+The `evals/` directory contains an automated evaluation runner powered by **Amazon Bedrock**.
+
+**Prerequisites:**
+
+- Python 3.13+ and [uv](https://docs.astral.sh/uv/)
+- AWS credentials configured with Bedrock access (`aws configure` or SSO)
+- Bedrock model access enabled for Claude Sonnet and Haiku in your region
+
+**Setup:**
+
+```bash
+cd evals
+uv sync
+```
+
+**Run evaluations:**
+
+macOS / Linux:
+
+```bash
+# List available skills
+uv run python run.py --list
+
+# Evaluate a single skill
+uv run python run.py --skill wa-review
+
+# Evaluate all skills
+uv run python run.py
+
+# Verbose output (shows per-assertion grades)
+uv run python run.py --skill security-assessment --verbose
+
+# Save results for historical tracking
+uv run python run.py --save
+```
+
+Windows (PowerShell):
+
+```powershell
+# List available skills
+uv run python run.py --list
+
+# Evaluate a single skill
+uv run python run.py --skill wa-review
+
+# Evaluate all skills
+uv run python run.py
+
+# Verbose output (shows per-assertion grades)
+uv run python run.py --skill security-assessment --verbose
+
+# Save results for historical tracking
+uv run python run.py --save
+```
+
+> [!NOTE]
+> On Windows, ensure your AWS credentials are configured via `aws configure` or environment variables (`AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, `AWS_SESSION_TOKEN`). If using AWS IAM Identity Center (SSO), run `aws sso login --profile your-profile` first.
+
+**How it works:**
+
+1. For each test case, generates two responses via Bedrock Converse API:
+   - **Baseline** — prompt only, no skill context
+   - **With skill** — prompt + SKILL.md injected as system context
+2. An LLM-as-judge grades each assertion as PASS/FAIL against both outputs
+3. Reports a score comparison showing the skill's impact
+
+**Configuration** (`evals/config.yaml`):
+
+```yaml
+provider: bedrock
+region: us-east-1
+generation_model: us.anthropic.claude-sonnet-4-5-20250929-v1:0
+grading_model: us.anthropic.claude-haiku-4-5-20251001-v1:0
+```
+
+**Estimated cost per run:**
+
+| Scope | Generation calls | Grading calls | Estimated cost |
+| ----- | ---------------- | ------------- | -------------- |
+| Single skill (3 cases) | 6 (Sonnet) | 6 (Haiku) | ~$0.10 – $0.15 |
+| All 9 skills (27 cases) | 54 (Sonnet) | 54 (Haiku) | ~$0.80 – $1.20 |
+
+Cost breakdown assumes ~1K input tokens and ~2K output tokens per generation call, and ~3K input / ~500 output per grading call. Actual cost depends on response length and Bedrock pricing in your region. The `max_cost_usd` setting in config.yaml acts as a soft budget guard.
 
 > [!TIP]
-> Start by running a single eval manually. Compare the with-skill and without-skill outputs side by side — the difference in structure and specificity is usually immediately obvious.
+> **Experiment with other models!** The eval runner works with any model available in Bedrock — try Amazon Nova, Meta Llama, Mistral, or others to see how different foundation models respond to skill guidance. Use the discovery utility to see what's available in your region:
+>
+> `uv run python list_models.py`
+>
+> Then update `generation_model` in `config.yaml` to try a different model. The grading model should remain a strong model (Claude Sonnet/Haiku) for reliable assertion grading.
+
+> [!TIP]
+> Start by running a single skill eval (`--skill wa-review --verbose`) to see detailed per-assertion grading. The delta between baseline and with-skill scores quantifies the value each skill adds.
 
 ---
 
@@ -399,7 +611,6 @@ This project is licensed under the [MIT-0 License](LICENSE).
 ## 📚 Related Resources
 
 - [AWS Well-Architected Framework](https://docs.aws.amazon.com/wellarchitected/latest/framework/welcome.html)
-- [AWS Well-Architected Tool](https://aws.amazon.com/well-architected-tool/)
 - [Kiro — AI-powered IDE](https://kiro.dev)
 - [AWS DevOps Agent](https://docs.aws.amazon.com/devopsagent/latest/userguide/)
 - [Agent Skills Specification](https://agentskills.io/)
