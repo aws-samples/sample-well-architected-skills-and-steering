@@ -1,0 +1,14 @@
+provider: bedrock
+region: us-east-1
+
+generation_model: us.anthropic.claude-sonnet-4-5-20250929-v1:0
+grading_model: us.anthropic.claude-haiku-4-5-20251001-v1:0
+
+temperature: 0
+max_tokens: 4096
+
+# Number of times to run each eval (higher = more stable scores, higher cost)
+runs_per_eval: 5
+
+# Cost guard: maximum spend per run in USD (approximate)
+max_cost_usd: 10.0

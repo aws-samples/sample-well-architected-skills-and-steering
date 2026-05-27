@@ -1,0 +1,17 @@
+[project]
+name = "wa-skill-evals"
+version = "0.1.0"
+description = "Automated evaluation runner for Well-Architected skills using Amazon Bedrock"
+requires-python = ">=3.13"
+dependencies = [
+    "boto3>=1.35.0",
+    "pyyaml>=6.0",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.0",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
