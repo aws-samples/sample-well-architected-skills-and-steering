@@ -589,7 +589,7 @@ Cost breakdown assumes ~1K input tokens and ~2K output tokens per generation cal
 
 ## 🤝 Contributing
 
-We welcome contributions from the community and internal teams alike! See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines on adding skills, modifying steering files, or adding new tool adapters.
+We welcome contributions from the community! See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines on adding skills, modifying steering files, or adding new tool adapters.
 
 > [!NOTE]
 > This is a community-driven project. Anyone can collaborate and improve the skills and steering docs through Pull Requests. Adapt them to your domain, add new patterns, and share back.
