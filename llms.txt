@@ -1,6 +1,6 @@
 # Well-Architected Skills & Steering for AI Coding Agents
 
-> Reusable skills and steering that teach AI coding agents how to apply the AWS Well-Architected Framework.
+> Reusable skills and steering that teach AI coding agents how to apply the AWS Well-Architected Framework. One set of playbooks, 12 supported tools.
 
 ## What this repo contains
 
@@ -38,13 +38,15 @@ This repository provides ready-to-use instruction sets that make AI coding agent
 ```
 steering/       → Always-on context (principles, pillars, format guidance)
 skills/         → On-demand playbooks (step-by-step assessment procedures)
+powers/         → Kiro Powers (bundled installable units with contextual activation)
 assets/         → Reference material (best practices, metrics, patterns)
 adapters/       → Tool-specific packaging (Claude Code, Cursor, Kiro, etc.)
+evals/          → Automated evaluation runner (Amazon Bedrock)
 install.sh      → Setup script for macOS/Linux
 install.ps1     → Setup script for Windows
 ```
 
-Skills are tool-agnostic. Adapters translate them into each tool's native format. You do not need to read adapter files — read skills directly.
+Skills are tool-agnostic. Adapters translate them into each tool's native format. Powers bundle steering + MCP tools for Kiro's installable unit system. You do not need to read adapter files — read skills directly.
 
 ## Key principles to apply
 
@@ -55,6 +57,7 @@ When giving Well-Architected guidance:
 - Include "Why it matters" for each finding
 - Provide concrete next steps with AWS service recommendations
 - Acknowledge trade-offs explicitly (security vs latency, availability vs cost, etc.)
+- For well-architected systems, focus on advanced improvements rather than critical findings
 
 ## Design principles to recommend
 
@@ -66,3 +69,7 @@ When giving Well-Architected guidance:
 - Automate everything that can be automated
 - Use infrastructure as code for all environments
 - Design for observability from day one
+
+## Evaluations
+
+Each skill includes test cases in `skills/*/evals/evals.json`. The `evals/` directory contains an automated runner powered by Amazon Bedrock that measures skill impact (baseline vs with-skill) using LLM-as-judge grading. Current benchmark: 86% baseline → 98% with-skill average across all 9 skills.
