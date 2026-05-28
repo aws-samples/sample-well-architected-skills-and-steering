@@ -63,6 +63,8 @@ adapters/                           Tool-specific configuration
   amp/                                .agents/skills/*.md
   devops-agent/                       Packaging for AWS DevOps Agent
 
+powers/                             Kiro Powers (coming soon)
+
 evals/                              Automated evaluation runner (Bedrock)
   run.py                              CLI entry point
   grade.py                            LLM-as-judge grader
@@ -424,6 +426,7 @@ graph LR
 | --------- | ------------ |
 | **Skills** (`skills/*/SKILL.md`) | Self-contained, tool-agnostic playbooks. Any AI agent can follow them step-by-step. They don't depend on steering or on each other. |
 | **Steering** (`steering/*.md`) | Always-on context loaded into every Kiro conversation. Other tools use equivalent mechanisms via adapters. |
+| **Powers** (`powers/*/`) | Bundled, installable units for Kiro. Package steering + MCP tools + hooks into a single activatable power. |
 | **Adapters** (`adapters/`) | Translate steering into each tool's native config format and wire up skills as commands or rules. |
 | **Assets** (`assets/`) | Shared reference material (v13 best practices, metrics, patterns) bundled with skills for tools that support it. |
 
@@ -443,6 +446,17 @@ graph LR
 | Junie | `.junie/guidelines/*.md` | `.junie/skills/*/SKILL.md` |
 | Amp | `AGENTS.md` | `.agents/skills/*/SKILL.md` |
 | AWS DevOps Agent | N/A (skills are self-contained) | `SKILL.md` zip upload to Agent Space |
+
+### Kiro Powers
+
+[Kiro Powers](https://kiro.dev) are bundled, installable units that activate contextually based on conversation keywords. Unlike always-on steering, Powers load guidance dynamically when relevant topics arise.
+
+| Power | Status | Description |
+| ----- | ------ | ----------- |
+| `well-architected` | 🚧 In progress | Full WA framework — all 6 pillars, activated on architecture discussions |
+
+> [!NOTE]
+> Powers are the recommended way to use WA guidance in Kiro going forward. They provide richer activation (keyword-based), optional MCP tool integration, and one-click installation from the Powers gallery.
 
 ---
 
