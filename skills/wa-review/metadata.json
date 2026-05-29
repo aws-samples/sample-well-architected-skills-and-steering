@@ -1,0 +1,9 @@
+{
+  "version": "1.1.0",
+  "organization": "AWS",
+  "date": "May 2026",
+  "abstract": "Perform a full AWS Well-Architected Framework review evaluating all six pillars with prioritized findings and actionable recommendations.",
+  "references": [
+    "https://docs.aws.amazon.com/wellarchitected/latest/framework/welcome.html"
+  ]
+}

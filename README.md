@@ -82,6 +82,27 @@ install.ps1                         One-command setup (Windows PowerShell)
 
 ### One-liner (no clone needed)
 
+#### Via [skills.sh](https://skills.sh)
+
+```bash
+npx skills add aws-samples/sample-well-architected-skills-and-steering
+```
+
+Auto-detects your AI agent and installs skills directly. Use `--list` to preview available skills, or `--skill <name>` to install a specific one:
+
+```bash
+# List available skills
+npx skills add aws-samples/sample-well-architected-skills-and-steering --list
+
+# Install a specific skill
+npx skills add aws-samples/sample-well-architected-skills-and-steering --skill wa-review
+
+# Install globally (user-level, applies to all projects)
+npx skills add aws-samples/sample-well-architected-skills-and-steering -g
+```
+
+#### Via bootstrap script
+
 **macOS / Linux:**
 
 ```bash
@@ -628,3 +649,4 @@ This project is licensed under the [MIT-0 License](LICENSE).
 - [Kiro — AI-powered IDE](https://kiro.dev)
 - [AWS DevOps Agent](https://docs.aws.amazon.com/devopsagent/latest/userguide/)
 - [Agent Skills Specification](https://agentskills.io/)
+- [skills.sh — Skills directory for AI agents](https://skills.sh)
