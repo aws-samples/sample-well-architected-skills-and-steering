@@ -1,0 +1,9 @@
+{
+  "version": "1.1.0",
+  "organization": "AWS",
+  "date": "May 2026",
+  "abstract": "Assess a workload's operational excellence posture against the Well-Architected Operational Excellence pillar, covering organization, preparation, operation, and evolution.",
+  "references": [
+    "https://docs.aws.amazon.com/wellarchitected/latest/operational-excellence-pillar/welcome.html"
+  ]
+}
