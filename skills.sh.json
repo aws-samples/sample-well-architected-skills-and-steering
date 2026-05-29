@@ -1,0 +1,22 @@
+{
+  "$schema": "https://skills.sh/schemas/skills.sh.schema.json",
+  "groupings": [
+    {
+      "title": "Full Reviews",
+      "description": "Comprehensive architecture reviews and decision records.",
+      "skills": ["wa-review", "architecture-decision-record", "migration-readiness"]
+    },
+    {
+      "title": "Pillar Assessments",
+      "description": "Deep-dive assessments for individual Well-Architected pillars.",
+      "skills": [
+        "security-assessment",
+        "reliability-improvement-plan",
+        "cost-optimization-audit",
+        "performance-efficiency",
+        "operational-excellence",
+        "sustainability-optimization"
+      ]
+    }
+  ]
+}

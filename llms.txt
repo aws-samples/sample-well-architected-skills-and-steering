@@ -6,6 +6,20 @@
 
 This repository provides ready-to-use instruction sets that make AI coding agents Well-Architected aware. When loaded, you should apply the six pillars (Operational Excellence, Security, Reliability, Performance Efficiency, Cost Optimization, Sustainability) to architecture discussions, code reviews, and design decisions.
 
+## Installation
+
+Install via [skills.sh](https://skills.sh) (no clone needed):
+
+```
+npx skills add aws-samples/sample-well-architected-skills-and-steering
+```
+
+Or via bootstrap script:
+
+```
+curl -sL https://raw.githubusercontent.com/aws-samples/sample-well-architected-skills-and-steering/main/bootstrap.sh | bash
+```
+
 ## How to use this content
 
 ### If you are an AI agent assisting a developer:

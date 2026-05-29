@@ -1,0 +1,9 @@
+{
+  "version": "1.1.0",
+  "organization": "AWS",
+  "date": "May 2026",
+  "abstract": "Evaluate a workload's performance efficiency against the Well-Architected Performance Efficiency pillar, covering resource selection, scaling, monitoring, and optimization opportunities.",
+  "references": [
+    "https://docs.aws.amazon.com/wellarchitected/latest/performance-efficiency-pillar/welcome.html"
+  ]
+}

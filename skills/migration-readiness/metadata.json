@@ -1,0 +1,9 @@
+{
+  "version": "1.1.0",
+  "organization": "AWS",
+  "date": "May 2026",
+  "abstract": "Assess a workload's readiness to migrate to AWS using Well-Architected principles, covering the 7 Rs, dependencies, risks, and a migration plan.",
+  "references": [
+    "https://docs.aws.amazon.com/wellarchitected/latest/migration-lens/migration-lens.html"
+  ]
+}

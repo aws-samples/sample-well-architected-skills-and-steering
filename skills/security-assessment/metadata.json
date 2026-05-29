@@ -1,0 +1,9 @@
+{
+  "version": "1.1.0",
+  "organization": "AWS",
+  "date": "May 2026",
+  "abstract": "Deep-dive security posture assessment against the Well-Architected Security pillar, covering identity, detection, infrastructure protection, data protection, and incident response.",
+  "references": [
+    "https://docs.aws.amazon.com/wellarchitected/latest/security-pillar/welcome.html"
+  ]
+}
