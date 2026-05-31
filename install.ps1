@@ -14,7 +14,7 @@
 
 .PARAMETER Tool
     Install only for specific tool(s). Can be specified multiple times.
-    Valid: kiro, claude-code, cursor, codex, windsurf, github-copilot, cline, gemini-cli, antigravity, junie, amp, devops-agent, all
+    Valid: kiro, claude-code, cursor, codex, windsurf, github-copilot, cline, gemini-cli, antigravity, junie, amp, openclaw, devops-agent, all
 
 .PARAMETER Symlink
     Use symlinks instead of copies (requires elevated permissions on Windows)
@@ -227,6 +227,19 @@ function Install-Amp {
     Write-Host "  Done. Amp will discover skills from .agents/skills/ automatically.`n"
 }
 
+function Install-OpenClaw {
+    $base = if ($Global) { "$env:USERPROFILE\.openclaw\workspace" } else { $TargetDir }
+
+    Write-Host "Installing for OpenClaw..."
+    Copy-OrLink "$ScriptDir\adapters\openclaw\AGENTS.md" "$base\AGENTS.md"
+
+    $skillsDir = if ($Global) { "$base\skills" } else { "$base\.agents\skills" }
+    foreach ($skill in Get-Skills) {
+        Copy-OrLink "$($skill.FullName)\SKILL.md" "$skillsDir\$($skill.Name)\SKILL.md"
+    }
+    Write-Host "  Done. OpenClaw will discover skills from .agents/skills/ automatically.`n"
+}
+
 function Install-DevOpsAgent {
     $base = if ($Global) { "$env:USERPROFILE\.devops-agent-skills" } else { $TargetDir }
 
@@ -273,7 +286,7 @@ Write-Host ""
 $resolved = Resolve-Path $TargetDir -ErrorAction SilentlyContinue
 if ($resolved) { $TargetDir = $resolved.Path }
 
-$validTools = @("kiro", "claude-code", "cursor", "codex", "windsurf", "github-copilot", "cline", "gemini-cli", "antigravity", "junie", "amp", "devops-agent", "all")
+$validTools = @("kiro", "claude-code", "cursor", "codex", "windsurf", "github-copilot", "cline", "gemini-cli", "antigravity", "junie", "amp", "openclaw", "devops-agent", "all")
 
 foreach ($t in $Tool) {
     switch ($t) {
@@ -288,6 +301,7 @@ foreach ($t in $Tool) {
         "antigravity"    { Install-Antigravity }
         "junie"          { Install-Junie }
         "amp"            { Install-Amp }
+        "openclaw"       { Install-OpenClaw }
         "devops-agent"   { Install-DevOpsAgent }
         "all" {
             Install-Kiro
@@ -301,6 +315,7 @@ foreach ($t in $Tool) {
             Install-Antigravity
             Install-Junie
             Install-Amp
+            Install-OpenClaw
             Install-DevOpsAgent
         }
         default {

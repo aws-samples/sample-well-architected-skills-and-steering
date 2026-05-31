@@ -1,6 +1,6 @@
 # Well-Architected Skills & Steering for AI Coding Agents
 
-> Reusable skills and steering that teach AI coding agents how to apply the AWS Well-Architected Framework. One set of playbooks, 12 supported tools.
+> Reusable skills and steering that teach AI coding agents how to apply the AWS Well-Architected Framework. One set of playbooks, 13 supported tools.
 
 ## What this repo contains
 
@@ -54,7 +54,7 @@ steering/       → Always-on context (principles, pillars, format guidance)
 skills/         → On-demand playbooks (step-by-step assessment procedures)
 powers/         → Kiro Powers (bundled installable units with contextual activation)
 assets/         → Reference material (best practices, metrics, patterns)
-adapters/       → Tool-specific packaging (Claude Code, Cursor, Kiro, etc.)
+adapters/       → Tool-specific packaging (Claude Code, Cursor, Kiro, OpenClaw, etc.)
 evals/          → Automated evaluation runner (Amazon Bedrock)
 install.sh      → Setup script for macOS/Linux
 install.ps1     → Setup script for Windows
