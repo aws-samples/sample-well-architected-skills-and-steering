@@ -1,10 +1,10 @@
 # 🏗️ Well-Architected Skills & Steering for AI Coding Agents
 
-Reusable skills and steering that teach AI coding agents how to apply the [AWS Well-Architected Framework](https://docs.aws.amazon.com/wellarchitected/latest/framework/welcome.html). One set of playbooks, **12 supported tools**.
+Reusable skills and steering that teach AI coding agents how to apply the [AWS Well-Architected Framework](https://docs.aws.amazon.com/wellarchitected/latest/framework/welcome.html). One set of playbooks, **13 supported tools**.
 
 <div align="center">
 
-**Kiro** · **Claude Code** · **Cursor** · **Codex** · **Windsurf** · **GitHub Copilot** · **Gemini CLI** · **Antigravity** · **Junie** · **Amp** · **Cline** · **AWS DevOps Agent**
+**Kiro** · **Claude Code** · **Cursor** · **Codex** · **Windsurf** · **GitHub Copilot** · **Gemini CLI** · **Antigravity** · **Junie** · **Amp** · **OpenClaw** · **Cline** · **AWS DevOps Agent**
 
 </div>
 
@@ -20,7 +20,7 @@ Developers don't stop to consult documentation — they ask their AI assistant. 
 This project embeds WA best practices **where development actually happens**: in the IDE, at the moment code is being written. Instead of treating architecture reviews as a separate gate, teams get continuous, contextual guidance that:
 
 - ✅ Reduces rework by catching misalignments early
-- ✅ Works across 12 AI coding tools with a single source of truth
+- ✅ Works across 13 AI coding tools with a single source of truth
 - ✅ Requires no AWS credentials, no API calls — everything runs locally
 - ✅ Follows the open [Agent Skills specification](https://agentskills.io/)
 
@@ -61,6 +61,7 @@ adapters/                           Tool-specific configuration
   antigravity/                        .agents/rules/*.md
   junie/                              .junie/guidelines + .junie/skills
   amp/                                .agents/skills/*.md
+  openclaw/                           AGENTS.md + .agents/skills/*.md
   devops-agent/                       Packaging for AWS DevOps Agent
 
 powers/                             Kiro Powers (coming soon)
@@ -115,7 +116,7 @@ curl -sL https://raw.githubusercontent.com/aws-samples/sample-well-architected-s
 & ([scriptblock]::Create((irm https://raw.githubusercontent.com/aws-samples/sample-well-architected-skills-and-steering/main/bootstrap.ps1)))
 ```
 
-Auto-detects your AI tools (`.cursor/`, `.claude/`, `.kiro/`, `.junie/`, etc.), installs for all of them, and cleans up.
+Auto-detects your AI tools (`.cursor/`, `.claude/`, `.kiro/`, `.junie/`, `.openclaw/`, etc.), installs for all of them, and cleans up.
 
 To install for a specific tool instead:
 
@@ -384,6 +385,27 @@ Copy-Item -Recurse path\to\this-repo\skills\* .agents\skills\
 </details>
 
 <details>
+<summary><strong>🔹 OpenClaw</strong></summary>
+
+macOS / Linux:
+
+```bash
+cp path/to/this-repo/adapters/openclaw/AGENTS.md ./AGENTS.md
+mkdir -p .agents/skills
+cp -r path/to/this-repo/skills/* .agents/skills/
+```
+
+Windows (PowerShell):
+
+```powershell
+Copy-Item path\to\this-repo\adapters\openclaw\AGENTS.md .\AGENTS.md
+New-Item -ItemType Directory -Force -Path .agents\skills
+Copy-Item -Recurse path\to\this-repo\skills\* .agents\skills\
+```
+
+</details>
+
+<details>
 <summary><strong>🔹 Cline</strong></summary>
 
 macOS / Linux:
@@ -439,6 +461,7 @@ graph LR
     A --> AG[Antigravity]
     A --> J[Junie]
     A --> AM[Amp]
+    A --> OC[OpenClaw]
     A --> CL[Cline]
     A --> DA[DevOps Agent]
 ```
@@ -466,6 +489,7 @@ graph LR
 | Antigravity | `.agents/rules/*.md` | `.agents/skills/*/SKILL.md` |
 | Junie | `.junie/guidelines/*.md` | `.junie/skills/*/SKILL.md` |
 | Amp | `AGENTS.md` | `.agents/skills/*/SKILL.md` |
+| OpenClaw | `AGENTS.md` | `.agents/skills/*/SKILL.md` |
 | AWS DevOps Agent | N/A (skills are self-contained) | `SKILL.md` zip upload to Agent Space |
 
 ### Kiro Powers
@@ -649,4 +673,5 @@ This project is licensed under the [MIT-0 License](LICENSE).
 - [Kiro — AI-powered IDE](https://kiro.dev)
 - [AWS DevOps Agent](https://docs.aws.amazon.com/devopsagent/latest/userguide/)
 - [Agent Skills Specification](https://agentskills.io/)
+- [OpenClaw — Personal AI assistant platform](https://openclaw.ai)
 - [skills.sh — Skills directory for AI agents](https://skills.sh)

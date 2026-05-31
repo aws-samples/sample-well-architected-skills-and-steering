@@ -19,7 +19,7 @@ Arguments:
 
 Options:
   --tool TOOL   Install only for a specific tool. Can be repeated.
-                Valid: kiro, claude-code, cursor, codex, windsurf, github-copilot, cline, gemini-cli, antigravity, junie, amp, devops-agent, auto, all
+                Valid: kiro, claude-code, cursor, codex, windsurf, github-copilot, cline, gemini-cli, antigravity, junie, amp, openclaw, devops-agent, auto, all
   --uninstall   Remove previously installed WA files from the target directory
   --check-update  Check if a newer version is available on GitHub
   --symlink     Use symlinks instead of copies (auto-updates when this repo changes)
@@ -354,6 +354,31 @@ install_amp() {
   echo ""
 }
 
+install_openclaw() {
+  local base="$TARGET_DIR"
+  if [[ "$GLOBAL" == true ]]; then
+    base="$HOME/.openclaw/workspace"
+  fi
+
+  echo "Installing for OpenClaw..."
+  copy_or_link "$SCRIPT_DIR/adapters/openclaw/AGENTS.md" "$base/AGENTS.md"
+
+  mkdir -p "$base/.agents/skills" 2>/dev/null || mkdir -p "$base/skills"
+  local skills_dir="$base/.agents/skills"
+  if [[ "$GLOBAL" == true ]]; then
+    skills_dir="$base/skills"
+  fi
+
+  for skill_dir in "$SCRIPT_DIR/skills"/*/; do
+    local skill_name
+    skill_name="$(basename "$skill_dir")"
+    [[ "$skill_name" == "_shared" ]] && continue
+    copy_or_link "$skill_dir/SKILL.md" "$skills_dir/$skill_name/SKILL.md"
+  done
+  echo "  Done. OpenClaw will discover skills from .agents/skills/ automatically."
+  echo ""
+}
+
 install_devops_agent() {
   local base="$TARGET_DIR"
   if [[ "$GLOBAL" == true ]]; then
@@ -413,6 +438,7 @@ detect_tools() {
   [[ -f "$dir/.clinerules" ]] && detected+=("cline")
   [[ -f "$dir/GEMINI.md" || -d "$dir/.gemini" ]] && detected+=("gemini-cli")
   [[ -d "$dir/.agents" ]] && detected+=("antigravity")
+  [[ -d "$dir/.openclaw" || -f "$dir/.openclaw.json" ]] && detected+=("openclaw")
   [[ -d "$dir/.junie" ]] && detected+=("junie")
 
   if [[ ${#detected[@]} -eq 0 ]]; then
@@ -485,6 +511,11 @@ uninstall_tool() {
       rm -rf "$base/.agents/skills"
       echo "  Removed: Amp AGENTS.md and skills"
       ;;
+    openclaw)
+      rm -f "$base/AGENTS.md"
+      rm -rf "$base/.agents/skills"
+      echo "  Removed: OpenClaw AGENTS.md and skills"
+      ;;
     devops-agent)
       rm -rf "$base/devops-agent-skills"
       echo "  Removed: DevOps Agent skill packages"
@@ -539,7 +570,7 @@ if [[ "$UNINSTALL" == true ]]; then
   echo "Uninstalling..."
   for tool in "${TOOLS[@]}"; do
     if [[ "$tool" == "all" ]]; then
-      for t in kiro claude-code cursor codex windsurf github-copilot cline gemini-cli antigravity junie amp devops-agent; do
+      for t in kiro claude-code cursor codex windsurf github-copilot cline gemini-cli antigravity junie amp openclaw devops-agent; do
         uninstall_tool "$t"
       done
     else
@@ -564,6 +595,7 @@ for tool in "${TOOLS[@]}"; do
     antigravity)    install_antigravity ;;
     junie)          install_junie ;;
     amp)            install_amp ;;
+    openclaw)       install_openclaw ;;
     devops-agent)   install_devops_agent ;;
     all)
       install_kiro
@@ -577,11 +609,12 @@ for tool in "${TOOLS[@]}"; do
       install_antigravity
       install_junie
       install_amp
+      install_openclaw
       install_devops_agent
       ;;
     *)
       echo "Unknown tool: $tool"
-      echo "Valid options: kiro, claude-code, cursor, codex, windsurf, github-copilot, cline, gemini-cli, antigravity, junie, amp, devops-agent, auto, all"
+      echo "Valid options: kiro, claude-code, cursor, codex, windsurf, github-copilot, cline, gemini-cli, antigravity, junie, amp, openclaw, devops-agent, auto, all"
       exit 1
       ;;
   esac
