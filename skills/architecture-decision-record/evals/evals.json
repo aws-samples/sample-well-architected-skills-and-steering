@@ -3,44 +3,44 @@
   "evals": [
     {
       "id": 1,
-      "prompt": "Create an ADR for: we need to choose between DynamoDB and Aurora PostgreSQL for our new order service. It handles 10k orders/day, needs strong consistency for financial data, and will be queried by order ID, customer ID, and date range. Team knows SQL well.",
-      "expected_output": "An ADR evaluating both options against WA pillars, recommending one with clear trade-off analysis, considering the team's SQL expertise and the query patterns.",
+      "prompt": "Create an ADR for: we need to choose between DynamoDB and Aurora PostgreSQL for our new order service. It handles 10k orders/day, needs strong consistency for financial data, and will be queried by order ID, customer ID, and date range. Team knows SQL well. We already have Aurora for our user service so the VPC and security groups exist.",
+      "expected_output": "An ADR that evaluates both options, leverages existing Aurora infrastructure as a decision factor, and provides a concrete migration path with affected code.",
       "assertions": [
-        "Evaluates both DynamoDB and Aurora PostgreSQL as options",
-        "Assesses impact on all 6 WA pillars for each option",
-        "Considers the team's SQL expertise as a factor (favoring Aurora)",
-        "Addresses the query patterns (date range queries favor relational)",
-        "Addresses strong consistency requirement",
-        "States explicit trade-offs of the chosen option",
-        "Includes review triggers (when to revisit the decision)"
+        "Evaluates both DynamoDB and Aurora PostgreSQL with pros and cons specific to this workload",
+        "References existing Aurora infrastructure as a factor reducing effort for the Aurora option",
+        "Addresses query patterns (date range queries, multiple access patterns) and how each option handles them",
+        "Provides concrete implementation effort comparison between options (not just T-shirt sizes)",
+        "States what is given up with the chosen option (the trade-off, not just the benefits)",
+        "Includes review triggers with measurable thresholds (e.g., throughput limits, data volume)",
+        "Includes a migration path or implementation steps (not just 'use Aurora')"
       ]
     },
     {
       "id": 2,
-      "prompt": "ADR: should we go multi-region active-active or single-region with cross-region backup for our SaaS platform? We have users in US and EU, current monthly revenue $200k, 99.95% SLA commitment.",
-      "expected_output": "An ADR weighing the significant cost/complexity increase of active-active against the business risk of single-region, tied to the revenue and SLA commitment.",
+      "prompt": "ADR: should we go multi-region active-active or single-region with cross-region backup for our SaaS platform? Users in US and EU, monthly revenue $200k, 99.95% SLA. Current RTO is 4 hours, we've had 2 regional incidents in 3 years. Our stack is ECS Fargate, Aurora PostgreSQL, ElastiCache, and S3.",
+      "expected_output": "An ADR that calculates the business case (downtime cost vs infrastructure cost), assesses feasibility given the specific stack, and provides a realistic implementation timeline.",
       "assertions": [
-        "Evaluates both options (active-active and single-region with backup)",
-        "Addresses cost difference between options (active-active is significantly more expensive)",
-        "References the $200k revenue and 99.95% SLA as decision-driving factors",
-        "Assesses Reliability pillar impact deeply (this is the core trade-off)",
-        "Assesses Cost pillar impact (significant difference)",
-        "States conditions under which to revisit (revenue growth, SLA increase, outage)",
-        "Includes implementation notes with effort and timeline"
+        "Quantifies downtime cost using the $200k revenue figure to build a business case",
+        "Uses the 2 incidents in 3 years as evidence for risk likelihood assessment",
+        "Addresses Aurora global database, ECS multi-region, and ElastiCache replication feasibility",
+        "Estimates the cost multiplier for active-active (not just 'more expensive' but a ratio or range)",
+        "Assesses reversibility — which option is harder to walk back from",
+        "Provides implementation effort as a time estimate with basis (weeks/months, not T-shirt)",
+        "States specific review triggers (revenue threshold, SLA change, incident frequency)"
       ]
     },
     {
       "id": 3,
-      "prompt": "Document our decision: we're choosing ECS Fargate over EKS for our new microservices platform. We're a team of 4 with no Kubernetes experience, building 6 services, need to ship MVP in 3 months.",
-      "expected_output": "An ADR documenting ECS Fargate as the decision, with EKS as the evaluated alternative, clearly showing that team size and timeline drove the choice over raw capability.",
+      "prompt": "We're choosing ECS Fargate over EKS for our new microservices platform. Team of 4, no Kubernetes experience, 6 services, need MVP in 3 months. CTO pushes back saying 'everyone uses Kubernetes and we'll need it eventually.' Help me document why Fargate is right for now and when we'd switch.",
+      "expected_output": "An ADR that addresses the organizational pressure constructively with evidence, quantifies the timeline difference between options, and defines clear switch-over triggers.",
       "assertions": [
-        "Documents ECS Fargate as the chosen option and EKS as the alternative",
-        "Identifies team size (4) and no K8s experience as primary decision drivers",
-        "Addresses the 3-month timeline as a constraint favoring simpler option",
-        "Does NOT recommend EKS (the decision is already made, document it)",
-        "Identifies trade-offs (less ecosystem/flexibility vs faster time-to-market)",
-        "Includes review triggers (team growth, need for advanced orchestration, multi-cloud)",
-        "Assesses Operational Excellence impact (simpler ops with Fargate for small team)"
+        "Addresses the CTO's concern directly with evidence rather than dismissing it",
+        "Quantifies the timeline impact — estimates how much longer EKS path would take given the team",
+        "Documents what is genuinely given up by choosing Fargate (K8s ecosystem, portability, talent pool)",
+        "Includes specific review triggers for when to revisit (team size threshold, feature needs like service mesh, multi-cloud requirement)",
+        "Describes what a future migration from Fargate to EKS would involve (scope of change, not just 'migrate later')",
+        "Frames the decision as reversible with bounded cost — reducing the perceived risk of choosing Fargate",
+        "Does NOT recommend EKS now — firmly documents Fargate as the right current choice"
       ]
     }
   ]

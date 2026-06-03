@@ -1,7 +1,7 @@
 {
-  "version": "1.1.0",
+  "version": "2.1.0",
   "organization": "AWS",
-  "date": "May 2026",
+  "date": "June 2026",
   "abstract": "Generate a Well-Architected-aligned Architecture Decision Record (ADR) that documents a design decision with context, options evaluated, trade-offs, and WA pillar impact.",
   "references": [
     "https://docs.aws.amazon.com/wellarchitected/latest/framework/welcome.html"

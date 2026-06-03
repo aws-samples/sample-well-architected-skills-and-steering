@@ -1,100 +1,135 @@
-Generate a Well-Architected-aligned Architecture Decision Record (ADR) that documents a design decision with context, options evaluated, trade-offs, and WA pillar impact.
+Create or revise Architecture Decision Records by analyzing the codebase to understand current state, affected code paths, constraints from existing patterns, and trade-offs grounded in implementation reality.
 
 ## Step 1: Understand the decision
 
 Ask the user:
 
 > What architecture decision do you need to document? Please share:
-> - **Decision title** (e.g., "Use Aurora Serverless v2 for the orders database")
-> - **Context** — What problem are you solving? What constraints exist?
+> - **Decision title** (e.g., "Switch from SQS to EventBridge for event routing")
+> - **Context** — What problem are you solving or what change are you making?
 > - **Options considered** (at least 2) — or ask me to suggest alternatives
 
 If the user has already described the decision, proceed directly.
 
-## Step 2: Evaluate options against WA pillars
+**IMPORTANT**: When in a codebase, ALWAYS analyze the code first. When no code is available, proceed with the verbal description but mark implementation sections as "Verify against code."
 
-For each option, assess impact on all six pillars:
+## Step 2: Current State Discovery
 
-| Pillar | Option A | Option B | Option C |
-|--------|----------|----------|----------|
-| Operational Excellence | | | |
-| Security | | | |
-| Reliability | | | |
-| Performance Efficiency | | | |
-| Cost Optimization | | | |
-| Sustainability | | | |
+Analyze the codebase to understand what exists today.
 
-Use: positive / neutral / trade-off / negative
+You MUST examine:
+- IaC relevant to the decision (CDK, CloudFormation, Terraform)
+- Application code affected by the decision
+- Configuration files, dependencies, environment variables
+- Existing patterns and conventions
+- Tests that validate current behavior
 
-## Step 3: Identify trade-offs
+Document:
+- **Current implementation**: file paths and line numbers
+- **Affected code**: every file that would change for each option (quantify: "Option A: 3 files, Option B: 12")
+- **Integration points**: interfaces each option must satisfy
+- **Constraints from existing code**: language, framework, patterns
+- **Dependencies**: other services/components depending on current implementation
 
-For the recommended option, explicitly state:
-- What you gain
-- What you give up
-- Under what conditions the decision should be revisited
+Flag:
+- Data migration requirements if stateful resources change
+- Compatibility constraints from existing dependencies
+- Established patterns the decision should follow or explicitly break from
 
-## Step 4: Produce the ADR
+## Step 3: Evaluate options with evidence
 
-Output using the standard ADR format:
+For each option, provide concrete analysis:
+
+**Implementation effort** — specifics, not T-shirt sizes:
+- Files that change (list them)
+- New dependencies introduced
+- Migration steps required
+- Time estimate delta between options (e.g., "Option A ~2 weeks, Option B ~6 weeks")
+
+**WA pillar impact** — only relevant pillars, skip neutral ones:
+
+| Pillar | Option A | Option B |
+|--------|----------|----------|
+| {relevant pillar} | {impact + evidence from code} | {impact + why} |
+
+**Operational impact**: monitoring changes, runbook updates, deployment changes.
+
+## Step 4: Trade-offs and risks
+
+For recommended option:
+- **What you gain** — evidence of why it matters for THIS workload
+- **What you give up** — honest assessment
+- **What could go wrong** — specific risks with mitigations
+- **Reversibility** — how hard to undo? escape hatch? one-way data changes?
+
+For rejected options:
+- Primary rejection reason (one sentence)
+- Future conditions where it becomes the better choice
+
+## Step 5: Produce the ADR
+
+Structure:
 
 ```markdown
 # ADR-{number}: {Decision Title}
 
 ## Status
-{Proposed | Accepted | Deprecated | Superseded by ADR-X}
+{Proposed | Accepted | Deprecated | Superseded}
 
 ## Date
-{YYYY-MM-DD}
 
 ## Context
-{What is the problem? What forces are at play? What constraints exist?}
+### Problem Statement
+### Current State
+{File paths and code references}
+### Constraints
+{From codebase — with evidence}
+### Decision Drivers
+{Ordered by priority}
 
 ## Decision
-{What is the change that we're proposing and/or doing?}
+{One clear statement}
 
-## Options Considered
-
-### Option 1: {name}
-- **Description**: {how it works}
-- **Pros**: {benefits}
-- **Cons**: {drawbacks}
-- **WA Impact**: {pillar impacts}
-
-### Option 2: {name}
-- **Description**: {how it works}
-- **Pros**: {benefits}
-- **Cons**: {drawbacks}
-- **WA Impact**: {pillar impacts}
+## Options Evaluated
+### Option 1: {name} ← Chosen
+- How it works, pros, cons, files affected, migration steps, effort estimate
+### Option 2: {name} — Rejected
+- How it works, pros, primary rejection reason, would choose if {condition}
 
 ## Well-Architected Impact
-
-| Pillar | Impact | Notes |
-|--------|--------|-------|
-| Operational Excellence | {+/-/neutral} | {why} |
-| Security | {+/-/neutral} | {why} |
-| Reliability | {+/-/neutral} | {why} |
-| Performance Efficiency | {+/-/neutral} | {why} |
-| Cost Optimization | {+/-/neutral} | {why} |
-| Sustainability | {+/-/neutral} | {why} |
+{Table — only non-neutral pillars}
 
 ## Trade-offs
-{What are we explicitly accepting as a trade-off?}
+### What We Gain
+### What We Accept
+### Risks
+{Table: risk, likelihood, impact, mitigation}
 
-## Consequences
-{What becomes easier or harder because of this decision?}
+## Implementation
+### Migration Path
+{Numbered steps with affected files}
+### Rollback Plan
+{Specific steps to undo}
+### Verification
+{How to confirm it worked — metrics, tests}
 
 ## Review Triggers
-{Under what conditions should this decision be revisited?}
-- {trigger 1}
-- {trigger 2}
+{Measurable conditions — not vague}
 ```
 
-## Step 5: Offer next steps
+## Step 6: Revising an existing ADR
 
-After producing the ADR, offer:
+When asked to revise:
+- Read the existing ADR
+- Analyze what changed since it was written (git log, diffs)
+- Determine if review triggers have been hit
+- If superseding: create new ADR referencing old one
 
-> Would you like me to:
-> - Add more options to evaluate?
-> - Deep-dive into a specific pillar's impact?
-> - Create an implementation plan for the chosen option?
-> - Generate IaC for the decision?
+## Calibration
+
+- ADRs are decision logs, not sales pitches — document REAL trade-offs including uncomfortable ones
+- Code evidence grounds the decision — "affects 3 files" beats "low effort"
+- Review triggers with thresholds make ADRs useful 6 months later
+- Migration path is the most actionable section — make it followable
+- Reversibility is critical — irreversible decisions deserve more analysis
+- Don't pad the WA pillar table — skip genuinely neutral pillars

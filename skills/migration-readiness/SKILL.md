@@ -1,7 +1,7 @@
 ---
 name: migration-readiness
-description: Assess a workload's readiness to migrate to AWS using Well-Architected principles, covering the 7 Rs, dependencies, risks, and a migration plan.
-version: 1.1.0
+description: Assess a workload's readiness to migrate to AWS by analyzing existing code, dependencies, configurations, and infrastructure to produce evidence-backed findings covering the 7 Rs, risks, and a migration plan.
+version: 2.0.0
 ---
 
 # Migration Readiness Assessment
@@ -11,161 +11,262 @@ version: 1.1.0
 Ask the user:
 
 > What workload are you planning to migrate? Please share:
+> - **Workload name** and code packages/directories to analyze
 > - **Current environment** (on-premises, other cloud, colocation)
-> - **Application stack** (languages, frameworks, databases, middleware)
-> - **Dependencies** (other systems it talks to, shared databases, network requirements)
 > - **Business drivers** (cost, agility, compliance, end-of-life hardware, etc.)
 > - **Timeline constraints** (optional)
 
-If context is already provided, proceed directly.
+If context is already provided or you are in a codebase, proceed directly.
 
-## Step 2: Determine migration strategy (7 Rs)
+## Step 2: Application Stack Discovery
 
-For the workload, evaluate which strategy fits:
+Analyze the codebase to understand the current application stack.
 
-| Strategy | When to use |
-|----------|-------------|
-| **Rehost** (lift & shift) | Fast migration, minimal changes, optimize later |
-| **Replatform** (lift & reshape) | Small optimizations during move (e.g., managed DB) |
-| **Refactor** (re-architect) | Need cloud-native benefits, willing to invest |
-| **Repurchase** | Replace with SaaS (e.g., CRM → Salesforce) |
-| **Retire** | No longer needed |
-| **Retain** | Not ready to move yet |
-| **Relocate** | VMware workloads → VMware Cloud on AWS |
+You MUST examine:
+- Programming languages and runtimes (versions, compatibility with AWS services)
+- Frameworks and libraries (web frameworks, ORM, messaging)
+- Database technologies (relational, NoSQL, search, caching)
+- Middleware and message brokers
+- External service dependencies (APIs, SaaS integrations)
+- Configuration management (config files, environment variables, secrets)
+- Operating system dependencies and system-level requirements
+- Build and packaging systems (Maven, npm, pip, Docker)
 
-Recommend a strategy with justification based on the user's drivers and constraints.
+For each component, document:
+- File path and line numbers
+- Technology and version
+- AWS equivalent or migration path
+- Migration complexity (simple lift, requires changes, requires rewrite)
+- Dependencies on other components
 
-## Step 3: Assess readiness by pillar
+You MUST flag as BLOCKER:
+- OS-specific dependencies without cloud equivalents
+- Proprietary software with licensing restrictions (Oracle, specific Windows features)
+- Hardware-specific dependencies (FPGA, specific CPU instructions, USB dongles)
+- Hardcoded IP addresses or hostnames in application code
+- Local filesystem dependencies (shared network drives, local storage)
 
-For each pillar, classify readiness as:
-- 🟢 **Ready** — no blockers, can proceed
-- 🟡 **Conditionally Ready** — gaps exist but can be addressed during migration
-- 🔴 **Not Ready** — blockers must be resolved before migration
+## Step 3: Infrastructure Discovery
 
-### Operational Excellence
-- Is there IaC for the current environment? Can it be adapted?
-- Are CI/CD pipelines in place?
-- Is monitoring portable or cloud-specific?
-- Are operational runbooks documented?
+Analyze existing infrastructure configurations.
 
-### Security
-- Are there compliance requirements that affect region/service choice?
-- How are secrets and certificates managed today?
-- Are there network security dependencies (firewalls, IDS) that need equivalents?
-- Is identity federation in place or needed?
+You MUST examine:
+- Server configurations (CPU, memory, storage requirements)
+- Network topology (VLANs, firewalls, load balancers, DNS)
+- Storage systems (SAN, NAS, local disk, file shares)
+- Database configurations (engine, version, size, replication)
+- Monitoring and alerting systems
+- Backup and DR configurations
+- Security controls (firewalls, IDS/IPS, WAF, certificates)
+- Existing IaC if any (Terraform, Ansible, Chef, Puppet)
 
-### Reliability
-- What is the current availability? What's the target post-migration?
-- Are there HA/DR mechanisms that need to be replicated?
+For each infrastructure component, document:
+- Current configuration
+- AWS equivalent service
+- Migration approach (rehost, replatform, refactor)
+- Data volume and transfer considerations
+
+## Step 4: Dependency Mapping
+
+Map all internal and external dependencies.
+
+You MUST examine:
+- Service-to-service communication (protocols, ports, patterns)
+- Database connections (connection strings, pooling, multiple consumers)
+- Shared databases or data stores (multiple services writing/reading)
+- External API integrations (third-party services, partner APIs)
+- Network dependencies (latency-sensitive connections, VPN tunnels)
+- Batch job dependencies (scheduling, order of execution)
+- Authentication/authorization dependencies (LDAP, AD, SSO)
+
+You MUST create a dependency diagram showing:
+- All services and their connections
+- Data flows and protocols
+- External dependencies
+- Migration wave groupings (what must move together)
+
+You MUST flag as HIGH RISK:
+- Tight coupling between components that must move together (increases blast radius)
+- Shared databases accessed by multiple services (migration ordering constraint)
+- Latency-sensitive integrations that will span hybrid during migration
+- Hard dependencies on on-premises systems that cannot move (require hybrid connectivity)
+
+## Step 5: Determine migration strategy (7 Rs)
+
+For each component, evaluate which strategy fits based on code evidence:
+
+| Strategy | When to use | Code Indicators |
+|----------|-------------|-----------------|
+| **Rehost** | Fast migration, minimal changes | Standard OS, containerizable, no OS-specific deps |
+| **Replatform** | Small optimizations during move | Self-managed DB → RDS, self-managed cache → ElastiCache |
+| **Refactor** | Need cloud-native benefits | Monolith that should be decomposed, stateful → stateless |
+| **Repurchase** | Replace with SaaS | Commercial software with AWS/SaaS equivalent |
+| **Retire** | No longer needed | Unused code, deprecated services |
+| **Retain** | Not ready to move | Hard dependencies, compliance blockers |
+| **Relocate** | VMware workloads | VMware-specific configurations |
+
+You MUST justify each recommendation with code evidence.
+
+## Step 6: Assess readiness by pillar
+
+For each pillar, provide: **Readiness** (Ready/Conditionally Ready/Not Ready), **Evidence** (file:line), **Gaps**, **Actions needed**.
+
+### Operational Excellence Readiness
+- Is there IaC? (CloudFormation, Terraform, CDK, Ansible)
+- Are CI/CD pipelines in place? Can they target AWS?
+- Is monitoring portable or tied to specific tools?
+- Are operational procedures documented?
+
+### Security Readiness
+- Are there compliance requirements affecting region/service choice?
+- How are secrets managed? (hardcoded, vault, config files)
+- Are there network security dependencies needing equivalents?
+- Is identity management compatible with AWS IAM/Identity Center?
+
+### Reliability Readiness
+- What is the current availability? What's the target?
+- Are there HA mechanisms to replicate?
 - What's the acceptable downtime during migration?
-- Are backups and recovery procedures tested?
+- Are backup/recovery procedures tested?
 
-### Performance Efficiency
+### Performance Efficiency Readiness
 - Are there latency-sensitive integrations?
-- Are there hardware-specific dependencies (GPUs, FPGAs, specific CPU)?
-- What are the current performance baselines?
-- Are there performance SLAs that must be maintained during cutover?
+- Are there hardware-specific dependencies?
+- What are current performance baselines?
+- Are there SLAs to maintain during cutover?
 
-### Cost Optimization
-- What's the current TCO?
-- What's the expected AWS cost? (rough estimate)
-- Are there licensing implications? (BYOL, license-included)
-- Are there existing commitments (contracts, prepaid licenses)?
+### Cost Optimization Readiness
+- What's the current TCO? (hardware, licensing, ops, facilities)
+- Are there licensing implications? (BYOL, license-included, re-purchase)
+- Are there existing contracts or prepaid commitments?
 
-### Sustainability
-- Can the migration reduce resource footprint?
-- Are there opportunities to use Graviton or serverless?
+### Sustainability Readiness
+- Can migration reduce resource footprint?
+- Are there opportunities for Graviton/serverless?
 - Can managed services replace self-managed infrastructure?
 
-## Step 4: Identify risks and blockers
+## Step 7: Risk Assessment
 
-Classify each risk by severity:
-- 🔴 **High Risk** — can block migration or cause failure
-- 🟡 **Medium Risk** — increases effort or timeline but manageable
-- 🟢 **Low Risk** — minor impact, address during optimization
+For each risk, assess using Impact × Likelihood:
 
-Flag:
-- Hard dependencies on on-premises systems that can't move yet
-- Licensing restrictions (Oracle, Windows, third-party software)
-- Data residency or sovereignty requirements
-- Large data volumes requiring transfer planning (Snowball, DataSync, DMS)
-- Skills gaps in the team
-- Compliance re-certification requirements
-- Performance-sensitive integrations with on-premises systems
+**Impact**: Minor (schedule slip, minor rework) | Moderate (significant rework, extended hybrid period) | Severe (migration failure, data loss, extended outage)
 
-## Step 5: Produce the assessment
+**Likelihood**: Low (unlikely with proper planning) | Medium (possible without specific mitigation) | High (likely given current state)
 
-Output:
+| Impact   | Likelihood | Risk Level |
+|----------|------------|------------|
+| Severe   | High       | Critical   |
+| Severe   | Medium     | High       |
+| Severe   | Low        | High       |
+| Moderate | High       | High       |
+| Moderate | Medium     | Medium     |
+| Moderate | Low        | Medium     |
+| Minor    | High       | Medium     |
+| Minor    | Medium     | Low        |
+| Minor    | Low        | Low        |
+
+## Step 8: Produce the assessment
 
 ```markdown
 # Migration Readiness Assessment: {Workload Name}
 
-## Summary
-- **Recommended strategy**: {strategy}
-- **Overall readiness**: {Ready / Conditionally Ready / Not Ready}
-- **Estimated effort**: {T-shirt size with justification}
-- **Key risks**: {top 2-3}
-- **Estimated timeline**: {weeks/months}
+## Executive Summary
+- **Date**: {date}
+- **Packages Analyzed**: {list}
+- **Recommended Strategy**: {primary strategy}
+- **Overall Readiness**: {Ready / Conditionally Ready / Not Ready}
+- **Estimated Effort**: {T-shirt size with justification}
+- **Key Risks**: {top 3}
+- **Critical Blockers**: {count and brief description}
 
-## Migration Strategy Rationale
-{Why this strategy fits the workload and business drivers}
+## Application Stack Summary
+| Component | Technology | Version | AWS Equivalent | Strategy | Complexity |
+|-----------|-----------|---------|---------------|----------|------------|
+| {name} | {tech} | {ver} | {aws service} | {7R} | {Low/Med/High} |
+
+## Dependency Map
+{PlantUML diagram showing service dependencies, data flows, and migration wave groupings}
 
 ## Readiness Scorecard
-| Pillar | Readiness | Score (1-5) | Key Gap |
-|--------|-----------|-------------|---------|
-| Operational Excellence | 🟢/🟡/🔴 | {score} | {gap} |
-| Security | 🟢/🟡/🔴 | {score} | {gap} |
-| Reliability | 🟢/🟡/🔴 | {score} | {gap} |
-| Performance Efficiency | 🟢/🟡/🔴 | {score} | {gap} |
-| Cost Optimization | 🟢/🟡/🔴 | {score} | {gap} |
-| Sustainability | 🟢/🟡/🔴 | {score} | {gap} |
+| Pillar | Readiness | Score (1-5) | Key Blocker | Action Needed |
+|--------|-----------|-------------|-------------|---------------|
+| Operational Excellence | {status} | {score} | {blocker} | {action} |
+| Security | {status} | {score} | {blocker} | {action} |
+| Reliability | {status} | {score} | {blocker} | {action} |
+| Performance Efficiency | {status} | {score} | {blocker} | {action} |
+| Cost Optimization | {status} | {score} | {blocker} | {action} |
+| Sustainability | {status} | {score} | {blocker} | {action} |
 
-## Risks and Blockers
-| Risk | Severity | Impact | Mitigation | AWS Service |
-|------|----------|--------|------------|-------------|
-| {risk} | 🔴/🟡/🟢 | {impact} | {mitigation} | {service} |
+## Critical Blockers
+{For each: ID, description, evidence (file:line), impact on migration, resolution approach, effort}
+
+## Risks and Mitigations
+| Risk | Evidence | Risk Level | Migration Impact | Mitigation | AWS Service |
+|------|----------|------------|-----------------|------------|-------------|
+| {risk} | {file:line} | {level} | {impact} | {mitigation} | {service} |
 
 ## Pre-Migration Checklist
-{What must be done before migration starts, ordered by priority}
+{Ordered by priority — what must be done before migration starts}
+- [ ] {action with evidence of why it's needed}
 
 ## Migration Plan
 
-### Phase 1: Assess & Mobilize (Weeks 1-2)
-{Discovery, dependency mapping, landing zone setup}
+### Phase 1: Mobilize (Weeks 1-2)
+| Task | Dependencies | AWS Service | Evidence |
+|------|-------------|-------------|----------|
+{Landing zone, connectivity, tooling setup}
 
 ### Phase 2: Migrate (Weeks 3-6)
-{Data migration, application migration, testing}
+| Wave | Components | Strategy | Data Volume | Downtime Window |
+|------|-----------|----------|-------------|-----------------|
+{Component migration waves based on dependency analysis}
 
 ### Phase 3: Optimize (Weeks 7-8)
-{Right-sizing, cost optimization, performance tuning}
+| Optimization | Component | Expected Benefit | AWS Service |
+|-------------|-----------|-----------------|-------------|
+{Right-sizing, managed services, serverless, Graviton}
 
 ## AWS Services for Migration
-| Category | Service | Purpose |
-|----------|---------|---------|
-| Server migration | AWS MGN | Rehost EC2 workloads |
-| Database migration | AWS DMS | Replicate databases with minimal downtime |
-| Data transfer | DataSync / Snowball | Large-scale data movement |
-| Schema conversion | AWS SCT | Convert database schemas |
-| Network | Direct Connect / VPN | Hybrid connectivity |
-| Landing zone | Control Tower | Multi-account governance |
+| Category | Service | Purpose | Relevant Components |
+|----------|---------|---------|-------------------|
+| Server | AWS MGN | Rehost EC2 | {components} |
+| Database | AWS DMS | Replicate with minimal downtime | {components} |
+| Data | DataSync / Snowball | Large-scale transfer | {components} |
+| Schema | AWS SCT | Schema conversion | {components} |
+| Network | Direct Connect / VPN | Hybrid connectivity | {components} |
+| Governance | Control Tower | Multi-account | All |
 
 ## Cost Comparison
-| Category | Current (monthly) | Estimated AWS (monthly) | Savings |
-|----------|-------------------|-------------------------|---------|
-| Compute | {current} | {estimated} | {delta} |
-| Storage | {current} | {estimated} | {delta} |
-| Networking | {current} | {estimated} | {delta} |
-| Licensing | {current} | {estimated} | {delta} |
-| **Total** | {total} | {total} | {delta} |
+| Category | Current (monthly est.) | AWS Estimated | Delta | Notes |
+|----------|----------------------|---------------|-------|-------|
+| Compute | {estimate} | {estimate} | {delta} | {basis} |
+| Storage | {estimate} | {estimate} | {delta} | {basis} |
+| Networking | {estimate} | {estimate} | {delta} | {basis} |
+| Licensing | {estimate} | {estimate} | {delta} | {basis} |
+| Operations | {estimate} | {estimate} | {delta} | {basis} |
+
+## Next Steps
+{Top 5 concrete actions the team should take this week to prepare}
 ```
 
-## Step 6: Offer follow-up
+## Step 9: Offer follow-up
 
 After delivering the assessment, offer:
 
 > Would you like me to:
 > - Design the AWS landing zone architecture?
-> - Create a detailed data migration plan?
-> - Estimate AWS costs in more detail (instance mapping, storage tiers)?
+> - Create a detailed data migration plan for a specific database?
+> - Estimate AWS costs in detail for specific components?
 > - Build a pre-migration testing strategy?
-> - Identify quick wins to demonstrate value early?
+> - Design the hybrid connectivity architecture?
+> - Create IaC for the target AWS architecture?
+
+## Calibration Guidance
+
+- A workload already containerized with CI/CD and IaC is LARGELY READY — focus on AWS-specific optimizations and data migration planning
+- Every blocker and risk MUST have code evidence — don't flag "licensing risk" without checking actual dependencies
+- Migration strategy recommendations must be justified by code analysis (not assumptions)
+- "Cannot Determine" is valid for runtime characteristics not visible in code (e.g., actual data volumes, network latency requirements)
+- For shared databases, always flag the migration ordering constraint — this is the #1 cause of migration complexity
+- Cost estimates from static analysis are rough — acknowledge uncertainty and recommend AWS Pricing Calculator for precision
+- Acknowledge migration-ready aspects prominently (containerized, stateless, IaC already exists)

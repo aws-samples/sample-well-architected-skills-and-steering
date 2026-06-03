@@ -1,9 +1,0 @@
-{
-  "version": "1.1.0",
-  "organization": "AWS",
-  "date": "May 2026",
-  "abstract": "Analyze an AWS architecture for cost waste, right-sizing opportunities, and pricing model improvements aligned with the Well-Architected Cost Optimization pillar.",
-  "references": [
-    "https://docs.aws.amazon.com/wellarchitected/latest/cost-optimization-pillar/welcome.html"
-  ]
-}

@@ -46,13 +46,14 @@ def grade_response(config: dict, output: str, assertions: list[str]) -> list[dic
 
     client = boto3.client("bedrock-runtime", region_name=config["region"])
 
+    inference_config = {"maxTokens": 2048}
+    if "opus" not in config["grading_model"]:
+        inference_config["temperature"] = 0
+
     response = client.converse(
         modelId=config["grading_model"],
         messages=[{"role": "user", "content": [{"text": prompt}]}],
-        inferenceConfig={
-            "temperature": 0,
-            "maxTokens": 2048,
-        },
+        inferenceConfig=inference_config,
     )
 
     raw = response["output"]["message"]["content"][0]["text"]

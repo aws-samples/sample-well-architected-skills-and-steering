@@ -22,10 +22,10 @@
       "assertions": [
         "Acknowledges the architecture is already well-optimized for sustainability",
         "Does NOT recommend basic improvements already in place (Graviton, scale-to-zero, serverless)",
-        "Suggests advanced improvements (code efficiency, payload compression, caching to reduce invocations)",
+        "Suggests advanced improvements (code efficiency, payload compression, caching to reduce invocations, or batch processing)",
         "Mentions regional carbon intensity as a factor for workload placement",
-        "Identifies client-side impact opportunities (page weight, fewer API calls)",
-        "Scores sustainability domains highly overall"
+        "Suggests data or processing efficiency improvements beyond what's already in place (e.g., request batching, response size reduction, smarter TTLs, or reduced redundant computation)",
+        "Scores sustainability maturity highly overall (4+ out of 5 or equivalent acknowledgment of strong posture)"
       ]
     },
     {

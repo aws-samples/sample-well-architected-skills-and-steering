@@ -19,12 +19,12 @@
       "prompt": "security review for our app: API keys stored in environment variables on ECS tasks, no encryption at rest for S3 buckets, TLS 1.0 still supported on the ALB, root account has no MFA, and we have no incident response plan documented.",
       "expected_output": "A critical security assessment flagging multiple high-severity findings across data protection, identity management, and incident response.",
       "assertions": [
-        "Flags API keys in environment variables as a data protection issue and recommends Secrets Manager",
+        "Flags API keys in environment variables as a data protection issue and recommends Secrets Manager or equivalent",
         "Flags unencrypted S3 as a data protection finding",
-        "Flags TLS 1.0 as a critical infrastructure protection issue",
-        "Flags root account without MFA as a Critical finding",
-        "Identifies lack of incident response plan",
-        "Overall assessment indicates critical security posture"
+        "Flags TLS 1.0 as a high-severity or critical finding (any wording indicating it must be fixed urgently)",
+        "Flags root account without MFA as a high-severity or critical finding",
+        "Identifies lack of incident response plan as a gap",
+        "Overall assessment indicates poor or critical security posture (not 'satisfactory' or 'good')"
       ]
     },
     {

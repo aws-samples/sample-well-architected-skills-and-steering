@@ -1,7 +1,7 @@
 {
-  "version": "1.1.0",
+  "version": "2.0.0",
   "organization": "AWS",
-  "date": "May 2026",
+  "date": "June 2026",
   "abstract": "Assess a workload's environmental sustainability posture against the Well-Architected Sustainability pillar, identifying opportunities to reduce carbon footprint through resource efficiency, managed services, and architectural optimization.",
   "references": [
     "https://docs.aws.amazon.com/wellarchitected/latest/sustainability-pillar/sustainability-pillar.html"

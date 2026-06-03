@@ -1,7 +1,7 @@
 ---
 name: operational-excellence
-description: Assess a workload's operational excellence posture against the Well-Architected Operational Excellence pillar, covering organization, preparation, operation, and evolution. Use this skill when evaluating CI/CD practices, observability, incident management, runbook coverage, or operational maturity.
-version: 1.1.0
+description: Assess a workload's operational excellence posture by analyzing CI/CD pipelines, observability instrumentation, deployment configs, and incident management patterns in the codebase to produce evidence-backed findings.
+version: 2.0.0
 ---
 
 # Operational Excellence Assessment
@@ -12,143 +12,202 @@ Ask the user:
 
 > What workload or environment would you like me to assess for operational excellence? Please share:
 > - **Workload name** and brief description
-> - **Team structure** (who owns operations, on-call rotation, team size)
-> - **Deployment tooling** (CodePipeline, GitHub Actions, Jenkins, CDK Pipelines, etc.)
-> - **Observability stack** (CloudWatch, X-Ray, Prometheus, Datadog, etc.)
-> - **Incident management process** (PagerDuty, OpsGenie, manual, DevOps Agent, etc.)
-> - **Known operational pain points** (optional)
+> - **Code packages/directories** to analyze (CI/CD configs, IaC, application code)
+> - **Known operational pain points** (optional — alert fatigue, slow deployments, etc.)
 
-If context is already provided, proceed directly.
+If the user has already provided details or you are in a codebase, skip the prompt and proceed with discovery.
 
-## Step 2: Assess Organization
+## Step 2: CI/CD and Deployment Discovery
 
-Evaluate:
-- Is there a clear operating model with defined responsibilities?
-- Are operational priorities aligned with business objectives?
-- Is there an operational improvement feedback loop?
-- Are operational risks identified and mitigated?
-- Are compliance and governance requirements integrated into operations?
+Analyze all CI/CD and deployment configurations in the codebase.
 
-## Step 3: Assess Prepare
+You MUST examine:
+- Pipeline definitions (CodePipeline, GitHub Actions, Jenkins, GitLab CI, CDK Pipelines)
+- Deployment configurations (CodeDeploy, ECS deployment, Lambda aliases, Apollo)
+- Build configurations (buildspec.yml, Makefile, package.json scripts)
+- Testing configurations (unit, integration, e2e test setups)
+- Pre-deployment gates (approval stages, quality gates, security scans)
 
-### CI/CD pipeline maturity
-- Is infrastructure deployed via IaC? (CloudFormation, CDK, Terraform)
-- Are deployments automated end-to-end?
-- Is there a canary, blue/green, or rolling deployment strategy?
-- Are rollback mechanisms automatic on health check failure?
-- Are pipeline stages isolated with proper artifact promotion?
-- Is deployment frequency tracked?
+For each pipeline/deployment, document:
+- File path and line numbers
+- Stages and their purpose
+- Deployment strategy (canary, blue/green, rolling, all-at-once)
+- Rollback mechanism (automatic on alarm, manual, none)
+- Test coverage gates
+- Artifact promotion flow
 
-### Observability readiness
-- Are the four golden signals monitored? (latency, traffic, errors, saturation)
-- Are distributed traces enabled across service boundaries?
-- Are structured logs emitted with correlation IDs?
-- Are custom metrics published for business-critical operations?
-- Are dashboards available per service with SLI/SLO tracking?
-- Are synthetic canaries probing critical user journeys?
+You MUST flag:
+- All-at-once deployments to production without health check gating
+- No rollback mechanism configured
+- No automated testing in the pipeline
+- Manual steps in an otherwise automated pipeline
 
-### Operational readiness
-- Are runbooks documented for known failure modes?
-- Are on-call rotations defined with escalation paths?
-- Are game days or tabletop exercises conducted?
-- Is there a pre-deployment checklist or readiness review?
+## Step 3: Observability Discovery
 
-## Step 4: Assess Operate
+Analyze all monitoring and observability configurations.
 
-### Alerting and event management
-- Are alerts actionable with runbooks linked?
-- Is alert routing correct with proper escalation?
-- Is alert fatigue managed? (deduplication, grouping, suppression)
-- Are composite alarms used to reduce noise?
-- Are severity levels defined with response SLAs?
+You MUST examine:
+- CloudWatch alarm definitions (in IaC or config files)
+- Dashboard definitions (CloudWatch dashboard JSON, Grafana configs)
+- Log configurations (log groups, retention, structured logging libraries)
+- Tracing configurations (X-Ray, OpenTelemetry, Jaeger)
+- Custom metric publishing (CloudWatch PutMetricData, StatsD, embedded metrics)
+- Synthetic canaries (CloudWatch Synthetics)
+- Application-level logging (structured logging, correlation IDs, log levels)
 
-### Incident management
-- Is there a documented incident response process?
-- Are incidents automatically created from alarm thresholds?
-- Is there a severity classification with defined response times?
-- Are automated mitigation actions configured? (Lambda, SSM, Step Functions)
-- Are incident metrics measured? (MTTD, MTTR, frequency, recurrence)
+For each observability component, document:
+- What it monitors and why
+- File path and line numbers
+- Gaps in coverage (services without alarms, flows without tracing)
 
-### Change management
-- Are all changes tracked and auditable? (CloudTrail, Config)
-- Are configuration changes deployed through the same pipeline as code?
-- Is there drift detection for production infrastructure?
-- Are feature flags used to decouple deployment from release?
-- Is there a change freeze policy for high-risk periods?
+You MUST flag:
+- Services or Lambda functions with no CloudWatch alarms
+- Missing distributed tracing across service boundaries
+- Unstructured logging (no JSON, no correlation IDs)
+- No custom metrics for business-critical operations
+- Log retention set to "never expire" without justification
+- No synthetic canaries for critical user journeys
 
-## Step 5: Assess Evolve
+## Step 4: Incident and Event Management Discovery
 
-- Is there a blameless post-incident review process?
-- Are action items from post-mortems tracked to completion?
-- Are operational metrics reviewed regularly? (deployment frequency, MTTR, change failure rate)
-- Are lessons learned shared across teams?
-- Is there continuous improvement of runbooks and automation?
-- Are manual operational tasks being automated over time?
-- Is chaos engineering practiced to discover weaknesses proactively?
+Analyze incident response and event management configurations.
 
-## Step 6: Produce the assessment
+You MUST examine:
+- Alert routing (SNS topics, PagerDuty/OpsGenie integrations, EventBridge rules)
+- Automated remediation (Lambda functions triggered by alarms, SSM Automation)
+- Runbooks and playbooks (SSM documents, markdown runbooks, Step Functions)
+- Escalation configurations
+- Health check implementations (ALB health checks, Route 53, custom endpoints)
 
-**Calibration guidance:**
-- Before making recommendations, explicitly list which practices the user already has in place and acknowledge them as strengths
-- Do NOT recommend practices the user has described as already implemented — focus only on gaps and new requirements
-- If the user mentions a specific pain point (e.g., alert fatigue, slow MTTR), prioritize that over generic findings
-- For architecture transitions (monolith → microservices, on-prem → cloud), focus on what the *new* architecture introduces as operational requirements rather than restating current good practices
+## Step 5: Evaluate against WA Framework questions
 
-Output:
+For each question, provide: **Status**, **Evidence** (file:line), **Gaps**, **Risk**.
+
+### OPS 1 — How do you determine what your priorities are?
+- Look for: SLO/SLI definitions, business metric dashboards, health check endpoints
+- Evidence: alarm thresholds, dashboard panels showing business metrics, README/docs with SLO targets
+
+### OPS 2 — How do you structure your organization to support your business outcomes?
+- Look for: CODEOWNERS files, clear package boundaries, ownership documentation
+- Evidence: CODEOWNERS, package.json team fields, README ownership sections
+
+### OPS 3 — How does your organizational culture support your business outcomes?
+- Look for: test coverage, PR templates, contributing guides, code review configs
+- Evidence: test directories, .github/PULL_REQUEST_TEMPLATE, CONTRIBUTING.md
+
+### OPS 4 — How do you implement observability?
+- Look for: structured logging with correlation IDs, distributed tracing, custom metrics, dashboards
+- Evidence: logger configurations, X-Ray/OTEL SDK usage, PutMetricData calls, dashboard JSON
+
+### OPS 5 — How do you reduce defects, ease remediation, and improve flow into production?
+- Look for: automated testing (unit, integration, e2e), linting, security scanning, staged deployments
+- Evidence: test files, ESLint/prettier configs, SAST tool configs, pipeline stage definitions
+
+### OPS 6 — How do you mitigate deployment risks?
+- Look for: canary/blue-green deployments, feature flags, automated rollback, deployment alarms
+- Evidence: CodeDeploy deployment configs, feature flag SDK imports, rollback alarm ARNs
+
+### OPS 7 — How do you know that you are ready to support a workload?
+- Look for: runbooks for known failure modes, pre-deployment checklists, load testing, operational readiness reviews
+- Evidence: SSM documents, runbook markdown files, load test scripts, readiness configs
+
+### OPS 8 — How do you understand the health of your workload?
+- Look for: composite alarms, health dashboards, dependency health tracking, SLI monitoring
+- Evidence: CompositeAlarm constructs, dashboard definitions, health check endpoints
+
+### OPS 9 — How do you understand the health of your operations?
+- Look for: DORA metrics tracking, deployment success monitoring, pipeline health dashboards
+- Evidence: pipeline metrics, deployment monitoring alarms, operational dashboards
+
+### OPS 10 — How do you manage workload and operations events?
+- Look for: EventBridge rules for operational events, automated remediation Lambdas, escalation configs
+- Evidence: EventBridge rule definitions, remediation Lambda code, SNS topic subscriptions
+
+## Step 6: Risk Assessment
+
+For each finding, assess using Impact × Likelihood:
+
+**Impact**: Minor (inconvenience, manual workaround exists) | Moderate (delayed detection, extended recovery time) | Severe (undetected outage, no rollback, data loss)
+
+**Likelihood**: Low (requires unusual conditions) | Medium (possible under normal operations) | High (likely to occur during next incident or deployment)
+
+| Impact   | Likelihood | Risk Level |
+|----------|------------|------------|
+| Severe   | High       | Critical   |
+| Severe   | Medium     | High       |
+| Severe   | Low        | High       |
+| Moderate | High       | High       |
+| Moderate | Medium     | Medium     |
+| Moderate | Low        | Medium     |
+| Minor    | High       | Medium     |
+| Minor    | Medium     | Low        |
+| Minor    | Low        | Low        |
+
+## Step 7: Produce the assessment
 
 ```markdown
 # Operational Excellence Assessment: {Workload Name}
 
-## Summary
+## Executive Summary
 - **Date**: {date}
-- **Deployment frequency**: {current}
-- **MTTR estimate**: {current}
-- **Change failure rate**: {current or unknown}
-- **Findings**: {X} Critical, {Y} High, {Z} Medium
+- **Packages Analyzed**: {list}
+- **Findings**: {X} Critical, {Y} High, {Z} Medium, {W} Low
+- **Overall Maturity**: {1-5} — {one-line justification}
 
 ## Maturity Scorecard
-| Domain | Score (1-5) | Key Gap |
-|--------|-------------|---------|
-| Organization | {score} | {gap} |
-| Prepare — CI/CD | {score} | {gap} |
-| Prepare — Observability | {score} | {gap} |
-| Prepare — Readiness | {score} | {gap} |
-| Operate — Alerting | {score} | {gap} |
-| Operate — Incident Mgmt | {score} | {gap} |
-| Operate — Change Mgmt | {score} | {gap} |
-| Evolve | {score} | {gap} |
+| Domain | Score (1-5) | Key Strength | Key Gap |
+|--------|-------------|--------------|---------|
+| CI/CD & Deployment | {score} | {strength} | {gap} |
+| Observability | {score} | {strength} | {gap} |
+| Incident Management | {score} | {strength} | {gap} |
+| Change Management | {score} | {strength} | {gap} |
+| Continuous Improvement | {score} | {strength} | {gap} |
 
-## Critical Findings
-{Each: what's wrong, blast radius, recommendation, AWS services to use, effort}
+## Critical and High Risk Findings
+{For each: ID, domain, title, description, evidence (file:line), impact, recommendation, effort, AWS services}
 
-## High Findings
-{Each: gap description, operational risk, remediation approach, AWS services, effort}
+## Medium Risk Findings
+{Same format, condensed}
 
-## Medium Findings
-{Each: improvement opportunity, benefit, implementation guidance, AWS services}
+## Low Risk Findings
+{Summary table: ID | Domain | Title | Recommendation}
 
-## Remediation Roadmap
+## Prioritized Remediation Plan
 
-### Quick Wins (1-2 weeks)
-{Low-effort, high-impact improvements}
+### Quick Wins (< 1 week)
+| Finding | Action | Impact | Effort |
+|---------|--------|--------|--------|
+{Add alarms, fix log retention, enable rollback}
 
-### Foundation (30 days)
-{Pipeline, observability, and alerting improvements}
+### Foundation (1-4 weeks)
+| Finding | Action | Impact | Effort | Dependencies |
+|---------|--------|--------|--------|--------------|
+{Add tracing, implement canary deployments, create runbooks}
 
-### Advanced (90 days)
-{Automation, chaos engineering, self-healing}
+### Strategic (1-3 months)
+| Finding | Action | Impact | Effort | Dependencies |
+|---------|--------|--------|--------|--------------|
+{Chaos engineering, self-healing automation, DORA metrics tracking}
 
 ## Next Steps
-{Concrete actions prioritized by impact}
+{Top 5 concrete actions the team should take this week}
 ```
 
-## Step 7: Offer follow-up
+## Step 8: Offer follow-up
 
 After delivering the assessment, offer:
 
 > Would you like me to:
 > - Deep-dive into CI/CD, observability, or incident response?
-> - Create runbooks or investigation workflows for specific failure modes?
-> - Generate IaC for observability or alerting improvements?
+> - Generate CloudWatch alarm and dashboard IaC for gaps identified?
+> - Create runbooks for specific failure modes?
 > - Design a self-healing architecture for a recurring issue?
-> - Propose DORA metrics tracking for your team?
+> - Implement structured logging with correlation IDs?
+
+## Calibration Guidance
+
+- A workload with CI/CD pipelines, automated rollback, CloudWatch alarms, and structured logging is MATURE — focus on advanced improvements (chaos, SLO-based alerting, operational reviews)
+- Every finding MUST have code evidence — no generic "you should have monitoring" without checking what exists
+- If something cannot be determined from code (e.g., on-call rotation quality, incident review process), mark "Cannot Determine" and explain what information is needed
+- Acknowledge existing operational strengths explicitly before listing gaps
+- For workloads transitioning architectures, focus on what the NEW architecture introduces as operational requirements
