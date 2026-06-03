@@ -1,95 +1,117 @@
-Perform a deep-dive security posture assessment against the Well-Architected Security pillar, covering identity, detection, infrastructure protection, data protection, and incident response.
+Perform a deep-dive security posture assessment by analyzing IAM policies, encryption configs, network rules, and security controls in the codebase to produce evidence-backed findings aligned with the Well-Architected Security pillar.
 
 ## Step 1: Gather context
 
 Ask the user:
 
-> What workload or AWS environment would you like me to assess for security? Please share:
-> - **Architecture overview** (services, accounts, network topology)
+> What workload would you like me to assess for security? Please share:
+> - **Workload name** and code packages/directories to analyze
 > - **Compliance requirements** (SOC2, HIPAA, PCI-DSS, FedRAMP, GDPR, etc.)
-> - **Current security tooling** (GuardDuty, Security Hub, WAF, etc.)
 > - **Known concerns** (optional)
 
-If context is already provided, proceed directly.
+If already in a codebase with IaC, proceed directly.
 
-## Step 2: Assess Identity and Access Management
+## Step 2: Identity and Access Management Discovery
 
-Evaluate:
-- Is there a centralized identity provider? (IAM Identity Center, federation)
-- Are IAM policies following least privilege? (wildcards, overly broad permissions)
-- Are service roles scoped per function?
-- Is MFA enforced for human access?
-- Are long-lived credentials eliminated? (access keys vs roles)
-- Is cross-account access managed via Organizations and SCPs?
+Analyze ALL IAM configurations:
 
-## Step 3: Assess Detection and Monitoring
+- IAM roles (trust policies, permission policies)
+- IAM policy documents (managed and inline)
+- Resource-based policies (S3, KMS, SQS)
+- API Gateway authorizers, Cognito configs
+- Lambda execution roles
 
-Evaluate:
-- Is CloudTrail enabled in all regions with log file validation?
-- Is GuardDuty active with findings routed to a response workflow?
-- Is Security Hub aggregating findings across accounts?
-- Are VPC Flow Logs, DNS logs, and S3 access logs enabled?
-- Are security-relevant CloudWatch alarms configured? (root login, unauthorized API calls)
-- Is there automated alerting for configuration drift? (Config Rules)
+Flag as HIGH RISK:
+- `"Action": "*"` or `"Action": "service:*"` on mutating actions
+- `"Resource": "*"` on write/delete policies
+- Overly broad cross-account trust
+- Long-lived credentials in code or config
 
-## Step 4: Assess Infrastructure Protection
+## Step 3: Encryption and Data Protection Discovery
 
-Evaluate:
-- Are VPCs segmented with private subnets for workloads?
-- Are security groups and NACLs following deny-by-default?
-- Is traffic inspected? (Network Firewall, WAF, Shield)
-- Are public endpoints minimized and protected?
-- Are compute resources hardened? (patching, SSM, no SSH)
-- Is there protection against DDoS? (Shield Advanced, CloudFront)
+Analyze encryption across ALL resources:
 
-## Step 5: Assess Data Protection
+- KMS keys and policies
+- Encryption at rest (S3, EBS, RDS, DynamoDB, EFS)
+- Encryption in transit (TLS configs, listeners, security policies)
+- Secrets management (Secrets Manager vs env vars vs hardcoded)
 
-Evaluate:
-- Is encryption at rest enabled for all data stores? (KMS, default keys vs CMKs)
-- Is encryption in transit enforced? (TLS 1.2+, certificate management)
-- Is sensitive data classified and tagged?
-- Are backup and recovery mechanisms in place?
-- Is data access audited?
-- Are secrets managed properly? (Secrets Manager, no hardcoded credentials)
+Flag as HIGH RISK:
+- Storage without encryption at rest
+- TLS < 1.2
+- Weak cipher suites
+- Secrets in env vars, hardcoded strings, or config files
+- KMS keys without rotation
 
-## Step 6: Assess Incident Response
+## Step 4: Network Protection Discovery
 
-Evaluate:
-- Is there a documented incident response plan?
-- Are forensic capabilities available? (isolated accounts, snapshot automation)
-- Are there automated containment actions? (Lambda remediation, Step Functions)
-- Is there a process for post-incident review?
-- Are game days or tabletop exercises conducted?
+Analyze network security:
 
-## Step 7: Produce findings
+- Security group rules (ingress/egress)
+- VPC design (public vs private subnets)
+- WAF rules and web ACLs
+- VPC endpoints
 
-Output:
+Flag as HIGH RISK:
+- SG ingress `0.0.0.0/0` on non-443/80 ports
+- SSH/RDP open to internet
+- Databases in public subnets
+- No WAF on internet-facing endpoints
 
-```markdown
-# Security Assessment: {Workload Name}
+## Step 5: Detection and Compute Protection
 
-## Summary
-- **Compliance scope**: {frameworks}
-- **Findings**: {X} Critical, {Y} High, {Z} Medium
+Analyze:
 
-## Critical Findings
-{Each: what's wrong, why it matters, how to fix it, AWS service/feature to use}
+- CloudTrail, GuardDuty, Security Hub, Config Rules configs
+- VPC Flow Logs, S3 access logs
+- Container configs (privileged mode, IMDSv2, image scanning)
+- Lambda configs (VPC, execution role scope)
 
-## High Findings
-{Same format}
+Flag: containers in privileged mode, IMDSv1 enabled, no image scanning.
 
-## Medium Findings
-{Same format}
+## Step 6: Evaluate against WA Framework questions
 
-## Security Scorecard
-| Domain | Score | Key Gap |
-|--------|-------|---------|
-| Identity & Access | {1-5} | {gap} |
-| Detection | {1-5} | {gap} |
-| Infrastructure Protection | {1-5} | {gap} |
-| Data Protection | {1-5} | {gap} |
-| Incident Response | {1-5} | {gap} |
+Every assessment MUST include: **Status**, **Evidence** (file:line), **Gaps**, **Risk**.
 
-## Remediation Roadmap
-{Prioritized actions: quick wins first, then foundational improvements}
-```
+- **SEC 1 — Secure operations**: security baselines, automated response
+- **SEC 2 — Identities**: centralized identity, role separation
+- **SEC 3 — Permissions**: least privilege, permission boundaries
+- **SEC 4 — Detection**: CloudTrail, GuardDuty, Security Hub, logging
+- **SEC 5 — Network**: VPC segmentation, WAF, endpoints
+- **SEC 6 — Compute**: patching, scanning, minimal privileges
+- **SEC 8 — Data at rest**: encryption on ALL stores
+- **SEC 9 — Data in transit**: TLS 1.2+, certificates
+- **SEC 10 — Incident response**: automation, forensic capabilities
+
+## Step 7: Risk Assessment
+
+| Impact   | Likelihood | Risk Level |
+|----------|------------|------------|
+| Severe   | High       | Critical   |
+| Severe   | Medium     | High       |
+| Severe   | Low        | High       |
+| Moderate | High       | High       |
+| Moderate | Medium     | Medium     |
+| Moderate | Low        | Medium     |
+| Minor    | High       | Medium     |
+| Minor    | Medium     | Low        |
+| Minor    | Low        | Low        |
+
+## Step 8: Produce the report
+
+Structure:
+
+- Executive Summary (date, compliance scope, packages analyzed, findings count, security posture 1-5)
+- Security Scorecard (Identity & Access, Data Protection at-rest/in-transit, Network, Compute, Detection & Response — each scored 1-5)
+- Critical and High Risk Findings (ID, domain, title, evidence file:line, impact, recommendation, effort, AWS services)
+- Medium/Low Risk Findings
+- Compliance Mapping (if requirements specified, map to framework controls)
+- Prioritized Remediation Plan (Quick Wins < 1 week, Foundation 1-4 weeks, Strategic 1-3 months)
+- Next Steps (top 5 actions)
+
+## Calibration
+
+- Every finding MUST have code evidence
+- TLS < 1.2 is always Critical. Weak ciphers always High.
+- "Cannot Determine" is valid when static analysis is insufficient
+- Acknowledge strong security practices before listing gaps

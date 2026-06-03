@@ -1,88 +1,114 @@
-Identify single points of failure, assess recovery capabilities, and produce a prioritized remediation plan aligned with the Well-Architected Reliability pillar.
+Identify single points of failure, assess recovery capabilities, and produce a prioritized remediation plan by analyzing IaC, scaling configs, and resilience patterns in the codebase.
 
 ## Step 1: Gather context
 
 Ask the user:
 
 > What workload would you like me to assess for reliability? Please share:
-> - **Architecture overview** (services, regions, AZs, dependencies)
+> - **Workload name** and code packages/directories to analyze
 > - **Availability target** (99.9%, 99.95%, 99.99%, etc.)
 > - **Recovery objectives** (RTO and RPO if defined)
-> - **Past incidents** (optional — recent outages or near-misses)
 
-If context is already provided, proceed directly.
+If already in a codebase with IaC, proceed directly.
 
-## Step 2: Identify single points of failure
+## Step 2: Fault Tolerance Discovery
 
-For each component, ask: "What happens if this fails?"
+Analyze infrastructure for single points of failure:
 
-Check for:
-- Single-AZ deployments (databases, compute, caches)
-- Single-region dependencies with no failover
-- Undeplicated data stores (no backups, no read replicas)
-- Hard dependencies on third-party services without fallback
-- Single NAT Gateway, single bastion, single load balancer
-- Shared-nothing vs shared-everything bottlenecks
+- Compute (AZ distribution, instance count, ASG configs)
+- Databases (Multi-AZ, replicas, cluster topology)
+- Caches (cluster mode, replica counts)
+- Load balancers (cross-zone, health checks)
+- NAT Gateways (single vs per-AZ)
+- Queues (DLQ, redrive policies)
 
-## Step 3: Assess recovery capabilities
+Flag as HIGH RISK:
+- Single-AZ databases in production
+- Compute without auto-scaling
+- No health checks on load-balanced targets
+- Single NAT Gateway for multiple AZs
+- Missing DLQ on async invocations
 
-Evaluate:
-- **Backup strategy** — Are backups automated, tested, and cross-region?
-- **Failover mechanisms** — Is failover automatic or manual? How long does it take?
-- **Health checks** — Are they deep enough to detect real failures?
-- **Deployment rollback** — Can a bad deploy be reverted in minutes?
-- **Dependency isolation** — Does one service failure cascade?
-- **Chaos engineering** — Are failure scenarios tested proactively?
+## Step 3: Recovery Capability Discovery
 
-## Step 4: Evaluate scaling and capacity
+Analyze backup and recovery:
 
-Assess:
-- Is auto-scaling configured with appropriate min/max/cooldown?
-- Are service quotas monitored and increased proactively?
-- Is there load shedding or throttling for overload scenarios?
-- Are queues used to absorb traffic spikes?
-- Is capacity tested under peak load?
+- AWS Backup plans, RDS backup settings, PITR
+- S3 versioning and replication
+- Cross-region replication
+- DR configurations
 
-## Step 5: Assess change management
+Flag: stateful resources without backups, retention < 7 days, no cross-region backup for critical data, no DR testing evidence.
 
-Evaluate:
-- Are deployments canary or blue/green?
-- Are database migrations backward-compatible?
-- Is there automated rollback on health check failure?
-- Are changes tested in a staging environment that mirrors production?
+## Step 4: Resilience Pattern Discovery
 
-## Step 6: Produce the plan
+Analyze application code for resilience:
 
-Output:
+- Retry configurations (SDK clients, custom logic)
+- Timeout settings (HTTP clients, DB connections, Lambda)
+- Circuit breakers, fallbacks, graceful degradation
+- Idempotency handling
+- Health check implementations
+- Connection pooling
 
-```markdown
-# Reliability Improvement Plan: {Workload Name}
+Flag: external calls without timeouts, no retry logic, missing idempotency, shallow health checks, Lambda timeout ≥ API Gateway timeout.
 
-## Current State
-- **Availability target**: {target}
-- **Estimated current availability**: {estimate}
-- **RTO**: {current} → {target}
-- **RPO**: {current} → {target}
+## Step 5: Change Management Discovery
 
-## Single Points of Failure
-| Component | Failure Impact | Current Mitigation | Gap |
-|-----------|---------------|-------------------|-----|
-| {component} | {impact} | {mitigation or "None"} | {what's missing} |
+Analyze deployment safety:
 
-## Remediation Plan
+- Deployment strategies (canary, blue/green, rolling)
+- Health check gating, automated rollback
+- Database migration approaches
 
-### Phase 1: Critical (address immediately)
-{Each: SPOF to eliminate, how, AWS services to use, expected availability gain}
+Flag: all-at-once deployment, no rollback mechanism, non-backward-compatible migrations.
 
-### Phase 2: Important (next 30 days)
-{Each: improvement, implementation approach, benefit}
+## Step 6: Evaluate against WA Framework questions
 
-### Phase 3: Hardening (next 90 days)
-{Each: advanced resilience measure, chaos testing, multi-region}
+Every assessment MUST include: **Status**, **Evidence** (file:line), **Gaps**, **Risk**.
 
-## Architecture Recommendations
-{Specific changes: multi-AZ, read replicas, circuit breakers, async patterns, etc.}
+- **REL 1 — Quotas**: quota alarms, throttling handling
+- **REL 2 — Network topology**: multi-AZ, subnet distribution
+- **REL 3 — Demand adaptation**: auto-scaling, capacity modes
+- **REL 4 — Prevent failures**: retries, timeouts, idempotency, decoupling
+- **REL 5 — Withstand failures**: circuit breakers, fallbacks, load shedding
+- **REL 8 — Implement change**: deployment safety, rollback
+- **REL 9 — Backup data**: automated backups, PITR, replication
+- **REL 11 — Component failures**: redundancy, failover, stateless
+- **REL 12 — Test reliability**: FIS experiments, game days
+- **REL 13 — DR**: cross-region, RTO/RPO, DR automation
 
-## Testing Plan
-{How to validate each improvement: failover drills, load tests, game days}
-```
+## Step 7: Risk Assessment
+
+| Impact   | Likelihood | Risk Level |
+|----------|------------|------------|
+| Severe   | High       | Critical   |
+| Severe   | Medium     | High       |
+| Severe   | Low        | High       |
+| Moderate | High       | High       |
+| Moderate | Medium     | Medium     |
+| Moderate | Low        | Medium     |
+| Minor    | High       | Medium     |
+| Minor    | Medium     | Low        |
+| Minor    | Low        | Low        |
+
+## Step 8: Produce the plan
+
+Structure:
+
+- Executive Summary (date, availability target, packages analyzed, findings count, reliability maturity 1-5)
+- Reliability Scorecard (Fault Tolerance, Recovery & Backup, Scaling, Resilience Patterns, Change Management, Testing — each scored 1-5)
+- Single Points of Failure table (component, evidence, failure impact, current mitigation, risk level)
+- Critical and High Risk Findings (ID, domain, title, evidence file:line, impact, recommendation, effort, AWS services)
+- Medium/Low Findings
+- Prioritized Remediation Plan (Quick Wins < 1 week, Foundation 1-4 weeks, Strategic 1-3 months)
+- Testing Plan (AZ failover, DB failover, load test, backup restore, deployment rollback — with "Evidence Exists: Yes/No")
+- Next Steps (top 5 actions)
+
+## Calibration
+
+- Every finding MUST have code evidence
+- For data pipelines: data durability > compute availability
+- Match expectations to availability target (99.9% ≠ multi-region, 99.99% = multi-region)
+- "Cannot Determine" is valid for operational aspects not in code
+- Acknowledge existing reliability patterns before gaps

@@ -1,7 +1,7 @@
 ---
 name: sustainability-optimization
-description: Assess a workload's environmental sustainability posture against the Well-Architected Sustainability pillar, identifying opportunities to reduce carbon footprint through resource efficiency, managed services, and architectural optimization.
-version: 1.1.0
+description: Assess a workload's environmental sustainability posture by analyzing resource utilization patterns, managed service adoption, data lifecycle configs, and compute efficiency in the codebase against the Well-Architected Sustainability pillar.
+version: 2.0.0
 ---
 
 # Sustainability Optimization Assessment
@@ -11,130 +11,233 @@ version: 1.1.0
 Ask the user:
 
 > What workload would you like me to assess for sustainability? Please share:
-> - **Architecture overview** (compute, storage, database, networking services)
-> - **Utilization patterns** (average CPU/memory utilization, traffic patterns, idle periods)
-> - **Region selection rationale** (proximity to users, compliance, or legacy?)
+> - **Workload name** and code packages/directories to analyze
 > - **Sustainability goals** (optional — organizational carbon targets, reporting requirements)
+> - **Known idle periods** (optional — off-hours, weekends, seasonal patterns)
 
-If context is already provided, proceed directly.
+If context is already provided or you are in a codebase, proceed directly.
 
-## Step 2: Assess resource utilization
+## Step 2: Compute Efficiency Discovery
 
-Evaluate how effectively provisioned resources are used:
+Analyze compute resource configurations for efficiency.
 
-- **Compute utilization** — Average CPU and memory usage across instances/containers. Are instances idle during off-hours?
-- **Storage efficiency** — Are old/unused objects retained? Are lifecycle policies in place? Is storage class appropriate for access frequency?
-- **Database utilization** — Is provisioned capacity matched to actual demand? Are there idle read replicas?
-- **Network efficiency** — Are data transfers minimized? Are endpoints co-located where possible?
-- **Over-provisioning** — Are resources sized for peak when demand is variable?
+You MUST examine:
+- Instance type selections (Graviton vs x86 — Graviton delivers up to 40% better price-performance per watt)
+- Auto-scaling configurations (can resources scale to zero?)
+- Lambda configurations (memory right-sizing, architecture arm64 vs x86_64)
+- Container configurations (base image size, multi-stage builds, runtime efficiency)
+- Batch processing configurations (scheduling, instance selection)
+- Scheduled scaling (non-production environments, off-hours capacity)
+- Serverless vs provisioned choices (Lambda/Fargate vs always-on EC2)
 
-## Step 3: Evaluate architecture efficiency
+For each compute resource, document:
+- File path and line numbers
+- Architecture (arm64/x86_64)
+- Scaling configuration (min/max, can reach zero)
+- Whether always-on or event-driven
 
-Assess:
+You MUST flag:
+- x86_64 instances/Lambda where Graviton/arm64 is available and supported
+- Always-on compute for variable or event-driven workloads (Lambda/Fargate would scale to zero)
+- Non-production environments running 24/7 at production scale
+- No scheduled scaling for environments with clear idle periods
+- Provisioned concurrency on Lambda that isn't latency-critical
+- Large container images that could use multi-stage builds or distroless
 
-- **Serverless adoption** — Could provisioned compute be replaced with Lambda, Fargate, or Aurora Serverless to scale to zero?
-- **Managed services** — Are there self-managed workloads (Kafka, Elasticsearch, Redis) that could use managed equivalents with better utilization?
-- **Graviton adoption** — Are ARM-based instances used where supported? (better performance per watt)
-- **Async patterns** — Are synchronous processes that could be event-driven identified? (reduces idle waiting)
-- **Batch optimization** — Are batch jobs scheduled during low-carbon grid periods? Are they right-sized?
+## Step 3: Data and Storage Efficiency Discovery
 
-## Step 4: Assess data management practices
+Analyze data management for sustainability.
 
-Evaluate:
+You MUST examine:
+- S3 lifecycle policies (transition to cheaper/more efficient tiers, expiration)
+- S3 Intelligent-Tiering adoption
+- CloudWatch log retention settings
+- Data compression configurations (S3, API responses, database)
+- Backup retention policies (excessive retention = wasted storage)
+- S3 versioning with lifecycle rules for old versions
+- DynamoDB TTL configurations
+- Snapshot retention and cleanup automation
 
-- **Data lifecycle** — Are retention policies defined and enforced? Is cold data moved to Glacier/Deep Archive?
-- **Data deduplication** — Is redundant data storage eliminated?
-- **Compression** — Are stored and transferred payloads compressed?
-- **Tiered storage** — Is Intelligent-Tiering used for unpredictable access patterns?
-- **Data proximity** — Is data stored close to where it's processed?
+For each storage resource, document:
+- File path and line numbers
+- Lifecycle policy (present or absent)
+- Retention settings
+- Compression settings
+- Access pattern alignment
 
-## Step 5: Evaluate scaling and scheduling
+You MUST flag:
+- S3 buckets without lifecycle policies (data accumulates indefinitely)
+- CloudWatch logs with "never expire" retention
+- No TTL on DynamoDB tables with temporal data
+- Uncompressed data storage where compression is feasible
+- Backup retention > 90 days without compliance justification
+- S3 versioning without version expiration rules
+- No Intelligent-Tiering for buckets with unknown access patterns
 
-Assess:
+## Step 4: Architecture Efficiency Discovery
 
-- **Scale-to-zero** — Can non-production environments shut down outside business hours?
-- **Scheduled scaling** — Are predictable low-traffic periods handled with reduced capacity?
-- **Right-sizing cadence** — How often are instance types and sizes reviewed?
-- **Spot Instances** — Are fault-tolerant workloads using Spot for better resource pooling?
-- **Region carbon intensity** (required finding) — Always assess whether current region selection considers carbon intensity. State whether workloads could benefit from running in lower-carbon regions, or explain why current placement is justified (latency, compliance, data residency).
+Analyze architectural patterns for sustainability.
 
-## Step 6: Assess software and code efficiency
+You MUST examine:
+- Managed service usage vs self-managed (MSK vs self-managed Kafka, ElastiCache vs self-managed Redis)
+- Event-driven vs polling patterns
+- Batch processing vs real-time (can operations be batched?)
+- Caching layers (reducing redundant computation)
+- Data transfer patterns (processing close to data, minimizing cross-region/cross-AZ)
+- API design efficiency (over-fetching, chatty APIs)
+- Async processing for non-time-sensitive operations
 
-Evaluate:
+You MUST flag:
+- Self-managed infrastructure where managed alternatives exist (better utilization at scale)
+- Polling patterns where event-driven would reduce idle compute
+- Individual API calls where batch operations exist
+- Missing caching causing redundant computation
+- Chatty APIs causing excessive network round-trips
 
-- **Algorithmic efficiency** — Are there known inefficient algorithms or unnecessary computation?
-- **Caching** — Does caching reduce redundant computation and data retrieval?
-- **Payload optimization** — Are API responses, assets, and transfers minimized?
-- **Framework efficiency** — Are lightweight runtimes used where possible? (compiled languages vs interpreted for compute-heavy tasks)
-- **Client-side impact** (required finding) — Always assess downstream/end-user energy impact: page weight, unnecessary API calls, unoptimized assets, client-side computation. Even for well-optimized backends, there are usually client-side opportunities. If not applicable (headless/API-only), state why.
+## Step 5: Development and Deployment Efficiency
 
-## Step 7: Produce findings
+Analyze CI/CD and development practices for sustainability.
 
-Output:
+You MUST examine:
+- Container image optimization (multi-stage builds, layer caching, image size)
+- CI/CD pipeline efficiency (caching, incremental builds, parallel execution)
+- Artifact management (retention, cleanup)
+- Test environment lifecycle (auto-teardown, TTL)
+- Deployment strategy efficiency (minimal rollout for testing)
+
+You MUST flag:
+- Large Docker images without multi-stage builds
+- No caching in CI/CD pipelines (rebuilding everything every time)
+- Test environments without auto-teardown
+- Redundant full deployments where incremental would work
+
+## Step 6: Region and Hardware Efficiency
+
+Analyze region and hardware choices.
+
+You MUST examine:
+- Region selection (carbon intensity varies by region)
+- Graviton adoption across all resource types
+- Instance generation (older generations are less efficient per operation)
+- Storage tier selection efficiency
+
+You MUST flag:
+- Older generation instances (e.g., m4 instead of m7g, t2 instead of t4g)
+- x86 selection where Graviton/ARM is supported by the workload runtime
+- Resources in high-carbon regions without latency justification
+
+## Step 7: Evaluate against WA Framework questions
+
+For each question, provide: **Status**, **Evidence** (file:line), **Gaps**, **Risk**.
+
+### SUS 1 — How do you select Regions to support your sustainability goals?
+- Evidence: region configs, documentation on region selection rationale
+
+### SUS 2 — How do you take advantage of user behavior patterns?
+- Evidence: scale-to-zero configs, scheduled scaling, event-driven architecture patterns
+
+### SUS 3 — How do you take advantage of software and architecture patterns?
+- Evidence: managed services, async processing, batch operations, caching layers
+
+### SUS 4 — How do you take advantage of data access and usage patterns?
+- Evidence: lifecycle policies, compression, tiering, Intelligent-Tiering, TTL configs
+
+### SUS 5 — How do your hardware management and usage patterns support your sustainability goals?
+- Evidence: Graviton/arm64 usage, instance generation, right-sizing, managed services
+
+### SUS 6 — How do your development and deployment processes support your sustainability goals?
+- Evidence: multi-stage Docker builds, CI caching, incremental deployments, artifact cleanup
+
+## Step 8: Impact Assessment
+
+For each finding, assess:
+
+**Resource Impact**: Low (minor efficiency gain) | Medium (significant resource reduction) | High (major resource elimination or efficiency improvement)
+
+**Implementation Effort**: Low (config change) | Medium (some development needed) | High (architecture change)
+
+Prioritize by: Impact / Effort ratio (highest first)
+
+## Step 9: Produce findings
 
 ```markdown
 # Sustainability Assessment: {Workload Name}
 
-## Summary
-- **Estimated utilization efficiency**: {percentage}
-- **Key waste areas**: {top 2-3}
-- **Findings**: {X} High Impact, {Y} Medium Impact, {Z} Improvements
-
-## High-Impact Findings
-{Each: what's wasteful, estimated carbon/resource impact, how to fix, effort required}
-
-## Optimization Opportunities
-
-### Resource Utilization
-| Resource | Current Utilization | Target | Action |
-|----------|-------------------|--------|--------|
-| {resource} | {current %} | {target %} | {action to take} |
-
-### Architecture Efficiency
-{Each: current approach, sustainable alternative, expected improvement}
-
-### Data Management
-{Each: current practice, optimized practice, storage/transfer reduction}
-
-### Scheduling & Scaling
-{Each: current behavior, optimized behavior, resource hours saved}
+## Executive Summary
+- **Date**: {date}
+- **Packages Analyzed**: {list}
+- **Findings**: {X} High Impact, {Y} Medium Impact, {Z} Low Impact
+- **Overall Sustainability Maturity**: {1-5} — {one-line justification}
+- **Key Opportunities**: {top 3 highest-impact changes}
 
 ## Sustainability Scorecard
-| Domain | Score | Key Gap |
-|--------|-------|---------|
-| Resource Utilization | {1-5} | {gap} |
-| Architecture Efficiency | {1-5} | {gap} |
-| Data Management | {1-5} | {gap} |
-| Scaling & Scheduling | {1-5} | {gap} |
-| Software Efficiency | {1-5} | {gap} |
+| Domain | Score (1-5) | Key Strength | Key Gap |
+|--------|-------------|--------------|---------|
+| Compute Efficiency | {score} | {strength} | {gap} |
+| Data & Storage | {score} | {strength} | {gap} |
+| Architecture Efficiency | {score} | {strength} | {gap} |
+| Development & Deployment | {score} | {strength} | {gap} |
+| Hardware & Region | {score} | {strength} | {gap} |
+
+## High Impact Findings
+{For each: ID, domain, title, description, evidence (file:line), resource impact, recommendation, effort, AWS services}
+
+## Medium Impact Findings
+{Same format, condensed}
+
+## Low Impact Findings
+{Summary table: ID | Domain | Title | Recommendation}
+
+## Resource Efficiency Opportunities
+| Resource | Current Config | Optimized Config | Efficiency Gain | Evidence |
+|----------|---------------|-----------------|-----------------|----------|
+| {resource} | {current} | {optimized} | {gain description} | {file:line} |
 
 ## Prioritized Remediation Plan
 
 ### Quick Wins (< 1 week)
-{Scheduling, lifecycle policies, enabling Intelligent-Tiering}
+| Finding | Action | Resource Impact | Effort |
+|---------|--------|----------------|--------|
+{Set log retention, add lifecycle policies, enable Intelligent-Tiering, schedule non-prod}
 
 ### Foundation (1-4 weeks)
-{Right-sizing, Graviton migration, scale-to-zero for non-prod}
+| Finding | Action | Resource Impact | Effort | Dependencies |
+|---------|--------|----------------|--------|--------------|
+{Graviton migration, right-sizing, scale-to-zero, multi-stage Docker builds}
 
 ### Strategic (1-3 months)
-{Architecture changes, serverless migration, region optimization}
+| Finding | Action | Resource Impact | Effort | Dependencies |
+|---------|--------|----------------|--------|--------------|
+{Serverless migration, managed service adoption, event-driven architecture, region optimization}
 
 ## AWS Sustainability Tools
 - **Customer Carbon Footprint Tool** — Track emissions in the AWS console
-- **Compute Optimizer** — Right-size recommendations
-- **S3 Storage Lens** — Storage efficiency insights
+- **Compute Optimizer** — Right-size recommendations with Graviton suggestions
+- **S3 Storage Lens** — Storage efficiency and access pattern insights
 - **Trusted Advisor** — Idle resource detection
 
 ## Next Steps
-{Concrete actions: quick wins to implement now, architectural changes to plan}
+{Top 5 concrete sustainability actions the team should take this week}
 ```
 
-## Step 8: Offer follow-up
+## Step 10: Offer follow-up
 
 After delivering the assessment, offer:
 
 > Would you like me to:
-> - Quantify the carbon impact of a specific optimization?
+> - Generate Graviton migration IaC for identified resources?
 > - Design a scale-to-zero strategy for non-production environments?
-> - Create a resource right-sizing implementation plan?
-> - Evaluate Graviton migration feasibility for your workloads?
+> - Implement S3 lifecycle policies for identified buckets?
+> - Create multi-stage Docker builds for container images?
+> - Design an event-driven architecture to replace polling patterns?
+> - Implement scheduled scaling for off-hours capacity reduction?
+
+## Calibration Guidance
+
+- A workload using Graviton, serverless, lifecycle policies, and managed services is MATURE — focus on advanced efficiencies (data locality, batch aggregation, development practices)
+- Every finding MUST have code evidence — don't flag "missing lifecycle policy" without checking the IaC
+- Sustainability findings should be framed positively (resource efficiency gains) not negatively
+- Always note when a sustainability improvement also reduces cost (double benefit)
+- "Cannot Determine" is valid for utilization data that requires CloudWatch metrics (recommend Compute Optimizer)
+- Don't recommend region changes without considering latency requirements and data residency
+- Acknowledge existing sustainability practices before listing gaps

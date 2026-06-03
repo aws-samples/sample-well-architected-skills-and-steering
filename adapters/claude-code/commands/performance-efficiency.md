@@ -1,106 +1,110 @@
-Evaluate a workload's performance efficiency against the Well-Architected Performance Efficiency pillar, covering resource selection, scaling, monitoring, and optimization opportunities.
+Evaluate a workload's performance efficiency by analyzing resource selection, scaling configs, caching patterns, and data access patterns in the codebase against the Well-Architected Performance Efficiency pillar.
 
 ## Step 1: Gather context
 
 Ask the user:
 
 > What workload would you like me to assess for performance efficiency? Please share:
-> - **Architecture overview** (compute, storage, database, networking services)
-> - **Performance requirements** (latency targets, throughput needs, concurrent users)
-> - **Current baselines** (p50/p95/p99 latency, request rates, error rates)
-> - **Known bottlenecks** (optional — areas you suspect are underperforming)
+> - **Workload name** and code packages/directories to analyze
+> - **Performance requirements** (latency targets, throughput needs)
+> - **Known bottlenecks** (optional)
 
-If context is already provided, proceed directly.
+If already in a codebase, proceed directly.
 
-## Step 2: Evaluate resource selection
+## Step 2: Compute Selection Discovery
 
-Assess whether optimal resource types are used:
+Analyze compute configurations:
 
-- **Compute** — Are instance types matched to workload characteristics? (compute-optimized vs memory-optimized vs general purpose, Graviton adoption)
-- **Storage** — Are storage tiers matched to access patterns? (gp3 vs io2, S3 classes, EFS vs FSx)
-- **Database** — Is the database engine appropriate for the access pattern? (relational vs key-value vs document vs graph vs time-series)
-- **Networking** — Are placement groups, enhanced networking, or accelerated transfers used where latency matters?
-- **Accelerators** — Are GPUs, Inferentia, or custom hardware used where applicable?
+- EC2 instance types/families
+- Lambda memory and timeout
+- ECS/Fargate CPU and memory
+- Container base images
+- Graviton vs x86 selection
 
-## Step 3: Assess scaling and elasticity
+Flag:
+- Lambda with default 128MB memory
+- Lambda timeout ≥ caller's timeout
+- General-purpose instances for compute/memory-heavy workloads
+- x86 where Graviton provides better price-performance
 
-Evaluate:
-- Is auto-scaling configured with metrics that reflect actual demand? (not just CPU — consider queue depth, request count, custom metrics)
-- Are scaling policies responsive enough? (target tracking vs step scaling, cooldown periods)
-- Is there pre-warming or scheduled scaling for predictable traffic patterns?
-- Are there scaling bottlenecks? (database connections, DNS propagation, cold starts)
-- Is the architecture designed to scale horizontally? (stateless compute, distributed caching)
+## Step 3: Storage and Database Performance Discovery
 
-## Step 4: Evaluate caching strategy
+Analyze database and storage:
 
-Assess:
-- Is data cached at the right layers? (CDN, API Gateway cache, application cache, database cache)
-- Are cache hit ratios monitored? What are they?
-- Is cache invalidation well-managed? (TTL-based, event-driven, or manual)
-- Are hot spots identified and mitigated? (DAX for DynamoDB, ElastiCache for session/query data)
-- Is content delivery optimized? (CloudFront with appropriate cache behaviors, edge functions)
+- Database engine selection vs access patterns
+- Read replicas, connection pooling (RDS Proxy)
+- DynamoDB table design (partition keys, GSIs)
+- Caching layers (ElastiCache, DAX, CloudFront)
+- EBS volume types and IOPS
+- Application query patterns (N+1, unbounded queries)
 
-## Step 5: Assess data and network optimization
+Flag: no connection pooling in serverless→RDS, missing caching for read-heavy data, DynamoDB hot partitions, N+1 queries, gp2 volumes.
 
-Evaluate:
-- Is data transfer minimized? (compression, pagination, field selection, binary protocols)
-- Are synchronous calls that could be async identified? (SQS, EventBridge, Step Functions)
-- Is connection management optimized? (connection pooling, keep-alive, HTTP/2)
-- Are queries optimized? (indexes, query plans, read replicas for read-heavy workloads)
-- Is data locality considered? (region selection, multi-region for global users)
+## Step 4: Networking and Content Delivery
 
-## Step 6: Evaluate monitoring and optimization practices
+Analyze:
 
-Assess:
-- Are performance metrics tracked at meaningful percentiles? (p50, p95, p99, not just averages)
-- Are there performance budgets and alerts?
-- Is load testing conducted regularly? (peak load, sustained load, spike scenarios)
-- Is there a process for reviewing and acting on performance data?
-- Are experiments conducted to evaluate new approaches? (A/B testing infrastructure changes)
+- CloudFront distributions (or absence)
+- API Gateway caching
+- VPC endpoints, compression settings
+- Connection settings (keep-alive, HTTP/2)
 
-## Step 7: Produce findings
+Flag: no CDN for static content, no API caching, no compression, missing VPC endpoints.
 
-Output:
+## Step 5: Scaling and Application Patterns
 
-```markdown
-# Performance Efficiency Assessment: {Workload Name}
+Analyze:
 
-## Summary
-- **Latency target**: {target} | **Current**: {p50/p95/p99}
-- **Throughput target**: {target} | **Current**: {actual}
-- **Findings**: {X} Critical, {Y} High, {Z} Medium
+- Auto Scaling policies and metrics (CPU-only vs custom)
+- Provisioned concurrency for latency-sensitive Lambda
+- Synchronous vs async processing
+- Batch opportunities, pagination implementations
+- Cold start patterns (Lambda initialization)
 
-## Critical Performance Issues
-{Each: what's bottlenecked, impact on user experience, how to fix it, expected improvement}
+Flag: CPU-only scaling, no provisioned concurrency on latency-critical functions, sync processing that could be async, offset pagination on large datasets.
 
-## Optimization Opportunities
+## Step 6: Evaluate against WA Framework questions
 
-### Resource Selection
-| Resource | Current | Recommended | Expected Improvement |
-|----------|---------|-------------|---------------------|
-| {resource} | {current config} | {recommended} | {improvement} |
+Every assessment MUST include: **Status**, **Evidence** (file:line), **Gaps**, **Risk**.
 
-### Scaling Improvements
-{Each: current limitation, recommended change, implementation approach}
+- **PERF 1 — Resource selection**: instance types, compute families, Graviton
+- **PERF 2 — Compute solution**: Lambda vs ECS vs EC2, memory/CPU configs
+- **PERF 3 — Storage solution**: storage types, IOPS, tiering
+- **PERF 4 — Database solution**: engine selection, replicas, pooling, caching
+- **PERF 5 — Networking**: CloudFront, VPC endpoints, compression
+- **PERF 7 — Monitoring**: latency percentiles, throughput, performance alarms
+- **PERF 8 — Tradeoffs**: caching, async, eventual consistency
 
-### Caching Opportunities
-{Each: cache layer to add/improve, expected hit ratio, latency reduction}
+## Step 7: Risk Assessment
 
-### Data and Network Optimizations
-{Each: current pattern, optimized pattern, expected benefit}
+| Impact   | Likelihood | Risk Level |
+|----------|------------|------------|
+| Severe   | High       | Critical   |
+| Severe   | Medium     | High       |
+| Severe   | Low        | High       |
+| Moderate | High       | High       |
+| Moderate | Medium     | Medium     |
+| Moderate | Low        | Medium     |
+| Minor    | High       | Medium     |
+| Minor    | Medium     | Low        |
+| Minor    | Low        | Low        |
 
-## Performance Scorecard
-| Domain | Score | Key Gap |
-|--------|-------|---------|
-| Resource Selection | {1-5} | {gap} |
-| Scaling & Elasticity | {1-5} | {gap} |
-| Caching | {1-5} | {gap} |
-| Data & Network | {1-5} | {gap} |
-| Monitoring & Optimization | {1-5} | {gap} |
+## Step 8: Produce findings
 
-## Prioritized Remediation Plan
-{Ordered by impact and effort: quick wins first, then architectural changes}
+Structure:
 
-## Next Steps
-{Concrete actions: load test scenarios to run, metrics to instrument, experiments to try}
-```
+- Executive Summary (date, packages analyzed, performance target, findings count, performance maturity 1-5)
+- Performance Scorecard (Compute Selection, Storage & Database, Networking & CDN, Scaling & Elasticity, Application Patterns, Monitoring — each scored 1-5)
+- Critical and High Risk Findings (ID, domain, title, evidence file:line, performance impact, recommendation, expected improvement, effort, AWS services)
+- Medium/Low Findings
+- Optimization Opportunities table (resource, current config, recommended, expected improvement, evidence)
+- Prioritized Remediation Plan (Quick Wins < 1 week, Foundation 1-4 weeks, Strategic 1-3 months)
+- Next Steps (top 5 actions)
+
+## Calibration
+
+- Every finding MUST have code evidence
+- Estimate improvements where possible ("connection pooling typically reduces p99 by 30-50%")
+- Always assess trade-offs: performance optimizations may increase cost/complexity
+- "Cannot Determine" is valid when actual metrics are needed
+- Acknowledge good performance practices before listing issues

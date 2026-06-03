@@ -1,0 +1,9 @@
+{
+  "version": "2.0.0",
+  "organization": "AWS",
+  "date": "June 2026",
+  "abstract": "Review an AWS architecture for cost waste, right-sizing opportunities, and pricing model improvements by examining IaC configurations, scaling policies, and resource provisioning in code.",
+  "references": [
+    "https://docs.aws.amazon.com/wellarchitected/latest/cost-optimization-pillar/welcome.html"
+  ]
+}

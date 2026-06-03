@@ -10,9 +10,12 @@ then grades assertions using an LLM-as-judge.
 """
 
 import argparse
+import functools
 import json
 import sys
 import time
+
+print = functools.partial(print, flush=True)
 from pathlib import Path
 
 import yaml
@@ -61,13 +64,14 @@ def call_bedrock(config: dict, messages: list[dict], system: str | None = None) 
         config=Config(read_timeout=300),
     )
 
+    inference_config = {"maxTokens": config["max_tokens"]}
+    if config.get("temperature") is not None:
+        inference_config["temperature"] = config["temperature"]
+
     kwargs = {
         "modelId": config["generation_model"],
         "messages": messages,
-        "inferenceConfig": {
-            "temperature": config["temperature"],
-            "maxTokens": config["max_tokens"],
-        },
+        "inferenceConfig": inference_config,
     }
     if system:
         kwargs["system"] = [{"text": system}]
@@ -99,9 +103,56 @@ def run_eval_case(config: dict, skill_content: str, eval_case: dict) -> dict:
     }
 
 
-def run_skill_evals(config: dict, skill_name: str, verbose: bool = False) -> dict:
+def _run_and_grade_case(config: dict, skill_content: str, case: dict, verbose: bool = False) -> dict:
+    """Run a single eval case (generate + grade). Thread-safe."""
+    case_id = case["id"]
+    prompt_short = case["prompt"][:60]
+    print(f"\n  Case {case_id}: {prompt_short}...")
+    start = time.time()
+
+    outputs = run_eval_case(config, skill_content, case)
+    elapsed = time.time() - start
+    print(f"  Case {case_id}: Generated in {elapsed:.1f}s")
+
+    print(f"  Case {case_id}: Grading baseline...")
+    baseline_grades = grade_response(
+        config, outputs["baseline_output"], case["assertions"]
+    )
+
+    print(f"  Case {case_id}: Grading with-skill...")
+    skill_grades = grade_response(
+        config, outputs["skill_output"], case["assertions"]
+    )
+
+    case_result = {
+        "id": case_id,
+        "prompt": case["prompt"],
+        "assertions": case["assertions"],
+        "baseline": {
+            "output": outputs["baseline_output"],
+            "grades": baseline_grades,
+            "score": sum(1 for g in baseline_grades if g["pass"]) / len(baseline_grades),
+        },
+        "with_skill": {
+            "output": outputs["skill_output"],
+            "grades": skill_grades,
+            "score": sum(1 for g in skill_grades if g["pass"]) / len(skill_grades),
+        },
+    }
+
+    if verbose:
+        print(f"\n    Case {case_id} — Baseline: {case_result['baseline']['score']:.0%}  Skill: {case_result['with_skill']['score']:.0%}")
+        for i, (bg, sg) in enumerate(zip(baseline_grades, skill_grades)):
+            b_icon = "✓" if bg["pass"] else "✗"
+            s_icon = "✓" if sg["pass"] else "✗"
+            print(f"      [{b_icon} → {s_icon}] {case['assertions'][i]}")
+
+    return case_result
+
+
+def run_skill_evals(config: dict, skill_name: str, verbose: bool = False, parallel: bool = False) -> dict:
     print(f"\n{'='*60}")
-    print(f"  Evaluating: {skill_name}")
+    print(f"  Evaluating: {skill_name}" + (" (parallel)" if parallel else ""))
     print(f"{'='*60}")
 
     skill_content = load_skill(skill_name)
@@ -113,50 +164,24 @@ def run_skill_evals(config: dict, skill_name: str, verbose: bool = False) -> dic
         "cases": [],
     }
 
-    for case in eval_cases:
-        print(f"\n  Case {case['id']}: {case['prompt'][:60]}...")
-        start = time.time()
+    if parallel:
+        from concurrent.futures import ThreadPoolExecutor, as_completed
 
-        outputs = run_eval_case(config, skill_content, case)
-        elapsed = time.time() - start
-        print(f"  Generated in {elapsed:.1f}s")
+        with ThreadPoolExecutor(max_workers=len(eval_cases)) as executor:
+            futures = {
+                executor.submit(_run_and_grade_case, config, skill_content, case, verbose): case["id"]
+                for case in eval_cases
+            }
+            case_results = {}
+            for future in as_completed(futures):
+                case_id = futures[future]
+                case_results[case_id] = future.result()
 
-        # Grade both outputs
-        print("  Grading baseline...")
-        baseline_grades = grade_response(
-            config, outputs["baseline_output"], case["assertions"]
-        )
-
-        print("  Grading with-skill...")
-        skill_grades = grade_response(
-            config, outputs["skill_output"], case["assertions"]
-        )
-
-        case_result = {
-            "id": case["id"],
-            "prompt": case["prompt"],
-            "assertions": case["assertions"],
-            "baseline": {
-                "output": outputs["baseline_output"],
-                "grades": baseline_grades,
-                "score": sum(1 for g in baseline_grades if g["pass"]) / len(baseline_grades),
-            },
-            "with_skill": {
-                "output": outputs["skill_output"],
-                "grades": skill_grades,
-                "score": sum(1 for g in skill_grades if g["pass"]) / len(skill_grades),
-            },
-        }
-
-        results["cases"].append(case_result)
-
-        if verbose:
-            print(f"\n    Baseline score: {case_result['baseline']['score']:.0%}")
-            print(f"    With-skill score: {case_result['with_skill']['score']:.0%}")
-            for i, (bg, sg) in enumerate(zip(baseline_grades, skill_grades)):
-                b_icon = "✓" if bg["pass"] else "✗"
-                s_icon = "✓" if sg["pass"] else "✗"
-                print(f"      [{b_icon} → {s_icon}] {case['assertions'][i]}")
+        results["cases"] = [case_results[case["id"]] for case in eval_cases]
+    else:
+        for case in eval_cases:
+            case_result = _run_and_grade_case(config, skill_content, case, verbose)
+            results["cases"].append(case_result)
 
     # Aggregate scores
     baseline_scores = [c["baseline"]["score"] for c in results["cases"]]
@@ -196,6 +221,10 @@ def main():
         "--runs", type=int, default=1,
         help="Number of runs per skill for statistical significance (default: 1)"
     )
+    parser.add_argument(
+        "--parallel", "-p", action="store_true",
+        help="Run eval cases in parallel within each skill"
+    )
     args = parser.parse_args()
 
     if args.list:
@@ -230,7 +259,7 @@ def main():
 
         run_results = []
         for skill_name in skills_to_run:
-            result = run_skill_evals(config, skill_name, verbose=args.verbose)
+            result = run_skill_evals(config, skill_name, verbose=args.verbose, parallel=args.parallel)
             run_results.append(result)
 
         all_run_results.append(run_results)
