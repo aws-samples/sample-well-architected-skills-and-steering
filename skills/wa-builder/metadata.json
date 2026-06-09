@@ -1,0 +1,9 @@
+{
+  "version": "1.0.0",
+  "organization": "AWS",
+  "date": "June 2026",
+  "abstract": "Learn then Build — help developers understand Well-Architected for their workload and produce visual artifacts (annotated architecture diagrams, decision trees, improvement roadmaps) they can commit and use.",
+  "references": [
+    "https://docs.aws.amazon.com/wellarchitected/latest/framework/welcome.html"
+  ]
+}

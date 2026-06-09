@@ -1,0 +1,44 @@
+{
+  "skill_name": "wa-builder",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "I'm new to AWS Well-Architected. I have a Node.js API on Lambda with DynamoDB and S3 for file uploads. About 5k requests per day. Can you help me understand what WA means for my app and create a visual roadmap?",
+      "expected_output": "A beginner-friendly explanation of which WA pillars matter most for a serverless workload, followed by visual artifacts including an architecture diagram with health annotations, at least one decision tree, and an improvement roadmap as a Gantt chart or timeline.",
+      "assertions": [
+        "Explains at least 3 WA pillars in beginner-friendly language with context specific to Lambda/DynamoDB/S3",
+        "Produces an architecture diagram (PlantUML or Mermaid) showing Lambda, DynamoDB, S3 with color-coded health indicators",
+        "Produces at least one decision tree or flowchart (Mermaid) for an architectural choice relevant to this workload",
+        "Produces an improvement roadmap with timeline phases (Quick Wins, Foundation, or Strategic — or equivalent time-based grouping)",
+        "Uses encouraging, educational tone rather than critical assessment language",
+        "References WA Framework question IDs (like OPS 4, SEC 3, REL 9) to ground recommendations"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "I just ran a wa-review and got these results: Security 2/5 (IAM wildcards, no encryption on S3), Reliability 3/5 (single-AZ RDS, no backups), everything else 4/5. Generate the annotated architecture diagram and improvement roadmap for my ECS Fargate + RDS + S3 stack.",
+      "expected_output": "Artifacts generated directly from the review findings — no learning phase needed. Architecture diagram should show RDS and S3 as red (risk), ECS as green, with specific gap annotations. Roadmap should prioritize security and reliability fixes.",
+      "assertions": [
+        "Does NOT include lengthy pillar explanations (treats the user as experienced since they already ran a review)",
+        "Produces an architecture diagram with RDS and S3 marked as high-risk (red) and ECS/other components as healthy (green/yellow)",
+        "Annotates the diagram with specific gaps mentioned in the review (IAM wildcards, no S3 encryption, single-AZ RDS, no backups)",
+        "Produces an improvement roadmap that prioritizes security and reliability fixes (the two lowest-scoring pillars)",
+        "Roadmap shows dependencies between items (e.g., enable encryption before addressing other S3 concerns)",
+        "Includes Mermaid or PlantUML code blocks that could be rendered as diagrams"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "I'm building a SaaS product and trying to decide: should I go multi-region active-active or stay single-region with cross-region backups? We have about $50k MRR, 99.9% SLA, and a team of 6. Help me think through this from a Well-Architected perspective.",
+      "expected_output": "A decision tree flowchart that walks through the trade-offs (cost, complexity, team size, SLA requirements) with WA-grounded reasoning. Should recommend single-region with backup given the constraints (team size, SLA level, revenue) while showing when to revisit.",
+      "assertions": [
+        "Produces a decision tree or flowchart (Mermaid format) that branches on relevant criteria (SLA target, revenue, team size, or similar)",
+        "References WA reliability concepts (REL 10, REL 13, or disaster recovery) in the decision reasoning",
+        "Addresses the cost trade-off between active-active and single-region (references Cost pillar)",
+        "Considers team size of 6 as a factor in the recommendation (operational complexity)",
+        "Provides a clear recommendation appropriate for the constraints rather than just listing options",
+        "Includes review triggers or conditions for when to revisit the decision (revenue growth, SLA increase, team growth)"
+      ]
+    }
+  ]
+}
