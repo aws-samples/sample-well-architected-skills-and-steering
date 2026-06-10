@@ -449,7 +449,7 @@ detect_tools() {
   [[ -d "$dir/.junie" ]] && detected+=("junie")
 
   if [[ ${#detected[@]} -eq 0 ]]; then
-    echo "  No AI tools detected in $dir. Installing for all tools."
+    echo "  No AI tools detected in $dir. Installing for all tools." >&2
     echo "all"
   else
     echo "  Detected: ${detected[*]}" >&2
