@@ -95,3 +95,54 @@ def test_call_bedrock_constructs_correct_request(mock_client_factory):
     call_kwargs = mock_client.converse.call_args[1]
     assert call_kwargs["modelId"] == "test-model"
     assert call_kwargs["system"] == [{"text": "system prompt"}]
+
+
+@patch("boto3.client")
+def test_call_bedrock_retries_without_temperature_when_unsupported(mock_client_factory):
+    """Models like Opus 4.8 reject temperature; the call should drop it and retry."""
+    from run import call_bedrock
+
+    class ValidationException(Exception):
+        pass
+
+    mock_client = MagicMock()
+    mock_client_factory.return_value = mock_client
+    mock_client.exceptions.ValidationException = ValidationException
+
+    # First call raises a temperature ValidationException, second succeeds.
+    mock_client.converse.side_effect = [
+        ValidationException("The model returned the following errors: temperature ... not supported"),
+        {"output": {"message": {"content": [{"text": "ok"}]}}},
+    ]
+
+    config = {"region": "us-east-1", "generation_model": "us.anthropic.claude-opus-4-8", "temperature": 0, "max_tokens": 4096}
+    messages = [{"role": "user", "content": [{"text": "hello"}]}]
+
+    result = call_bedrock(config, messages)
+
+    assert result == "ok"
+    assert mock_client.converse.call_count == 2
+    # The retry must not include temperature in inferenceConfig.
+    retry_kwargs = mock_client.converse.call_args_list[1][1]
+    assert "temperature" not in retry_kwargs["inferenceConfig"]
+
+
+@patch("boto3.client")
+def test_call_bedrock_reraises_unrelated_validation_errors(mock_client_factory):
+    """A ValidationException not about temperature must propagate, not retry."""
+    from run import call_bedrock
+
+    class ValidationException(Exception):
+        pass
+
+    mock_client = MagicMock()
+    mock_client_factory.return_value = mock_client
+    mock_client.exceptions.ValidationException = ValidationException
+    mock_client.converse.side_effect = ValidationException("malformed input: messages is empty")
+
+    config = {"region": "us-east-1", "generation_model": "us.anthropic.claude-opus-4-8", "temperature": 0, "max_tokens": 4096}
+    messages = [{"role": "user", "content": [{"text": "hello"}]}]
+
+    with pytest.raises(ValidationException):
+        call_bedrock(config, messages)
+    mock_client.converse.assert_called_once()

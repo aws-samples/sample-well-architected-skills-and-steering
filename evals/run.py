@@ -76,7 +76,17 @@ def call_bedrock(config: dict, messages: list[dict], system: str | None = None) 
     if system:
         kwargs["system"] = [{"text": system}]
 
-    response = client.converse(**kwargs)
+    try:
+        response = client.converse(**kwargs)
+    except client.exceptions.ValidationException as e:
+        # Some models (e.g. Claude Opus 4.8) reject the temperature parameter.
+        # Rather than guessing from the model id, drop it and retry once when
+        # Bedrock tells us the parameter is unsupported.
+        if "temperature" in inference_config and "temperature" in str(e).lower():
+            del inference_config["temperature"]
+            response = client.converse(**kwargs)
+        else:
+            raise
     return response["output"]["message"]["content"][0]["text"]
 
 
