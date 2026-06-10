@@ -54,7 +54,7 @@ Well-Architected skills are available as reusable playbooks in the `skills/` dir
 - [wa-review](file:///skills/wa-review/SKILL.md) (Full Well-Architected review)
 - [security-assessment](file:///skills/security-assessment/SKILL.md) (Security posture assessment)
 - [reliability-improvement-plan](file:///skills/reliability-improvement-plan/SKILL.md) (Reliability remediation plan)
-- [cost-optimization-audit](file:///skills/cost-optimization-audit/SKILL.md) (Cost optimization audit)
+- [cost-optimization-review](file:///skills/cost-optimization-review/SKILL.md) (Cost optimization audit)
 - [performance-efficiency](file:///skills/performance-efficiency/SKILL.md) (Performance efficiency review)
 - [sustainability-optimization](file:///skills/sustainability-optimization/SKILL.md) (Sustainability optimization review)
 - [migration-readiness](file:///skills/migration-readiness/SKILL.md) (Migration readiness assessment)

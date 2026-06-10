@@ -59,7 +59,7 @@ For structured assessments, read and follow the step-by-step instructions in the
 - `wa-review` — Full 6-pillar review with prioritized findings report
 - `security-assessment` — Deep-dive security posture assessment
 - `reliability-improvement-plan` — Find SPOFs and produce remediation plan
-- `cost-optimization-audit` — Identify waste and right-sizing opportunities
+- `cost-optimization-review` — Identify waste and right-sizing opportunities
 - `performance-efficiency` — Resource selection, scaling, caching assessment
 - `sustainability-optimization` — Utilization and carbon reduction assessment
 - `migration-readiness` — 7 Rs assessment with migration plan

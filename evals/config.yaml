@@ -6,6 +6,9 @@ grading_model: us.anthropic.claude-opus-4-8
 
 max_tokens: 16384
 
+# Sampling temperature for generation. 0 = deterministic (recommended for evals).
+temperature: 0
+
 # Number of times to run each eval (higher = more stable scores, higher cost)
 runs_per_eval: 1
 

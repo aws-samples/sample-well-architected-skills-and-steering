@@ -52,7 +52,7 @@ This creates zip files ready for upload in the target directory.
 | `wa-review` | On-demand, Evaluation |
 | `security-assessment` | On-demand, Evaluation |
 | `reliability-improvement-plan` | On-demand, Incident RCA |
-| `cost-optimization-audit` | On-demand, Evaluation |
+| `cost-optimization-review` | On-demand, Evaluation |
 | `performance-efficiency` | On-demand, Incident RCA |
 | `sustainability-optimization` | On-demand, Evaluation |
 | `migration-readiness` | On-demand |

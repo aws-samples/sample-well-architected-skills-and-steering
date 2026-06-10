@@ -449,7 +449,7 @@ detect_tools() {
   [[ -d "$dir/.junie" ]] && detected+=("junie")
 
   if [[ ${#detected[@]} -eq 0 ]]; then
-    echo "  No AI tools detected in $dir. Installing for all tools."
+    echo "  No AI tools detected in $dir. Installing for all tools." >&2
     echo "all"
   else
     echo "  Detected: ${detected[*]}" >&2
@@ -461,7 +461,16 @@ uninstall_tool() {
   local tool="$1"
   local base="$TARGET_DIR"
   if [[ "$GLOBAL" == true ]]; then
-    base="$HOME"
+    # Mirror the per-tool global base used by each install_* function so
+    # uninstall removes files from where they were actually installed.
+    case "$tool" in
+      gemini-cli)   base="$HOME/.gemini" ;;
+      amp)          base="$HOME/.config/agents" ;;
+      openclaw)     base="$HOME/.openclaw/workspace" ;;
+      devops-agent) base="$HOME/.devops-agent-skills" ;;
+      antigravity)  base="$HOME/.gemini" ;;
+      *)            base="$HOME" ;;
+    esac
   fi
 
   case "$tool" in
@@ -541,13 +550,24 @@ uninstall_tool() {
       echo "  Removed: Gemini CLI GEMINI.md and skills"
       ;;
     antigravity)
-      rm -f "$base/.agents/rules/well-architected.md" "$base/.agents/rules/wa-review.md"
-      for skill_dir in "$SCRIPT_DIR/skills"/*/; do
-        local skill_name
-        skill_name="$(basename "$skill_dir")"
-        [[ "$skill_name" == "_shared" ]] && continue
-        rm -rf "$base/.agents/skills/$skill_name"
-      done
+      if [[ "$GLOBAL" == true ]]; then
+        # Global install reuses the Gemini layout (~/.gemini/GEMINI.md + skills/).
+        rm -f "$base/GEMINI.md"
+        for skill_dir in "$SCRIPT_DIR/skills"/*/; do
+          local skill_name
+          skill_name="$(basename "$skill_dir")"
+          [[ "$skill_name" == "_shared" ]] && continue
+          rm -rf "$base/skills/$skill_name"
+        done
+      else
+        rm -f "$base/.agents/rules/well-architected.md" "$base/.agents/rules/wa-review.md"
+        for skill_dir in "$SCRIPT_DIR/skills"/*/; do
+          local skill_name
+          skill_name="$(basename "$skill_dir")"
+          [[ "$skill_name" == "_shared" ]] && continue
+          rm -rf "$base/.agents/skills/$skill_name"
+        done
+      fi
       echo "  Removed: Antigravity rules and skills"
       ;;
     junie)
@@ -562,21 +582,25 @@ uninstall_tool() {
       ;;
     amp)
       rm -f "$base/AGENTS.md"
+      local amp_skills_dir="$base/.agents/skills"
+      [[ "$GLOBAL" == true ]] && amp_skills_dir="$base/skills"
       for skill_dir in "$SCRIPT_DIR/skills"/*/; do
         local skill_name
         skill_name="$(basename "$skill_dir")"
         [[ "$skill_name" == "_shared" ]] && continue
-        rm -rf "$base/.agents/skills/$skill_name"
+        rm -rf "$amp_skills_dir/$skill_name"
       done
       echo "  Removed: Amp AGENTS.md and skills"
       ;;
     openclaw)
       rm -f "$base/AGENTS.md"
+      local openclaw_skills_dir="$base/.agents/skills"
+      [[ "$GLOBAL" == true ]] && openclaw_skills_dir="$base/skills"
       for skill_dir in "$SCRIPT_DIR/skills"/*/; do
         local skill_name
         skill_name="$(basename "$skill_dir")"
         [[ "$skill_name" == "_shared" ]] && continue
-        rm -rf "$base/.agents/skills/$skill_name"
+        rm -rf "$openclaw_skills_dir/$skill_name"
       done
       echo "  Removed: OpenClaw AGENTS.md and skills"
       ;;

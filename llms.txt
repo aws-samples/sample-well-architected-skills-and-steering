@@ -33,7 +33,7 @@ curl -sL https://raw.githubusercontent.com/aws-samples/sample-well-architected-s
 - `skills/wa-review/SKILL.md` — Full Well-Architected review across all 6 pillars
 - `skills/security-assessment/SKILL.md` — Deep-dive security posture assessment
 - `skills/reliability-improvement-plan/SKILL.md` — Identify SPOFs, assess recovery, produce remediation plan
-- `skills/cost-optimization-audit/SKILL.md` — Find waste, right-sizing, pricing model improvements
+- `skills/cost-optimization-review/SKILL.md` — Find waste, right-sizing, pricing model improvements
 - `skills/performance-efficiency/SKILL.md` — Resource selection, scaling, caching assessment
 - `skills/sustainability-optimization/SKILL.md` — Utilization, managed services, data lifecycle
 - `skills/operational-excellence/SKILL.md` — CI/CD, observability, incident management, automation
