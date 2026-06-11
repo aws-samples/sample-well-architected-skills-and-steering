@@ -61,3 +61,4 @@ For structured assessments, load the corresponding skill from `.agents/skills/`:
 - `operational-excellence` — CI/CD, observability, incident management, operational maturity
 - `migration-readiness` — 7 Rs assessment, dependency analysis, migration plan
 - `architecture-decision-record` — ADR with WA pillar impact analysis
+- `wa-builder` — Understand Well-Architected for your workload and generate visual artifacts (annotated diagrams, decision trees, roadmaps)

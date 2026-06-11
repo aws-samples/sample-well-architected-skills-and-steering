@@ -57,5 +57,6 @@ When the user asks for a specific assessment, follow the structured approach in 
 - `migration-readiness` — 7 Rs assessment, dependency analysis, migration plan
 - `operational-excellence` — CI/CD, observability, incident management, operational maturity
 - `architecture-decision-record` — ADR with WA pillar impact analysis
+- `wa-builder` — Understand Well-Architected for your workload and generate visual artifacts (annotated diagrams, decision trees, roadmaps)
 
 Read the corresponding `skills/{skill-name}/SKILL.md` file and follow its steps.

@@ -4,7 +4,7 @@
     {
       "title": "Full Reviews",
       "description": "Comprehensive architecture reviews and decision records.",
-      "skills": ["wa-review", "architecture-decision-record", "migration-readiness"]
+      "skills": ["wa-review", "architecture-decision-record", "migration-readiness", "wa-builder"]
     },
     {
       "title": "Pillar Assessments",
