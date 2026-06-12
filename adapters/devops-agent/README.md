@@ -57,6 +57,7 @@ This creates zip files ready for upload in the target directory.
 | `sustainability-optimization` | On-demand, Evaluation |
 | `migration-readiness` | On-demand |
 | `architecture-decision-record` | On-demand |
+| `wa-builder` | On-demand, Evaluation |
 
 ## Shared assets
 

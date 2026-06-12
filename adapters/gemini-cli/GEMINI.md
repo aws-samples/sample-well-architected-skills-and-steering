@@ -59,3 +59,4 @@ Well-Architected skills are available as reusable playbooks in the `skills/` dir
 - [sustainability-optimization](file:///skills/sustainability-optimization/SKILL.md) (Sustainability optimization review)
 - [migration-readiness](file:///skills/migration-readiness/SKILL.md) (Migration readiness assessment)
 - [architecture-decision-record](file:///skills/architecture-decision-record/SKILL.md) (Architecture decision record template)
+- [wa-builder](file:///skills/wa-builder/SKILL.md) (Understand Well-Architected for your workload and generate visual artifacts: annotated diagrams, decision trees, roadmaps)
