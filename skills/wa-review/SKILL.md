@@ -62,7 +62,7 @@ Analyze application code for architectural patterns:
 
 ## Step 4: Evaluate EVERY WA Framework question with code evidence
 
-Assess the workload against ALL 58 questions in the Well-Architected Framework. For each question, provide:
+Assess the workload against ALL 57 questions in the Well-Architected Framework. For each question, provide:
 - **Status**: "Implemented", "Partially Implemented", "Not Implemented", "Cannot Determine"
 - **Evidence**: specific file paths and line numbers
 - **Gaps**: what's missing or could be improved

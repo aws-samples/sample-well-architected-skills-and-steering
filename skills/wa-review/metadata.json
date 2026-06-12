@@ -1,5 +1,5 @@
 {
-  "version": "2.0.0",
+  "version": "2.1.0",
   "organization": "AWS",
   "date": "June 2026",
   "abstract": "Perform a full AWS Well-Architected Framework review by analyzing code, IaC, and configurations to produce evidence-backed findings with risk assessment and prioritized remediation.",
