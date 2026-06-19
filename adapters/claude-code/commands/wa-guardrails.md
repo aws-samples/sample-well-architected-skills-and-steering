@@ -1,6 +1,6 @@
 Generate preventive Well-Architected guardrails — AWS Config rules, Service Control Policies, permission boundaries, CloudWatch alarms, and IaC policy checks (CDK Aspects, cfn-guard, OPA/Sentinel) — so a workload stays compliant over time instead of being assessed once.
 
-Unlike the assessment commands (which find gaps) or `/wa-remediation` (which fixes one finding), guardrails codify best practices so non-compliant changes are blocked or flagged automatically — in CI, at deploy time, and continuously in the account.
+Unlike the assessment commands (which find gaps) or one-off remediation (which fixes a single finding), guardrails codify best practices so non-compliant changes are blocked or flagged automatically — in CI, at deploy time, and continuously in the account.
 
 ## Step 1: Gather context
 
@@ -87,7 +87,7 @@ Beyond machine-enforced controls, offer to capture the same standards as a **hum
 > - Generate the CI workflow wiring (GitHub Actions / CodePipeline step) to run the policy checks?
 > - Produce a governance steering doc (`CLAUDE.md` / `.cursor/rules/` / `.kiro/steering/`) capturing these standards for your AI agent?
 > - Add auto-remediation to a detective Config rule (with safety review)?
-> - Run a `/wa-remediation` pass to fix the existing violations these guardrails would block?
+> - Fix the existing violations these guardrails would block (remediate the current code)?
 > - Tighten a control from warn mode to block mode?
 
 ## Calibration

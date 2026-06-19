@@ -170,7 +170,7 @@ Keep each statement tied to a WA Question/BP ID, and keep the doc short enough t
 > - Generate the CI workflow wiring (GitHub Actions / CodePipeline step) to run the policy checks?
 > - Produce a governance steering doc (`CLAUDE.md` / `.cursor/rules/` / `.kiro/steering/`) capturing these standards for your AI agent?
 > - Add auto-remediation to a detective Config rule (with safety review)?
-> - Run a `/wa-remediation` pass to fix the existing violations these guardrails would block?
+> - Fix the existing violations these guardrails would block (remediate the current code)?
 > - Tighten a control from warn mode to block mode?
 
 ## Calibration Guidance
