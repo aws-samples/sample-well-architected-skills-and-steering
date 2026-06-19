@@ -17,6 +17,11 @@
         "operational-excellence",
         "sustainability-optimization"
       ]
+    },
+    {
+      "title": "Enforcement & Compliance",
+      "description": "Codify best practices as ongoing controls that keep a workload compliant over time.",
+      "skills": ["wa-guardrails"]
     }
   ]
 }

@@ -58,6 +58,7 @@ This creates zip files ready for upload in the target directory.
 | `migration-readiness` | On-demand |
 | `architecture-decision-record` | On-demand |
 | `wa-builder` | On-demand, Evaluation |
+| `wa-guardrails` | On-demand, Evaluation |
 
 ## Shared assets
 

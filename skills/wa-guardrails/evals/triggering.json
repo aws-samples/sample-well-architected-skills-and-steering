@@ -1,0 +1,29 @@
+{
+  "skill_name": "wa-guardrails",
+  "prompts": [
+    { "text": "set up guardrails so unencrypted S3 buckets can't be merged", "should_trigger": true },
+    { "text": "generate AWS Config rules to enforce our security baseline", "should_trigger": true },
+    { "text": "I want CI to block security groups open to 0.0.0.0/0 before deploy", "should_trigger": true },
+    { "text": "create SCPs to prevent anyone from disabling CloudTrail", "should_trigger": true },
+    { "text": "add cfn-guard rules so non-compliant CloudFormation fails the build", "should_trigger": true },
+    { "text": "enforce required tags (owner, cost-center, environment) on every resource", "should_trigger": true },
+    { "text": "codify the fixes from our wa-review as ongoing controls so they can't regress", "should_trigger": true },
+    { "text": "write a CDK Aspect that fails synth when RDS isn't Multi-AZ", "should_trigger": true },
+    { "text": "detect configuration drift on encryption and public access continuously", "should_trigger": true },
+    { "text": "give me OPA/Sentinel policies for Terraform to keep us compliant", "should_trigger": true },
+    { "text": "capture our Well-Architected standards as a steering doc our AI agents always follow", "should_trigger": true },
+    { "text": "turn our review findings into a governance policy in CLAUDE.md so the team's agents enforce them", "should_trigger": true },
+    { "text": "review our AWS costs and find savings opportunities", "should_trigger": false },
+    { "text": "write a CLAUDE.md describing our build commands and how to run tests", "should_trigger": false },
+    { "text": "draft team onboarding docs for our new engineers", "should_trigger": false },
+    { "text": "audit our security groups and IAM roles for vulnerabilities", "should_trigger": false },
+    { "text": "identify single points of failure and produce a remediation plan", "should_trigger": false },
+    { "text": "fix the unencrypted S3 bucket in our CDK code", "should_trigger": false },
+    { "text": "improve API Gateway response times", "should_trigger": false },
+    { "text": "plan our data center migration to AWS", "should_trigger": false },
+    { "text": "reduce our carbon footprint and resource waste", "should_trigger": false },
+    { "text": "do a full Well-Architected review of our workload", "should_trigger": false },
+    { "text": "help me understand Well-Architected and draw an architecture diagram", "should_trigger": false },
+    { "text": "document our decision to switch from SQS to EventBridge", "should_trigger": false }
+  ]
+}

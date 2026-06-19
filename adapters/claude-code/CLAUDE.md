@@ -50,4 +50,4 @@ When delivering Well-Architected guidance:
 
 ## Skills
 
-Well-Architected skills are available as slash commands. Use `/wa-review`, `/security-assessment`, `/reliability-improvement-plan`, `/cost-optimization-review`, `/performance-efficiency`, `/sustainability-optimization`, `/operational-excellence`, `/migration-readiness`, `/architecture-decision-record`, or `/wa-builder` to run a structured assessment.
+Well-Architected skills are available as slash commands. Use `/wa-review`, `/security-assessment`, `/reliability-improvement-plan`, `/cost-optimization-review`, `/performance-efficiency`, `/sustainability-optimization`, `/operational-excellence`, `/migration-readiness`, `/architecture-decision-record`, `/wa-builder`, or `/wa-guardrails` to run a structured assessment.

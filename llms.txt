@@ -39,6 +39,8 @@ curl -sL https://raw.githubusercontent.com/aws-samples/sample-well-architected-s
 - `skills/operational-excellence/SKILL.md` — CI/CD, observability, incident management, automation
 - `skills/migration-readiness/SKILL.md` — 7 Rs assessment with migration plan
 - `skills/architecture-decision-record/SKILL.md` — WA-aligned ADR with pillar impact analysis
+- `skills/wa-builder/SKILL.md` — Learn WA for your workload and produce visual artifacts (diagrams, decision trees, roadmaps)
+- `skills/wa-guardrails/SKILL.md` — Generate preventive controls (Config rules, SCPs, CI checks, alarms) for ongoing compliance
 
 ### Reference material:
 

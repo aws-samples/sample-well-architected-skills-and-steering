@@ -1,0 +1,58 @@
+{
+  "skill_name": "wa-guardrails",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "We keep shipping S3 buckets without encryption and security groups open to 0.0.0.0/0 — it gets caught in review but only after merge. We use AWS CDK (TypeScript) and GitHub Actions. Can you set up guardrails so these are blocked before they ship?",
+      "expected_output": "Preventive CI/IaC controls (CDK Aspects and/or cfn-guard) that fail the build on unencrypted S3 and open security groups, tied to WA Security best practices, with rollout guidance.",
+      "assertions": [
+        "Generates preventive controls that run in CI/IaC (e.g. CDK Aspect or cfn-guard) rather than only detective AWS Config rules",
+        "Produces a control that fails on S3 buckets without server-side encryption",
+        "Produces a control that fails on security groups open to 0.0.0.0/0 on non-web ports",
+        "Emits CDK-based controls (TypeScript) consistent with the stated CDK stack, not Terraform or a mismatched dialect",
+        "Ties each control to a Well-Architected Security question or best-practice ID (e.g. SEC 5, SEC 8)",
+        "Recommends rolling out in warn/log mode before hard-blocking to avoid breaking existing pipelines",
+        "Provides a way to verify the control works (e.g. attempt a known-bad change and confirm CI fails)"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "I just ran a wa-review. Lowest scores were Reliability (no RDS Multi-AZ, no DynamoDB PITR, no backups on several stores) and Security (IAM roles with Action: '*'). We're on CloudFormation. I want controls so these gaps can't come back. We have AWS Config and AWS Organizations available.",
+      "expected_output": "Guardrails derived from the review findings: Config rules and/or SCPs enforcing Multi-AZ, PITR, backups, and least-privilege, each labeled preventive vs detective and mapped to BP IDs.",
+      "assertions": [
+        "Derives the controls from the review's findings (Reliability and Security gaps) rather than starting from scratch",
+        "Generates controls for RDS Multi-AZ, DynamoDB PITR, and backup enablement",
+        "Generates a control addressing IAM policies with admin/wildcard actions",
+        "Labels each control as preventive or detective and uses the available enforcement points (AWS Config and/or SCPs)",
+        "Maps controls to Reliability and Security best-practice IDs (e.g. REL 9, SEC 3)",
+        "Notes that auto-remediation on Config rules is destructive and only includes it with a safety caveat or on explicit request"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Set up guardrails for our Lambda + DynamoDB + API Gateway app on Terraform. We want required tagging (owner, cost-center, environment) enforced and to catch any resource that isn't Graviton/ARM where it could be. We run Terraform Cloud. We do NOT have AWS Organizations or SCP access.",
+      "expected_output": "Terraform-native policy controls (OPA/Sentinel) for tagging and architecture preferences, correctly avoiding SCP-based controls since the user lacks Organizations access.",
+      "assertions": [
+        "Generates Terraform-native policy controls (OPA/Sentinel for Terraform Cloud) rather than CDK Aspects or CloudFormation tooling",
+        "Produces a control enforcing required tags (owner, cost-center, environment)",
+        "Produces a control flagging non-Graviton/ARM compute where applicable",
+        "Does NOT propose SCPs or Organizations-level controls, since the user stated they lack that access",
+        "Ties the tagging and architecture controls to Well-Architected best practices (e.g. OPS, SUS/PERF, COST)",
+        "Recommends warn mode before hard enforcement for the new policy checks"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "We use Claude Code and Kiro across the team. Beyond CI checks, I want our AI coding agents to follow our Well-Architected standards automatically — things like 'new data stores must have encryption and backups' and our review expectations. Can you capture our guardrails as something the agents always read?",
+      "expected_output": "A governance steering document (CLAUDE.md / .kiro/steering) that captures the standards in agent-readable prose, tied to WA best practices, distinguishing auto-enforced controls from conventions.",
+      "assertions": [
+        "Produces a governance/steering document intended for always-on agent context (e.g. CLAUDE.md or .kiro/steering), not only machine controls",
+        "Includes standing instructions for proposing or reviewing changes (e.g. new data stores require encryption and backups)",
+        "Distinguishes standards that are auto-enforced by controls from conventions that are not machine-enforced",
+        "Ties the standards to Well-Architected Question/best-practice IDs (e.g. SEC 8, REL 9)",
+        "Keeps the document concise enough to live in always-on context rather than an exhaustive dump",
+        "Recommends a machine-enforced control where one exists rather than relying on the prose doc alone"
+      ]
+    }
+  ]
+}

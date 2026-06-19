@@ -46,6 +46,7 @@ skills/                             Step-by-step playbooks (tool-agnostic)
   migration-readiness/                7 Rs assessment with migration plan
   architecture-decision-record/       WA-aligned ADRs with pillar impact
   wa-builder/                         Learn WA + produce visual artifacts (diagrams, trees, roadmaps)
+  wa-guardrails/                      Preventive controls (Config rules, SCPs, CI checks) for ongoing compliance
 
 examples/                           Sample IaC with planted WA issues (for demos and eval fixtures)
   insecure-serverless-app-cdk/        CDK TypeScript — ~20 issues across all 6 pillars
@@ -543,6 +544,7 @@ graph LR
 | `migration-readiness` | All 6 | Assess readiness to migrate a workload to AWS |
 | `architecture-decision-record` | All 6 | Document a design decision with WA pillar impact |
 | `wa-builder` | All 6 | Learn WA for your project + produce visual artifacts (diagrams, decision trees, roadmaps) |
+| `wa-guardrails` | All 6 | Generate preventive controls (Config rules, SCPs, CI checks, alarms) for ongoing compliance |
 
 ---
 
@@ -743,10 +745,11 @@ All skills are evaluated using an automated LLM-as-judge framework with paired c
 | `security-assessment` | 94% | **100%** | +6% |
 | `sustainability-optimization` | 85% | **100%** | +15% |
 | `wa-builder` | 61% | **94%** | +33% |
-| **Average** | **86%** | **99%** | **+14%** |
+| `wa-guardrails` | 76% | **99%** | +23% |
+| **Average** | **85%** | **99%** | **+15%** |
 
-- **9 of 10 skills** score 100% on behavioral assertions; `wa-builder` scores 94%
-- **Average +14% improvement** over the same model without skill guidance
+- **9 of 11 skills** score 100% on behavioral assertions; `wa-builder` scores 94% and `wa-guardrails` 99%
+- **Average +15% improvement** over the same model without skill guidance
 - Skills never produce worse output than baseline — they improve or match
 
 The evaluation framework is included in [`evals/`](./evals) so you can reproduce results on your own models and prompts. Use `--parallel` for ~3x faster runs.

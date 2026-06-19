@@ -58,5 +58,6 @@ When the user asks for a specific assessment, follow the structured approach in 
 - `operational-excellence` — CI/CD, observability, incident management, operational maturity
 - `architecture-decision-record` — ADR with WA pillar impact analysis
 - `wa-builder` — Understand Well-Architected for your workload and generate visual artifacts (annotated diagrams, decision trees, roadmaps)
+- `wa-guardrails` — Generate preventive guardrails (Config rules, SCPs, CI policy checks, alarms) to keep a workload compliant over time
 
 Read the corresponding `skills/{skill-name}/SKILL.md` file and follow its steps.
