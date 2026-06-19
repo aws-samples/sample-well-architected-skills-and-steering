@@ -12,6 +12,35 @@ import json
 import boto3
 
 
+def _grader_converse(config: dict, prompt: str) -> str:
+    """
+    Call the grading model with temperature=0, dropping temperature and retrying
+    once if Bedrock reports the parameter is unsupported (e.g. Claude Opus 4.8).
+
+    This is model-agnostic: it reacts to Bedrock's own ValidationException rather
+    than guessing from the model id, so it works for ARNs and inference-profile
+    ids and does not wrongly strip temperature from models that support it.
+    """
+    client = boto3.client("bedrock-runtime", region_name=config["region"])
+
+    inference_config = {"maxTokens": 2048, "temperature": 0}
+    kwargs = {
+        "modelId": config["grading_model"],
+        "messages": [{"role": "user", "content": [{"text": prompt}]}],
+        "inferenceConfig": inference_config,
+    }
+
+    try:
+        response = client.converse(**kwargs)
+    except client.exceptions.ValidationException as e:
+        if "temperature" in inference_config and "temperature" in str(e).lower():
+            del inference_config["temperature"]
+            response = client.converse(**kwargs)
+        else:
+            raise
+    return response["output"]["message"]["content"][0]["text"]
+
+
 GRADING_PROMPT = """You are an evaluation grader. Your job is to determine whether a given output satisfies specific assertions.
 
 For each assertion, respond with a JSON object containing:
@@ -44,19 +73,7 @@ def grade_response(config: dict, output: str, assertions: list[str]) -> list[dic
         assertions=assertions_text,
     )
 
-    client = boto3.client("bedrock-runtime", region_name=config["region"])
-
-    inference_config = {"maxTokens": 2048}
-    if "opus" not in config["grading_model"]:
-        inference_config["temperature"] = 0
-
-    response = client.converse(
-        modelId=config["grading_model"],
-        messages=[{"role": "user", "content": [{"text": prompt}]}],
-        inferenceConfig=inference_config,
-    )
-
-    raw = response["output"]["message"]["content"][0]["text"]
+    raw = _grader_converse(config, prompt)
 
     try:
         grades = json.loads(raw)
@@ -113,19 +130,7 @@ def grade_process(config: dict, output: str, process_assertions: list[str]) -> l
     for i, assertion in enumerate(process_assertions, 1):
         prompt += f"{i}. {assertion}\n"
 
-    client = boto3.client("bedrock-runtime", region_name=config["region"])
-
-    inference_config = {"maxTokens": 2048}
-    if "opus" not in config["grading_model"]:
-        inference_config["temperature"] = 0
-
-    response = client.converse(
-        modelId=config["grading_model"],
-        messages=[{"role": "user", "content": [{"text": prompt}]}],
-        inferenceConfig=inference_config,
-    )
-
-    raw = response["output"]["message"]["content"][0]["text"]
+    raw = _grader_converse(config, prompt)
 
     try:
         grades = json.loads(raw)
@@ -182,19 +187,7 @@ def grade_knowledge(config: dict, output: str, knowledge_assertions: list[dict])
     for i, ka in enumerate(knowledge_assertions, 1):
         prompt += f'{i}. Claim: {ka["claim"]}\n   Source: {ka["source"]}\n   Rationale: {ka["rationale"]}\n'
 
-    client = boto3.client("bedrock-runtime", region_name=config["region"])
-
-    inference_config = {"maxTokens": 2048}
-    if "opus" not in config["grading_model"]:
-        inference_config["temperature"] = 0
-
-    response = client.converse(
-        modelId=config["grading_model"],
-        messages=[{"role": "user", "content": [{"text": prompt}]}],
-        inferenceConfig=inference_config,
-    )
-
-    raw = response["output"]["message"]["content"][0]["text"]
+    raw = _grader_converse(config, prompt)
 
     try:
         grades = json.loads(raw)

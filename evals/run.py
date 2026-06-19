@@ -81,10 +81,7 @@ def call_bedrock(config: dict, messages: list[dict], system: str | None = None) 
 
     inference_config = {"maxTokens": config["max_tokens"]}
     if config.get("temperature") is not None:
-        model_id = config["generation_model"]
-        # Opus 4.x models do not support temperature
-        if "opus-4" not in model_id:
-            inference_config["temperature"] = config["temperature"]
+        inference_config["temperature"] = config["temperature"]
 
     kwargs = {
         "modelId": config["generation_model"],
