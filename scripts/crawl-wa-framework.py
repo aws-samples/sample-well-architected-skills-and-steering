@@ -376,6 +376,59 @@ def discover_bp_pages(toc_json: dict) -> list[dict]:
     return results
 
 
+def dotted_bp_filename(bp_id: str) -> str:
+    """
+    Convert a dotted BP ID to an ID-derived filename matching the convention
+    used by other BP-style lenses (e.g. "AGENTCOST01.md"): drop the dots and
+    zero-pad the trailing number to two digits.
+
+    "OA.LS.1"  -> "OALS01.md"
+    "QA.ST.4"  -> "QAST04.md"
+    "AG.ACG.4" -> "AGACG04.md"
+    """
+    parts = bp_id.split(".")
+    num = parts[-1].zfill(2)
+    return "".join(parts[:-1]) + num + ".md"
+
+
+def discover_dotted_bp_pages(toc_json: dict) -> list[dict]:
+    """
+    Walk the TOC tree and find Best Practice pages that use the dotted-ID
+    format, e.g. "[OA.LS.1] Appoint a decision-making leader...".
+
+    This is the convention used by AWS DevOps Guidance (and any lens whose
+    capability areas are named "{AREA}.{SUBCATEGORY}.{NUM}"). It is distinct
+    from the pillar "{PREFIX}{NUM}-BP{NUM}" format handled by
+    discover_bp_pages(); without this, such lenses fall through to the
+    topic-page fallback, which only reaches a small fraction of the pages.
+
+    Returns a list of dicts with keys: bp_id (e.g. "OA.LS.1"),
+    group_id (e.g. "OA.LS"), title, href.
+    """
+    results = []
+    # Titles look like "[OA.LS.1] Human-readable title". Some entries contain
+    # non-breaking spaces, so normalize whitespace before matching.
+    pattern = re.compile(r"^\[([A-Z]+\.[A-Z]+\.\d+)\]\s*(.*)", re.DOTALL)
+
+    def walk(contents):
+        for item in contents:
+            title = (item.get("title") or "").replace("\xa0", " ").strip()
+            match = pattern.match(title)
+            if match and "href" in item:
+                bp_id = match.group(1)
+                results.append({
+                    "bp_id": bp_id,
+                    "group_id": ".".join(bp_id.split(".")[:2]),
+                    "title": title,
+                    "href": item["href"],
+                })
+            if "contents" in item:
+                walk(item["contents"])
+
+    walk(toc_json.get("contents", []))
+    return results
+
+
 # ---------------------------------------------------------------------------
 # TOC parsing — Topic-page-style (older lenses)
 # ---------------------------------------------------------------------------
@@ -614,8 +667,62 @@ def crawl_lens(lens_url: str, lens_name: str, output_dir: Path, delay: float, dr
 
     # Auto-detect: try BP-style first (modern lenses)
     bp_pages = discover_bp_pages(toc_data)
+    dotted_pages = discover_dotted_bp_pages(toc_data)
 
-    if bp_pages:
+    if dotted_pages and len(dotted_pages) >= len(bp_pages):
+        # --- Dotted-ID lens (DevOps Guidance: "[OA.LS.1] ..." format) ---
+        # Each best practice is its own page. Write one file per best
+        # practice, named by its ID (OA.LS.1 -> OALS01.md), mirroring the
+        # one-file-per-question convention used by the other BP-style lenses
+        # (e.g. agentic-ai's AGENTCOST01.md) and the pillar question corpus.
+        print(f"  Mode: Dotted-BP-style ({len(dotted_pages)} best practices)")
+        if dry_run:
+            for bp in dotted_pages[:20]:
+                print(f"    {bp['bp_id']} -> {dotted_bp_filename(bp['bp_id'])}")
+            if len(dotted_pages) > 20:
+                print(f"    ... and {len(dotted_pages) - 20} more")
+            return
+
+        output_dir.mkdir(parents=True, exist_ok=True)
+        written = 0
+        for i, bp in enumerate(dotted_pages):
+            time.sleep(delay)
+            url = f"{base_url}/{bp['href']}"
+            print(f"  [{i+1}/{len(dotted_pages)}] {bp['bp_id']}...", end=" ", flush=True)
+
+            html = fetch(url)
+            if not html:
+                print("SKIP")
+                continue
+            content_html = extract_content(html)
+            if not content_html:
+                print("NO_CONTENT")
+                continue
+            md = html_to_markdown(content_html)
+            if len(md) < 50:
+                print("TOO_SHORT")
+                continue
+
+            filename = dotted_bp_filename(bp["bp_id"])
+            lines = [
+                f"# {bp['bp_id']}",
+                "",
+                f"**Capability**: {bp['group_id']}",
+                "",
+                "---",
+                "",
+                md,
+                "",
+                f"*Source: {url}*",
+                "",
+            ]
+            (output_dir / filename).write_text("\n".join(lines), encoding="utf-8")
+            written += 1
+            print("OK")
+
+        print(f"\n  Done: {written} files, {len(dotted_pages)} best practices -> {output_dir}/")
+
+    elif bp_pages:
         # --- BP-style lens (GenAI, Agentic AI, Responsible AI, Hybrid Networking) ---
         print(f"  Mode: BP-style ({len(bp_pages)} best practices)")
         if dry_run:

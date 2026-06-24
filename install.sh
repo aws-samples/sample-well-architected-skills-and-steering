@@ -122,9 +122,13 @@ copy_skill_references() {
   local skill_dir="$1"
   local dest_dir="$2"
   if [[ -d "$skill_dir/references" ]]; then
-    for ref_file in "$skill_dir/references"/*; do
-      [[ -f "$ref_file" ]] && copy_or_link "$ref_file" "$dest_dir/references/$(basename "$ref_file")"
-    done
+    # Recurse through references/ so nested content (questions/, lenses/, etc.)
+    # is installed too, preserving the relative directory structure. A flat
+    # top-level-only copy would silently drop the entire reference corpus.
+    while IFS= read -r -d '' ref_file; do
+      local rel="${ref_file#"$skill_dir"/references/}"
+      copy_or_link "$ref_file" "$dest_dir/references/$rel"
+    done < <(find "$skill_dir/references" -type f -print0)
   fi
 }
 

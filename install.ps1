@@ -253,8 +253,13 @@ function Install-DevOpsAgent {
         Copy-OrLink "$($skill.FullName)\SKILL.md" "$outDir\SKILL.md"
 
         if (Test-Path "$($skill.FullName)\references") {
-            foreach ($ref in Get-ChildItem "$($skill.FullName)\references\*") {
-                Copy-OrLink $ref.FullName "$outDir\references\$($ref.Name)"
+            # Recurse so nested content (questions/, lenses/, etc.) is installed
+            # too, preserving the relative directory structure. A flat
+            # top-level-only copy would silently drop the entire reference corpus.
+            $refRoot = "$($skill.FullName)\references"
+            foreach ($ref in Get-ChildItem $refRoot -Recurse -File) {
+                $rel = $ref.FullName.Substring($refRoot.Length).TrimStart('\')
+                Copy-OrLink $ref.FullName "$outDir\references\$rel"
             }
         }
 

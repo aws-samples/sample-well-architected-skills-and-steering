@@ -175,6 +175,7 @@ Available lenses:
 - `references/lenses/responsible-ai/` — Fairness, explainability, governance, monitoring
 - `references/lenses/hybrid-networking/` — Direct Connect, VPN, Transit Gateway, DNS
 - `references/lenses/migration/` — Assess, Mobilize, Migrate phases per pillar
+- `references/lenses/devops-guidance/` — CI/CD, automated governance, development lifecycle, observability, security testing
 
 ## Step 5: Risk Assessment
 
