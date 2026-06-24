@@ -233,7 +233,7 @@ Then in Kiro: Powers panel → **Add Custom Power** → **Import power from a fo
 
 - Auto-activates when you mention "well-architected", "architecture review", "security review", "reliability", etc.
 - Loads only relevant steering based on your current task
-- Progressive BP-level reference loading (57 question files + 6 lens packs) — managed automatically
+- Progressive BP-level reference loading (57 question files + 7 lens packs) — managed automatically
 
 > [!NOTE]
 > Kiro's "Import from GitHub" expects `POWER.md` at the repository root. Since this repo contains multiple skills and adapters, the Power lives under `powers/wa-review/` and must be imported from a local folder. If you want GitHub-based import, you can fork just the `powers/wa-review/` directory into its own repo.
@@ -550,7 +550,7 @@ graph LR
 
 ## 📊 Reference data and token consumption
 
-The `wa-review` skill includes **307 best practices** across **57 framework questions** plus **6 lens extensions** — sourced directly from the [AWS Well-Architected public documentation](https://docs.aws.amazon.com/wellarchitected/latest/framework/welcome.html). This reference data lives in `skills/wa-review/references/` and is loaded progressively (one question at a time), not all at once.
+The `wa-review` skill includes **307 best practices** across **57 framework questions** plus **7 lens extensions** — sourced directly from the [AWS Well-Architected public documentation](https://docs.aws.amazon.com/wellarchitected/latest/framework/welcome.html). This reference data lives in `skills/wa-review/references/` and is loaded progressively (one question at a time), not all at once.
 
 ### Reference data summary
 
@@ -563,6 +563,7 @@ The `wa-review` skill includes **307 best practices** across **57 framework ques
 | Responsible AI Lens | 28 | 780 KB | AI governance and fairness requirements |
 | Hybrid Networking Lens | 30 | 480 KB | Direct Connect, VPN, Transit Gateway |
 | Migration Lens | 6 | 76 KB | Migration planning |
+| DevOps Guidance Lens | 196 | 820 KB | CI/CD, automated governance, dev lifecycle, observability |
 
 ### Token strategies
 
@@ -621,6 +622,9 @@ uv run scripts/crawl-wa-framework.py --pillar security
 
 # Add or refresh a lens
 uv run scripts/crawl-wa-framework.py --lens https://docs.aws.amazon.com/wellarchitected/latest/serverless-applications-lens/welcome.html
+
+# Lenses that use the dotted best-practice ID format (e.g. DevOps Guidance)
+uv run scripts/crawl-wa-framework.py --lens https://docs.aws.amazon.com/wellarchitected/latest/devops-guidance/devops-guidance.html --lens-name devops-guidance
 ```
 
 ---
@@ -660,7 +664,7 @@ The `evals/` directory contains an automated evaluation runner powered by **Amaz
 
 - Python 3.13+ and [uv](https://docs.astral.sh/uv/)
 - AWS credentials configured with Bedrock access (`aws configure` or SSO)
-- Bedrock model access enabled for Claude Sonnet and Haiku in your region
+- Bedrock model access enabled for the models in `evals/config.yaml` (Claude Opus 4.8 by default) in your region
 
 **Setup:**
 
@@ -713,7 +717,7 @@ max_tokens: 16384
 | Scope | Generation calls | Grading calls | Estimated cost |
 | ----- | ---------------- | ------------- | -------------- |
 | Single skill (3 cases) | 6 (Opus) | 6 (Opus) | ~$1.50 – $2.50 |
-| All 9 skills (27 cases) | 54 (Opus) | 54 (Opus) | ~$12 – $20 |
+| All 11 skills (33 cases) | 66 (Opus) | 66 (Opus) | ~$15 – $25 |
 
 Cost breakdown assumes ~1K input tokens and ~8K output tokens per generation call (16k max), and ~9K input / ~500 output per grading call. Actual cost depends on response length and Bedrock pricing in your region. Use `--parallel` for ~3x faster wall-clock time. You can use cheaper models (Sonnet, Haiku) by updating `config.yaml`.
 
