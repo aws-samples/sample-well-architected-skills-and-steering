@@ -1,4 +1,4 @@
-# O.SI.5
+# [O.SI.5] Set and monitor service level objectives against performance standards
 
 **Capability**: O.SI
 

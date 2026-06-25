@@ -1,4 +1,4 @@
-# AG.SAD.1
+# [AG.SAD.1] Centralize and federate access with temporary credential vending
 
 **Capability**: AG.SAD
 

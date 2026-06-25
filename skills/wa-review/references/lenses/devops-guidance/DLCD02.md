@@ -1,4 +1,4 @@
-# DL.CD.2
+# [DL.CD.2] Deploy exclusively from trusted artifact repositories
 
 **Capability**: DL.CD
 

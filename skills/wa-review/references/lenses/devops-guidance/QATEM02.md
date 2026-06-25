@@ -1,4 +1,4 @@
-# QA.TEM.2
+# [QA.TEM.2] Ensure consistent test case execution using test beds
 
 **Capability**: QA.TEM
 

@@ -1,4 +1,4 @@
-# DL.SCM.7
+# [DL.SCM.7] Standardize vulnerability disclosure processes
 
 **Capability**: DL.SCM
 

@@ -1,4 +1,4 @@
-# O.DIP.1
+# [O.DIP.1] Aggregate logs and events across workloads
 
 **Capability**: O.DIP
 

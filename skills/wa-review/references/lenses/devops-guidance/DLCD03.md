@@ -1,4 +1,4 @@
-# DL.CD.3
+# [DL.CD.3] Integrate quality assurance into deployments
 
 **Capability**: DL.CD
 

@@ -1,4 +1,4 @@
-# O.CM.10
+# [O.CM.10] Proactively detect issues using AI/ML
 
 **Capability**: O.CM
 

@@ -1,4 +1,4 @@
-# DL.CS.2
+# [DL.CS.2] Sign code artifacts after each build
 
 **Capability**: DL.CS
 

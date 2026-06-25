@@ -1,4 +1,4 @@
-# QA.ST.2
+# [QA.ST.2] Normalize security testing findings
 
 **Capability**: QA.ST
 

@@ -1,4 +1,4 @@
-# OA.TI.9
+# [OA.TI.9] Facilitate self-service collaboration through APIs and documentation
 
 **Capability**: OA.TI
 

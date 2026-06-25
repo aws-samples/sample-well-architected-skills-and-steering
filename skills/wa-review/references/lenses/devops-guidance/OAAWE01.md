@@ -1,4 +1,4 @@
-# OA.AWE.1
+# [OA.AWE.1] Equip teams with feature-rich tools for virtual collaboration
 
 **Capability**: OA.AWE
 

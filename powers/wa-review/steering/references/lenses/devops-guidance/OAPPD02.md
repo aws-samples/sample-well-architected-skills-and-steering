@@ -1,4 +1,4 @@
-# OA.PPD.2
+# [OA.PPD.2] Allocate time and budget for targeted training
 
 **Capability**: OA.PPD
 

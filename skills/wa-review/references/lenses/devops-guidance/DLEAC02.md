@@ -1,4 +1,4 @@
-# DL.EAC.2
+# [DL.EAC.2] Modernize networks through infrastructure as code
 
 **Capability**: DL.EAC
 

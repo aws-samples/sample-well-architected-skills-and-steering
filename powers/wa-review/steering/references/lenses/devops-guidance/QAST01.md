@@ -1,4 +1,4 @@
-# QA.ST.1
+# [QA.ST.1] Evolve vulnerability management processes to be conducive of DevOps practices
 
 **Capability**: QA.ST
 

@@ -1,4 +1,4 @@
-# OA.AWE.3
+# [OA.AWE.3] Balance work schedules for diverse global teams
 
 **Capability**: OA.AWE
 

@@ -1,4 +1,4 @@
-# AG.DEP.3
+# [AG.DEP.3] Enable deployment to the landing zone
 
 **Capability**: AG.DEP
 

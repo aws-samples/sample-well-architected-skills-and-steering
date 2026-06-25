@@ -1,4 +1,4 @@
-# O.SI.4
+# [O.SI.4] Build health checks into every service
 
 **Capability**: O.SI
 

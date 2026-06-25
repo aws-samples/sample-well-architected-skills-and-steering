@@ -1,4 +1,4 @@
-# DL.CI.6
+# [DL.CI.6] Refine integration pipelines with build metrics
 
 **Capability**: DL.CI
 

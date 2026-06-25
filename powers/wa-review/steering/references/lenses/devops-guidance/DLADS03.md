@@ -1,4 +1,4 @@
-# DL.ADS.3
+# [DL.ADS.3] Use staggered deployment and release strategies
 
 **Capability**: DL.ADS
 

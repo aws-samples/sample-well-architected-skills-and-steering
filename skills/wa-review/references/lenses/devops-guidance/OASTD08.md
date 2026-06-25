@@ -1,4 +1,4 @@
-# OA.STD.8
+# [OA.STD.8] Promote cognitive diversity within teams
 
 **Capability**: OA.STD
 

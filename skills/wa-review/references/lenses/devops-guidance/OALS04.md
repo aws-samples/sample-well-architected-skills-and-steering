@@ -1,4 +1,4 @@
-# OA.LS.4
+# [OA.LS.4] Open dialogue between leadership and teams
 
 **Capability**: OA.LS
 

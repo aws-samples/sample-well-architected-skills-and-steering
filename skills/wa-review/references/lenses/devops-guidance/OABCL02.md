@@ -1,4 +1,4 @@
-# OA.BCL.2
+# [OA.BCL.2] Automate repetitive tasks to reduce toil
 
 **Capability**: OA.BCL
 

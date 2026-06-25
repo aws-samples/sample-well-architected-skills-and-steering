@@ -1,4 +1,4 @@
-# DL.CI.1
+# [DL.CI.1] Integrate code changes regularly and frequently
 
 **Capability**: DL.CI
 

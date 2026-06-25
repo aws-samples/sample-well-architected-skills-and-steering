@@ -1,4 +1,4 @@
-# AG.ACG.8
+# [AG.ACG.8] Conduct regular scans to identify and remove unused resources
 
 **Capability**: AG.ACG
 

@@ -1,4 +1,4 @@
-# O.CM.5
+# [O.CM.5] Detect performance issues using application performance monitoring
 
 **Capability**: O.CM
 

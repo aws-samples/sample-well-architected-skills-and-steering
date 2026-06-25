@@ -1,4 +1,4 @@
-# DL.EAC.6
+# [DL.EAC.6] Use general-purpose programming languages to generate Infrastructure-as-Code
 
 **Capability**: DL.EAC
 

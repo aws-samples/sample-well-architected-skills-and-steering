@@ -1,4 +1,4 @@
-# AG.SAD.3
+# [AG.SAD.3] Treat pipelines as production resources
 
 **Capability**: AG.SAD
 

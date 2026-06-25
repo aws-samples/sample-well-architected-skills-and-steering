@@ -1,4 +1,4 @@
-# QA.ST.7
+# [QA.ST.7] Conduct proactive exploratory security testing activities
 
 **Capability**: QA.ST
 

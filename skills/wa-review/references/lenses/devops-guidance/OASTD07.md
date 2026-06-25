@@ -1,4 +1,4 @@
-# OA.STD.7
+# [OA.STD.7] Amplify the scale and impact of centralized functions
 
 **Capability**: OA.STD
 

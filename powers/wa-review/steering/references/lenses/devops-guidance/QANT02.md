@@ -1,4 +1,4 @@
-# QA.NT.2
+# [QA.NT.2] Validate system reliability with performance testing
 
 **Capability**: QA.NT
 

@@ -1,4 +1,4 @@
-# O.SI.2
+# [O.SI.2] Centralize tooling for streamlined system instrumentation and telemetry data interpretation
 
 **Capability**: O.SI
 

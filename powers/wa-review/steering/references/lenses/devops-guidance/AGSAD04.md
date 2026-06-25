@@ -1,4 +1,4 @@
-# AG.SAD.4
+# [AG.SAD.4] Limit human access with just-in-time access
 
 **Capability**: AG.SAD
 

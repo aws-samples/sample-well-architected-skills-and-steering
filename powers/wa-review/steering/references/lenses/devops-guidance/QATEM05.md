@@ -1,4 +1,4 @@
-# QA.TEM.5
+# [QA.TEM.5] Run tests in parallel for faster results
 
 **Capability**: QA.TEM
 

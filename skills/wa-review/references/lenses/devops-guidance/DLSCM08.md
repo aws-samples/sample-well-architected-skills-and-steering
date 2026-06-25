@@ -1,4 +1,4 @@
-# DL.SCM.8
+# [DL.SCM.8] Use a versioning specification to manage software components
 
 **Capability**: DL.SCM
 

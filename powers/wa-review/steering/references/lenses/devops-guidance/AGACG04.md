@@ -1,4 +1,4 @@
-# AG.ACG.4
+# [AG.ACG.4] Strengthen security posture with ubiquitous preventative guardrails
 
 **Capability**: AG.ACG
 

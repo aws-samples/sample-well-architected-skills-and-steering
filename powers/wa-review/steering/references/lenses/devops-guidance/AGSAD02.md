@@ -1,4 +1,4 @@
-# AG.SAD.2
+# [AG.SAD.2] Delegate identity and access management responsibilities
 
 **Capability**: AG.SAD
 

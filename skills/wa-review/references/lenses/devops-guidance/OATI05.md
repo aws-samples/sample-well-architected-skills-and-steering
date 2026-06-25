@@ -1,4 +1,4 @@
-# OA.TI.5
+# [OA.TI.5] Design adaptive approval workflows without compromising safety
 
 **Capability**: OA.TI
 

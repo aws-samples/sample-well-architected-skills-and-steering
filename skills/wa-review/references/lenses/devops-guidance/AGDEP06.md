@@ -1,4 +1,4 @@
-# AG.DEP.6
+# [AG.DEP.6] Test landing zone changes in a mirrored non-production landing zone
 
 **Capability**: AG.DEP
 

@@ -1,4 +1,4 @@
-# QA.NT.6
+# [QA.NT.6] Experiment with failure using resilience testing to build recovery preparedness
 
 **Capability**: QA.NT
 

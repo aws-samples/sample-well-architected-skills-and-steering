@@ -1,4 +1,4 @@
-# AG.SAD.7
+# [AG.SAD.7] Implement rotation policies for secrets, keys, and certificates
 
 **Capability**: AG.SAD
 

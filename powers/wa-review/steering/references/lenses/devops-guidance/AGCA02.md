@@ -1,4 +1,4 @@
-# AG.CA.2
+# [AG.CA.2] Optimize configuration item management
 
 **Capability**: AG.CA
 

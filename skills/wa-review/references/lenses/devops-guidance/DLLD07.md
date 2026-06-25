@@ -1,4 +1,4 @@
-# DL.LD.7
+# [DL.LD.7] Establish sandbox environments with spend limits
 
 **Capability**: DL.LD
 

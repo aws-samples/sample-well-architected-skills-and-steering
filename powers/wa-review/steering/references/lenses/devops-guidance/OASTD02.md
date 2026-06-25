@@ -1,4 +1,4 @@
-# OA.STD.2
+# [OA.STD.2] Tailor operating models to business needs and team preferences
 
 **Capability**: OA.STD
 

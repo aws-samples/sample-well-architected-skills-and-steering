@@ -1,4 +1,4 @@
-# OA.PPD.3
+# [OA.PPD.3] Offer diverse and accessible training options
 
 **Capability**: OA.PPD
 

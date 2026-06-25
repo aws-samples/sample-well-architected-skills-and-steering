@@ -1,4 +1,4 @@
-# O.DIP.4
+# [O.DIP.4] Aggregate health and status metrics across workloads
 
 **Capability**: O.DIP
 

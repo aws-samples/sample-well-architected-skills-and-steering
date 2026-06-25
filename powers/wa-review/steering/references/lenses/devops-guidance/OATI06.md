@@ -1,4 +1,4 @@
-# OA.TI.6
+# [OA.TI.6] Prioritize customer needs to deliver optimal business outcomes
 
 **Capability**: OA.TI
 

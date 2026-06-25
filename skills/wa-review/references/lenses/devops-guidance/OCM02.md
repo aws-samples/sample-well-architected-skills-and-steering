@@ -1,4 +1,4 @@
-# O.CM.2
+# [O.CM.2] Plan for large scale events
 
 **Capability**: O.CM
 

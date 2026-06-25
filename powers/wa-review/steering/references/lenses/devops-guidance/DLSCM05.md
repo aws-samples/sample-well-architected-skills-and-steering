@@ -1,4 +1,4 @@
-# DL.SCM.5
+# [DL.SCM.5] Maintain an approved open-source software license list
 
 **Capability**: DL.SCM
 

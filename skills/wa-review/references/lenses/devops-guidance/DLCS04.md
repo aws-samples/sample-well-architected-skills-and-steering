@@ -1,4 +1,4 @@
-# DL.CS.4
+# [DL.CS.4] Enhance traceability using commit signing
 
 **Capability**: DL.CS
 

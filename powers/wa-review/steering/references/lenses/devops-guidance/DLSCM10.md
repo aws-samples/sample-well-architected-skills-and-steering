@@ -1,4 +1,4 @@
-# DL.SCM.10
+# [DL.SCM.10] Generate a comprehensive software inventory for each build
 
 **Capability**: DL.SCM
 

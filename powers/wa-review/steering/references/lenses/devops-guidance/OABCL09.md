@@ -1,4 +1,4 @@
-# OA.BCL.9
+# [OA.BCL.9] Use guiding principles to make consistent team decisions
 
 **Capability**: OA.BCL
 

@@ -1,4 +1,4 @@
-# DL.CR.7
+# [DL.CR.7] Create consistent and descriptive commit messages using a specification
 
 **Capability**: DL.CR
 

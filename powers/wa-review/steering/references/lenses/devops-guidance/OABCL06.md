@@ -1,4 +1,4 @@
-# OA.BCL.6
+# [OA.BCL.6] Provide teams the autonomy to make decision that align with organizational objectives
 
 **Capability**: OA.BCL
 

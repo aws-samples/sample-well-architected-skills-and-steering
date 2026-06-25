@@ -1,4 +1,4 @@
-# DL.SCM.6
+# [DL.SCM.6] Maintain informative repository documentation
 
 **Capability**: DL.SCM
 

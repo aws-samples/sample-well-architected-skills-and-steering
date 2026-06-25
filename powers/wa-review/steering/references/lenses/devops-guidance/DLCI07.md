@@ -1,4 +1,4 @@
-# DL.CI.7
+# [DL.CI.7] Validate the reproducibility of builds
 
 **Capability**: DL.CI
 

@@ -1,4 +1,4 @@
-# OA.STD.3
+# [OA.STD.3] Prioritize shared accountability over individual achievements
 
 **Capability**: OA.STD
 

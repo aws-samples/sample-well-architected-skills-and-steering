@@ -1,4 +1,4 @@
-# OA.LS.2
+# [OA.LS.2] Align DevOps adoption with business objectives
 
 **Capability**: OA.LS
 

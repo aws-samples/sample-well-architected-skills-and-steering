@@ -1,4 +1,4 @@
-# OA.STD.5
+# [OA.STD.5] Establish team norms that enhance work performance
 
 **Capability**: OA.STD
 

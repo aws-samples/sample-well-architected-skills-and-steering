@@ -1,4 +1,4 @@
-# DL.LD.9
+# [DL.LD.9] Share tool configurations
 
 **Capability**: DL.LD
 

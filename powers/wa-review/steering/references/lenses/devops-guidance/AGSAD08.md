@@ -1,4 +1,4 @@
-# AG.SAD.8
+# [AG.SAD.8] Adopt a zero trust security model, shifting towards an identity-centric security perimeter
 
 **Capability**: AG.SAD
 

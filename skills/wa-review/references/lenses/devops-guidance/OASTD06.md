@@ -1,4 +1,4 @@
-# OA.STD.6
+# [OA.STD.6] Provide teams ownership of the entire value stream for their product
 
 **Capability**: OA.STD
 

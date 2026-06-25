@@ -1,4 +1,4 @@
-# OA.TI.1
+# [OA.TI.1] Communicate work flow and goals between teams and stakeholders
 
 **Capability**: OA.TI
 

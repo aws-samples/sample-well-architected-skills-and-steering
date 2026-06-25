@@ -1,4 +1,4 @@
-# DL.CR.2
+# [DL.CR.2] Perform peer review for code changes
 
 **Capability**: DL.CR
 

@@ -1,4 +1,4 @@
-# OA.STD.1
+# [OA.STD.1] Organize teams into distinct topology types to optimize the value stream
 
 **Capability**: OA.STD
 

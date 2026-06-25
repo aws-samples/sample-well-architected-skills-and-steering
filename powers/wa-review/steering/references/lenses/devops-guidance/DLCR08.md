@@ -1,4 +1,4 @@
-# DL.CR.8
+# [DL.CR.8] Designate code owners for expert review
 
 **Capability**: DL.CR
 

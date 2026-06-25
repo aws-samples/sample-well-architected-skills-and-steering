@@ -1,4 +1,4 @@
-# OA.BCL.10
+# [OA.BCL.10] Make informed decisions using data
 
 **Capability**: OA.BCL
 

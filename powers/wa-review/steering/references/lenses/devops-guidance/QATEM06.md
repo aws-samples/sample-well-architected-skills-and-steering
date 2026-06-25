@@ -1,4 +1,4 @@
-# QA.TEM.6
+# [QA.TEM.6] Enhance developer experience through scalable quality assurance platforms
 
 **Capability**: QA.TEM
 

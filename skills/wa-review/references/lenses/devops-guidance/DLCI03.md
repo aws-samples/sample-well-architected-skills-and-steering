@@ -1,4 +1,4 @@
-# DL.CI.3
+# [DL.CI.3] Ensure automated quality assurance for every build
 
 **Capability**: DL.CI
 

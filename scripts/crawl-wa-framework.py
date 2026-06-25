@@ -705,7 +705,7 @@ def crawl_lens(lens_url: str, lens_name: str, output_dir: Path, delay: float, dr
 
             filename = dotted_bp_filename(bp["bp_id"])
             lines = [
-                f"# {bp['bp_id']}",
+                f"# {bp['title']}",
                 "",
                 f"**Capability**: {bp['group_id']}",
                 "",

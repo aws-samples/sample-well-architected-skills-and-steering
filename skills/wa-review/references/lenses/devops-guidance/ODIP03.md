@@ -1,4 +1,4 @@
-# O.DIP.3
+# [O.DIP.3] Implement distributed tracing for system-wide request tracking
 
 **Capability**: O.DIP
 

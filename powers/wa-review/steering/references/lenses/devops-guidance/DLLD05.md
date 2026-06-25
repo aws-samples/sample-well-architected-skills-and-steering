@@ -1,4 +1,4 @@
-# DL.LD.5
+# [DL.LD.5] Enforce coding standards before commit
 
 **Capability**: DL.LD
 

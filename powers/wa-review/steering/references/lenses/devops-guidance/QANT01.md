@@ -1,4 +1,4 @@
-# QA.NT.1
+# [QA.NT.1] Evaluate code quality through static testing
 
 **Capability**: QA.NT
 

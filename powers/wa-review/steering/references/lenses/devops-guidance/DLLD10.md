@@ -1,4 +1,4 @@
-# DL.LD.10
+# [DL.LD.10] Manage unused development environments
 
 **Capability**: DL.LD
 

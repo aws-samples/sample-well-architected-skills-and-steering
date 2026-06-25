@@ -1,4 +1,4 @@
-# DL.ADS.6
+# [DL.ADS.6] Use cell-based architectures for granular deployment and release
 
 **Capability**: DL.ADS
 

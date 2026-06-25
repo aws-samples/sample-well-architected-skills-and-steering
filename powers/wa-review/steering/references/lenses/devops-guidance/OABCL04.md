@@ -1,4 +1,4 @@
-# OA.BCL.4
+# [OA.BCL.4] Boost team efficiency by limiting work in progress
 
 **Capability**: OA.BCL
 

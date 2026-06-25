@@ -1,4 +1,4 @@
-# AG.ACG.11
+# [AG.ACG.11] Digital attestation verification for zero trust deployments
 
 **Capability**: AG.ACG
 

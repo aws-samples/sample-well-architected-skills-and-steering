@@ -1,4 +1,4 @@
-# QA.FT.4
+# [QA.FT.4] Balance developer feedback and test coverage using advanced test selection
 
 **Capability**: QA.FT
 

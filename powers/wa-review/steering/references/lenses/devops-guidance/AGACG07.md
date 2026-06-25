@@ -1,4 +1,4 @@
-# AG.ACG.7
+# [AG.ACG.7] Use automated tools for scalable cost management
 
 **Capability**: AG.ACG
 

@@ -1,4 +1,4 @@
-# AG.DEP.5
+# [AG.DEP.5] Standardize and manage shared resources across environments
 
 **Capability**: AG.DEP
 

@@ -1,4 +1,4 @@
-# DL.EAC.3
+# [DL.EAC.3] Codify data operations
 
 **Capability**: DL.EAC
 

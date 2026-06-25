@@ -1,4 +1,4 @@
-# DL.LD.1
+# [DL.LD.1] Establish development environments for local development
 
 **Capability**: DL.LD
 

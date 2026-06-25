@@ -1,4 +1,4 @@
-# OA.PPD.5
+# [OA.PPD.5] Recognize and reward continuous learning
 
 **Capability**: OA.PPD
 

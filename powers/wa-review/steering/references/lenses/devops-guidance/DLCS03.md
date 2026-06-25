@@ -1,4 +1,4 @@
-# DL.CS.3
+# [DL.CS.3] Enforce verification before using signed artifacts
 
 **Capability**: DL.CS
 

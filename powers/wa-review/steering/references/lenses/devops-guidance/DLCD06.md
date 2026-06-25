@@ -1,4 +1,4 @@
-# DL.CD.6
+# [DL.CD.6] Refine delivery pipelines using metrics for continuous improvement
 
 **Capability**: DL.CD
 

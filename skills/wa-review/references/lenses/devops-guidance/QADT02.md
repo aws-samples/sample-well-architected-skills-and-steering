@@ -1,4 +1,4 @@
-# QA.DT.2
+# [QA.DT.2] Enhance understanding of data through data profiling
 
 **Capability**: QA.DT
 

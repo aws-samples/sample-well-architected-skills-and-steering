@@ -1,4 +1,4 @@
-# DL.SCM.1
+# [DL.SCM.1] Use a version control system with appropriate access management
 
 **Capability**: DL.SCM
 

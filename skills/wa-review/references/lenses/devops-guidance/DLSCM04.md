@@ -1,4 +1,4 @@
-# DL.SCM.4
+# [DL.SCM.4] Grant access only to trusted repositories
 
 **Capability**: DL.SCM
 

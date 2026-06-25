@@ -1,4 +1,4 @@
-# OA.TI.4
+# [OA.TI.4] Refine error tracking and resolution
 
 **Capability**: OA.TI
 

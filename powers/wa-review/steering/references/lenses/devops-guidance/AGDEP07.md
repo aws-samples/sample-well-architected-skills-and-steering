@@ -1,4 +1,4 @@
-# AG.DEP.7
+# [AG.DEP.7] Utilize metadata for scalable environment management
 
 **Capability**: AG.DEP
 

@@ -1,4 +1,4 @@
-# QA.FT.2
+# [QA.FT.2] Validate system interactions and data flows with integration tests
 
 **Capability**: QA.FT
 

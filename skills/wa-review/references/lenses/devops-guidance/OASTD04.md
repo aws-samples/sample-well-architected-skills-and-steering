@@ -1,4 +1,4 @@
-# OA.STD.4
+# [OA.STD.4] Structure teams around desired business outcomes
 
 **Capability**: OA.STD
 

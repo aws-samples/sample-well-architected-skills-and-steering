@@ -1,4 +1,4 @@
-# O.CM.6
+# [O.CM.6] Gather user experience insights using digital experience monitoring
 
 **Capability**: O.CM
 

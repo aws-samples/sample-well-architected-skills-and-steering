@@ -1,4 +1,4 @@
-# OA.TI.11
+# [OA.TI.11] Offer optional opportunities for cross-team collaboration
 
 **Capability**: OA.TI
 

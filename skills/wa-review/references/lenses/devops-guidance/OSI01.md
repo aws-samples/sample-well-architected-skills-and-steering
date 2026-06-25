@@ -1,4 +1,4 @@
-# O.SI.1
+# [O.SI.1] Center observability strategies around business and technical outcomes
 
 **Capability**: O.SI
 

@@ -1,4 +1,4 @@
-# DL.CI.5
+# [DL.CI.5] Sequence build actions strategically for prompt feedback
 
 **Capability**: DL.CI
 

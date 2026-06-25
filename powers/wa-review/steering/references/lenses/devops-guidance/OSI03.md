@@ -1,4 +1,4 @@
-# O.SI.3
+# [O.SI.3] Instrument all systems for comprehensive telemetry data collection
 
 **Capability**: O.SI
 

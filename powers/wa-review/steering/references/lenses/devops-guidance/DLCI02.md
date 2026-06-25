@@ -1,4 +1,4 @@
-# DL.CI.2
+# [DL.CI.2] Trigger builds automatically upon source code modifications
 
 **Capability**: DL.CI
 

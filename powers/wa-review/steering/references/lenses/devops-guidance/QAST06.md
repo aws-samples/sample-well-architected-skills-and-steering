@@ -1,4 +1,4 @@
-# QA.ST.6
+# [QA.ST.6] Validate third-party components using software composition analysis
 
 **Capability**: QA.ST
 

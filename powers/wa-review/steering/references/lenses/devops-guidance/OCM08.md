@@ -1,4 +1,4 @@
-# O.CM.8
+# [O.CM.8] Hold operational review meetings for data transparency
 
 **Capability**: O.CM
 

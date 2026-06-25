@@ -1,4 +1,4 @@
-# OA.LS.5
+# [OA.LS.5] Assemble a cross-functional enabling team that focuses on organizational transformation
 
 **Capability**: OA.LS
 

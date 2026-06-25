@@ -1,4 +1,4 @@
-# QA.ST.3
+# [QA.ST.3] Use application risk assessments for secure software design
 
 **Capability**: QA.ST
 

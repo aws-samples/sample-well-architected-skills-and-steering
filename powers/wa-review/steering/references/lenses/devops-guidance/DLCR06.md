@@ -1,4 +1,4 @@
-# DL.CR.6
+# [DL.CR.6] Initiate code reviews using pull requests
 
 **Capability**: DL.CR
 

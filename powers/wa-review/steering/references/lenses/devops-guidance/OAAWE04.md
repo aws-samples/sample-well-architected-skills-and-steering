@@ -1,4 +1,4 @@
-# OA.AWE.4
+# [OA.AWE.4] Provide adaptable workspaces for effective on-site collaboration
 
 **Capability**: OA.AWE
 

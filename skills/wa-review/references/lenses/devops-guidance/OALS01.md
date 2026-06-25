@@ -1,4 +1,4 @@
-# OA.LS.1
+# [OA.LS.1] Appoint a decision-making leader to own DevOps adoption
 
 **Capability**: OA.LS
 

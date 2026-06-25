@@ -1,4 +1,4 @@
-# AG.DEP.2
+# [AG.DEP.2] Continuously baseline environments to manage drift
 
 **Capability**: AG.DEP
 

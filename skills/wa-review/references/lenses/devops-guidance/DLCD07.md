@@ -1,4 +1,4 @@
-# DL.CD.7
+# [DL.CD.7] Remove manual approvals to practice continuous deployment
 
 **Capability**: DL.CD
 

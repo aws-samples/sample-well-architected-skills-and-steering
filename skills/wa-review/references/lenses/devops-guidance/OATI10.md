@@ -1,4 +1,4 @@
-# OA.TI.10
+# [OA.TI.10] Choose interaction modes for improved efficiency and cost savings
 
 **Capability**: OA.TI
 

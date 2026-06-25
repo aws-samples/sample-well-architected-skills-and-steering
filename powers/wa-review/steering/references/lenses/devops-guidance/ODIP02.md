@@ -1,4 +1,4 @@
-# O.DIP.2
+# [O.DIP.2] Centralize logs for enhanced security investigations
 
 **Capability**: O.DIP
 

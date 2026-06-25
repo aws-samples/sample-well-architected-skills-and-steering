@@ -1,4 +1,4 @@
-# DL.EAC.1
+# [DL.EAC.1] Organize infrastructure as code for scale
 
 **Capability**: DL.EAC
 

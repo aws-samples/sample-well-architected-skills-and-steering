@@ -1,4 +1,4 @@
-# O.CM.7
+# [O.CM.7] Visualize telemetry data in real-time
 
 **Capability**: O.CM
 

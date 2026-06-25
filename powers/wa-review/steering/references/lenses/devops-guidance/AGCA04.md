@@ -1,4 +1,4 @@
-# AG.CA.4
+# [AG.CA.4] Enable iterative internal auditing practices
 
 **Capability**: AG.CA
 

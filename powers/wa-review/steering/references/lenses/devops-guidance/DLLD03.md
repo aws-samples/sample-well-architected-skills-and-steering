@@ -1,4 +1,4 @@
-# DL.LD.3
+# [DL.LD.3] Commit local changes early and often
 
 **Capability**: DL.LD
 

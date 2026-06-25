@@ -1,4 +1,4 @@
-# OA.BCL.5
+# [OA.BCL.5] Establish clear escalation paths and encourage constructive disagreement
 
 **Capability**: OA.BCL
 

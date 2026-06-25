@@ -1,4 +1,4 @@
-# DL.SCM.2
+# [DL.SCM.2] Keep feature branches short-lived
 
 **Capability**: DL.SCM
 

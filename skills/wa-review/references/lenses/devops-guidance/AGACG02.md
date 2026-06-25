@@ -1,4 +1,4 @@
-# AG.ACG.2
+# [AG.ACG.2] Implement controlled procedures for introducing new services and features
 
 **Capability**: AG.ACG
 

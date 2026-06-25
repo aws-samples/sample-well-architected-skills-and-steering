@@ -1,4 +1,4 @@
-# O.DIP.6
+# [O.DIP.6] Standardize telemetry data with common formats
 
 **Capability**: O.DIP
 

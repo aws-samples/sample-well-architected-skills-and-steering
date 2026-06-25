@@ -1,4 +1,4 @@
-# QA.NT.5
+# [QA.NT.5] Automate adherence to compliance standards through conformance testing
 
 **Capability**: QA.NT
 

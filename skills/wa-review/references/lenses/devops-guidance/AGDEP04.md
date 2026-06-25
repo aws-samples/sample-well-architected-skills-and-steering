@@ -1,4 +1,4 @@
-# AG.DEP.4
+# [AG.DEP.4] Codify environment vending
 
 **Capability**: AG.DEP
 

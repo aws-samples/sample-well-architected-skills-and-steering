@@ -1,4 +1,4 @@
-# OA.PPD.6
+# [OA.PPD.6] Promote knowledge sharing through inter-team interest groups
 
 **Capability**: OA.PPD
 

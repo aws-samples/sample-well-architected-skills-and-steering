@@ -1,4 +1,4 @@
-# DL.CD.4
+# [DL.CD.4] Automate the entire deployment process
 
 **Capability**: DL.CD
 

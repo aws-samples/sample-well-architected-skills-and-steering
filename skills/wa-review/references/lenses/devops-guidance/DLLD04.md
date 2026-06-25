@@ -1,4 +1,4 @@
-# DL.LD.4
+# [DL.LD.4] Enforce security checks before commit
 
 **Capability**: DL.LD
 

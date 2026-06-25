@@ -1,4 +1,4 @@
-# AG.ACG.1
+# [AG.ACG.1] Adopt a risk-based compliance framework
 
 **Capability**: AG.ACG
 

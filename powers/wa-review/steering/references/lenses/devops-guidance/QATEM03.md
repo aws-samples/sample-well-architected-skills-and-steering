@@ -1,4 +1,4 @@
-# QA.TEM.3
+# [QA.TEM.3] Store and manage test results
 
 **Capability**: QA.TEM
 

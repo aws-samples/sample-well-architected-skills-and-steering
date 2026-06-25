@@ -1,4 +1,4 @@
-# QA.NT.3
+# [QA.NT.3] Prioritize user experience with UX testing
 
 **Capability**: QA.NT
 

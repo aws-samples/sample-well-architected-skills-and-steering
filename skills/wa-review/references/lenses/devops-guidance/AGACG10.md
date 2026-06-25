@@ -1,4 +1,4 @@
-# AG.ACG.10
+# [AG.ACG.10] Automate resolution of findings in tracking systems
 
 **Capability**: AG.ACG
 

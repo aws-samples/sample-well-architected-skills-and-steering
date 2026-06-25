@@ -1,4 +1,4 @@
-# DL.LD.6
+# [DL.LD.6] Leverage extensible development tools
 
 **Capability**: DL.LD
 

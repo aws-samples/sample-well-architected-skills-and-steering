@@ -1,4 +1,4 @@
-# QA.FT.1
+# [QA.FT.1] Ensure individual component functionality with unit tests
 
 **Capability**: QA.FT
 

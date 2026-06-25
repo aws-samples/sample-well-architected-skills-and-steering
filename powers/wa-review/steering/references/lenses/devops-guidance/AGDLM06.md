@@ -1,4 +1,4 @@
-# AG.DLM.6
+# [AG.DLM.6] Centralize shared data to enhance governance
 
 **Capability**: AG.DLM
 

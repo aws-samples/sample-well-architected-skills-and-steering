@@ -1,4 +1,4 @@
-# DL.SCM.3
+# [DL.SCM.3] Use artifact repositories with enforced authentication and authorization
 
 **Capability**: DL.SCM
 

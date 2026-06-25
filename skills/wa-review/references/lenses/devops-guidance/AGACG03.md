@@ -1,4 +1,4 @@
-# AG.ACG.3
+# [AG.ACG.3] Automate deployment of detective controls
 
 **Capability**: AG.ACG
 

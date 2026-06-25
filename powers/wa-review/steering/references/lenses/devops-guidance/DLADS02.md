@@ -1,4 +1,4 @@
-# DL.ADS.2
+# [DL.ADS.2] Implement automatic rollbacks for failed deployments
 
 **Capability**: DL.ADS
 

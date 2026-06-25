@@ -1,4 +1,4 @@
-# OA.BCL.8
+# [OA.BCL.8] Determine team sizes based on cognitive capacity
 
 **Capability**: OA.BCL
 

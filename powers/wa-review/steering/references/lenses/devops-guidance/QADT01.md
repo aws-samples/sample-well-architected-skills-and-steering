@@ -1,4 +1,4 @@
-# QA.DT.1
+# [QA.DT.1] Ensure data integrity and accuracy with data quality tests
 
 **Capability**: QA.DT
 

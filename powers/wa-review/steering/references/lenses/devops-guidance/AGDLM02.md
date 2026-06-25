@@ -1,4 +1,4 @@
-# AG.DLM.2
+# [AG.DLM.2] Strengthen security with systematic encryption enforcement
 
 **Capability**: AG.DLM
 

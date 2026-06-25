@@ -1,4 +1,4 @@
-# AG.SAD.6
+# [AG.SAD.6] Conduct periodic identity and access management reviews
 
 **Capability**: AG.SAD
 

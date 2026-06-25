@@ -1,4 +1,4 @@
-# OA.BCL.1
+# [OA.BCL.1] Clarify purpose and direction to improve cognitive well-being
 
 **Capability**: OA.BCL
 

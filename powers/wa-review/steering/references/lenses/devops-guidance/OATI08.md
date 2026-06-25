@@ -1,4 +1,4 @@
-# OA.TI.8
+# [OA.TI.8] Simplify access to organizational information
 
 **Capability**: OA.TI
 

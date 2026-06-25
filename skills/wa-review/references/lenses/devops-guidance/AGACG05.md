@@ -1,4 +1,4 @@
-# AG.ACG.5
+# [AG.ACG.5] Automate compliance for data regulations and policies
 
 **Capability**: AG.ACG
 

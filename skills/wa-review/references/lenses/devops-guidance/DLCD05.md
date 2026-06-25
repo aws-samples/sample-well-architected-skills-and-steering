@@ -1,4 +1,4 @@
-# DL.CD.5
+# [DL.CD.5] Ensure on-demand deployment capabilities
 
 **Capability**: DL.CD
 

@@ -1,4 +1,4 @@
-# QA.ST.5
+# [QA.ST.5] Evaluate runtime security with dynamic application security testing
 
 **Capability**: QA.ST
 

@@ -1,4 +1,4 @@
-# DL.EAC.4
+# [DL.EAC.4] Implement continuous configuration for enhanced application management
 
 **Capability**: DL.EAC
 

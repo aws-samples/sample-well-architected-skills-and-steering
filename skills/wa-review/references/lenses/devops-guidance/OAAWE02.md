@@ -1,4 +1,4 @@
-# OA.AWE.2
+# [OA.AWE.2] Offer inclusive options for both virtual and on-site collaboration
 
 **Capability**: OA.AWE
 

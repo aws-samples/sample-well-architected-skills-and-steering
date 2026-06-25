@@ -1,4 +1,4 @@
-# QA.NT.7
+# [QA.NT.7] Verify service integrations through contract testing
 
 **Capability**: QA.NT
 

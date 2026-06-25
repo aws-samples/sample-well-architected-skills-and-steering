@@ -1,4 +1,4 @@
-# DL.EAC.5
+# [DL.EAC.5] Integrate technical and operational documentation into the development lifecycle
 
 **Capability**: DL.EAC
 

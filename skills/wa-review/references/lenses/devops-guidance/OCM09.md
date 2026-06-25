@@ -1,4 +1,4 @@
-# O.CM.9
+# [O.CM.9] Optimize alerts to prevent fatigue and minimize monitoring costs
 
 **Capability**: O.CM
 
