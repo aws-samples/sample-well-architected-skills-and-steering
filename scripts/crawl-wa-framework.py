@@ -482,8 +482,13 @@ def discover_leaf_pages(toc_json: dict, pillar_sections: list[str] | None = None
             if "contents" in item:
                 # Branch node — recurse deeper, passing along the current section context
                 walk(item["contents"], current_section, depth + 1)
-            elif current_section and href and depth >= 2:
-                # Leaf page under a pillar section — this is content we want
+            elif current_section and href and (depth >= 2 or matched):
+                # Capture this leaf when either:
+                #  - it sits under a pillar section (depth >= 2), the common case; or
+                #  - the leaf IS the pillar (matched): some lenses express a whole
+                #    pillar as a single content page with no child best practices
+                #    (e.g. the serverless lens's "Sustainability" at depth 1).
+                #    Without this, that pillar's content is silently dropped.
                 results.append({
                     "section": current_section,
                     "title": title,
