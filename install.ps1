@@ -85,6 +85,23 @@ function Get-Skills {
     Get-ChildItem -Path "$ScriptDir\skills" -Directory | Where-Object { $_.Name -ne "_shared" }
 }
 
+function Copy-SkillReferences {
+    param(
+        [string]$SkillDir,
+        [string]$DestDir
+    )
+    # Recurse through references/ so nested content (questions/, lenses/, etc.)
+    # is installed too, preserving the relative directory structure. A flat
+    # top-level-only copy would silently drop the entire reference corpus.
+    $refRoot = "$SkillDir\references"
+    if (Test-Path $refRoot) {
+        foreach ($ref in Get-ChildItem $refRoot -Recurse -File) {
+            $rel = $ref.FullName.Substring($refRoot.Length).TrimStart('\')
+            Copy-OrLink $ref.FullName "$DestDir\references\$rel"
+        }
+    }
+}
+
 function Install-Kiro {
     $base = if ($Global) { $env:USERPROFILE } else { $TargetDir }
 
@@ -93,6 +110,7 @@ function Install-Kiro {
 
     foreach ($skill in Get-Skills) {
         Copy-OrLink "$($skill.FullName)\SKILL.md" "$base\.kiro\skills\$($skill.Name)\SKILL.md"
+        Copy-SkillReferences $skill.FullName "$base\.kiro\skills\$($skill.Name)"
     }
     Write-Host "  Done. Kiro will load steering automatically and skills on demand.`n"
 }
@@ -106,7 +124,12 @@ function Install-ClaudeCode {
     foreach ($cmd in Get-ChildItem "$ScriptDir\adapters\claude-code\commands\*.md") {
         Copy-OrLink $cmd.FullName "$base\.claude\commands\$($cmd.Name)"
     }
-    Write-Host "  Done. Use /wa-review, /security-assessment, etc. as slash commands.`n"
+
+    foreach ($skill in Get-Skills) {
+        Copy-OrLink "$($skill.FullName)\SKILL.md" "$base\.claude\skills\$($skill.Name)\SKILL.md"
+        Copy-SkillReferences $skill.FullName "$base\.claude\skills\$($skill.Name)"
+    }
+    Write-Host "  Done. Skills installed to .claude/skills/; slash commands also available.`n"
 }
 
 function Install-Cursor {
@@ -119,6 +142,7 @@ function Install-Cursor {
 
     foreach ($skill in Get-Skills) {
         Copy-OrLink "$($skill.FullName)\SKILL.md" "$base\.cursor\skills\$($skill.Name)\SKILL.md"
+        Copy-SkillReferences $skill.FullName "$base\.cursor\skills\$($skill.Name)"
     }
     Write-Host "  Done. The well-architected rule is always-on; wa-review activates on demand.`n"
 }
@@ -131,6 +155,7 @@ function Install-Codex {
 
     foreach ($skill in Get-Skills) {
         Copy-OrLink "$($skill.FullName)\SKILL.md" "$base\skills\$($skill.Name)\SKILL.md"
+        Copy-SkillReferences $skill.FullName "$base\skills\$($skill.Name)"
     }
     Write-Host "  Done. Codex will read AGENTS.md and reference skills/ on demand.`n"
 }
@@ -143,6 +168,7 @@ function Install-Windsurf {
 
     foreach ($skill in Get-Skills) {
         Copy-OrLink "$($skill.FullName)\SKILL.md" "$base\skills\$($skill.Name)\SKILL.md"
+        Copy-SkillReferences $skill.FullName "$base\skills\$($skill.Name)"
     }
     Write-Host "  Done. Windsurf will load .windsurfrules automatically.`n"
 }
@@ -163,6 +189,7 @@ function Install-Cline {
 
     foreach ($skill in Get-Skills) {
         Copy-OrLink "$($skill.FullName)\SKILL.md" "$base\skills\$($skill.Name)\SKILL.md"
+        Copy-SkillReferences $skill.FullName "$base\skills\$($skill.Name)"
     }
     Write-Host "  Done. Cline will load .clinerules automatically.`n"
 }
@@ -175,6 +202,7 @@ function Install-GeminiCli {
 
     foreach ($skill in Get-Skills) {
         Copy-OrLink "$($skill.FullName)\SKILL.md" "$base\skills\$($skill.Name)\SKILL.md"
+        Copy-SkillReferences $skill.FullName "$base\skills\$($skill.Name)"
     }
     Write-Host "  Done. Gemini CLI will load GEMINI.md automatically.`n"
 }
@@ -187,6 +215,7 @@ function Install-Antigravity {
         Copy-OrLink "$ScriptDir\adapters\gemini-cli\GEMINI.md" "$base\GEMINI.md"
         foreach ($skill in Get-Skills) {
             Copy-OrLink "$($skill.FullName)\SKILL.md" "$base\skills\$($skill.Name)\SKILL.md"
+            Copy-SkillReferences $skill.FullName "$base\skills\$($skill.Name)"
         }
         Write-Host "  Done. Global rules installed.`n"
     }
@@ -197,6 +226,7 @@ function Install-Antigravity {
         }
         foreach ($skill in Get-Skills) {
             Copy-OrLink "$($skill.FullName)\SKILL.md" "$base\.agents\skills\$($skill.Name)\SKILL.md"
+            Copy-SkillReferences $skill.FullName "$base\.agents\skills\$($skill.Name)"
         }
         Write-Host "  Done. Workspace rules in .agents/rules/ and skills in .agents/skills/.`n"
     }
@@ -210,6 +240,7 @@ function Install-Junie {
 
     foreach ($skill in Get-Skills) {
         Copy-OrLink "$($skill.FullName)\SKILL.md" "$base\.junie\skills\$($skill.Name)\SKILL.md"
+        Copy-SkillReferences $skill.FullName "$base\.junie\skills\$($skill.Name)"
     }
     Write-Host "  Done. Guidelines are always-on; skills activate on demand.`n"
 }
@@ -223,6 +254,7 @@ function Install-Amp {
     $skillsDir = if ($Global) { "$base\skills" } else { "$base\.agents\skills" }
     foreach ($skill in Get-Skills) {
         Copy-OrLink "$($skill.FullName)\SKILL.md" "$skillsDir\$($skill.Name)\SKILL.md"
+        Copy-SkillReferences $skill.FullName "$skillsDir\$($skill.Name)"
     }
     Write-Host "  Done. Amp will discover skills from .agents/skills/ automatically.`n"
 }
@@ -236,6 +268,7 @@ function Install-OpenClaw {
     $skillsDir = if ($Global) { "$base\skills" } else { "$base\.agents\skills" }
     foreach ($skill in Get-Skills) {
         Copy-OrLink "$($skill.FullName)\SKILL.md" "$skillsDir\$($skill.Name)\SKILL.md"
+        Copy-SkillReferences $skill.FullName "$skillsDir\$($skill.Name)"
     }
     Write-Host "  Done. OpenClaw will discover skills from .agents/skills/ automatically.`n"
 }
@@ -251,17 +284,7 @@ function Install-DevOpsAgent {
         New-Item -ItemType Directory -Path "$outDir\assets" -Force | Out-Null
 
         Copy-OrLink "$($skill.FullName)\SKILL.md" "$outDir\SKILL.md"
-
-        if (Test-Path "$($skill.FullName)\references") {
-            # Recurse so nested content (questions/, lenses/, etc.) is installed
-            # too, preserving the relative directory structure. A flat
-            # top-level-only copy would silently drop the entire reference corpus.
-            $refRoot = "$($skill.FullName)\references"
-            foreach ($ref in Get-ChildItem $refRoot -Recurse -File) {
-                $rel = $ref.FullName.Substring($refRoot.Length).TrimStart('\')
-                Copy-OrLink $ref.FullName "$outDir\references\$rel"
-            }
-        }
+        Copy-SkillReferences $skill.FullName $outDir
 
         if (Test-Path "$ScriptDir\assets") {
             Copy-Item -Path "$ScriptDir\assets\*" -Destination "$outDir\assets\" -Recurse -Force
@@ -274,6 +297,29 @@ function Install-DevOpsAgent {
         }
     }
     Write-Host "  Done. Upload .zip files to your DevOps Agent Space via the Operator Web App.`n"
+}
+
+function Get-DetectedTools {
+    param([string]$Dir)
+    $detected = @()
+    if (Test-Path "$Dir\.kiro") { $detected += "kiro" }
+    if ((Test-Path "$Dir\CLAUDE.md") -or (Test-Path "$Dir\.claude")) { $detected += "claude-code" }
+    if (Test-Path "$Dir\.cursor") { $detected += "cursor" }
+    if (Test-Path "$Dir\AGENTS.md") { $detected += "codex" }
+    if (Test-Path "$Dir\.windsurfrules") { $detected += "windsurf" }
+    if (Test-Path "$Dir\.github") { $detected += "github-copilot" }
+    if (Test-Path "$Dir\.clinerules") { $detected += "cline" }
+    if ((Test-Path "$Dir\GEMINI.md") -or (Test-Path "$Dir\.gemini")) { $detected += "gemini-cli" }
+    if (Test-Path "$Dir\.agents") { $detected += "antigravity" }
+    if ((Test-Path "$Dir\.openclaw") -or (Test-Path "$Dir\.openclaw.json")) { $detected += "openclaw" }
+    if (Test-Path "$Dir\.junie") { $detected += "junie" }
+
+    if ($detected.Count -eq 0) {
+        Write-Host "  No AI tools detected in $Dir. Installing for all tools."
+        return @("all")
+    }
+    Write-Host "  Detected: $($detected -join ', ')"
+    return $detected
 }
 
 # Main
@@ -291,11 +337,17 @@ Write-Host ""
 $resolved = Resolve-Path $TargetDir -ErrorAction SilentlyContinue
 if ($resolved) { $TargetDir = $resolved.Path }
 
-$validTools = @("kiro", "claude-code", "cursor", "codex", "windsurf", "github-copilot", "cline", "gemini-cli", "antigravity", "junie", "amp", "openclaw", "devops-agent", "all")
+$validTools = @("kiro", "kiro-cli", "claude-code", "cursor", "codex", "windsurf", "github-copilot", "cline", "gemini-cli", "antigravity", "junie", "amp", "openclaw", "devops-agent", "auto", "all")
+
+# Resolve "auto" to the set of tools detected in the target directory.
+if ($Tool -contains "auto") {
+    $Tool = Get-DetectedTools $TargetDir
+}
 
 foreach ($t in $Tool) {
     switch ($t) {
         "kiro"           { Install-Kiro }
+        "kiro-cli"       { Install-Kiro }
         "claude-code"    { Install-ClaudeCode }
         "cursor"         { Install-Cursor }
         "codex"          { Install-Codex }

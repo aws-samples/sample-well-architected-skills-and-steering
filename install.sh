@@ -354,8 +354,8 @@ install_junie() {
     skill_name="$(basename "$skill_dir")"
     [[ "$skill_name" == "_shared" ]] && continue
     copy_or_link "$skill_dir/SKILL.md" "$base/.junie/skills/$skill_name/SKILL.md"
-  done
     copy_skill_references "$skill_dir" "$base/.junie/skills/$skill_name"
+  done
   echo "  Done. Guidelines are always-on; skills activate on demand."
   echo ""
 }
@@ -431,12 +431,7 @@ install_devops_agent() {
 
     copy_or_link "$skill_dir/SKILL.md" "$out_dir/SKILL.md"
 
-    if [[ -d "$skill_dir/references" ]]; then
-      mkdir -p "$out_dir/references"
-      for ref_file in "$skill_dir/references"/*; do
-        [[ -f "$ref_file" ]] && copy_or_link "$ref_file" "$out_dir/references/$(basename "$ref_file")"
-      done
-    fi
+    copy_skill_references "$skill_dir" "$out_dir"
 
     if [[ -d "$skill_dir/assets" ]]; then
       for asset_file in "$skill_dir/assets"/*; do
