@@ -178,6 +178,9 @@ Available lenses:
 - `references/lenses/devops-guidance/` — CI/CD, automated governance, development lifecycle, observability, security testing
 - `references/lenses/machine-learning/` — ML lifecycle (MLOPS), model training/deployment, data engineering, responsible ML
 - `references/lenses/data-analytics/` — data pipelines, governance, data catalogs, lineage, analytics performance and cost
+- `references/lenses/games-industry/` — game backends, real-time multiplayer, player data, live operations
+- `references/lenses/saas/` — multi-tenancy, tenant isolation, onboarding, metering, tiering
+- `references/lenses/financial-services/` — regulatory compliance, data residency, resilience, auditability for FSI workloads
 
 ## Step 5: Risk Assessment
 

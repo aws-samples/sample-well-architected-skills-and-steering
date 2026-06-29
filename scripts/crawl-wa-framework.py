@@ -495,10 +495,21 @@ def discover_leaf_pages(toc_json: dict, pillar_sections: list[str] | None = None
                 #    pillar as a single content page with no child best practices
                 #    (e.g. the serverless lens's "Sustainability" at depth 1).
                 #    Without this, that pillar's content is silently dropped.
+                #
+                # qid: some lenses (e.g. Financial Services) give each leaf a
+                # question ID like "FSISEC01: ...". When present, the caller can
+                # write one file per question instead of one per pillar. None for
+                # lenses without per-question IDs (serverless, migration, etc.).
+                # Normalize the question ID's trailing number to two digits so
+                # filenames sort and look consistent — AWS source titles mix
+                # padded and unpadded forms (e.g. "FSIOPS01:" and "FSIOPS2:").
+                qid_match = re.match(r"^([A-Z]{2,})0*(\d+)\s*:", title)
+                qid = f"{qid_match.group(1)}{int(qid_match.group(2)):02d}" if qid_match else None
                 results.append({
                     "section": current_section,
                     "title": title,
                     "href": href,
+                    "qid": qid,
                 })
 
     walk(toc_json.get("contents", []))
@@ -831,36 +842,57 @@ def crawl_lens(lens_url: str, lens_name: str, output_dir: Path, delay: float, dr
                 "title": page["title"],
                 "content": md,
                 "url": url,
+                "qid": page.get("qid"),
             })
             print("OK")
 
-        # Write one file per section (e.g., "security.md", "reliability.md")
         output_dir.mkdir(parents=True, exist_ok=True)
-        written = 0
-        for section, pages in sorted(section_pages.items()):
-            # Convert section title to a filesystem-safe slug
-            slug = re.sub(r"[^a-z0-9]+", "-", section.lower()).strip("-")
-            lines = [
-                f"# {section}",
-                "",
-                f"**Pages**: {len(pages)}",
-                "",
-                "---",
-                "",
-            ]
-            for p in pages:
-                lines.append(p["content"])
-                lines.append("")
-                lines.append(f"*Source: {p['url']}*")
-                lines.append("")
-                lines.append("---")
-                lines.append("")
 
-            (output_dir / f"{slug}.md").write_text("\n".join(lines), encoding="utf-8")
-            written += 1
+        # If every captured page carries a question ID (e.g. Financial Services'
+        # "FSISEC01: ..."), write one file per question — finer-grained and
+        # consistent with the BP-style lenses. Otherwise keep the per-pillar
+        # grouping used by serverless/migration/data-analytics. The branch is
+        # all-or-nothing so a lens without qids is byte-identical to before.
+        all_pages = [p for pages in section_pages.values() for p in pages]
+        if all_pages and all(p.get("qid") for p in all_pages):
+            written = 0
+            for p in sorted(all_pages, key=lambda x: x["qid"]):
+                lines = [
+                    p["content"],
+                    "",
+                    f"*Source: {p['url']}*",
+                    "",
+                ]
+                (output_dir / f"{p['qid']}.md").write_text("\n".join(lines), encoding="utf-8")
+                written += 1
+            print(f"\n  Done: {written} question files, {len(all_pages)} pages -> {output_dir}/")
+        else:
+            # Write one file per section (e.g., "security.md", "reliability.md")
+            written = 0
+            for section, pages in sorted(section_pages.items()):
+                # Convert section title to a filesystem-safe slug
+                slug = re.sub(r"[^a-z0-9]+", "-", section.lower()).strip("-")
+                lines = [
+                    f"# {section}",
+                    "",
+                    f"**Pages**: {len(pages)}",
+                    "",
+                    "---",
+                    "",
+                ]
+                for p in pages:
+                    lines.append(p["content"])
+                    lines.append("")
+                    lines.append(f"*Source: {p['url']}*")
+                    lines.append("")
+                    lines.append("---")
+                    lines.append("")
 
-        total = sum(len(v) for v in section_pages.values())
-        print(f"\n  Done: {written} files, {total} pages -> {output_dir}/")
+                (output_dir / f"{slug}.md").write_text("\n".join(lines), encoding="utf-8")
+                written += 1
+
+            total = sum(len(v) for v in section_pages.values())
+            print(f"\n  Done: {written} files, {total} pages -> {output_dir}/")
 
 
 # ---------------------------------------------------------------------------

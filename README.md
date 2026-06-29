@@ -233,7 +233,7 @@ Then in Kiro: Powers panel → **Add Custom Power** → **Import power from a fo
 
 - Auto-activates when you mention "well-architected", "architecture review", "security review", "reliability", etc.
 - Loads only relevant steering based on your current task
-- Progressive BP-level reference loading (57 question files + 9 lens packs) — managed automatically
+- Progressive BP-level reference loading (57 question files + 12 lens packs) — managed automatically
 
 > [!NOTE]
 > Kiro's "Import from GitHub" expects `POWER.md` at the repository root. Since this repo contains multiple skills and adapters, the Power lives under `powers/wa-review/` and must be imported from a local folder. If you want GitHub-based import, you can fork just the `powers/wa-review/` directory into its own repo.
@@ -550,7 +550,7 @@ graph LR
 
 ## 📊 Reference data and token consumption
 
-The `wa-review` skill includes **307 best practices** across **57 framework questions** plus **9 lens extensions** — sourced directly from the [AWS Well-Architected public documentation](https://docs.aws.amazon.com/wellarchitected/latest/framework/welcome.html). This reference data lives in `skills/wa-review/references/` and is loaded progressively (one question at a time), not all at once.
+The `wa-review` skill includes **307 best practices** across **57 framework questions** plus **12 lens extensions** — sourced directly from the [AWS Well-Architected public documentation](https://docs.aws.amazon.com/wellarchitected/latest/framework/welcome.html). This reference data lives in `skills/wa-review/references/` and is loaded progressively (one question at a time), not all at once.
 
 ### Reference data summary
 
@@ -566,6 +566,9 @@ The `wa-review` skill includes **307 best practices** across **57 framework ques
 | DevOps Guidance Lens | 196 | 820 KB | CI/CD, automated governance, dev lifecycle, observability |
 | Machine Learning Lens | 35 | 852 KB | ML lifecycle (MLOPS), training/deployment, data engineering, responsible ML |
 | Data Analytics Lens | 6 | 180 KB | Data pipelines, governance, catalogs, lineage, analytics perf & cost |
+| Games Industry Lens | 32 | 316 KB | Game backends, real-time multiplayer, player data, live ops |
+| SaaS Lens | 6 | 112 KB | Multi-tenancy, tenant isolation, onboarding, metering, tiering |
+| Financial Services Lens | 79 | 432 KB | FSI compliance, data residency, resilience, auditability |
 
 ### Token strategies
 
