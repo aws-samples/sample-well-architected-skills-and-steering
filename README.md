@@ -557,7 +557,7 @@ The `wa-review` skill includes **307 best practices** across **57 framework ques
 | Content | Files | Size | Loaded when |
 |---------|-------|------|-------------|
 | Framework questions | 57 | 2.2 MB | Full review — one file per question evaluated |
-| Serverless Lens | 5 | 116 KB | Workload uses Lambda/API Gateway/Step Functions |
+| Serverless Lens | 6 | 120 KB | Workload uses Lambda/API Gateway/Step Functions |
 | Generative AI Lens | 29 | 368 KB | LLM, RAG, or fine-tuning workloads |
 | Agentic AI Lens | 41 | 1.2 MB | AI agent workloads |
 | Responsible AI Lens | 28 | 780 KB | AI governance and fairness requirements |

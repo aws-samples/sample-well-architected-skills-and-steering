@@ -16,12 +16,16 @@ Architecture:
     clean markdown, and group all BPs belonging to the same WA question into a
     single consolidated file.
 
-Two content modes are supported:
-    1. BP-style (modern pillars + newer lenses like GenAI, Agentic AI):
+Three content modes are supported:
+    1. BP-style (modern pillars + newer lenses like GenAI, Agentic AI, ML):
        TOC titles follow the pattern "{PREFIX}{NUM}-BP{NUM} Title".
        Output: one file per question, containing all BPs for that question.
 
-    2. Topic-page-style (older lenses like Serverless, Migration):
+    2. Dotted-BP-style (e.g. DevOps Guidance):
+       TOC titles follow the bracketed dotted pattern "[AREA.SUB.N] Title".
+       Output: one file per best practice, named by its ID (OA.LS.1 -> OALS01.md).
+
+    3. Topic-page-style (older lenses like Serverless, Migration, Data Analytics):
        TOC has no BP-pattern titles. Instead, content is organized under
        pillar section headings with leaf pages containing guidance.
        Output: one file per pillar section, containing all pages for that section.
@@ -443,10 +447,12 @@ def discover_leaf_pages(toc_json: dict, pillar_sections: list[str] | None = None
     actual guidance. This function finds all leaf pages (pages with no
     children) that live under a recognized pillar section heading.
 
-    A page qualifies if:
-    - It has no "contents" key (it's a leaf, not a branch)
-    - It's nested at depth >= 2 (under a pillar section, not top-level nav)
-    - Its ancestor section matches one of the known pillar names
+    A page qualifies if it is a leaf (no "contents") whose section resolves to
+    a known pillar name, AND either:
+    - it's nested at depth >= 2 (a leaf under a pillar section — the common case), or
+    - the leaf IS the pillar node itself (a pillar expressed as a single content
+      page with no child best practices, e.g. the serverless lens's
+      "Sustainability" at depth 1).
 
     Returns a list of dicts with keys: section, title, href.
     """
@@ -482,8 +488,13 @@ def discover_leaf_pages(toc_json: dict, pillar_sections: list[str] | None = None
             if "contents" in item:
                 # Branch node — recurse deeper, passing along the current section context
                 walk(item["contents"], current_section, depth + 1)
-            elif current_section and href and depth >= 2:
-                # Leaf page under a pillar section — this is content we want
+            elif current_section and href and (depth >= 2 or matched):
+                # Capture this leaf when either:
+                #  - it sits under a pillar section (depth >= 2), the common case; or
+                #  - the leaf IS the pillar (matched): some lenses express a whole
+                #    pillar as a single content page with no child best practices
+                #    (e.g. the serverless lens's "Sustainability" at depth 1).
+                #    Without this, that pillar's content is silently dropped.
                 results.append({
                     "section": current_section,
                     "title": title,
@@ -648,14 +659,18 @@ def crawl_lens(lens_url: str, lens_name: str, output_dir: Path, delay: float, dr
     Crawl a WA Lens and produce reference files.
 
     Lenses use the same toc-contents.json pattern as pillars. This function
-    auto-detects the content format:
+    auto-detects the content format (the three modes are mutually exclusive —
+    a title matches at most one pattern):
 
-    - If the TOC contains BP-pattern entries (e.g., "GENSEC01-BP01"), it uses
-      the same BP-style crawling as pillars: group by question, one file per question.
+    - Dotted-BP-style: TOC has bracketed dotted IDs (e.g. "[OA.LS.1] ...", DevOps
+      Guidance). One file per best practice, named by ID (OA.LS.1 -> OALS01.md).
 
-    - If no BP entries are found (older lenses like Serverless), it falls back to
-      topic-page-style: finds leaf pages under pillar section headings, groups them
-      by section, and writes one file per section.
+    - BP-style: TOC has "{PREFIX}{NUM}-BP{NUM}" entries (e.g. "GENSEC01-BP01").
+      Same crawling as pillars: group by question, one file per question.
+
+    - Topic-page-style: no BP-pattern titles (older lenses like Serverless,
+      Migration, Data Analytics). Finds leaf pages under pillar section headings,
+      groups them by section, and writes one file per section.
 
     The lens URL can point to any page in the lens docs (welcome.html, the lens
     main page, etc.) — the script derives the base URL and toc-contents.json path
@@ -779,8 +794,8 @@ def crawl_lens(lens_url: str, lens_name: str, output_dir: Path, delay: float, dr
         print(f"\n  Done: {written} files, {total} best practices -> {output_dir}/")
 
     else:
-        # --- Topic-page-style lens (Serverless, Migration, DevOps Guidance) ---
-        # These older lenses don't use individual BP pages. Instead, guidance is
+        # --- Topic-page-style lens (Serverless, Migration, Data Analytics) ---
+        # These lenses don't use individual BP-ID pages. Instead, guidance is
         # organized as topic pages under pillar section headings.
         leaf_pages = discover_leaf_pages(toc_data)
         print(f"  Mode: Topic-page-style ({len(leaf_pages)} pages)")
