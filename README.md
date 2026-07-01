@@ -83,6 +83,9 @@ evals/                              Automated evaluation runner (Bedrock)
   grade.py                            LLM-as-judge grader
   report.py                           Scoring and terminal output
   config.yaml                         Bedrock region and model config
+  benchmark.py                        Multi-model comparison runner
+  benchmark_report.py                 Generate markdown tables from benchmark results
+  benchmark_config.yaml               Models, prompt, and grading criteria
   pyproject.toml                      Dependencies (use uv sync)
 
 install.sh                          One-command setup (macOS/Linux)
@@ -762,6 +765,62 @@ All skills are evaluated using an automated LLM-as-judge framework with paired c
 - Skills never produce worse output than baseline — they improve or match
 
 The evaluation framework is included in [`evals/`](./evals) so you can reproduce results on your own models and prompts. Use `--parallel` for ~3x faster runs.
+
+---
+
+## 🏎️ Model Benchmark
+
+Compare how different foundation models perform on Well-Architected review tasks — measuring **quality**, **latency**, **throughput**, and **token cost** side by side.
+
+<!-- BENCHMARK-START -->
+### Model Benchmark Results
+
+**Last run:** 2026-07-01T11:48:24Z | **Region:** us-east-1 | **Prompt:** 1,595 chars | **Max tokens:** 4,096
+
+| Model | Input Tokens | Output Tokens | Latency (s) | Tokens/s | Quality |
+|-------|-------------:|--------------:|------------:|---------:|--------:|
+| claude-sonnet-5 | 793 | 4,096 | 44.1 | 93 | 5.0/5 |
+| r1 | 517 | 1,559 | 11.0 | 142 | 4.8/5 |
+| nova-2-lite | 512 | 1,553 | 7.8 | 198 | 3.9/5 |
+| llama4-maverick-17b-instruct | 503 | 1,051 | 5.1 | 207 | 3.6/5 |
+| nova-pro | 549 | 1,067 | 5.6 | 190 | 3.6/5 |
+| pixtral-large-2502 | 620 | 2,741 | 33.2 | 83 | 3.6/5 |
+| llama3-3-70b-instruct | 505 | 1,255 | 13.4 | 93 | 3.4/5 |
+| claude-haiku-4-5-20251001 | 587 | 4,096 | 22.0 | 186 | 3.3/5 |
+| nova-lite | 549 | 1,603 | 10.2 | 157 | 2.5/5 |
+
+<details><summary>Benchmark details</summary>
+
+- Task: Well-Architected review of an e-commerce Terraform architecture
+- Temperature: 0
+- Models tested: 9
+- Quality graded by: unknown
+- Criteria: coverage of 6 pillars, identification of key risks, actionability
+- Run with: `cd evals && python benchmark.py --grade`
+
+</details>
+<!-- BENCHMARK-END -->
+
+**Run it yourself:**
+
+```bash
+cd evals
+uv sync
+
+# Quick run (no grading) — just latency and token counts
+uv run python benchmark.py
+
+# Full run with quality grading
+uv run python benchmark.py --grade
+
+# Test specific models
+uv run python benchmark.py --models us.anthropic.claude-sonnet-5 us.amazon.nova-pro-v1:0
+
+# Publish results to this README
+uv run python benchmark_report.py results/benchmark-YYYYMMDD-HHMMSS.json --update-readme
+```
+
+Configure models and prompts in [`evals/benchmark_config.yaml`](evals/benchmark_config.yaml). Add new models as they become available in Bedrock and re-run to keep the table current.
 
 ---
 

@@ -1,0 +1,108 @@
+# Model Benchmark Configuration
+# Run: python benchmark.py [--grade] [--models model1 model2 ...]
+
+region: us-east-1
+
+# Models to benchmark (broad mix: frontier / mid / fast across providers)
+# Uses cross-region inference profile IDs (us.*) for reliability.
+# To add models: check available profiles with `aws bedrock list-inference-profiles`
+models:
+  # Anthropic Claude
+  - us.anthropic.claude-sonnet-5
+  - us.anthropic.claude-haiku-4-5-20251001-v1:0
+  # Amazon Nova
+  - us.amazon.nova-pro-v1:0
+  - us.amazon.nova-lite-v1:0
+  - us.amazon.nova-2-lite-v1:0
+  # DeepSeek
+  - us.deepseek.r1-v1:0
+  # Meta Llama
+  - us.meta.llama4-maverick-17b-instruct-v1:0
+  - us.meta.llama3-3-70b-instruct-v1:0
+  # Mistral
+  - us.mistral.pixtral-large-2502-v1:0
+
+# Generation settings
+max_tokens: 4096
+temperature: 0
+concurrency: 4
+
+# Prompt: a realistic WA review question with code context
+prompt:
+  system: |
+    You are an AWS Well-Architected expert performing a review.
+    Analyze the architecture described and provide findings grouped by pillar.
+    For each finding use: severity (HIGH/MEDIUM/LOW), the issue, why it matters, and a concrete recommendation.
+    Be specific — cite AWS services and configuration details.
+  user: |
+    Review the following architecture for a customer-facing e-commerce platform:
+
+    Infrastructure (Terraform):
+    ```hcl
+    resource "aws_ecs_service" "api" {
+      name            = "api-service"
+      cluster         = aws_ecs_cluster.main.id
+      task_definition = aws_ecs_task_definition.api.arn
+      desired_count   = 2
+      launch_type     = "FARGATE"
+
+      network_configuration {
+        subnets         = [aws_subnet.private_a.id]
+        security_groups = [aws_security_group.api.id]
+      }
+    }
+
+    resource "aws_db_instance" "main" {
+      engine               = "postgres"
+      instance_class       = "db.r5.2xlarge"
+      allocated_storage    = 100
+      multi_az             = false
+      storage_encrypted    = true
+      deletion_protection  = false
+      backup_retention_period = 1
+      publicly_accessible  = false
+    }
+
+    resource "aws_elasticache_cluster" "sessions" {
+      engine          = "redis"
+      node_type       = "cache.r5.large"
+      num_cache_nodes = 1
+    }
+
+    resource "aws_s3_bucket" "assets" {
+      bucket = "ecommerce-assets-prod"
+    }
+
+    resource "aws_cloudfront_distribution" "cdn" {
+      enabled = true
+      origin {
+        domain_name = aws_s3_bucket.assets.bucket_regional_domain_name
+        origin_id   = "s3-assets"
+      }
+      default_cache_behavior {
+        viewer_protocol_policy = "allow-all"
+        allowed_methods        = ["GET", "HEAD"]
+        cached_methods         = ["GET", "HEAD"]
+      }
+    }
+    ```
+
+    The platform handles ~10,000 orders/day with peak traffic 5x during flash sales.
+    Current pain points: occasional 502 errors during peaks, 4-hour RTO target not being met,
+    monthly AWS bill is $18k and growing 20% QoQ.
+
+    Perform a Well-Architected review covering all six pillars.
+
+# Quality grading (used with --grade flag)
+# Use Sonnet 4.6 for grading — reliable text output without thinking budget issues
+grading:
+  model: us.anthropic.claude-sonnet-4-6
+  criteria:
+    - "Covers all 6 WA pillars (Operational Excellence, Security, Reliability, Performance Efficiency, Cost Optimization, Sustainability)"
+    - "Identifies the single-AZ ECS deployment as a reliability risk"
+    - "Flags multi_az=false on RDS as HIGH severity"
+    - "Identifies CloudFront allow-all viewer_protocol_policy as a security issue"
+    - "Recommends auto-scaling for the ECS service to handle flash sale peaks"
+    - "Notes the single Redis node as a SPOF"
+    - "Addresses the cost concern with specific right-sizing or pricing model recommendations"
+    - "Provides actionable recommendations (not just generic advice)"
