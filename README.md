@@ -236,7 +236,7 @@ Then in Kiro: Powers panel → **Add Custom Power** → **Import power from a fo
 
 - Auto-activates when you mention "well-architected", "architecture review", "security review", "reliability", etc.
 - Loads only relevant steering based on your current task
-- Progressive BP-level reference loading (57 question files + 25 lens packs) — managed automatically
+- Progressive BP-level reference loading (57 question files + 27 lens packs) — managed automatically
 
 > [!NOTE]
 > Kiro's "Import from GitHub" expects `POWER.md` at the repository root. Since this repo contains multiple skills and adapters, the Power lives under `powers/wa-review/` and must be imported from a local folder. If you want GitHub-based import, you can fork just the `powers/wa-review/` directory into its own repo.
@@ -553,7 +553,7 @@ graph LR
 
 ## 📊 Reference data and token consumption
 
-The `wa-review` skill includes **307 best practices** across **57 framework questions** plus **25 lens extensions** — sourced directly from the [AWS Well-Architected public documentation](https://docs.aws.amazon.com/wellarchitected/latest/framework/welcome.html). This reference data lives in `skills/wa-review/references/` and is loaded progressively (one question at a time), not all at once.
+The `wa-review` skill includes **307 best practices** across **57 framework questions** plus **27 lens extensions** — sourced directly from the [AWS Well-Architected public documentation](https://docs.aws.amazon.com/wellarchitected/latest/framework/welcome.html). This reference data lives in `skills/wa-review/references/` and is loaded progressively (one question at a time), not all at once.
 
 ### Reference data summary
 
@@ -585,6 +585,8 @@ The `wa-review` skill includes **307 best practices** across **57 framework ques
 | Container Build Lens | 6 | 76 KB | Container image builds, supply chain security, registries, CI/CD |
 | High Performance Computing Lens | 6 | 104 KB | HPC clusters, parallel workloads, scheduling, low-latency networking |
 | Streaming Media Lens | 6 | 96 KB | Media streaming, live/VOD delivery, encoding, content workflows |
+| IoT Lens | 6 | 369 KB | IoT devices, telemetry, edge computing, fleet provisioning, OTA updates |
+| Government Lens | 6 | 46 KB | Public sector, privacy-by-design, compliance, real-time security |
 
 ### Token strategies
 

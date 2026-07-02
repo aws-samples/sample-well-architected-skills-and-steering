@@ -486,6 +486,15 @@ def discover_dotted_bp_pages(toc_json: dict) -> list[dict]:
 # ---------------------------------------------------------------------------
 
 
+# Generic per-pillar scaffolding pages that mirror the core WA Framework and add
+# no lens-specific guidance the LLM doesn't already know. They appear as depth-1
+# children of a pillar in flat-TOC lenses (e.g. IoT); excluded from capture so we
+# keep the pillar's real best-practice pages without the boilerplate.
+_GENERIC_PILLAR_PAGES = {
+    "definitions", "design principles", "key aws services", "resources",
+}
+
+
 def discover_leaf_pages(toc_json: dict, pillar_sections: list[str] | None = None) -> list[dict]:
     """
     Walk the TOC tree for older-format lenses that don't use BP-style naming.
@@ -548,12 +557,24 @@ def discover_leaf_pages(toc_json: dict, pillar_sections: list[str] | None = None
                 if section and not matched and numbered_question.match(title.replace("\xa0", " ").strip()):
                     child_parent = title.replace("\xa0", " ").strip()
                 walk(item["contents"], current_section, depth + 1, child_parent)
-            elif current_section and href and (depth >= 2 or matched):
+            elif current_section and href and (depth >= 2 or matched or (
+                    # Some lenses (e.g. IoT) place per-topic best-practice pages
+                    # directly under the pillar at depth 1 rather than nesting them
+                    # under a sub-branch. Capture those too — but skip the generic
+                    # framework scaffolding pages the LLM already knows, which also
+                    # live at depth 1 (Definitions / Design principles / Key AWS
+                    # services / Resources). Without this, whole pillars of a
+                    # flat-TOC lens are silently dropped.
+                    depth == 1
+                    and title.replace("\xa0", " ").strip().rstrip(".").lower()
+                    not in _GENERIC_PILLAR_PAGES)):
                 # Capture this leaf when either:
                 #  - it sits under a pillar section (depth >= 2), the common case; or
                 #  - the leaf IS the pillar (matched): some lenses express a whole
                 #    pillar as a single content page with no child best practices
-                #    (e.g. the serverless lens's "Sustainability" at depth 1).
+                #    (e.g. the serverless lens's "Sustainability" at depth 1); or
+                #  - it's a depth-1 per-topic page under a pillar (IoT-style flat
+                #    TOC), excluding the generic scaffolding pages above.
                 #    Without this, that pillar's content is silently dropped.
                 #
                 # qid: some lenses (e.g. Financial Services) give each leaf a
@@ -577,6 +598,65 @@ def discover_leaf_pages(toc_json: dict, pillar_sections: list[str] | None = None
 
     walk(toc_json.get("contents", []))
     return results
+
+
+# A best-practice heading embedded in a topic-page body, e.g.
+# "## IOTSEC01-BP01 Assign unique identities to each IoT device". Some lenses
+# (IoT) are really BP-style but don't expose each BP as its own TOC page — the
+# BPs live as headings inside the pillar's focus-area pages. This matches such a
+# heading and captures the BP ID so the body can be split into per-question files.
+# Note: no trailing \b — some source headings omit the space between the BP ID
+# and its title (e.g. "## IOTREL07-BP02Implement storage redundancy..."), and a
+# \b there would fail to match, merging that BP into the previous block.
+_EMBEDDED_BP_HEADING = re.compile(r"^#{1,6}\s+([A-Z]{2,}\d+-BP\d+)", re.M)
+
+
+def split_embedded_bps(section_pages: dict) -> dict | None:
+    """
+    Detect and split topic-page bodies that embed BP-ID headings into a
+    per-question structure compatible with write_output().
+
+    Some lenses (e.g. IoT) have a flat TOC whose leaf pages are pillar
+    "focus areas" (Identity and access management, Detective controls, ...),
+    but the real best practices are ``## IOTSEC01-BP01 ...`` headings *inside*
+    those page bodies rather than separate TOC pages. This slices each focus-area
+    body at its BP headings, groups the resulting blocks by question ID
+    (IOTSEC02-BP01/02/03 -> IOTSEC02), and returns a dict shaped like the
+    ``{question_id: [bp, ...]}`` that write_output() consumes.
+
+    Returns None when no page body contains an embedded BP heading — so every
+    existing topic-page lens (serverless, migration, saas, connected-mobility,
+    government, ...) skips this path entirely and stays byte-identical.
+    """
+    # Only engage when embedded BP headings are actually present.
+    if not any(_EMBEDDED_BP_HEADING.search(p["content"]) for pages in section_pages.values() for p in pages):
+        return None
+
+    questions = defaultdict(list)
+    for section, pages in section_pages.items():
+        for page in pages:
+            content = page["content"]
+            # Find every embedded BP heading and its position, then carve the
+            # body into [heading, next-heading) blocks — one block per BP.
+            matches = list(_EMBEDDED_BP_HEADING.finditer(content))
+            if not matches:
+                continue
+            for idx, m in enumerate(matches):
+                bp_id = m.group(1)
+                start = m.start()
+                end = matches[idx + 1].start() if idx + 1 < len(matches) else len(content)
+                block = content[start:end].strip()
+                question_id = bp_id.split("-BP")[0]
+                questions[question_id].append({
+                    "bp_id": bp_id,
+                    "title": bp_id,
+                    "content": block,
+                    "url": page["url"],
+                    # The focus-area section (e.g. "Identity and access
+                    # management") is the group context for this question.
+                    "group": section,
+                })
+    return dict(questions)
 
 
 # ---------------------------------------------------------------------------
@@ -931,6 +1011,20 @@ def crawl_lens(lens_url: str, lens_name: str, output_dir: Path, delay: float, dr
             print("OK")
 
         output_dir.mkdir(parents=True, exist_ok=True)
+
+        # Some flat-TOC lenses (IoT) are really BP-style: the focus-area pages
+        # embed "## IOTSEC01-BP01 ..." headings in their bodies rather than
+        # exposing each BP as its own TOC page. When detected, split those bodies
+        # into per-question files (IOTSEC01.md, ...) via the shared write_output,
+        # so IoT reads like the other BP-style lenses. Returns None — and this
+        # branch is skipped — for every lens without embedded BP headings, so
+        # they stay byte-identical.
+        embedded = split_embedded_bps(section_pages)
+        if embedded:
+            written = write_output(embedded, output_dir)
+            total = sum(len(v) for v in embedded.values())
+            print(f"\n  Done: {written} question files, {total} best practices -> {output_dir}/")
+            return
 
         # If every captured page carries a question ID (e.g. Financial Services'
         # "FSISEC01: ..."), write one file per question — finer-grained and

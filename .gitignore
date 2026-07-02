@@ -3,3 +3,7 @@
 CLAUDE.md
 evals/results/*
 !evals/results/baseline.json
+
+# Python
+__pycache__/
+*.pyc

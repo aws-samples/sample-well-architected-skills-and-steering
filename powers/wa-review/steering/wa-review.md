@@ -194,6 +194,8 @@ Available lenses:
 - `references/lenses/container-build/` — container image builds, supply chain security, registries, CI/CD
 - `references/lenses/high-performance-computing/` — HPC clusters, parallel workloads, scheduling, low-latency networking
 - `references/lenses/streaming-media/` — media streaming, live/VOD delivery, encoding, content workflows
+- `references/lenses/iot/` — IoT devices, telemetry, edge computing, fleet provisioning, OTA updates
+- `references/lenses/government/` — public sector, privacy-by-design, compliance, real-time security
 
 ## Step 5: Risk Assessment
 
