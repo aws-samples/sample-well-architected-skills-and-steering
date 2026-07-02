@@ -1,6 +1,6 @@
-# MLSUS02
+# MLSUS02 — ML problem framing
 
-**Pillar**: Unknown  
+**Pillar**: Sustainability  
 **Best Practices**: 2
 
 ---

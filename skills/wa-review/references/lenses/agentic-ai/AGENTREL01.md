@@ -1,6 +1,6 @@
-# AGENTREL01
+# AGENTREL01 — Predictable agent behavior
 
-**Pillar**: Unknown  
+**Pillar**: Reliability  
 **Best Practices**: 5
 
 ---

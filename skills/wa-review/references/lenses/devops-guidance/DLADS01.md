@@ -1,6 +1,5 @@
-# [DL.ADS.1] Test deployments in pre-production environments
-
-**Capability**: DL.ADS
+**Saga**: Development lifecycle
+**Capability**: DL.ADS — Advanced deployment strategies
 
 ---
 

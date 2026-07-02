@@ -1,6 +1,5 @@
-# [QA.DT.4] Detect and mitigate data issues with anomaly detection
-
-**Capability**: QA.DT
+**Saga**: Quality assurance
+**Capability**: QA.DT — Data testing
 
 ---
 

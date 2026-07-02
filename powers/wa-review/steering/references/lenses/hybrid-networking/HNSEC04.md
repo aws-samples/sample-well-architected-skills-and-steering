@@ -1,6 +1,6 @@
-# HNSEC04
+# HNSEC04 — Infrastructure protection
 
-**Pillar**: Unknown  
+**Pillar**: Security  
 **Best Practices**: 5
 
 ---

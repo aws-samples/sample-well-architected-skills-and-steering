@@ -1,6 +1,6 @@
-# MLSEC02
+# MLSEC02 — ML problem framing
 
-**Pillar**: Unknown  
+**Pillar**: Security  
 **Best Practices**: 1
 
 ---

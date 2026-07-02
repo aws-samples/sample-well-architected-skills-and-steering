@@ -1,6 +1,5 @@
-# RAIRC01
+# RAIRC01 — Define release criteria
 
-**Pillar**: Unknown  
 **Best Practices**: 1
 
 ---

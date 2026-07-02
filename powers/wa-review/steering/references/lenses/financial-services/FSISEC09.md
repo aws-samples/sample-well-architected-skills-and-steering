@@ -1,3 +1,5 @@
+**Pillar**: Security
+
 # FSISEC09: How are you managing your encryption keys?
 
 In addition to implementing the

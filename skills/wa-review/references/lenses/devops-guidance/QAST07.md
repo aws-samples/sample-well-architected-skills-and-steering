@@ -1,6 +1,5 @@
-# [QA.ST.7] Conduct proactive exploratory security testing activities
-
-**Capability**: QA.ST
+**Saga**: Quality assurance
+**Capability**: QA.ST — Security testing
 
 ---
 

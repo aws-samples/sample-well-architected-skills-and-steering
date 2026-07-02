@@ -1,6 +1,5 @@
-# [OA.PPD.5] Recognize and reward continuous learning
-
-**Capability**: OA.PPD
+**Saga**: Organizational adoption
+**Capability**: OA.PPD — Personal and professional development
 
 ---
 

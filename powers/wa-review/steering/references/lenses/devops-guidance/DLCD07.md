@@ -1,6 +1,5 @@
-# [DL.CD.7] Remove manual approvals to practice continuous deployment
-
-**Capability**: DL.CD
+**Saga**: Development lifecycle
+**Capability**: DL.CD — Continuous delivery
 
 ---
 

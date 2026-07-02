@@ -1,6 +1,6 @@
-# AGENTREL05
+# AGENTREL05 — Agent cognition
 
-**Pillar**: Unknown  
+**Pillar**: Reliability  
 **Best Practices**: 3
 
 ---

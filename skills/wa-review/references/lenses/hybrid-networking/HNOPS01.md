@@ -1,6 +1,6 @@
-# HNOPS01
+# HNOPS01 — Organization
 
-**Pillar**: Unknown  
+**Pillar**: Operational Excellence  
 **Best Practices**: 1
 
 ---

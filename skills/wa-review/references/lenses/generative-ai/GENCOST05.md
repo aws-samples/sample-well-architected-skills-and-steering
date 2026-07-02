@@ -1,6 +1,6 @@
-# GENCOST05
+# GENCOST05 — Cost-informed agents
 
-**Pillar**: Unknown  
+**Pillar**: Cost Optimization  
 **Best Practices**: 1
 
 ---

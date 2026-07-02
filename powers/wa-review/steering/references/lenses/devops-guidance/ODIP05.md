@@ -1,6 +1,5 @@
-# [O.DIP.5] Optimize telemetry data storage and costs
-
-**Capability**: O.DIP
+**Saga**: Observability
+**Capability**: O.DIP — Data ingestion and processing
 
 ---
 

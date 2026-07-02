@@ -1,6 +1,5 @@
-# [OA.AWE.2] Offer inclusive options for both virtual and on-site collaboration
-
-**Capability**: OA.AWE
+**Saga**: Organizational adoption
+**Capability**: OA.AWE — Adaptive work environment
 
 ---
 

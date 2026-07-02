@@ -1,6 +1,6 @@
-# GAMESEC02
+# GAMESEC02 — Ongoing security
 
-**Pillar**: Unknown  
+**Pillar**: Security  
 **Best Practices**: 1
 
 ---

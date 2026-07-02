@@ -1,6 +1,5 @@
-# [DL.CS.2] Sign code artifacts after each build
-
-**Capability**: DL.CS
+**Saga**: Development lifecycle
+**Capability**: DL.CS — Cryptographic signing
 
 ---
 

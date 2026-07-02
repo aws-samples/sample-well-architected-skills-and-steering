@@ -1,6 +1,5 @@
-# [AG.ACG.7] Use automated tools for scalable cost management
-
-**Capability**: AG.ACG
+**Saga**: Automated governance
+**Capability**: AG.ACG — Automated compliance and guardrails
 
 ---
 

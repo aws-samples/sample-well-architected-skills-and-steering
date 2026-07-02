@@ -1,6 +1,6 @@
-# AGENTPERF01
+# AGENTPERF01 — Strategic performance planning and measurement
 
-**Pillar**: Unknown  
+**Pillar**: Performance Efficiency  
 **Best Practices**: 3
 
 ---

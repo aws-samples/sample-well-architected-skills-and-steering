@@ -1,6 +1,6 @@
-# HNOPS02
+# HNOPS02 — Prepare
 
-**Pillar**: Unknown  
+**Pillar**: Operational Excellence  
 **Best Practices**: 1
 
 ---

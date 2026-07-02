@@ -1,6 +1,6 @@
-# GAMESEC01
+# GAMESEC01 — Security foundations
 
-**Pillar**: Unknown  
+**Pillar**: Security  
 **Best Practices**: 5
 
 ---

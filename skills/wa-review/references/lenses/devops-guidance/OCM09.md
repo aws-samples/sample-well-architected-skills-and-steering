@@ -1,6 +1,5 @@
-# [O.CM.9] Optimize alerts to prevent fatigue and minimize monitoring costs
-
-**Capability**: O.CM
+**Saga**: Observability
+**Capability**: O.CM — Continuous monitoring
 
 ---
 

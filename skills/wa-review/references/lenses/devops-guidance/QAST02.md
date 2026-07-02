@@ -1,6 +1,5 @@
-# [QA.ST.2] Normalize security testing findings
-
-**Capability**: QA.ST
+**Saga**: Quality assurance
+**Capability**: QA.ST — Security testing
 
 ---
 

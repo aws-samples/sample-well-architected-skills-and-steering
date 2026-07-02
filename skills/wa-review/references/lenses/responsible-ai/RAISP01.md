@@ -1,6 +1,5 @@
-# RAISP01
+# RAISP01 — AI system architecture design
 
-**Pillar**: Unknown  
 **Best Practices**: 2
 
 ---

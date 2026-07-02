@@ -1,6 +1,5 @@
-# [O.DIP.3] Implement distributed tracing for system-wide request tracking
-
-**Capability**: O.DIP
+**Saga**: Observability
+**Capability**: O.DIP — Data ingestion and processing
 
 ---
 

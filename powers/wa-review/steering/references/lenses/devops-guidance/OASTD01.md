@@ -1,6 +1,5 @@
-# [OA.STD.1] Organize teams into distinct topology types to optimize the value stream
-
-**Capability**: OA.STD
+**Saga**: Organizational adoption
+**Capability**: OA.STD — Supportive team dynamics
 
 ---
 
@@ -33,7 +32,7 @@ work, and overall reduce the amount of individual team
 effort. As these teams support many
 teams within the organization, they make up a smaller
 portion of the organization, usually between 10-20%.
-- Teams support other teams by providing
+- Enabling teams support other teams by providing
 just-in-time skills, knowledge, and expertise. They
 help other teams overcome technical challenges,
 adopt best practices, and improve their capabilities. All

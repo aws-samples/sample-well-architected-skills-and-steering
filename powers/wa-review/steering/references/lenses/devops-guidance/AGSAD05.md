@@ -1,6 +1,5 @@
-# [AG.SAD.5] Implement break-glass procedures
-
-**Capability**: AG.SAD
+**Saga**: Automated governance
+**Capability**: AG.SAD — Secure access and delegation
 
 ---
 

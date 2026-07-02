@@ -1,3 +1,5 @@
+**Pillar**: Sustainability
+
 # FSISUS07: How do you optimize batch processing components for sustainability?
 
 Because batch processing is often found within many workloads across financial systems,

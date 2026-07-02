@@ -1,3 +1,5 @@
+**Pillar**: Sustainability
+
 # FSISUS04: How do you prioritize business critical functions over non-critical functions?
 
 Determine what is defined as a business-critical process and workload, and protect and

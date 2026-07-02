@@ -1,3 +1,5 @@
+**Pillar**: Security
+
 # FSISEC01: How does your governance enable secure cloud adoption at scale?
 
 Cloud infrastructure provides more agility and responsiveness

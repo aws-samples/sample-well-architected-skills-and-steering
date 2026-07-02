@@ -1,6 +1,5 @@
-# [DL.CR.4] Comprehensive code reviews with an emphasis on business logic
-
-**Capability**: DL.CR
+**Saga**: Development lifecycle
+**Capability**: DL.CR — Code review
 
 ---
 

@@ -1,6 +1,5 @@
-# [DL.CI.4] Provide consistent, actionable feedback to developers
-
-**Capability**: DL.CI
+**Saga**: Development lifecycle
+**Capability**: DL.CI — Continuous integration
 
 ---
 

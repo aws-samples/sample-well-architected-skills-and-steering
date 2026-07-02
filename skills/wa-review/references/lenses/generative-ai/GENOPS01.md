@@ -1,6 +1,6 @@
-# GENOPS01
+# GENOPS01 — Model performance evaluation
 
-**Pillar**: Unknown  
+**Pillar**: Operational Excellence  
 **Best Practices**: 2
 
 ---

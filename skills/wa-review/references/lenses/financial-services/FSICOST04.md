@@ -1,3 +1,5 @@
+**Pillar**: Cost Optimization
+
 # FSICOST04: How do you promote cost-awareness within your organization?
 
 Awareness of usage at all levels in the organization is key to driving change, as

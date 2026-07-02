@@ -1,6 +1,6 @@
-# AGENTPERF03
+# AGENTPERF03 — Memory, context, and RAG optimization
 
-**Pillar**: Unknown  
+**Pillar**: Performance Efficiency  
 **Best Practices**: 5
 
 ---

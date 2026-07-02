@@ -1,6 +1,6 @@
-# HNCOST08
+# HNCOST08 — Optimize over time
 
-**Pillar**: Unknown  
+**Pillar**: Cost Optimization  
 **Best Practices**: 1
 
 ---

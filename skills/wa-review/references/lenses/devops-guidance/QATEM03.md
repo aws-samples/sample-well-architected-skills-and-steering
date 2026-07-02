@@ -1,6 +1,5 @@
-# [QA.TEM.3] Store and manage test results
-
-**Capability**: QA.TEM
+**Saga**: Quality assurance
+**Capability**: QA.TEM — Test environment management
 
 ---
 

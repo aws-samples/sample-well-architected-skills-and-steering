@@ -1,6 +1,6 @@
-# GENCOST03
+# GENCOST03 — Cost-aware prompting
 
-**Pillar**: Unknown  
+**Pillar**: Cost Optimization  
 **Best Practices**: 4
 
 ---

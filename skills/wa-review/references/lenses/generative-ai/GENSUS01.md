@@ -1,6 +1,6 @@
-# GENSUS01
+# GENSUS01 — Energy-efficient infrastructure and services
 
-**Pillar**: Unknown  
+**Pillar**: Sustainability  
 **Best Practices**: 2
 
 ---

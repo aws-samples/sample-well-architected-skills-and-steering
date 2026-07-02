@@ -1,3 +1,5 @@
+**Pillar**: Cost Optimization
+
 # FSICOST10: Do you use lower cost Regions to run less data-intensive or time-sensitive workloads?
 
 FSI companies usually have to plan their Disaster Recovery (DR) and also run a cadence

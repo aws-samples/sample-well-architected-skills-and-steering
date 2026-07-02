@@ -1,6 +1,5 @@
-# [DL.EAC.7] Automate compute image generation and distribution
-
-**Capability**: DL.EAC
+**Saga**: Development lifecycle
+**Capability**: DL.EAC — Everything as code
 
 ---
 

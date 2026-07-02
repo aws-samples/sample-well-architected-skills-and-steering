@@ -1,6 +1,5 @@
-# RAIUC04
+# RAIUC04 — AI workflow impact
 
-**Pillar**: Unknown  
 **Best Practices**: 3
 
 ---

@@ -1,6 +1,6 @@
-# MLOPS04
+# MLOPS04 — Model development
 
-**Pillar**: Unknown  
+**Pillar**: Operational Excellence  
 **Best Practices**: 2
 
 ---

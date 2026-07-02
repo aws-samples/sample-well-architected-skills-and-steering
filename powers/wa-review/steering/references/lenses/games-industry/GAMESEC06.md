@@ -1,6 +1,6 @@
-# GAMESEC06
+# GAMESEC06 — Infrastructure protection
 
-**Pillar**: Unknown  
+**Pillar**: Security  
 **Best Practices**: 3
 
 ---

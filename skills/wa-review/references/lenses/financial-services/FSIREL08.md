@@ -1,3 +1,5 @@
+**Pillar**: Reliability
+
 # FSIREL08: How do you monitor your resources to understand your workloads health?
 
 High availability for applications requires the ability to detect failures and

@@ -1,6 +1,6 @@
-# GAMEPERF06
+# GAMEPERF06 — Data management
 
-**Pillar**: Unknown  
+**Pillar**: Performance Efficiency  
 **Best Practices**: 5
 
 ---

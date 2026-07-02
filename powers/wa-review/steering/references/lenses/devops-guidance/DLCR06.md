@@ -1,6 +1,5 @@
-# [DL.CR.6] Initiate code reviews using pull requests
-
-**Capability**: DL.CR
+**Saga**: Development lifecycle
+**Capability**: DL.CR — Code review
 
 ---
 

@@ -1,6 +1,5 @@
-# [AG.DLM.6] Centralize shared data to enhance governance
-
-**Capability**: AG.DLM
+**Saga**: Automated governance
+**Capability**: AG.DLM — Data lifecycle management
 
 ---
 

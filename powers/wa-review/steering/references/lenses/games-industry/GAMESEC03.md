@@ -1,6 +1,6 @@
-# GAMESEC03
+# GAMESEC03 — Identity and access management
 
-**Pillar**: Unknown  
+**Pillar**: Security  
 **Best Practices**: 5
 
 ---

@@ -1,6 +1,5 @@
-# [DL.LD.4] Enforce security checks before commit
-
-**Capability**: DL.LD
+**Saga**: Development lifecycle
+**Capability**: DL.LD — Local development
 
 ---
 

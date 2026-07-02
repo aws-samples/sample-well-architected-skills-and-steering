@@ -1,3 +1,5 @@
+**Pillar**: Cost Optimization
+
 # FSICOST14: How do you measure the cost of licensing third-party applications and software?
 
 If you are using third-party software, understand the specific licensing terms of each

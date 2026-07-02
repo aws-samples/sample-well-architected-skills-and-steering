@@ -1,6 +1,6 @@
-# AGENTCOST02
+# AGENTCOST02 — Model invocation and token cost optimization
 
-**Pillar**: Unknown  
+**Pillar**: Cost Optimization  
 **Best Practices**: 4
 
 ---

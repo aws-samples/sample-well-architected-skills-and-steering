@@ -1,6 +1,6 @@
-# AGENTCOST05
+# AGENTCOST05 — Agent cost visibility and attribution
 
-**Pillar**: Unknown  
+**Pillar**: Cost Optimization  
 **Best Practices**: 4
 
 ---

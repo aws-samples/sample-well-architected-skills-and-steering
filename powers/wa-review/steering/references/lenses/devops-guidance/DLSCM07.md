@@ -1,6 +1,5 @@
-# [DL.SCM.7] Standardize vulnerability disclosure processes
-
-**Capability**: DL.SCM
+**Saga**: Development lifecycle
+**Capability**: DL.SCM — Software component management
 
 ---
 

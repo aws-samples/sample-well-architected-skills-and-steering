@@ -1,3 +1,5 @@
+**Pillar**: Operational Excellence
+
 # FSIOPS2: Have you completed an operational risk assessment?
 
 Financial services workloads should be continually reviewed and prioritized with regard

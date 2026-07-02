@@ -1,3 +1,5 @@
+**Pillar**: Reliability
+
 # FSIREL05: Is the resilience of the architecture addressing challenges for distributed workloads across AWS and an external entity?
 
 ## FSIREL05-BP01 Evaluate the resilience of cross-cloud application architectures

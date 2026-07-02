@@ -1,6 +1,6 @@
-# GAMEPERF05
+# GAMEPERF05 — Compute selection
 
-**Pillar**: Unknown  
+**Pillar**: Performance Efficiency  
 **Best Practices**: 2
 
 ---

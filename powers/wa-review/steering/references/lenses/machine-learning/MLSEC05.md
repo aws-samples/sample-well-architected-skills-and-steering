@@ -1,6 +1,6 @@
-# MLSEC05
+# MLSEC05 — Deployment
 
-**Pillar**: Unknown  
+**Pillar**: Security  
 **Best Practices**: 1
 
 ---

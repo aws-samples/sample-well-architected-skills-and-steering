@@ -1,6 +1,5 @@
-# [DL.ADS.4] Implement Incremental Feature Release Techniques
-
-**Capability**: DL.ADS
+**Saga**: Development lifecycle
+**Capability**: DL.ADS — Advanced deployment strategies
 
 ---
 

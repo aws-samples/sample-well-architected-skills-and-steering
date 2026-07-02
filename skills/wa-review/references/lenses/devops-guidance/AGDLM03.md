@@ -1,6 +1,5 @@
-# [AG.DLM.3] Automate data processes for reliable collection, transformation, and storage using pipelines
-
-**Capability**: AG.DLM
+**Saga**: Automated governance
+**Capability**: AG.DLM — Data lifecycle management
 
 ---
 

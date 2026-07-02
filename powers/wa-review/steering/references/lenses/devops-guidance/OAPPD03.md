@@ -1,6 +1,5 @@
-# [OA.PPD.3] Offer diverse and accessible training options
-
-**Capability**: OA.PPD
+**Saga**: Organizational adoption
+**Capability**: OA.PPD — Personal and professional development
 
 ---
 

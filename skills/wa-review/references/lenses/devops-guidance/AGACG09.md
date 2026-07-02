@@ -1,6 +1,5 @@
-# [AG.ACG.9] Integrate software provenance tracking throughout the development lifecycle
-
-**Capability**: AG.ACG
+**Saga**: Automated governance
+**Capability**: AG.ACG — Automated compliance and guardrails
 
 ---
 

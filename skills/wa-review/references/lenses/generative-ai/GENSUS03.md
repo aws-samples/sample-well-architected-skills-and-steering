@@ -1,6 +1,6 @@
-# GENSUS03
+# GENSUS03 — Consume energy efficient models
 
-**Pillar**: Unknown  
+**Pillar**: Sustainability  
 **Best Practices**: 1
 
 ---

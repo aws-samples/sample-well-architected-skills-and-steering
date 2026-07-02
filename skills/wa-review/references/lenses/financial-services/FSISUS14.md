@@ -1,3 +1,5 @@
+**Pillar**: Sustainability
+
 # FSISUS14: Do you have multi-architecture images for grid computing systems?
 
 Multi-architecture image support for a particular workload makes it easier for you to

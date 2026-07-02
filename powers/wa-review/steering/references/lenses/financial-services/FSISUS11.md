@@ -1,3 +1,5 @@
+**Pillar**: Sustainability
+
 # FSISUS11: Do you store processed data or raw data?
 
 ## FSISUS11-BP01 Use processed data to reduce your storage footprint

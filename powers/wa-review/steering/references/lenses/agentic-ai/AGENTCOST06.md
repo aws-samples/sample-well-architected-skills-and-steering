@@ -1,6 +1,6 @@
-# AGENTCOST06
+# AGENTCOST06 — Agent discovery and deployment cost optimization
 
-**Pillar**: Unknown  
+**Pillar**: Cost Optimization  
 **Best Practices**: 3
 
 ---

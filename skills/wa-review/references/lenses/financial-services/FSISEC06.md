@@ -1,3 +1,5 @@
+**Pillar**: Security
+
 # FSISEC06: How do you address emerging threats?
 
 Security-focused enterprises are improving threat

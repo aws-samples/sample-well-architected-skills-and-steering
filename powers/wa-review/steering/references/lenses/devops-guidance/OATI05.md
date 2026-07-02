@@ -1,6 +1,5 @@
-# [OA.TI.5] Design adaptive approval workflows without compromising safety
-
-**Capability**: OA.TI
+**Saga**: Organizational adoption
+**Capability**: OA.TI — Team interfaces
 
 ---
 

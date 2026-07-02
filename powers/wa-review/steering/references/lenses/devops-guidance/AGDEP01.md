@@ -1,6 +1,5 @@
-# [AG.DEP.1] Establish a controlled, multi-environment landing zone
-
-**Capability**: AG.DEP
+**Saga**: Automated governance
+**Capability**: AG.DEP — Dynamic environment provisioning
 
 ---
 

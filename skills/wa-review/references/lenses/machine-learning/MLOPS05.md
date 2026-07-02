@@ -1,6 +1,6 @@
-# MLOPS05
+# MLOPS05 — Deployment
 
-**Pillar**: Unknown  
+**Pillar**: Operational Excellence  
 **Best Practices**: 1
 
 ---

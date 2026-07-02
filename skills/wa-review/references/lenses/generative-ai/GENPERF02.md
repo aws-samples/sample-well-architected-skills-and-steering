@@ -1,6 +1,6 @@
-# GENPERF02
+# GENPERF02 — Maintaining model performance
 
-**Pillar**: Unknown  
+**Pillar**: Performance Efficiency  
 **Best Practices**: 3
 
 ---

@@ -1,6 +1,6 @@
-# GAMEREL02
+# GAMEREL02 — Change management
 
-**Pillar**: Unknown  
+**Pillar**: Reliability  
 **Best Practices**: 2
 
 ---

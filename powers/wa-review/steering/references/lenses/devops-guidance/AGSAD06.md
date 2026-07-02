@@ -1,6 +1,5 @@
-# [AG.SAD.6] Conduct periodic identity and access management reviews
-
-**Capability**: AG.SAD
+**Saga**: Automated governance
+**Capability**: AG.SAD — Secure access and delegation
 
 ---
 

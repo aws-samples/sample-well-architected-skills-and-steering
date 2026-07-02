@@ -1,6 +1,5 @@
-# [DL.CR.8] Designate code owners for expert review
-
-**Capability**: DL.CR
+**Saga**: Development lifecycle
+**Capability**: DL.CR — Code review
 
 ---
 

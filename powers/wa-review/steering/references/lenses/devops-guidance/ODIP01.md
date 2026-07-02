@@ -1,6 +1,5 @@
-# [O.DIP.1] Aggregate logs and events across workloads
-
-**Capability**: O.DIP
+**Saga**: Observability
+**Capability**: O.DIP — Data ingestion and processing
 
 ---
 

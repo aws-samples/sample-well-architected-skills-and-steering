@@ -1,6 +1,6 @@
-# GENPERF03
+# GENPERF03 — Optimize consumption of high-performance compute
 
-**Pillar**: Unknown  
+**Pillar**: Performance Efficiency  
 **Best Practices**: 1
 
 ---

@@ -1,6 +1,5 @@
-# RAIUC03
+# RAIUC03 — Refine your use case
 
-**Pillar**: Unknown  
 **Best Practices**: 3
 
 ---

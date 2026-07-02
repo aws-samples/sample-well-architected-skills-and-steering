@@ -1,6 +1,5 @@
-# [DL.CI.1] Integrate code changes regularly and frequently
-
-**Capability**: DL.CI
+**Saga**: Development lifecycle
+**Capability**: DL.CI — Continuous integration
 
 ---
 

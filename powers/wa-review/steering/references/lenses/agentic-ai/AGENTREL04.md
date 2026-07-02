@@ -1,6 +1,6 @@
-# AGENTREL04
+# AGENTREL04 — Multi-agent orchestration
 
-**Pillar**: Unknown  
+**Pillar**: Reliability  
 **Best Practices**: 4
 
 ---

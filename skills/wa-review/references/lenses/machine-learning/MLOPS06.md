@@ -1,6 +1,6 @@
-# MLOPS06
+# MLOPS06 — Monitoring
 
-**Pillar**: Unknown  
+**Pillar**: Operational Excellence  
 **Best Practices**: 2
 
 ---

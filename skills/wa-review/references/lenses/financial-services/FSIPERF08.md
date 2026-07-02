@@ -1,3 +1,5 @@
+**Pillar**: Performance Efficiency
+
 # FSIPERF08: How do you optimize AI model inference performance?
 
 Financial services AI applications require sophisticated

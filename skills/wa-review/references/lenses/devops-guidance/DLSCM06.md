@@ -1,6 +1,5 @@
-# [DL.SCM.6] Maintain informative repository documentation
-
-**Capability**: DL.SCM
+**Saga**: Development lifecycle
+**Capability**: DL.SCM — Software component management
 
 ---
 

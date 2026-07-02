@@ -1,6 +1,6 @@
-# GAMEPERF04
+# GAMEPERF04 — Compute and hardware
 
-**Pillar**: Unknown  
+**Pillar**: Performance Efficiency  
 **Best Practices**: 2
 
 ---

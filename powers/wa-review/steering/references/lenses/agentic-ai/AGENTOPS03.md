@@ -1,6 +1,6 @@
-# AGENTOPS03
+# AGENTOPS03 — Agent lifecycle and deployment processes
 
-**Pillar**: Unknown  
+**Pillar**: Operational Excellence  
 **Best Practices**: 4
 
 ---

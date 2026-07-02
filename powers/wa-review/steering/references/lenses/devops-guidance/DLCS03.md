@@ -1,6 +1,5 @@
-# [DL.CS.3] Enforce verification before using signed artifacts
-
-**Capability**: DL.CS
+**Saga**: Development lifecycle
+**Capability**: DL.CS — Cryptographic signing
 
 ---
 

@@ -1,6 +1,6 @@
-# GAMESEC04
+# GAMESEC04 — Access control
 
-**Pillar**: Unknown  
+**Pillar**: Security  
 **Best Practices**: 4
 
 ---

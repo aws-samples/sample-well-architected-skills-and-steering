@@ -1,6 +1,6 @@
-# MLPERF05
+# MLPERF05 — Deployment
 
-**Pillar**: Unknown  
+**Pillar**: Performance Efficiency  
 **Best Practices**: 2
 
 ---

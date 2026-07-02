@@ -1,6 +1,6 @@
-# AGENTREL06
+# AGENTREL06 — Legacy system integration
 
-**Pillar**: Unknown  
+**Pillar**: Reliability  
 **Best Practices**: 5
 
 ---

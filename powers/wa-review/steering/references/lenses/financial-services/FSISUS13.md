@@ -1,3 +1,5 @@
+**Pillar**: Sustainability
+
 # FSISUS13: Can you complete workloads over more time while not violating your maximum SLA?
 
 How do you avoid load spikes to reduce the provisioned capacity required for your

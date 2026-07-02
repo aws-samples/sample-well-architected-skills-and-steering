@@ -1,3 +1,5 @@
+**Pillar**: Performance Efficiency
+
 # FSIPERF03: How do you select your storage architecture?
 
 AWS offers a wide range of storage options and as with compute, the best performance

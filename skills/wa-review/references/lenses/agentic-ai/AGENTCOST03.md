@@ -1,6 +1,6 @@
-# AGENTCOST03
+# AGENTCOST03 — Agent memory and state cost management
 
-**Pillar**: Unknown  
+**Pillar**: Cost Optimization  
 **Best Practices**: 3
 
 ---

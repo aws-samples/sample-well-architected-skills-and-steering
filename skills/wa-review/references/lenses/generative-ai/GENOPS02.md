@@ -1,6 +1,6 @@
-# GENOPS02
+# GENOPS02 — Monitor and manage operational health
 
-**Pillar**: Unknown  
+**Pillar**: Operational Excellence  
 **Best Practices**: 3
 
 ---

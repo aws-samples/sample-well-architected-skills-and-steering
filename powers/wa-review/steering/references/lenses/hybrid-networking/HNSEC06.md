@@ -1,6 +1,6 @@
-# HNSEC06
+# HNSEC06 — Incident response
 
-**Pillar**: Unknown  
+**Pillar**: Security  
 **Best Practices**: 2
 
 ---

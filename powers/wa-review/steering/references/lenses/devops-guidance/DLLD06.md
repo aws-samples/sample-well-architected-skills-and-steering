@@ -1,6 +1,5 @@
-# [DL.LD.6] Leverage extensible development tools
-
-**Capability**: DL.LD
+**Saga**: Development lifecycle
+**Capability**: DL.LD — Local development
 
 ---
 

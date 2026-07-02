@@ -1,6 +1,6 @@
-# GAMESUS01
+# GAMESUS01 — Data management
 
-**Pillar**: Unknown  
+**Pillar**: Sustainability  
 **Best Practices**: 2
 
 ---

@@ -1,6 +1,5 @@
-# [QA.TEM.5] Run tests in parallel for faster results
-
-**Capability**: QA.TEM
+**Saga**: Quality assurance
+**Capability**: QA.TEM — Test environment management
 
 ---
 

@@ -1,3 +1,5 @@
+**Pillar**: Cost Optimization
+
 # FSICOST11: Do you use cost tradeoffs of various AWS pricing models in your workload design?
 
 Cloud cost is an important part of the design and architecture process and is used in

@@ -1,6 +1,5 @@
-# [QA.NT.7] Verify service integrations through contract testing
-
-**Capability**: QA.NT
+**Saga**: Quality assurance
+**Capability**: QA.NT — Non-functional testing
 
 ---
 

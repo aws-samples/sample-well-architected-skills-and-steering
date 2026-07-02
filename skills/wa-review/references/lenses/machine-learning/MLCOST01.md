@@ -1,6 +1,6 @@
-# MLCOST01
+# MLCOST01 — Business goal identification
 
-**Pillar**: Unknown  
+**Pillar**: Cost Optimization  
 **Best Practices**: 2
 
 ---

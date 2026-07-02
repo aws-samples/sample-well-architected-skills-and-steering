@@ -4,6 +4,8 @@
 
 ---
 
+## 1 – Monitor the health of the analytics application workload
+
 # Best practice 1.1 – Validate the data quality of source systems before transferring data for analytics
 
 Data quality can have an intrinsic impact on the success or
@@ -92,6 +94,8 @@ For very long running jobs it can also be necessary to monitor the start time of
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/analytics-lens/best-practice-1.2---monitor-operational-metrics-of-data-processing-jobs-and-the-availability-of-source-data..html*
 
 ---
+
+## 2 – Modernize deployment of the analytics jobs and applications
 
 # Best practice 2.1 – Use version control for job and application changes
 

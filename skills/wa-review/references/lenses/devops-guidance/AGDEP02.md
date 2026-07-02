@@ -1,6 +1,5 @@
-# [AG.DEP.2] Continuously baseline environments to manage drift
-
-**Capability**: AG.DEP
+**Saga**: Automated governance
+**Capability**: AG.DEP — Dynamic environment provisioning
 
 ---
 

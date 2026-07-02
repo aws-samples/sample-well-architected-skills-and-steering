@@ -1,6 +1,5 @@
-# [DL.ADS.3] Use staggered deployment and release strategies
-
-**Capability**: DL.ADS
+**Saga**: Development lifecycle
+**Capability**: DL.ADS — Advanced deployment strategies
 
 ---
 

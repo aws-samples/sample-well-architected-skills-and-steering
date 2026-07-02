@@ -1,6 +1,5 @@
-# RAIBR04
+# RAIBR04 — Mitigate risks
 
-**Pillar**: Unknown  
 **Best Practices**: 3
 
 ---

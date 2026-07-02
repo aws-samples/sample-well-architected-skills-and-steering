@@ -1,6 +1,5 @@
-# RAIGT01
+# RAIGT01 — Guiding
 
-**Pillar**: Unknown  
 **Best Practices**: 5
 
 ---

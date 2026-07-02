@@ -1,6 +1,5 @@
-# [DL.CD.3] Integrate quality assurance into deployments
-
-**Capability**: DL.CD
+**Saga**: Development lifecycle
+**Capability**: DL.CD — Continuous delivery
 
 ---
 

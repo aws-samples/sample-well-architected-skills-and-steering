@@ -1,6 +1,6 @@
-# GENOPS04
+# GENOPS04 — Automate lifecycle management
 
-**Pillar**: Unknown  
+**Pillar**: Operational Excellence  
 **Best Practices**: 2
 
 ---

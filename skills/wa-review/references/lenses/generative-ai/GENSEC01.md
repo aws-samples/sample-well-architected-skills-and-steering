@@ -1,6 +1,6 @@
-# GENSEC01
+# GENSEC01 — Endpoint security
 
-**Pillar**: Unknown  
+**Pillar**: Security  
 **Best Practices**: 4
 
 ---

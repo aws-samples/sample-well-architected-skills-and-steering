@@ -1,6 +1,6 @@
-# MLREL01
+# MLREL01 — ML problem framing
 
-**Pillar**: Unknown  
+**Pillar**: Reliability  
 **Best Practices**: 2
 
 ---

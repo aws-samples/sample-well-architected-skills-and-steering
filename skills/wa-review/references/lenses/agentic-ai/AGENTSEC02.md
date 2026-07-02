@@ -1,6 +1,6 @@
-# AGENTSEC02
+# AGENTSEC02 — Secure agent tool usage
 
-**Pillar**: Unknown  
+**Pillar**: Security  
 **Best Practices**: 3
 
 ---

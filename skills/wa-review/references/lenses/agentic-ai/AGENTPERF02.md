@@ -1,6 +1,6 @@
-# AGENTPERF02
+# AGENTPERF02 — Core processing and reasoning pipeline optimization
 
-**Pillar**: Unknown  
+**Pillar**: Performance Efficiency  
 **Best Practices**: 4
 
 ---

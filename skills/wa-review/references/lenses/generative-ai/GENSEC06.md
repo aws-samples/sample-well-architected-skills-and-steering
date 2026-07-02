@@ -1,6 +1,6 @@
-# GENSEC06
+# GENSEC06 — Data poisoning
 
-**Pillar**: Unknown  
+**Pillar**: Security  
 **Best Practices**: 1
 
 ---

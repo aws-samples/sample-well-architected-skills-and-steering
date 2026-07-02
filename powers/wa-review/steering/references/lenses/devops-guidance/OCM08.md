@@ -1,6 +1,5 @@
-# [O.CM.8] Hold operational review meetings for data transparency
-
-**Capability**: O.CM
+**Saga**: Observability
+**Capability**: O.CM — Continuous monitoring
 
 ---
 

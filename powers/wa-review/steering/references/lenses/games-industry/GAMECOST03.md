@@ -1,6 +1,6 @@
-# GAMECOST03
+# GAMECOST03 — Data transfer costs
 
-**Pillar**: Unknown  
+**Pillar**: Cost Optimization  
 **Best Practices**: 2
 
 ---

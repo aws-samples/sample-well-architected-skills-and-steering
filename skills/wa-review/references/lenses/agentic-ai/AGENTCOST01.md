@@ -1,6 +1,6 @@
-# AGENTCOST01
+# AGENTCOST01 — Reasoning and execution cost optimization
 
-**Pillar**: Unknown  
+**Pillar**: Cost Optimization  
 **Best Practices**: 4
 
 ---

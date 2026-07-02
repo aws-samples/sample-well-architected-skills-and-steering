@@ -1,6 +1,6 @@
-# GAMESEC05
+# GAMESEC05 — Detection
 
-**Pillar**: Unknown  
+**Pillar**: Security  
 **Best Practices**: 2
 
 ---

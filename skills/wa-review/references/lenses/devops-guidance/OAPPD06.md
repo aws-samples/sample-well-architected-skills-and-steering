@@ -1,6 +1,5 @@
-# [OA.PPD.6] Promote knowledge sharing through inter-team interest groups
-
-**Capability**: OA.PPD
+**Saga**: Organizational adoption
+**Capability**: OA.PPD — Personal and professional development
 
 ---
 

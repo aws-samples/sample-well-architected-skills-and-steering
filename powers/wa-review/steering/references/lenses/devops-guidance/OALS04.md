@@ -1,6 +1,5 @@
-# [OA.LS.4] Open dialogue between leadership and teams
-
-**Capability**: OA.LS
+**Saga**: Organizational adoption
+**Capability**: OA.LS — Leader sponsorship
 
 ---
 

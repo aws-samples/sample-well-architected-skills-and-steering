@@ -1,6 +1,5 @@
-# [OA.TI.3] Establish mechanisms for teams to gather and manage customer feedback
-
-**Capability**: OA.TI
+**Saga**: Organizational adoption
+**Capability**: OA.TI — Team interfaces
 
 ---
 

@@ -1,6 +1,5 @@
-# [DL.CI.6] Refine integration pipelines with build metrics
-
-**Capability**: DL.CI
+**Saga**: Development lifecycle
+**Capability**: DL.CI — Continuous integration
 
 ---
 

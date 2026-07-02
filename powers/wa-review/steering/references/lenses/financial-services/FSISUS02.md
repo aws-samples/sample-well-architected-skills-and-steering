@@ -1,3 +1,5 @@
+**Pillar**: Sustainability
+
 # FSISUS02: How do you address data sovereignty regulations for location of sustainable Region?
 
 While selection of low-carbon Regions is generally recommended for processing of

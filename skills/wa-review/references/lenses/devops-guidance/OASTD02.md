@@ -1,6 +1,5 @@
-# [OA.STD.2] Tailor operating models to business needs and team preferences
-
-**Capability**: OA.STD
+**Saga**: Organizational adoption
+**Capability**: OA.STD — Supportive team dynamics
 
 ---
 

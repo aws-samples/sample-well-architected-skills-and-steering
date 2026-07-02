@@ -1,6 +1,6 @@
-# MLSUS06
+# MLSUS06 — Monitoring
 
-**Pillar**: Unknown  
+**Pillar**: Sustainability  
 **Best Practices**: 2
 
 ---

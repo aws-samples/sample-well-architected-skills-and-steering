@@ -1,3 +1,5 @@
+**Pillar**: Performance Efficiency
+
 # FSIPERF01: How do you select the best performing architecture?
 
 Performance objectives for workloads can vary depending on the criticality of the

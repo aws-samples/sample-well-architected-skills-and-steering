@@ -1,6 +1,5 @@
-# RAIRC03
+# RAIRC03 — Select metrics
 
-**Pillar**: Unknown  
 **Best Practices**: 9
 
 ---

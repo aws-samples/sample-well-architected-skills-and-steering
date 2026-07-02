@@ -1,3 +1,5 @@
+**Pillar**: Reliability
+
 # FSIREL10: How are backups retained?
 
 ## FSIREL10-BP01 Understand requirements for data backup and retention

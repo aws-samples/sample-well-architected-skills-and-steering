@@ -1,6 +1,5 @@
-# RAIBR01
+# RAIBR01 — Characterize benefits
 
-**Pillar**: Unknown  
 **Best Practices**: 1
 
 ---

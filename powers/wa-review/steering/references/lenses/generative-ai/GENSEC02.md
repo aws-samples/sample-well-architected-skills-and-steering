@@ -1,6 +1,6 @@
-# GENSEC02
+# GENSEC02 — Response validation
 
-**Pillar**: Unknown  
+**Pillar**: Security  
 **Best Practices**: 1
 
 ---

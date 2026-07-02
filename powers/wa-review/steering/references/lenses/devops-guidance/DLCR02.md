@@ -1,6 +1,5 @@
-# [DL.CR.2] Perform peer review for code changes
-
-**Capability**: DL.CR
+**Saga**: Development lifecycle
+**Capability**: DL.CR — Code review
 
 ---
 

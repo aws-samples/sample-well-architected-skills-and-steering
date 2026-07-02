@@ -1,6 +1,5 @@
-# RAIDP01
+# RAIDP01 — Identify datasets
 
-**Pillar**: Unknown  
 **Best Practices**: 4
 
 ---

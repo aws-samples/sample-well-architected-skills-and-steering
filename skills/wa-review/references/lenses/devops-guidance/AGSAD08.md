@@ -1,6 +1,5 @@
-# [AG.SAD.8] Adopt a zero trust security model, shifting towards an identity-centric security perimeter
-
-**Capability**: AG.SAD
+**Saga**: Automated governance
+**Capability**: AG.SAD — Secure access and delegation
 
 ---
 

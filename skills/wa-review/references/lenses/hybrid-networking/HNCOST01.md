@@ -1,6 +1,6 @@
-# HNCOST01
+# HNCOST01 — Practice Cloud Financial Management
 
-**Pillar**: Unknown  
+**Pillar**: Cost Optimization  
 **Best Practices**: 1
 
 ---

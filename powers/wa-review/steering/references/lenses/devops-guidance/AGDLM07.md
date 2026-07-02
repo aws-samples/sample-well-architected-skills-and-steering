@@ -1,6 +1,5 @@
-# [AG.DLM.7] Ensure data safety with automated backup processes
-
-**Capability**: AG.DLM
+**Saga**: Automated governance
+**Capability**: AG.DLM — Data lifecycle management
 
 ---
 

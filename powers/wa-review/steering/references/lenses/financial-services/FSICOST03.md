@@ -1,3 +1,5 @@
+**Pillar**: Cost Optimization
+
 # FSICOST03: Do you use automation to drive scale for Cloud Financial Management practices?
 
 Automation can drastically reduce the cost of the CFM. You can provision resources

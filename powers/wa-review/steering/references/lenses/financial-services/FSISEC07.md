@@ -1,3 +1,5 @@
+**Pillar**: Security
+
 # FSISEC07: How are you inspecting your financial services infrastructure and network for unauthorized traffic?
 
 Monitor network traffic for expected and unexpected traffic to

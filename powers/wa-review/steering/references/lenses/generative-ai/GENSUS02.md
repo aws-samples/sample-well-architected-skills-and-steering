@@ -1,6 +1,6 @@
-# GENSUS02
+# GENSUS02 — Consume sustainable data processing and storage services
 
-**Pillar**: Unknown  
+**Pillar**: Sustainability  
 **Best Practices**: 1
 
 ---

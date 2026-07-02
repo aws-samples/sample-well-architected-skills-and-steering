@@ -1,3 +1,5 @@
+**Pillar**: Sustainability
+
 # FSISUS03: How do you select a Region to optimize financial services workloads for sustainability?
 
 Financial institutions must focus on sustainability within their cloud operating model

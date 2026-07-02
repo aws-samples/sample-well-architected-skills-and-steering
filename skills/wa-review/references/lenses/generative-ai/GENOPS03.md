@@ -1,6 +1,6 @@
-# GENOPS03
+# GENOPS03 — Observability in workloads
 
-**Pillar**: Unknown  
+**Pillar**: Operational Excellence  
 **Best Practices**: 2
 
 ---

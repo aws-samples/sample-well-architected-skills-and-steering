@@ -1,6 +1,6 @@
-# GAMESEC07
+# GAMESEC07 — Incident response
 
-**Pillar**: Unknown  
+**Pillar**: Security  
 **Best Practices**: 2
 
 ---

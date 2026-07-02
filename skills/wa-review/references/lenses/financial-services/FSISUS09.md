@@ -1,3 +1,5 @@
+**Pillar**: Sustainability
+
 # FSISUS09: How do you optimize areas of your code that use the most resources?
 
 Analyze and optimize your code's efficiency to improve resource utilization.

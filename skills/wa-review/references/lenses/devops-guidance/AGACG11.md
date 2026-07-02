@@ -1,6 +1,5 @@
-# [AG.ACG.11] Digital attestation verification for zero trust deployments
-
-**Capability**: AG.ACG
+**Saga**: Automated governance
+**Capability**: AG.ACG — Automated compliance and guardrails
 
 ---
 

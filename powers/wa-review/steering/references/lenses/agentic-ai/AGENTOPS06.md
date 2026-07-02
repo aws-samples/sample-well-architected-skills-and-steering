@@ -1,6 +1,6 @@
-# AGENTOPS06
+# AGENTOPS06 — Testing, evaluation, and validation frameworks
 
-**Pillar**: Unknown  
+**Pillar**: Operational Excellence  
 **Best Practices**: 3
 
 ---

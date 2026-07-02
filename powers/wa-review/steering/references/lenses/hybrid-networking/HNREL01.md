@@ -1,6 +1,6 @@
-# HNREL01
+# HNREL01 — Foundations
 
-**Pillar**: Unknown  
+**Pillar**: Reliability  
 **Best Practices**: 2
 
 ---

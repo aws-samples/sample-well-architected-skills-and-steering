@@ -1,6 +1,6 @@
-# HNCOST03
+# HNCOST03 — Cost-effective resources
 
-**Pillar**: Unknown  
+**Pillar**: Cost Optimization  
 **Best Practices**: 1
 
 ---

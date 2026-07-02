@@ -1,6 +1,5 @@
-# [DL.CI.5] Sequence build actions strategically for prompt feedback
-
-**Capability**: DL.CI
+**Saga**: Development lifecycle
+**Capability**: DL.CI — Continuous integration
 
 ---
 

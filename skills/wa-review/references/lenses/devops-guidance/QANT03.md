@@ -1,6 +1,5 @@
-# [QA.NT.3] Prioritize user experience with UX testing
-
-**Capability**: QA.NT
+**Saga**: Quality assurance
+**Capability**: QA.NT — Non-functional testing
 
 ---
 

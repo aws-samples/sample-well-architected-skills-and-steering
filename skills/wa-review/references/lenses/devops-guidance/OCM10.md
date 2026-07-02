@@ -1,6 +1,5 @@
-# [O.CM.10] Proactively detect issues using AI/ML
-
-**Capability**: O.CM
+**Saga**: Observability
+**Capability**: O.CM — Continuous monitoring
 
 ---
 

@@ -1,6 +1,6 @@
-# AGENTSEC06
+# AGENTSEC06 — Secure multi-agent orchestration
 
-**Pillar**: Unknown  
+**Pillar**: Security  
 **Best Practices**: 4
 
 ---

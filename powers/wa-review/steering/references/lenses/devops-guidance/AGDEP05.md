@@ -1,6 +1,5 @@
-# [AG.DEP.5] Standardize and manage shared resources across environments
-
-**Capability**: AG.DEP
+**Saga**: Automated governance
+**Capability**: AG.DEP — Dynamic environment provisioning
 
 ---
 

@@ -1,6 +1,5 @@
-# [O.DIP.2] Centralize logs for enhanced security investigations
-
-**Capability**: O.DIP
+**Saga**: Observability
+**Capability**: O.DIP — Data ingestion and processing
 
 ---
 

@@ -1,6 +1,5 @@
-# [OA.TI.7] Maintain a unified knowledge source for teams
-
-**Capability**: OA.TI
+**Saga**: Organizational adoption
+**Capability**: OA.TI — Team interfaces
 
 ---
 

@@ -1,6 +1,6 @@
-# MLOPS02
+# MLOPS02 — ML problem framing
 
-**Pillar**: Unknown  
+**Pillar**: Operational Excellence  
 **Best Practices**: 6
 
 ---

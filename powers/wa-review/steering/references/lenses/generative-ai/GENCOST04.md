@@ -1,6 +1,6 @@
-# GENCOST04
+# GENCOST04 — Cost-informed vector stores
 
-**Pillar**: Unknown  
+**Pillar**: Cost Optimization  
 **Best Practices**: 1
 
 ---

@@ -1,6 +1,6 @@
-# AGENTSUS03
+# AGENTSUS03 — Agent governance
 
-**Pillar**: Unknown  
+**Pillar**: Sustainability  
 **Best Practices**: 4
 
 ---

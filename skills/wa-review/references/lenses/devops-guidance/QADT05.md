@@ -1,6 +1,5 @@
-# [QA.DT.5] Utilize incremental metrics computation
-
-**Capability**: QA.DT
+**Saga**: Quality assurance
+**Capability**: QA.DT — Data testing
 
 ---
 

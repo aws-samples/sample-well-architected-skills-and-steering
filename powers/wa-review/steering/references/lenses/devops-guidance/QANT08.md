@@ -1,6 +1,5 @@
-# [QA.NT.8] Practice eco-conscious development with sustainability testing
-
-**Capability**: QA.NT
+**Saga**: Quality assurance
+**Capability**: QA.NT — Non-functional testing
 
 ---
 

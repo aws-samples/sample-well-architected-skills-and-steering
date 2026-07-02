@@ -1,6 +1,6 @@
-# MLSUS05
+# MLSUS05 — Deployment
 
-**Pillar**: Unknown  
+**Pillar**: Sustainability  
 **Best Practices**: 4
 
 ---

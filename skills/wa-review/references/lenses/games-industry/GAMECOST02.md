@@ -1,6 +1,6 @@
-# GAMECOST02
+# GAMECOST02 — Cost-effective resources
 
-**Pillar**: Unknown  
+**Pillar**: Cost Optimization  
 **Best Practices**: 3
 
 ---

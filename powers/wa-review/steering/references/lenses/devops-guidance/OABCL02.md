@@ -1,6 +1,5 @@
-# [OA.BCL.2] Automate repetitive tasks to reduce toil
-
-**Capability**: OA.BCL
+**Saga**: Organizational adoption
+**Capability**: OA.BCL — Balanced cognitive load
 
 ---
 

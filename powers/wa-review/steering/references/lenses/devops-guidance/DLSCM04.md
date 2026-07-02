@@ -1,6 +1,5 @@
-# [DL.SCM.4] Grant access only to trusted repositories
-
-**Capability**: DL.SCM
+**Saga**: Development lifecycle
+**Capability**: DL.SCM — Software component management
 
 ---
 

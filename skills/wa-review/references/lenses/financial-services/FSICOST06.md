@@ -1,3 +1,5 @@
+**Pillar**: Cost Optimization
+
 # FSICOST06: How do you track your workload usage cycles?
 
 Financial services workload usage can be cyclical and can have usage spikes during

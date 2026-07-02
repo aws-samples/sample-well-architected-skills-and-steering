@@ -1,6 +1,5 @@
-# [O.CM.3] Conduct post-incident analysis for continuous improvement
-
-**Capability**: O.CM
+**Saga**: Observability
+**Capability**: O.CM — Continuous monitoring
 
 ---
 

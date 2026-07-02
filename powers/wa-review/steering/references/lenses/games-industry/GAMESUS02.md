@@ -1,6 +1,6 @@
-# GAMESUS02
+# GAMESUS02 — Hardware and services
 
-**Pillar**: Unknown  
+**Pillar**: Sustainability  
 **Best Practices**: 2
 
 ---

@@ -1,3 +1,5 @@
+**Pillar**: Sustainability
+
 # FSISUS12: What is your process for benchmarking instances for existing workloads?
 
 Maximizing your instance utilization is an effective and quantifiable practice that

@@ -1,6 +1,5 @@
-# [QA.FT.3] Confirm end-user experience and functional correctness with acceptance tests
-
-**Capability**: QA.FT
+**Saga**: Quality assurance
+**Capability**: QA.FT — Functional testing
 
 ---
 

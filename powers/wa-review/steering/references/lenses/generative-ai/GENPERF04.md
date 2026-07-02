@@ -1,6 +1,6 @@
-# GENPERF04
+# GENPERF04 — Vector store optimization
 
-**Pillar**: Unknown  
+**Pillar**: Performance Efficiency  
 **Best Practices**: 2
 
 ---

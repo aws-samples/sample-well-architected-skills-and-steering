@@ -1,6 +1,5 @@
-# [AG.CA.4] Enable iterative internal auditing practices
-
-**Capability**: AG.CA
+**Saga**: Automated governance
+**Capability**: AG.CA — Continuous auditing
 
 ---
 

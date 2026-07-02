@@ -1,6 +1,5 @@
-# [QA.TEM.2] Ensure consistent test case execution using test beds
-
-**Capability**: QA.TEM
+**Saga**: Quality assurance
+**Capability**: QA.TEM — Test environment management
 
 ---
 

@@ -1,6 +1,5 @@
-# [DL.LD.5] Enforce coding standards before commit
-
-**Capability**: DL.LD
+**Saga**: Development lifecycle
+**Capability**: DL.LD — Local development
 
 ---
 

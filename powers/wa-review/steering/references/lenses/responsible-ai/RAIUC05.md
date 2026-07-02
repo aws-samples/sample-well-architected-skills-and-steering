@@ -1,6 +1,5 @@
-# RAIUC05
+# RAIUC05 — Identify requirements and approvals
 
-**Pillar**: Unknown  
 **Best Practices**: 1
 
 ---

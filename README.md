@@ -236,7 +236,7 @@ Then in Kiro: Powers panel → **Add Custom Power** → **Import power from a fo
 
 - Auto-activates when you mention "well-architected", "architecture review", "security review", "reliability", etc.
 - Loads only relevant steering based on your current task
-- Progressive BP-level reference loading (57 question files + 12 lens packs) — managed automatically
+- Progressive BP-level reference loading (57 question files + 27 lens packs) — managed automatically
 
 > [!NOTE]
 > Kiro's "Import from GitHub" expects `POWER.md` at the repository root. Since this repo contains multiple skills and adapters, the Power lives under `powers/wa-review/` and must be imported from a local folder. If you want GitHub-based import, you can fork just the `powers/wa-review/` directory into its own repo.
@@ -553,7 +553,7 @@ graph LR
 
 ## 📊 Reference data and token consumption
 
-The `wa-review` skill includes **307 best practices** across **57 framework questions** plus **12 lens extensions** — sourced directly from the [AWS Well-Architected public documentation](https://docs.aws.amazon.com/wellarchitected/latest/framework/welcome.html). This reference data lives in `skills/wa-review/references/` and is loaded progressively (one question at a time), not all at once.
+The `wa-review` skill includes **307 best practices** across **57 framework questions** plus **27 lens extensions** — sourced directly from the [AWS Well-Architected public documentation](https://docs.aws.amazon.com/wellarchitected/latest/framework/welcome.html). This reference data lives in `skills/wa-review/references/` and is loaded progressively (one question at a time), not all at once.
 
 ### Reference data summary
 
@@ -572,6 +572,21 @@ The `wa-review` skill includes **307 best practices** across **57 framework ques
 | Games Industry Lens | 32 | 316 KB | Game backends, real-time multiplayer, player data, live ops |
 | SaaS Lens | 6 | 112 KB | Multi-tenancy, tenant isolation, onboarding, metering, tiering |
 | Financial Services Lens | 79 | 432 KB | FSI compliance, data residency, resilience, auditability |
+| Life Sciences Lens | 56 | 468 KB | GxP, validated systems, clinical/research data, compliance |
+| End User Computing Lens | 69 | 372 KB | Virtual desktops/apps, streaming, identity, endpoint delivery |
+| Supply Chain Lens | 51 | 244 KB | Supply chain data, integration, traceability, resilience |
+| Video Streaming & Advertising Lens | 43 | 296 KB | Video pipelines, streaming delivery, ad tech, monetization |
+| Telco Lens | 34 | 272 KB | Telecom workloads, 5G/edge, OSS/BSS, carrier-grade reliability |
+| SAP Lens | 6 | 380 KB | SAP on AWS, S/4HANA, HANA databases, SAP landscape resilience |
+| Modern Industrial Data Technology Lens | 34 | 300 KB | Industrial data platforms, OT/IT convergence, manufacturing analytics |
+| Microsoft Workloads Lens | 23 | 368 KB | Windows Server, SQL Server, Active Directory, .NET on AWS |
+| Connected Mobility Lens | 6 | 284 KB | Connected vehicles, telematics, fleet data, automotive platforms |
+| Healthcare Industry Lens | 6 | 92 KB | HIPAA, clinical data, interoperability, patient privacy |
+| Container Build Lens | 6 | 76 KB | Container image builds, supply chain security, registries, CI/CD |
+| High Performance Computing Lens | 6 | 104 KB | HPC clusters, parallel workloads, scheduling, low-latency networking |
+| Streaming Media Lens | 6 | 96 KB | Media streaming, live/VOD delivery, encoding, content workflows |
+| IoT Lens | 6 | 369 KB | IoT devices, telemetry, edge computing, fleet provisioning, OTA updates |
+| Government Lens | 6 | 46 KB | Public sector, privacy-by-design, compliance, real-time security |
 
 ### Token strategies
 

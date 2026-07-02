@@ -1,6 +1,5 @@
-# [DL.SCM.9] Implement plans for deprecating and revoking outdated software components
-
-**Capability**: DL.SCM
+**Saga**: Development lifecycle
+**Capability**: DL.SCM — Software component management
 
 ---
 

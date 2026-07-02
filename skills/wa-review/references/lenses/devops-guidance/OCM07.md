@@ -1,6 +1,5 @@
-# [O.CM.7] Visualize telemetry data in real-time
-
-**Capability**: O.CM
+**Saga**: Observability
+**Capability**: O.CM — Continuous monitoring
 
 ---
 

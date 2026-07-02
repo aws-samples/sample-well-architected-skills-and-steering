@@ -1,6 +1,5 @@
-# [DL.LD.1] Establish development environments for local development
-
-**Capability**: DL.LD
+**Saga**: Development lifecycle
+**Capability**: DL.LD — Local development
 
 ---
 

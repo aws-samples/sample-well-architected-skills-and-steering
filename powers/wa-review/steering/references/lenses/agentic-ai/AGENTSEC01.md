@@ -1,6 +1,6 @@
-# AGENTSEC01
+# AGENTSEC01 — Secure agent memory and state
 
-**Pillar**: Unknown  
+**Pillar**: Security  
 **Best Practices**: 3
 
 ---

@@ -1,3 +1,5 @@
+**Pillar**: Cost Optimization
+
 # FSICOST07: Are you using all the available AWS credit and investment programs?
 
 Multiple credit options are available, such as migrations, digital innovation, cloud

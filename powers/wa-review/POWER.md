@@ -32,7 +32,7 @@ This power uses multiple steering files for different workflows. Kiro loads only
 The power includes detailed best-practice reference files that are loaded progressively during a review (one question at a time to manage context):
 
 - `steering/references/questions/` — 57 files, one per WA Framework question, containing all best practices with implementation guidance
-- `steering/references/lenses/` — Additional lens-specific best practices (serverless, generative-ai, agentic-ai, responsible-ai, hybrid-networking, migration, devops-guidance, machine-learning, data-analytics, games-industry, saas, financial-services)
+- `steering/references/lenses/` — Additional lens-specific best practices (serverless, generative-ai, agentic-ai, responsible-ai, hybrid-networking, migration, devops-guidance, machine-learning, data-analytics, games-industry, saas, financial-services, life-sciences, end-user-computing, supply-chain, video-streaming-advertising, telco, sap, modern-industrial-data-technology, microsoft-workloads, connected-mobility, healthcare-industry, container-build, high-performance-computing, streaming-media, iot, government)
 
 The agent loads these on demand — you don't need to do anything. During a full review, it works through questions sequentially: quick-scan first, then deep-dives only on questions where gaps are found.
 

@@ -1,6 +1,5 @@
-# RAIER02
+# RAIER02 — Aggregate results
 
-**Pillar**: Unknown  
 **Best Practices**: 2
 
 ---

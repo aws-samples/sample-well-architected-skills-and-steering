@@ -1,6 +1,5 @@
-# [OA.BCL.8] Determine team sizes based on cognitive capacity
-
-**Capability**: OA.BCL
+**Saga**: Organizational adoption
+**Capability**: OA.BCL — Balanced cognitive load
 
 ---
 

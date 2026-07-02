@@ -1,3 +1,5 @@
+**Pillar**: Operational Excellence
+
 # FSIOPS3: Have you assessed your specific workload against regulatory needs?
 
 Financial services institutions must be aware of all applicable regulatory and

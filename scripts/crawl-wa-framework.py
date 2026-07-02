@@ -116,6 +116,25 @@ PILLAR_DISPLAY = {
     "SUS": "Sustainability",
 }
 
+
+def pillar_for_id(question_id: str) -> str | None:
+    """
+    Resolve the WA pillar for a question/BP ID, or None if it isn't organized
+    by the 6 pillars. Framework IDs map directly (SEC03 -> Security); lens IDs
+    embed the pillar as a trailing code in their prefix (MLCOST01 -> COST,
+    AGENTSEC03 -> SEC, FSISEC01 -> SEC, GAMESOPS01 -> OPS). Lenses like
+    responsible-ai (RAIBR/RAIMON) and DevOps (OA.LS) aren't pillar-based -> None.
+    """
+    prefix = re.match(r"[A-Z]+", question_id)
+    if not prefix:
+        return None
+    prefix = prefix.group(0)
+    if prefix in PILLAR_DISPLAY:
+        return PILLAR_DISPLAY[prefix]
+    code = next((c for c in ("OPS", "SEC", "REL", "PERF", "COST", "SUS")
+                 if prefix.endswith(c)), None)
+    return PILLAR_DISPLAY.get(code) if code else None
+
 # Maps question IDs to their official WA Framework question text.
 # Used as the H1 title in consolidated output files.
 QUESTION_TITLES = {
@@ -354,15 +373,19 @@ def discover_bp_pages(toc_json: dict) -> list[dict]:
     "{PREFIX}{NUM}-BP{NUM} Human-readable title"
     e.g., "SEC03-BP01 Define access requirements"
 
-    Returns a list of dicts with keys: bp_id, title, href.
+    Returns a list of dicts with keys: bp_id, title, href, group.
     The bp_id (e.g., "SEC03-BP01") is extracted from the title prefix.
     The href is relative to the pillar/lens base URL.
+    "group" is the human-readable title of the question branch the BP sits under
+    (e.g. "Reasoning and execution cost optimization" for AGENTCOST01-BP01), or
+    None. The caller can use it as the question heading — otherwise the question
+    is only identifiable by its opaque ID (AGENTCOST01).
     """
     results = []
 
-    def walk(contents):
+    def walk(contents, group=None):
         for item in contents:
-            title = item.get("title", "")
+            title = (item.get("title") or "").replace("\xa0", " ").strip()
             # Match titles that start with a BP ID pattern
             if "-BP" in title and "href" in item:
                 bp_match = re.match(r"([A-Z]+\d+-BP\d+)", title)
@@ -371,10 +394,18 @@ def discover_bp_pages(toc_json: dict) -> list[dict]:
                         "bp_id": bp_match.group(1),
                         "title": title,
                         "href": item["href"],
+                        "group": group,
                     })
-            # Recurse into child nodes
+            # Recurse into child nodes. A branch that is NOT itself a BP page
+            # and whose children ARE BPs is the question group — record its
+            # title as context for those BPs.
             if "contents" in item:
-                walk(item["contents"])
+                child_group = group
+                if "-BP" not in title and any(
+                    "-BP" in (c.get("title") or "") for c in item["contents"]
+                ):
+                    child_group = title
+                walk(item["contents"], child_group)
 
     walk(toc_json.get("contents", []))
     return results
@@ -407,14 +438,23 @@ def discover_dotted_bp_pages(toc_json: dict) -> list[dict]:
     topic-page fallback, which only reaches a small fraction of the pages.
 
     Returns a list of dicts with keys: bp_id (e.g. "OA.LS.1"),
-    group_id (e.g. "OA.LS"), title, href.
+    group_id (e.g. "OA.LS"), title, href, saga, capability.
+    DevOps Guidance is organized as Sagas -> Capabilities -> best practices
+    (not pillars/questions). "saga" (e.g. "Organizational adoption") and
+    "capability" (e.g. "Leader sponsorship") are the human-readable names of
+    those two grouping levels, captured so the output isn't reduced to the
+    opaque code (OA.LS).
     """
     results = []
     # Titles look like "[OA.LS.1] Human-readable title". Some entries contain
     # non-breaking spaces, so normalize whitespace before matching.
     pattern = re.compile(r"^\[([A-Z]+\.[A-Z]+\.\d+)\]\s*(.*)", re.DOTALL)
 
-    def walk(contents):
+    # Depth is measured from the saga wrapper's children:
+    #   depth 0 = saga (e.g. "Organizational adoption")
+    #   depth 1 = capability (e.g. "Leader sponsorship")
+    #   deeper  = sub-pages / BP leaves
+    def walk(contents, depth=0, saga=None, capability=None):
         for item in contents:
             title = (item.get("title") or "").replace("\xa0", " ").strip()
             match = pattern.match(title)
@@ -425,17 +465,34 @@ def discover_dotted_bp_pages(toc_json: dict) -> list[dict]:
                     "group_id": ".".join(bp_id.split(".")[:2]),
                     "title": title,
                     "href": item["href"],
+                    "saga": saga,
+                    "capability": capability,
                 })
             if "contents" in item:
-                walk(item["contents"])
+                child_saga = title if depth == 0 else saga
+                child_cap = title if depth == 1 else capability
+                walk(item["contents"], depth + 1, child_saga, child_cap)
 
-    walk(toc_json.get("contents", []))
+    # Enter at the "The DevOps Sagas" wrapper if present so its children (the
+    # sagas) start at depth 0; otherwise walk from the root.
+    root = toc_json.get("contents", [])
+    saga_wrapper = next((it for it in root if (it.get("title") or "").strip() == "The DevOps Sagas"), None)
+    walk(saga_wrapper["contents"] if saga_wrapper else root)
     return results
 
 
 # ---------------------------------------------------------------------------
 # TOC parsing — Topic-page-style (older lenses)
 # ---------------------------------------------------------------------------
+
+
+# Generic per-pillar scaffolding pages that mirror the core WA Framework and add
+# no lens-specific guidance the LLM doesn't already know. They appear as depth-1
+# children of a pillar in flat-TOC lenses (e.g. IoT); excluded from capture so we
+# keep the pillar's real best-practice pages without the boilerplate.
+_GENERIC_PILLAR_PAGES = {
+    "definitions", "design principles", "key aws services", "resources",
+}
 
 
 def discover_leaf_pages(toc_json: dict, pillar_sections: list[str] | None = None) -> list[dict]:
@@ -469,7 +526,15 @@ def discover_leaf_pages(toc_json: dict, pillar_sections: list[str] | None = None
         tl = title.lower()
         return next((p for p in pillar_names if p.lower() in tl), None)
 
-    def walk(contents, section=None, depth=0):
+    # A numbered-question branch title, e.g. "1 – Monitor the health..." or
+    # "11 – Choose cost-effective compute and storage...". These sit between a
+    # pillar and its best-practice leaves in some lenses (Data Analytics, SAP)
+    # and group the BPs by the question they answer. We record the title so the
+    # writer can emit it as a heading — generic wrappers like "Best practices"
+    # (not numbered) are ignored.
+    numbered_question = re.compile(r"^\d+\s*[–-]\s+")
+
+    def walk(contents, section=None, depth=0, parent=None):
         for item in contents:
             title = item.get("title", "")
             href = item.get("href", "")
@@ -486,14 +551,30 @@ def discover_leaf_pages(toc_json: dict, pillar_sections: list[str] | None = None
                 current_section = section
 
             if "contents" in item:
-                # Branch node — recurse deeper, passing along the current section context
-                walk(item["contents"], current_section, depth + 1)
-            elif current_section and href and (depth >= 2 or matched):
+                # Track a numbered-question branch (below the pillar) as the
+                # parent context for the best-practice leaves beneath it.
+                child_parent = parent
+                if section and not matched and numbered_question.match(title.replace("\xa0", " ").strip()):
+                    child_parent = title.replace("\xa0", " ").strip()
+                walk(item["contents"], current_section, depth + 1, child_parent)
+            elif current_section and href and (depth >= 2 or matched or (
+                    # Some lenses (e.g. IoT) place per-topic best-practice pages
+                    # directly under the pillar at depth 1 rather than nesting them
+                    # under a sub-branch. Capture those too — but skip the generic
+                    # framework scaffolding pages the LLM already knows, which also
+                    # live at depth 1 (Definitions / Design principles / Key AWS
+                    # services / Resources). Without this, whole pillars of a
+                    # flat-TOC lens are silently dropped.
+                    depth == 1
+                    and title.replace("\xa0", " ").strip().rstrip(".").lower()
+                    not in _GENERIC_PILLAR_PAGES)):
                 # Capture this leaf when either:
                 #  - it sits under a pillar section (depth >= 2), the common case; or
                 #  - the leaf IS the pillar (matched): some lenses express a whole
                 #    pillar as a single content page with no child best practices
-                #    (e.g. the serverless lens's "Sustainability" at depth 1).
+                #    (e.g. the serverless lens's "Sustainability" at depth 1); or
+                #  - it's a depth-1 per-topic page under a pillar (IoT-style flat
+                #    TOC), excluding the generic scaffolding pages above.
                 #    Without this, that pillar's content is silently dropped.
                 #
                 # qid: some lenses (e.g. Financial Services) give each leaf a
@@ -510,10 +591,72 @@ def discover_leaf_pages(toc_json: dict, pillar_sections: list[str] | None = None
                     "title": title,
                     "href": href,
                     "qid": qid,
+                    # Numbered-question title (e.g. "11 – Choose cost-effective
+                    # compute...") this BP answers, or None if no numbered parent.
+                    "parent": parent,
                 })
 
     walk(toc_json.get("contents", []))
     return results
+
+
+# A best-practice heading embedded in a topic-page body, e.g.
+# "## IOTSEC01-BP01 Assign unique identities to each IoT device". Some lenses
+# (IoT) are really BP-style but don't expose each BP as its own TOC page — the
+# BPs live as headings inside the pillar's focus-area pages. This matches such a
+# heading and captures the BP ID so the body can be split into per-question files.
+# Note: no trailing \b — some source headings omit the space between the BP ID
+# and its title (e.g. "## IOTREL07-BP02Implement storage redundancy..."), and a
+# \b there would fail to match, merging that BP into the previous block.
+_EMBEDDED_BP_HEADING = re.compile(r"^#{1,6}\s+([A-Z]{2,}\d+-BP\d+)", re.M)
+
+
+def split_embedded_bps(section_pages: dict) -> dict | None:
+    """
+    Detect and split topic-page bodies that embed BP-ID headings into a
+    per-question structure compatible with write_output().
+
+    Some lenses (e.g. IoT) have a flat TOC whose leaf pages are pillar
+    "focus areas" (Identity and access management, Detective controls, ...),
+    but the real best practices are ``## IOTSEC01-BP01 ...`` headings *inside*
+    those page bodies rather than separate TOC pages. This slices each focus-area
+    body at its BP headings, groups the resulting blocks by question ID
+    (IOTSEC02-BP01/02/03 -> IOTSEC02), and returns a dict shaped like the
+    ``{question_id: [bp, ...]}`` that write_output() consumes.
+
+    Returns None when no page body contains an embedded BP heading — so every
+    existing topic-page lens (serverless, migration, saas, connected-mobility,
+    government, ...) skips this path entirely and stays byte-identical.
+    """
+    # Only engage when embedded BP headings are actually present.
+    if not any(_EMBEDDED_BP_HEADING.search(p["content"]) for pages in section_pages.values() for p in pages):
+        return None
+
+    questions = defaultdict(list)
+    for section, pages in section_pages.items():
+        for page in pages:
+            content = page["content"]
+            # Find every embedded BP heading and its position, then carve the
+            # body into [heading, next-heading) blocks — one block per BP.
+            matches = list(_EMBEDDED_BP_HEADING.finditer(content))
+            if not matches:
+                continue
+            for idx, m in enumerate(matches):
+                bp_id = m.group(1)
+                start = m.start()
+                end = matches[idx + 1].start() if idx + 1 < len(matches) else len(content)
+                block = content[start:end].strip()
+                question_id = bp_id.split("-BP")[0]
+                questions[question_id].append({
+                    "bp_id": bp_id,
+                    "title": bp_id,
+                    "content": block,
+                    "url": page["url"],
+                    # The focus-area section (e.g. "Identity and access
+                    # management") is the group context for this question.
+                    "group": section,
+                })
+    return dict(questions)
 
 
 # ---------------------------------------------------------------------------
@@ -596,6 +739,7 @@ def crawl_pillar(pillar_name: str, config: dict, delay: float, dry_run: bool) ->
             "title": bp["title"],
             "content": md,
             "url": url,
+            "group": bp.get("group"),
         })
         print("OK")
 
@@ -629,16 +773,25 @@ def write_output(all_questions: dict[str, list[dict]], output_dir: Path) -> int:
         if not bps:
             continue
 
-        # Look up the human-readable question title; fall back to the raw ID
-        title = QUESTION_TITLES.get(question_id, question_id)
-        prefix = re.match(r"[A-Z]+", question_id).group(0)
-        pillar = PILLAR_DISPLAY.get(prefix, "Unknown")
+        # Title precedence: the official framework question text (57 pillars) →
+        # the lens question group name captured from the TOC (e.g. "Reasoning
+        # and execution cost optimization" for AGENTCOST01) → the raw ID.
+        group = next((b.get("group") for b in bps if b.get("group")), None)
+        if question_id in QUESTION_TITLES:
+            title = QUESTION_TITLES[question_id]
+        elif group:
+            title = f"{question_id} — {group}"
+        else:
+            title = question_id
+        # Resolve the pillar (None for lenses not organized by the 6 pillars,
+        # e.g. responsible-ai / DevOps — those omit the Pillar line).
+        pillar = pillar_for_id(question_id)
 
         # Build the file content
-        lines = [
-            f"# {title}",
-            "",
-            f"**Pillar**: {pillar}  ",
+        lines = [f"# {title}", ""]
+        if pillar:
+            lines.append(f"**Pillar**: {pillar}  ")
+        lines += [
             f"**Best Practices**: {len(bps)}",
             "",
             "---",
@@ -743,10 +896,19 @@ def crawl_lens(lens_url: str, lens_name: str, output_dir: Path, delay: float, dr
                 continue
 
             filename = dotted_bp_filename(bp["bp_id"])
-            lines = [
-                f"# {bp['title']}",
-                "",
-                f"**Capability**: {bp['group_id']}",
+            # Lead with grouping metadata (saga + capability), then the fetched
+            # content — which already begins with its own "# [OA.AWE.1] Title"
+            # heading, so we don't emit a synthetic title (avoids duplication).
+            # Capability pairs the code with its human name when known
+            # (e.g. "OA.LS — Leader sponsorship").
+            cap = bp["group_id"]
+            if bp.get("capability"):
+                cap = f"{bp['group_id']} — {bp['capability']}"
+            lines = []
+            if bp.get("saga"):
+                lines.append(f"**Saga**: {bp['saga']}")
+            lines += [
+                f"**Capability**: {cap}",
                 "",
                 "---",
                 "",
@@ -797,6 +959,7 @@ def crawl_lens(lens_url: str, lens_name: str, output_dir: Path, delay: float, dr
                 "title": bp["title"],
                 "content": md,
                 "url": url,
+                "group": bp.get("group"),
             })
             print("OK")
 
@@ -843,10 +1006,25 @@ def crawl_lens(lens_url: str, lens_name: str, output_dir: Path, delay: float, dr
                 "content": md,
                 "url": url,
                 "qid": page.get("qid"),
+                "parent": page.get("parent"),
             })
             print("OK")
 
         output_dir.mkdir(parents=True, exist_ok=True)
+
+        # Some flat-TOC lenses (IoT) are really BP-style: the focus-area pages
+        # embed "## IOTSEC01-BP01 ..." headings in their bodies rather than
+        # exposing each BP as its own TOC page. When detected, split those bodies
+        # into per-question files (IOTSEC01.md, ...) via the shared write_output,
+        # so IoT reads like the other BP-style lenses. Returns None — and this
+        # branch is skipped — for every lens without embedded BP headings, so
+        # they stay byte-identical.
+        embedded = split_embedded_bps(section_pages)
+        if embedded:
+            written = write_output(embedded, output_dir)
+            total = sum(len(v) for v in embedded.values())
+            print(f"\n  Done: {written} question files, {total} best practices -> {output_dir}/")
+            return
 
         # If every captured page carries a question ID (e.g. Financial Services'
         # "FSISEC01: ..."), write one file per question — finer-grained and
@@ -857,7 +1035,14 @@ def crawl_lens(lens_url: str, lens_name: str, output_dir: Path, delay: float, dr
         if all_pages and all(p.get("qid") for p in all_pages):
             written = 0
             for p in sorted(all_pages, key=lambda x: x["qid"]):
-                lines = [
+                # Prepend the pillar when derivable from the qid (FSISEC01 ->
+                # Security). The content already carries its own "# FSISEC01:"
+                # title heading, so we only add the metadata line.
+                lines = []
+                pillar = pillar_for_id(p["qid"])
+                if pillar:
+                    lines += [f"**Pillar**: {pillar}", ""]
+                lines += [
                     p["content"],
                     "",
                     f"*Source: {p['url']}*",
@@ -880,7 +1065,16 @@ def crawl_lens(lens_url: str, lens_name: str, output_dir: Path, delay: float, dr
                     "---",
                     "",
                 ]
+                last_parent = None
                 for p in pages:
+                    # Emit the numbered-question title as a sub-heading the first
+                    # time it appears, so best practices keep the context of the
+                    # question they answer. Pages with no numbered parent
+                    # (serverless, migration, etc.) are unaffected -> byte-identical.
+                    if p.get("parent") and p["parent"] != last_parent:
+                        lines.append(f"## {p['parent']}")
+                        lines.append("")
+                        last_parent = p["parent"]
                     lines.append(p["content"])
                     lines.append("")
                     lines.append(f"*Source: {p['url']}*")

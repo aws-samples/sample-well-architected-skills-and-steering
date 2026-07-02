@@ -1,6 +1,5 @@
-# [DL.LD.9] Share tool configurations
-
-**Capability**: DL.LD
+**Saga**: Development lifecycle
+**Capability**: DL.LD — Local development
 
 ---
 

@@ -1,3 +1,5 @@
+**Pillar**: Performance Efficiency
+
 # FSIPERF02: How do you select your compute architecture?
 
 ## FSIPERF02-BP01 Select your compute architecture based on workload requirements

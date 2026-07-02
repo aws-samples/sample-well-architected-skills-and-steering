@@ -1,6 +1,5 @@
-# [DL.EAC.2] Modernize networks through infrastructure as code
-
-**Capability**: DL.EAC
+**Saga**: Development lifecycle
+**Capability**: DL.EAC — Everything as code
 
 ---
 

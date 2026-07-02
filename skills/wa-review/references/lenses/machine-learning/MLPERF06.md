@@ -1,6 +1,6 @@
-# MLPERF06
+# MLPERF06 — Monitoring
 
-**Pillar**: Unknown  
+**Pillar**: Performance Efficiency  
 **Best Practices**: 6
 
 ---

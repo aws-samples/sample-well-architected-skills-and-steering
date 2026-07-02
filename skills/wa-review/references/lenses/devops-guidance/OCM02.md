@@ -1,6 +1,5 @@
-# [O.CM.2] Plan for large scale events
-
-**Capability**: O.CM
+**Saga**: Observability
+**Capability**: O.CM — Continuous monitoring
 
 ---
 

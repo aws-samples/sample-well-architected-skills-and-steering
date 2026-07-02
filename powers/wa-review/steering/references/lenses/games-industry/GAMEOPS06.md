@@ -1,6 +1,6 @@
-# GAMEOPS06
+# GAMEOPS06 — Optimize over time
 
-**Pillar**: Unknown  
+**Pillar**: Operational Excellence  
 **Best Practices**: 2
 
 ---

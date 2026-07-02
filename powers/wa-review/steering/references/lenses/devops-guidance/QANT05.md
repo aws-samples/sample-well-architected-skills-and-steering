@@ -1,6 +1,5 @@
-# [QA.NT.5] Automate adherence to compliance standards through conformance testing
-
-**Capability**: QA.NT
+**Saga**: Quality assurance
+**Capability**: QA.NT — Non-functional testing
 
 ---
 

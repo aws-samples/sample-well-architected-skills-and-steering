@@ -1,6 +1,5 @@
-# [DL.ADS.2] Implement automatic rollbacks for failed deployments
-
-**Capability**: DL.ADS
+**Saga**: Development lifecycle
+**Capability**: DL.ADS — Advanced deployment strategies
 
 ---
 

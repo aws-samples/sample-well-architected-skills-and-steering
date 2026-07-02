@@ -1,6 +1,6 @@
-# AGENTCOST07
+# AGENTCOST07 — Agent cost governance and continuous optimization
 
-**Pillar**: Unknown  
+**Pillar**: Cost Optimization  
 **Best Practices**: 3
 
 ---

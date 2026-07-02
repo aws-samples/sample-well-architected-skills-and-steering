@@ -1,3 +1,5 @@
+**Pillar**: Operational Excellence
+
 # FSIOPS5: How do you understand the health of your workload?
 
 Financial services institutions are required to communicate service disruptions,

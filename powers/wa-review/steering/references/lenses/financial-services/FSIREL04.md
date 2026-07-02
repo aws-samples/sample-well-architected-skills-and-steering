@@ -1,3 +1,5 @@
+**Pillar**: Reliability
+
 # FSIREL04: Does the resilience and the architecture of your workload reflect the business requirements and resilience tier?
 
 Understanding how AWS services can impact your workload's availability is an

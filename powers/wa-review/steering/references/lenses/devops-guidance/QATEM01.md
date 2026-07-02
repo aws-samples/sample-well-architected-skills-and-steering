@@ -1,6 +1,5 @@
-# [QA.TEM.1] Establish dedicated testing environments
-
-**Capability**: QA.TEM
+**Saga**: Quality assurance
+**Capability**: QA.TEM — Test environment management
 
 ---
 

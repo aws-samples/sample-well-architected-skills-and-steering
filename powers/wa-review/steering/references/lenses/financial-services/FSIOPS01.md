@@ -1,3 +1,5 @@
+**Pillar**: Operational Excellence
+
 # FSIOPS01: Have you defined risk management roles for the cloud?
 
 Financial institutions typically adopt a Three Lines of Defense model to improve

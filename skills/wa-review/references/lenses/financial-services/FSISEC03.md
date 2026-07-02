@@ -1,3 +1,5 @@
+**Pillar**: Security
+
 # FSISEC03: How do you monitor the use of elevated credentials, such as administrative accounts, and guard against privilege escalation?
 
 IAM policies are powerful and complex, so it's important to

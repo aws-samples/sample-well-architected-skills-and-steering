@@ -1,3 +1,5 @@
+**Pillar**: Performance Efficiency
+
 # FSIPERF06: How do you evaluate compliance with performance requirements?
 
 Here are several methods for doing so:

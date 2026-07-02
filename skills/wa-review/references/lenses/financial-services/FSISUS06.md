@@ -1,3 +1,5 @@
+**Pillar**: Sustainability
+
 # FSISUS06: How do you monitor and minimize resource usage for financial services workloads?
 
 Monitor and analyze your financial services' usage patterns to minimize resource usage.

@@ -1,6 +1,5 @@
-# [OA.AWE.3] Balance work schedules for diverse global teams
-
-**Capability**: OA.AWE
+**Saga**: Organizational adoption
+**Capability**: OA.AWE — Adaptive work environment
 
 ---
 

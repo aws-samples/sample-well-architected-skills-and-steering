@@ -1,3 +1,5 @@
+**Pillar**: Security
+
 # FSISEC08: How do you isolate your software development lifecycle (SDLC) environments (like development, test, and production)?
 
 We recommend that you separate production workloads from

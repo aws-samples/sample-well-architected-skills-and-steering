@@ -1,6 +1,6 @@
-# GAMEPERF07
+# GAMEPERF07 — Networking and content delivery
 
-**Pillar**: Unknown  
+**Pillar**: Performance Efficiency  
 **Best Practices**: 5
 
 ---

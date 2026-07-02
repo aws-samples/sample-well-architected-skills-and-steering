@@ -1,3 +1,5 @@
+**Pillar**: Security
+
 # FSISEC13: How do you secure AI/ML models and protect training data?
 
 Financial institutions implementing generative AI must

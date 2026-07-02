@@ -1,6 +1,5 @@
-# [OA.LS.3] Drive continued improvement through business reviews
-
-**Capability**: OA.LS
+**Saga**: Organizational adoption
+**Capability**: OA.LS — Leader sponsorship
 
 ---
 

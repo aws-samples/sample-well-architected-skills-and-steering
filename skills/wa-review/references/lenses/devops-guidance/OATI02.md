@@ -1,6 +1,5 @@
-# [OA.TI.2] Streamline intra-team communication using tools and processes
-
-**Capability**: OA.TI
+**Saga**: Organizational adoption
+**Capability**: OA.TI — Team interfaces
 
 ---
 

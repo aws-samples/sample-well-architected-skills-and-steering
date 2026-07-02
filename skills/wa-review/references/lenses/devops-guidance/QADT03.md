@@ -1,6 +1,5 @@
-# [QA.DT.3] Validate data processing rules with data logic tests
-
-**Capability**: QA.DT
+**Saga**: Quality assurance
+**Capability**: QA.DT — Data testing
 
 ---
 

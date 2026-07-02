@@ -1,6 +1,6 @@
-# AGENTOPS02
+# AGENTOPS02 — Prompt and configuration lifecycle management
 
-**Pillar**: Unknown  
+**Pillar**: Operational Excellence  
 **Best Practices**: 4
 
 ---

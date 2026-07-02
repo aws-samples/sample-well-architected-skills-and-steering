@@ -1,6 +1,5 @@
-# RAIER03
+# RAIER03 — Address unmet release criteria
 
-**Pillar**: Unknown  
 **Best Practices**: 2
 
 ---

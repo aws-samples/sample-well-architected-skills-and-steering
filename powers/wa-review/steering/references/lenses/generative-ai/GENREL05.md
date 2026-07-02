@@ -1,6 +1,6 @@
-# GENREL05
+# GENREL05 — Distributed availability
 
-**Pillar**: Unknown  
+**Pillar**: Reliability  
 **Best Practices**: 3
 
 ---

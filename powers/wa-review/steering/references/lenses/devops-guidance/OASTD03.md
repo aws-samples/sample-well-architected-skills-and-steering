@@ -1,6 +1,5 @@
-# [OA.STD.3] Prioritize shared accountability over individual achievements
-
-**Capability**: OA.STD
+**Saga**: Organizational adoption
+**Capability**: OA.STD — Supportive team dynamics
 
 ---
 

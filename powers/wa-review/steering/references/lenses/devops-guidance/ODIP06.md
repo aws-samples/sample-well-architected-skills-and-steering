@@ -1,6 +1,5 @@
-# [O.DIP.6] Standardize telemetry data with common formats
-
-**Capability**: O.DIP
+**Saga**: Observability
+**Capability**: O.DIP — Data ingestion and processing
 
 ---
 

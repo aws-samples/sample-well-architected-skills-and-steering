@@ -1,6 +1,5 @@
-# [OA.TI.11] Offer optional opportunities for cross-team collaboration
-
-**Capability**: OA.TI
+**Saga**: Organizational adoption
+**Capability**: OA.TI — Team interfaces
 
 ---
 

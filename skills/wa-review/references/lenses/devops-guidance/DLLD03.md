@@ -1,6 +1,5 @@
-# [DL.LD.3] Commit local changes early and often
-
-**Capability**: DL.LD
+**Saga**: Development lifecycle
+**Capability**: DL.LD — Local development
 
 ---
 

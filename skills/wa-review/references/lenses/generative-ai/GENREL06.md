@@ -1,6 +1,6 @@
-# GENREL06
+# GENREL06 — Distributed compute tasks
 
-**Pillar**: Unknown  
+**Pillar**: Reliability  
 **Best Practices**: 1
 
 ---

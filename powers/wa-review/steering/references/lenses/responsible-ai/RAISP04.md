@@ -1,6 +1,5 @@
-# RAISP04
+# RAISP04 — Choosing a system configuration
 
-**Pillar**: Unknown  
 **Best Practices**: 1
 
 ---

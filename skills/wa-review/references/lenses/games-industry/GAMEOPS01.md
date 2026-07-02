@@ -1,6 +1,6 @@
-# GAMEOPS01
+# GAMEOPS01 — Live operations
 
-**Pillar**: Unknown  
+**Pillar**: Operational Excellence  
 **Best Practices**: 1
 
 ---

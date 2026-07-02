@@ -1,6 +1,5 @@
-# [DL.LD.8] Generate mock datasets for local development
-
-**Capability**: DL.LD
+**Saga**: Development lifecycle
+**Capability**: DL.LD — Local development
 
 ---
 

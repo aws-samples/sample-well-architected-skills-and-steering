@@ -1,3 +1,5 @@
+**Pillar**: Security
+
 # FSISEC10: How are you handling data loss prevention in the cloud environment?
 
 Data loss as part of a security event, accident or business

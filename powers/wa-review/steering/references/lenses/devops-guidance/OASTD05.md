@@ -1,6 +1,5 @@
-# [OA.STD.5] Establish team norms that enhance work performance
-
-**Capability**: OA.STD
+**Saga**: Organizational adoption
+**Capability**: OA.STD — Supportive team dynamics
 
 ---
 

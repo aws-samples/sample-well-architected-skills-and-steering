@@ -1,3 +1,5 @@
+**Pillar**: Cost Optimization
+
 # FSICOST08: Are you monitoring usage of Savings Plans regularly?
 
 Capacity planning and usage forecasting is important for managing your commitment

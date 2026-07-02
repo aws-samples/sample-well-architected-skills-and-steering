@@ -1,3 +1,5 @@
+**Pillar**: Operational Excellence
+
 # FSIOPS7: Have you developed a continuous improvement model?
 
 Financial institutions should continually assess and optimize their operational

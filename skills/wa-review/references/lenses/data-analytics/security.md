@@ -4,6 +4,8 @@
 
 ---
 
+## 3 – Designing data platforms for governance and compliance
+
 # Best practice 3.1 – Privacy by Design
 
 Privacy by Design is an approach in system engineering that
@@ -542,6 +544,8 @@ are appropriate.
 
 ---
 
+## 4 – Implement data access control
+
 # Best practice 4.1 – Allow data owners to determine which people or systems can access data in analytics and downstream workloads
 
 Data owners are the people that have direct responsibility
@@ -839,6 +843,8 @@ an audit log to capture database activities for Amazon RDS](https://aws.amazon.c
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/analytics-lens/best-practice-4.5-track-data-and-database-changes..html*
 
 ---
+
+## 5 – Control the access to workload infrastructure
 
 # Best practice 5.1 – Prevent unintended access to the infrastructure
 

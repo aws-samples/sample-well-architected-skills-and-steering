@@ -1,6 +1,5 @@
-# RAIBR03
+# RAIBR03 — Assess risks
 
-**Pillar**: Unknown  
 **Best Practices**: 4
 
 ---

@@ -1,6 +1,6 @@
-# MLOPS03
+# MLOPS03 — Data processing
 
-**Pillar**: Unknown  
+**Pillar**: Operational Excellence  
 **Best Practices**: 2
 
 ---

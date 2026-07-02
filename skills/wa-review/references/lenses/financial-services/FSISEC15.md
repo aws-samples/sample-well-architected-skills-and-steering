@@ -1,3 +1,5 @@
+**Pillar**: Security
+
 # FSISEC15: How do you implement AI model governance and access controls?
 
 Effective AI governance requires comprehensive access

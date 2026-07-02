@@ -1,6 +1,6 @@
-# AGENTREL03
+# AGENTREL03 — Agent memory and state management
 
-**Pillar**: Unknown  
+**Pillar**: Reliability  
 **Best Practices**: 4
 
 ---

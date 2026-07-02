@@ -1,6 +1,5 @@
-# [QA.ST.4] Enhance source code security with static application security testing
-
-**Capability**: QA.ST
+**Saga**: Quality assurance
+**Capability**: QA.ST — Security testing
 
 ---
 

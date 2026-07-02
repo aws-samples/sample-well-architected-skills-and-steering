@@ -1,6 +1,5 @@
-# [OA.AWE.4] Provide adaptable workspaces for effective on-site collaboration
-
-**Capability**: OA.AWE
+**Saga**: Organizational adoption
+**Capability**: OA.AWE — Adaptive work environment
 
 ---
 

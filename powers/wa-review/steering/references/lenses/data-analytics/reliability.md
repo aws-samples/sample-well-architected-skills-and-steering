@@ -4,6 +4,8 @@
 
 ---
 
+## 6 – Design resilience for analytics workload
+
 # Best practice 6.1 – Create an illustration of data flow dependencies
 
 Work with business stakeholders to create a visual illustration of the data pipeline. Identify the systems that interact with each dependency. The key architecture components that are expected to be captured are data acquisition, ingestion, data transformation, data processing, data storage, data protection and governance, and data consumption. All system dependencies need owners. Agree within your organization who owns which dependency.
@@ -158,6 +160,8 @@ Backup solutions must be implemented to reduce data loss. Test your backup to en
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/analytics-lens/best-practice-6.5---build-a-disaster-recovery-dr-plan-for-the-analytics-infrastructure-and-the-data..html*
 
 ---
+
+## 7 – Govern data and metadata changes
 
 # Best practice 7.1 – Build a central Data Catalog to store, share, and track metadata changes
 

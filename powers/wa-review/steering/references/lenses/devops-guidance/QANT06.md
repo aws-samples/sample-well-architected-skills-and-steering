@@ -1,6 +1,5 @@
-# [QA.NT.6] Experiment with failure using resilience testing to build recovery preparedness
-
-**Capability**: QA.NT
+**Saga**: Quality assurance
+**Capability**: QA.NT — Non-functional testing
 
 ---
 

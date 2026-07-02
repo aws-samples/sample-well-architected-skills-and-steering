@@ -1,6 +1,5 @@
-# [AG.DLM.2] Strengthen security with systematic encryption enforcement
-
-**Capability**: AG.DLM
+**Saga**: Automated governance
+**Capability**: AG.DLM — Data lifecycle management
 
 ---
 

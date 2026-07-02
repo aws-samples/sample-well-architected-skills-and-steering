@@ -1,3 +1,5 @@
+**Pillar**: Security
+
 # FSISEC02: How do you achieve, maintain, and monitor ongoing compliance with regulatory guidelines and mandates?
 
 Companies in the financial sector have more demanding compliance

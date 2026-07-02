@@ -1,6 +1,5 @@
-# [DL.CD.1] Deploy changes to production frequently
-
-**Capability**: DL.CD
+**Saga**: Development lifecycle
+**Capability**: DL.CD — Continuous delivery
 
 ---
 

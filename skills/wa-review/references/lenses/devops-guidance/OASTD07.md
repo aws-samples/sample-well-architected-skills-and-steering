@@ -1,6 +1,5 @@
-# [OA.STD.7] Amplify the scale and impact of centralized functions
-
-**Capability**: OA.STD
+**Saga**: Organizational adoption
+**Capability**: OA.STD — Supportive team dynamics
 
 ---
 

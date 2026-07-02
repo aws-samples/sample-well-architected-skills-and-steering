@@ -1,6 +1,5 @@
-# [OA.PPD.2] Allocate time and budget for targeted training
-
-**Capability**: OA.PPD
+**Saga**: Organizational adoption
+**Capability**: OA.PPD — Personal and professional development
 
 ---
 

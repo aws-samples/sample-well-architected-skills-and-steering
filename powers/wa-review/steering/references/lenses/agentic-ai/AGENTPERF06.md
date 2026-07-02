@@ -1,6 +1,6 @@
-# AGENTPERF06
+# AGENTPERF06 — Tool integration and framework optimization
 
-**Pillar**: Unknown  
+**Pillar**: Performance Efficiency  
 **Best Practices**: 3
 
 ---

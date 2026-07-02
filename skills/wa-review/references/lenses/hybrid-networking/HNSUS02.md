@@ -1,6 +1,6 @@
-# HNSUS02
+# HNSUS02 — Alignment to demand
 
-**Pillar**: Unknown  
+**Pillar**: Sustainability  
 **Best Practices**: 2
 
 ---

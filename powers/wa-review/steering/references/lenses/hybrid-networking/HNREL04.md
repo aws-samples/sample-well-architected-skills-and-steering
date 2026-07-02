@@ -1,6 +1,6 @@
-# HNREL04
+# HNREL04 — Failure management
 
-**Pillar**: Unknown  
+**Pillar**: Reliability  
 **Best Practices**: 4
 
 ---

@@ -4,6 +4,8 @@
 
 ---
 
+## 11 – Choose cost-effective compute and storage solutions based on workload usage patterns
+
 # Best practice 11.1 – Decouple storage from compute
 
 It’s common for data assets to grow exponentially year over
@@ -110,6 +112,8 @@ For more details, see [AWS serverless data analytics pipeline reference architec
 
 ---
 
+## 12 – Build financial accountability models for data and workload usage
+
 # Best practice 12.1 – Measure data storage and processing costs per user of the workload
 
 Data analytics workloads have recurring stable costs and
@@ -189,6 +193,8 @@ that cost allocation is properly attributed to the relevant department.
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/analytics-lens/best-practice-12.3---restrict-and-record-resource-allocation-permissions-using-aws-identity-and-access-management-iam..html*
 
 ---
+
+## 13 – Manage cost over time
 
 # Best practice 13.1 – Remove unused data and infrastructure
 
@@ -343,6 +349,8 @@ such features can improve cost reduction.
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/analytics-lens/best-practice-13.3---evaluate-and-adopt-new-cost-effective-solutions..html*
 
 ---
+
+## 14 – Use optimal pricing models based on infrastructure usage patterns
 
 # Best practice 14.1 – Evaluate the infrastructure usage patterns and choose your payment options accordingly
 

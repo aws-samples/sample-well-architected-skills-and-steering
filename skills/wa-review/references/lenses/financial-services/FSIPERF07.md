@@ -1,3 +1,5 @@
+**Pillar**: Performance Efficiency
+
 # FSIPERF07: How do you make trade-offs in your architecture?
 
 Financial services workloads often have to make trade-offs in their architecture to

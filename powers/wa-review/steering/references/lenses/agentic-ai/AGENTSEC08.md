@@ -1,6 +1,6 @@
-# AGENTSEC08
+# AGENTSEC08 — Secure agent inputs and outputs
 
-**Pillar**: Unknown  
+**Pillar**: Security  
 **Best Practices**: 2
 
 ---

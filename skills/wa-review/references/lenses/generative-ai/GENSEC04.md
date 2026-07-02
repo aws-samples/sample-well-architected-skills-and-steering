@@ -1,6 +1,6 @@
-# GENSEC04
+# GENSEC04 — Prompt security
 
-**Pillar**: Unknown  
+**Pillar**: Security  
 **Best Practices**: 2
 
 ---

@@ -1,6 +1,6 @@
-# HNSEC07
+# HNSEC07 — Application security
 
-**Pillar**: Unknown  
+**Pillar**: Security  
 **Best Practices**: 1
 
 ---

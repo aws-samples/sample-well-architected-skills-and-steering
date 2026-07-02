@@ -1,6 +1,6 @@
-# GENSEC03
+# GENSEC03 — Event monitoring
 
-**Pillar**: Unknown  
+**Pillar**: Security  
 **Best Practices**: 1
 
 ---

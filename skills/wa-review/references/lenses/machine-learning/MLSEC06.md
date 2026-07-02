@@ -1,6 +1,6 @@
-# MLSEC06
+# MLSEC06 — Monitoring
 
-**Pillar**: Unknown  
+**Pillar**: Security  
 **Best Practices**: 2
 
 ---

@@ -1,6 +1,5 @@
-# [AG.ACG.2] Implement controlled procedures for introducing new services and features
-
-**Capability**: AG.ACG
+**Saga**: Automated governance
+**Capability**: AG.ACG — Automated compliance and guardrails
 
 ---
 

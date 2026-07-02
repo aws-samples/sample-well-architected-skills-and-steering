@@ -1,6 +1,6 @@
-# GENREL04
+# GENREL04 — Prompt management
 
-**Pillar**: Unknown  
+**Pillar**: Reliability  
 **Best Practices**: 2
 
 ---

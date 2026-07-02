@@ -1,6 +1,6 @@
-# MLPERF02
+# MLPERF02 — ML problem framing
 
-**Pillar**: Unknown  
+**Pillar**: Performance Efficiency  
 **Best Practices**: 2
 
 ---

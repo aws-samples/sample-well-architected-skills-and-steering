@@ -1,6 +1,6 @@
-# HNSEC03
+# HNSEC03 — Detection
 
-**Pillar**: Unknown  
+**Pillar**: Security  
 **Best Practices**: 2
 
 ---

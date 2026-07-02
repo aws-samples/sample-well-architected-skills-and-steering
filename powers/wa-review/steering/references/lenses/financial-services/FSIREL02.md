@@ -1,3 +1,5 @@
+**Pillar**: Reliability
+
 # FSIREL02: Are you practicing continuous resilience to ensure that your services meet regulatory availability and recovery requirements?
 
 Your workload, and the environment in which it operates, is

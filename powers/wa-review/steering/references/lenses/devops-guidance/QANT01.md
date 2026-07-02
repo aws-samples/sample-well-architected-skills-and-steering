@@ -1,6 +1,5 @@
-# [QA.NT.1] Evaluate code quality through static testing
-
-**Capability**: QA.NT
+**Saga**: Quality assurance
+**Capability**: QA.NT — Non-functional testing
 
 ---
 

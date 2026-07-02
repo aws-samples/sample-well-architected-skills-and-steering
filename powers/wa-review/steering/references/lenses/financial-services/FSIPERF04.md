@@ -1,3 +1,5 @@
+**Pillar**: Performance Efficiency
+
 # FSIPERF04: How do you select your network architecture?
 
 Use performance requirements to drive the selection of network components and

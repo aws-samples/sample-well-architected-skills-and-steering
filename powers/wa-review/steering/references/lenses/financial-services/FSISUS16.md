@@ -1,3 +1,5 @@
+**Pillar**: Sustainability
+
 # FSISUS16: Do you achieve a judicious use of development resources?
 
 ## FSISUS16-BP01 Verify that all development resources are dedicated to an active project or team

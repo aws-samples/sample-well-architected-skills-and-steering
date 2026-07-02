@@ -1,6 +1,6 @@
-# AGENTSEC07
+# AGENTSEC07 — Human oversight protection and agent containment
 
-**Pillar**: Unknown  
+**Pillar**: Security  
 **Best Practices**: 5
 
 ---

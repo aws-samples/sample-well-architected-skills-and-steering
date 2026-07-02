@@ -1,6 +1,5 @@
-# [DL.CD.5] Ensure on-demand deployment capabilities
-
-**Capability**: DL.CD
+**Saga**: Development lifecycle
+**Capability**: DL.CD — Continuous delivery
 
 ---
 

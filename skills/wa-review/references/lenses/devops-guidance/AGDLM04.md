@@ -1,6 +1,5 @@
-# [AG.DLM.4] Maintain data compliance with scalable classification strategies
-
-**Capability**: AG.DLM
+**Saga**: Automated governance
+**Capability**: AG.DLM — Data lifecycle management
 
 ---
 

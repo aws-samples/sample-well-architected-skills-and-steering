@@ -1,6 +1,5 @@
-# [OA.STD.4] Structure teams around desired business outcomes
-
-**Capability**: OA.STD
+**Saga**: Organizational adoption
+**Capability**: OA.STD — Supportive team dynamics
 
 ---
 

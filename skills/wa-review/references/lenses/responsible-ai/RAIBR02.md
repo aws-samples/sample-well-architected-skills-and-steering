@@ -1,6 +1,5 @@
-# RAIBR02
+# RAIBR02 — Harmful events
 
-**Pillar**: Unknown  
 **Best Practices**: 9
 
 ---

@@ -1,3 +1,5 @@
+**Pillar**: Cost Optimization
+
 # FSICOST09: Are you using the cost advantages of tiered storage?
 
 FSI companies usually have long retention policies for their regulatory and audit

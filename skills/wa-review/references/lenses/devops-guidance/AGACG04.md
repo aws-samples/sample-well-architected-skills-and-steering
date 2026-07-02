@@ -1,6 +1,5 @@
-# [AG.ACG.4] Strengthen security posture with ubiquitous preventative guardrails
-
-**Capability**: AG.ACG
+**Saga**: Automated governance
+**Capability**: AG.ACG — Automated compliance and guardrails
 
 ---
 

@@ -1,6 +1,5 @@
-# [QA.ST.5] Evaluate runtime security with dynamic application security testing
-
-**Capability**: QA.ST
+**Saga**: Quality assurance
+**Capability**: QA.ST — Security testing
 
 ---
 

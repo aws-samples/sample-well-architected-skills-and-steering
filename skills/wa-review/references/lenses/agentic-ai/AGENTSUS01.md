@@ -1,6 +1,6 @@
-# AGENTSUS01
+# AGENTSUS01 — Resource reusability
 
-**Pillar**: Unknown  
+**Pillar**: Sustainability  
 **Best Practices**: 5
 
 ---

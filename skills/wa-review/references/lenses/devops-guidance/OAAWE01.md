@@ -1,6 +1,5 @@
-# [OA.AWE.1] Equip teams with feature-rich tools for virtual collaboration
-
-**Capability**: OA.AWE
+**Saga**: Organizational adoption
+**Capability**: OA.AWE — Adaptive work environment
 
 ---
 

@@ -1,3 +1,5 @@
+**Pillar**: Cost Optimization
+
 # FSICOST01: Is your cloud team educated on relevant technical and commercial optimization mechanisms?
 
 Due to the size of many financial services enterprise customers, the benefits of

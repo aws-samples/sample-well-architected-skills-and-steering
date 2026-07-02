@@ -1,6 +1,5 @@
-# RAIRC02
+# RAIRC02 — Measure test properties
 
-**Pillar**: Unknown  
 **Best Practices**: 3
 
 ---

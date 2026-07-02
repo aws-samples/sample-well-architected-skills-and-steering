@@ -1,6 +1,5 @@
-# [O.CM.6] Gather user experience insights using digital experience monitoring
-
-**Capability**: O.CM
+**Saga**: Observability
+**Capability**: O.CM — Continuous monitoring
 
 ---
 

@@ -1,6 +1,5 @@
-# [DL.LD.2] Consistently provision local environments
-
-**Capability**: DL.LD
+**Saga**: Development lifecycle
+**Capability**: DL.LD — Local development
 
 ---
 

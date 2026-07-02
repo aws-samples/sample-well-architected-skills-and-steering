@@ -1,6 +1,6 @@
-# GENREL02
+# GENREL02 — Network reliability
 
-**Pillar**: Unknown  
+**Pillar**: Reliability  
 **Best Practices**: 1
 
 ---

@@ -1,6 +1,5 @@
-# [DL.CI.7] Validate the reproducibility of builds
-
-**Capability**: DL.CI
+**Saga**: Development lifecycle
+**Capability**: DL.CI — Continuous integration
 
 ---
 

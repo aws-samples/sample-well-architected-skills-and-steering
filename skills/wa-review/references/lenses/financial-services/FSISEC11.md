@@ -1,3 +1,5 @@
+**Pillar**: Security
+
 # FSISEC11: How are you protecting against ransomware?
 
 Ransomware refers to a business model and a wide range of

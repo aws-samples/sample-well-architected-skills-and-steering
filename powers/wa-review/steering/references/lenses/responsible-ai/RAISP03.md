@@ -1,6 +1,5 @@
-# RAISP03
+# RAISP03 — Filtering
 
-**Pillar**: Unknown  
 **Best Practices**: 4
 
 ---

@@ -1,6 +1,6 @@
-# HNSEC01
+# HNSEC01 — Security foundations
 
-**Pillar**: Unknown  
+**Pillar**: Security  
 **Best Practices**: 3
 
 ---

@@ -1,6 +1,6 @@
-# HNCOST02
+# HNCOST02 — Expenditure and usage awareness
 
-**Pillar**: Unknown  
+**Pillar**: Cost Optimization  
 **Best Practices**: 3
 
 ---

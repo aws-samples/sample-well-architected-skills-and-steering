@@ -1,6 +1,6 @@
-# GENREL01
+# GENREL01 — Manage throughput quotas
 
-**Pillar**: Unknown  
+**Pillar**: Reliability  
 **Best Practices**: 1
 
 ---

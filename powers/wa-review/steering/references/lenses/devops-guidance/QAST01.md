@@ -1,6 +1,5 @@
-# [QA.ST.1] Evolve vulnerability management processes to be conducive of DevOps practices
-
-**Capability**: QA.ST
+**Saga**: Quality assurance
+**Capability**: QA.ST — Security testing
 
 ---
 

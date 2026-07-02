@@ -1,6 +1,6 @@
-# GENCOST01
+# GENCOST01 — Model selection and cost optimization
 
-**Pillar**: Unknown  
+**Pillar**: Cost Optimization  
 **Best Practices**: 1
 
 ---

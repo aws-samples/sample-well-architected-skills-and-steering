@@ -1,6 +1,6 @@
-# AGENTPERF04
+# AGENTPERF04 — Communication and protocol efficiency
 
-**Pillar**: Unknown  
+**Pillar**: Performance Efficiency  
 **Best Practices**: 3
 
 ---

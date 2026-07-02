@@ -1,6 +1,5 @@
-# RAISP02
+# RAISP02 — AI system baking
 
-**Pillar**: Unknown  
 **Best Practices**: 10
 
 ---

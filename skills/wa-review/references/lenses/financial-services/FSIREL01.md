@@ -1,3 +1,5 @@
+**Pillar**: Reliability
+
 # FSIREL01: Have you planned for events that impact your software development infrastructure and challenge your recovery plans?
 
 Financial services institutions are increasingly relying on continuous integration

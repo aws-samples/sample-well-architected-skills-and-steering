@@ -1,6 +1,5 @@
-# [DL.CI.3] Ensure automated quality assurance for every build
-
-**Capability**: DL.CI
+**Saga**: Development lifecycle
+**Capability**: DL.CI — Continuous integration
 
 ---
 

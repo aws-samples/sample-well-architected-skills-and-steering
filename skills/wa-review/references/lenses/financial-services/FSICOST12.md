@@ -1,3 +1,5 @@
+**Pillar**: Cost Optimization
+
 # FSICOST12: Are you saving costs by adopting a set of modern microservice architectures?
 
 Financial institutions are moving from monolithic legacy systems such as mainframes

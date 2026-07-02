@@ -1,6 +1,5 @@
-# [OA.BCL.3] Reduce troubleshooting and technical debt through continuous improvement
-
-**Capability**: OA.BCL
+**Saga**: Organizational adoption
+**Capability**: OA.BCL — Balanced cognitive load
 
 ---
 

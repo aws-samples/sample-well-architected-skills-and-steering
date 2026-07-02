@@ -1,6 +1,5 @@
-# [DL.SCM.3] Use artifact repositories with enforced authentication and authorization
-
-**Capability**: DL.SCM
+**Saga**: Development lifecycle
+**Capability**: DL.SCM — Software component management
 
 ---
 

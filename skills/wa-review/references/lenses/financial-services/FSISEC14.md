@@ -1,3 +1,5 @@
+**Pillar**: Security
+
 # FSISEC14: How do you monitor AI system outputs for security issues?
 
 Continuous monitoring of AI system outputs is critical for

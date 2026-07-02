@@ -1,6 +1,5 @@
-# [AG.DEP.4] Codify environment vending
-
-**Capability**: AG.DEP
+**Saga**: Automated governance
+**Capability**: AG.DEP — Dynamic environment provisioning
 
 ---
 

@@ -1,6 +1,5 @@
-# [OA.PPD.4] Invest in attracting, developing, and retaining skilled employees
-
-**Capability**: OA.PPD
+**Saga**: Organizational adoption
+**Capability**: OA.PPD — Personal and professional development
 
 ---
 

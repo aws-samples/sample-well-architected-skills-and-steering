@@ -1,6 +1,6 @@
-# AGENTCOST04
+# AGENTCOST04 — Agent tool serving cost optimization
 
-**Pillar**: Unknown  
+**Pillar**: Cost Optimization  
 **Best Practices**: 3
 
 ---

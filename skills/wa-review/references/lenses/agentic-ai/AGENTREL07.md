@@ -1,6 +1,6 @@
-# AGENTREL07
+# AGENTREL07 — Agent monitoring, management and recovery
 
-**Pillar**: Unknown  
+**Pillar**: Reliability  
 **Best Practices**: 3
 
 ---

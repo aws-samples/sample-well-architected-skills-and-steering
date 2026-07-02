@@ -1,6 +1,5 @@
-# [OA.BCL.7] Cultivate a psychologically-safe culture for experimentation
-
-**Capability**: OA.BCL
+**Saga**: Organizational adoption
+**Capability**: OA.BCL — Balanced cognitive load
 
 ---
 

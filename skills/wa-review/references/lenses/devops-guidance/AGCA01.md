@@ -1,6 +1,5 @@
-# [AG.CA.1] Establish comprehensive audit trails
-
-**Capability**: AG.CA
+**Saga**: Automated governance
+**Capability**: AG.CA — Continuous auditing
 
 ---
 

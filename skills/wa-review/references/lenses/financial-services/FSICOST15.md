@@ -1,3 +1,5 @@
+**Pillar**: Cost Optimization
+
 # FSICOST15: Have you reviewed your ongoing cost structure tradeoffs for your current AWS services lately?
 
 You can optimize cost over time by reviewing new services and implementing them in your

@@ -1,6 +1,6 @@
-# GAMEPERF02
+# GAMEPERF02 — Region selection
 
-**Pillar**: Unknown  
+**Pillar**: Performance Efficiency  
 **Best Practices**: 2
 
 ---

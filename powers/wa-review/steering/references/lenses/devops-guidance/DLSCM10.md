@@ -1,6 +1,5 @@
-# [DL.SCM.10] Generate a comprehensive software inventory for each build
-
-**Capability**: DL.SCM
+**Saga**: Development lifecycle
+**Capability**: DL.SCM — Software component management
 
 ---
 

@@ -1,6 +1,5 @@
-# RAIMON02
+# RAIMON02 — Responding to feedback
 
-**Pillar**: Unknown  
 **Best Practices**: 1
 
 ---

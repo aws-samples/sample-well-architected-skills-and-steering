@@ -1,6 +1,5 @@
-# [AG.ACG.3] Automate deployment of detective controls
-
-**Capability**: AG.ACG
+**Saga**: Automated governance
+**Capability**: AG.ACG — Automated compliance and guardrails
 
 ---
 

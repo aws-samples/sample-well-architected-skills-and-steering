@@ -1,6 +1,5 @@
-# [O.CM.1] Automate alerts for security and performance issues
-
-**Capability**: O.CM
+**Saga**: Observability
+**Capability**: O.CM — Continuous monitoring
 
 ---
 

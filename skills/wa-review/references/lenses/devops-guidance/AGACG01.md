@@ -1,6 +1,5 @@
-# [AG.ACG.1] Adopt a risk-based compliance framework
-
-**Capability**: AG.ACG
+**Saga**: Automated governance
+**Capability**: AG.ACG — Automated compliance and guardrails
 
 ---
 

@@ -1,6 +1,5 @@
-# [DL.CR.1] Standardize coding practices
-
-**Capability**: DL.CR
+**Saga**: Development lifecycle
+**Capability**: DL.CR — Code review
 
 ---
 

@@ -1,6 +1,6 @@
-# HNSEC02
+# HNSEC02 — Identity and access management
 
-**Pillar**: Unknown  
+**Pillar**: Security  
 **Best Practices**: 5
 
 ---

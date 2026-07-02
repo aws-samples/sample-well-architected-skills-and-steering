@@ -1,6 +1,6 @@
-# AGENTPERF05
+# AGENTPERF05 — Workflow orchestration and multi-agent collaboration
 
-**Pillar**: Unknown  
+**Pillar**: Performance Efficiency  
 **Best Practices**: 4
 
 ---

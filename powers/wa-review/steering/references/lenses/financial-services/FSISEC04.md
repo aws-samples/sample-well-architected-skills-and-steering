@@ -1,3 +1,5 @@
+**Pillar**: Security
+
 # FSISEC04: How do you accommodate separation of duties as part of your identity and access management design?
 
 ## FSISEC04-BP01 Implement the principle of separation of duties

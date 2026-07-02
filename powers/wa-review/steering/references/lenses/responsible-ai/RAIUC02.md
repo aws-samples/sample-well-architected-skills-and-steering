@@ -1,6 +1,5 @@
-# RAIUC02
+# RAIUC02 — Identify use case stakeholders
 
-**Pillar**: Unknown  
 **Best Practices**: 2
 
 ---

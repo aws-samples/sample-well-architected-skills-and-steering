@@ -1,6 +1,6 @@
-# GAMESEC09
+# GAMESEC09 — Automate security
 
-**Pillar**: Unknown  
+**Pillar**: Security  
 **Best Practices**: 1
 
 ---

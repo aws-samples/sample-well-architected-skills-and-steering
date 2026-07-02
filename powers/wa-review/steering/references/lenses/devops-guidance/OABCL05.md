@@ -1,6 +1,5 @@
-# [OA.BCL.5] Establish clear escalation paths and encourage constructive disagreement
-
-**Capability**: OA.BCL
+**Saga**: Organizational adoption
+**Capability**: OA.BCL — Balanced cognitive load
 
 ---
 

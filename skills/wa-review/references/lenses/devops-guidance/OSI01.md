@@ -1,6 +1,5 @@
-# [O.SI.1] Center observability strategies around business and technical outcomes
-
-**Capability**: O.SI
+**Saga**: Observability
+**Capability**: O.SI — Strategic instrumentation
 
 ---
 

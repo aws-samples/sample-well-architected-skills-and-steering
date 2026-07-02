@@ -1,6 +1,6 @@
-# HNOPS04
+# HNOPS04 — Operate
 
-**Pillar**: Unknown  
+**Pillar**: Operational Excellence  
 **Best Practices**: 2
 
 ---

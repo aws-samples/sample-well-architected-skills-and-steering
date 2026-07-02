@@ -1,6 +1,5 @@
-# [QA.NT.2] Validate system reliability with performance testing
-
-**Capability**: QA.NT
+**Saga**: Quality assurance
+**Capability**: QA.NT — Non-functional testing
 
 ---
 

@@ -1,6 +1,6 @@
-# GAMEREL01
+# GAMEREL01 — Workload architecture
 
-**Pillar**: Unknown  
+**Pillar**: Reliability  
 **Best Practices**: 1
 
 ---

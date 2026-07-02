@@ -1,6 +1,5 @@
-# [DL.SCM.5] Maintain an approved open-source software license list
-
-**Capability**: DL.SCM
+**Saga**: Development lifecycle
+**Capability**: DL.SCM — Software component management
 
 ---
 

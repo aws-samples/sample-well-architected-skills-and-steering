@@ -1,6 +1,6 @@
-# GAMECOST01
+# GAMECOST01 — Expenditure and usage awareness
 
-**Pillar**: Unknown  
+**Pillar**: Cost Optimization  
 **Best Practices**: 2
 
 ---

@@ -1,6 +1,5 @@
-# RAIRC04
+# RAIRC04 — Release criteria thresholds
 
-**Pillar**: Unknown  
 **Best Practices**: 3
 
 ---

@@ -1,6 +1,6 @@
-# GAMEOPS03
+# GAMEOPS03 — Game deployments
 
-**Pillar**: Unknown  
+**Pillar**: Operational Excellence  
 **Best Practices**: 5
 
 ---

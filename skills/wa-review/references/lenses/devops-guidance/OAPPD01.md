@@ -1,6 +1,5 @@
-# [OA.PPD.1] Encourage collaboration, innovation, learning, and continuous growth to foster a generative culture
-
-**Capability**: OA.PPD
+**Saga**: Organizational adoption
+**Capability**: OA.PPD — Personal and professional development
 
 ---
 

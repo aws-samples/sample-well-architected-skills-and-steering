@@ -1,6 +1,5 @@
-# [AG.DLM.8] Improve traceability with data provenance tracking
-
-**Capability**: AG.DLM
+**Saga**: Automated governance
+**Capability**: AG.DLM — Data lifecycle management
 
 ---
 

@@ -1,6 +1,6 @@
-# GENCOST02
+# GENCOST02 — Generative AI pricing model
 
-**Pillar**: Unknown  
+**Pillar**: Cost Optimization  
 **Best Practices**: 2
 
 ---

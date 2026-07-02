@@ -1,6 +1,5 @@
-# [OA.TI.9] Facilitate self-service collaboration through APIs and documentation
-
-**Capability**: OA.TI
+**Saga**: Organizational adoption
+**Capability**: OA.TI — Team interfaces
 
 ---
 

@@ -1,6 +1,5 @@
-# [O.SI.3] Instrument all systems for comprehensive telemetry data collection
-
-**Capability**: O.SI
+**Saga**: Observability
+**Capability**: O.SI — Strategic instrumentation
 
 ---
 

@@ -1,6 +1,5 @@
-# [O.SI.4] Build health checks into every service
-
-**Capability**: O.SI
+**Saga**: Observability
+**Capability**: O.SI — Strategic instrumentation
 
 ---
 

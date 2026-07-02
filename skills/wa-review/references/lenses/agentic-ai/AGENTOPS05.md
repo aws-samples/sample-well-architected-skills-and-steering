@@ -1,6 +1,6 @@
-# AGENTOPS05
+# AGENTOPS05 — Observability and monitoring for agentic systems
 
-**Pillar**: Unknown  
+**Pillar**: Operational Excellence  
 **Best Practices**: 5
 
 ---

@@ -1,6 +1,6 @@
-# HNPERF02
+# HNPERF02 — Architecture selection
 
-**Pillar**: Unknown  
+**Pillar**: Performance Efficiency  
 **Best Practices**: 5
 
 ---

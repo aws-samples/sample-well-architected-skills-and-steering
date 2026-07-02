@@ -1,6 +1,6 @@
-# MLCOST05
+# MLCOST05 — Deployment
 
-**Pillar**: Unknown  
+**Pillar**: Cost Optimization  
 **Best Practices**: 3
 
 ---

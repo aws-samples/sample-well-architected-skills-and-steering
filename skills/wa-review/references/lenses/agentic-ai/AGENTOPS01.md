@@ -1,6 +1,6 @@
-# AGENTOPS01
+# AGENTOPS01 — Operational practices for agentic AI systems
 
-**Pillar**: Unknown  
+**Pillar**: Operational Excellence  
 **Best Practices**: 3
 
 ---

@@ -1,6 +1,6 @@
-# GAMESOPS04
+# GAMESOPS04 — Health monitoring
 
-**Pillar**: Unknown  
+**Pillar**: Operational Excellence  
 **Best Practices**: 1
 
 ---

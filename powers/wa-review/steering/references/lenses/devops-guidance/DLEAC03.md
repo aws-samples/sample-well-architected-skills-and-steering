@@ -1,6 +1,5 @@
-# [DL.EAC.3] Codify data operations
-
-**Capability**: DL.EAC
+**Saga**: Development lifecycle
+**Capability**: DL.EAC — Everything as code
 
 ---
 

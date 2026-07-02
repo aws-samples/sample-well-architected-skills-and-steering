@@ -1,6 +1,6 @@
-# AGENTREL08
+# AGENTREL08 — Graceful degradation and configuration management
 
-**Pillar**: Unknown  
+**Pillar**: Reliability  
 **Best Practices**: 4
 
 ---

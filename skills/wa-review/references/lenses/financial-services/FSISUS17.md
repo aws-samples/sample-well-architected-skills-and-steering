@@ -1,3 +1,5 @@
+**Pillar**: Sustainability
+
 # FSISUS17: How do you minimize your test, staging, sandbox instances?
 
 ## FSISUS17-BP01 Use infrastructure as code (IaC) code base to snapshot your environment allowing you to decommission test infrastructure

@@ -1,6 +1,5 @@
-# [DL.EAC.6] Use general-purpose programming languages to generate Infrastructure-as-Code
-
-**Capability**: DL.EAC
+**Saga**: Development lifecycle
+**Capability**: DL.EAC — Everything as code
 
 ---
 

@@ -1,6 +1,6 @@
-# AGENTSEC05
+# AGENTSEC05 — Agent observability and non-repudiation
 
-**Pillar**: Unknown  
+**Pillar**: Security  
 **Best Practices**: 2
 
 ---

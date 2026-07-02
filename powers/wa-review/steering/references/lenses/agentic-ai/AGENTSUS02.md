@@ -1,6 +1,6 @@
-# AGENTSUS02
+# AGENTSUS02 — Resource right-sizing
 
-**Pillar**: Unknown  
+**Pillar**: Sustainability  
 **Best Practices**: 4
 
 ---

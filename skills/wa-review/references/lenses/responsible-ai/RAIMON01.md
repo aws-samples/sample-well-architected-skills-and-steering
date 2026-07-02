@@ -1,6 +1,5 @@
-# RAIMON01
+# RAIMON01 — Monitoring for deviations
 
-**Pillar**: Unknown  
 **Best Practices**: 5
 
 ---

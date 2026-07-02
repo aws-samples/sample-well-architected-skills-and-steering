@@ -1,6 +1,5 @@
-# [OA.LS.5] Assemble a cross-functional enabling team that focuses on organizational transformation
-
-**Capability**: OA.LS
+**Saga**: Organizational adoption
+**Capability**: OA.LS — Leader sponsorship
 
 ---
 

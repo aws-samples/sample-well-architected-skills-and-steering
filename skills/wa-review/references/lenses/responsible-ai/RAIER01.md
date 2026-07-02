@@ -1,6 +1,5 @@
-# RAIER01
+# RAIER01 — System evaluation
 
-**Pillar**: Unknown  
 **Best Practices**: 3
 
 ---

@@ -1,6 +1,6 @@
-# MLSEC01
+# MLSEC01 — Business goal identification
 
-**Pillar**: Unknown  
+**Pillar**: Security  
 **Best Practices**: 1
 
 ---

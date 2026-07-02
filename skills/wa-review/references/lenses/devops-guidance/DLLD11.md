@@ -1,6 +1,5 @@
-# [DL.LD.11] Implement smart code completion with machine-learning
-
-**Capability**: DL.LD
+**Saga**: Development lifecycle
+**Capability**: DL.LD — Local development
 
 ---
 

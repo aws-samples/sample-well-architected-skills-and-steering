@@ -1,3 +1,5 @@
+**Pillar**: Operational Excellence
+
 # FSIOPS4: How do you assess your ability to operate a workload in the cloud?
 
 Financial services institutions often have a robust set of operating policies that

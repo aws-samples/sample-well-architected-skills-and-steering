@@ -1,6 +1,5 @@
-# [DL.SCM.1] Use a version control system with appropriate access management
-
-**Capability**: DL.SCM
+**Saga**: Development lifecycle
+**Capability**: DL.SCM — Software component management
 
 ---
 

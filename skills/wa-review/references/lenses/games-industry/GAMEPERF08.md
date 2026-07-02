@@ -1,6 +1,6 @@
-# GAMEPERF08
+# GAMEPERF08 — Process and culture
 
-**Pillar**: Unknown  
+**Pillar**: Performance Efficiency  
 **Best Practices**: 2
 
 ---

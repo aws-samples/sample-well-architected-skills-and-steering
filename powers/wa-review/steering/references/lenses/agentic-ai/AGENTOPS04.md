@@ -1,6 +1,6 @@
-# AGENTOPS04
+# AGENTOPS04 — Tool integration and management practices
 
-**Pillar**: Unknown  
+**Pillar**: Operational Excellence  
 **Best Practices**: 3
 
 ---

@@ -1,6 +1,5 @@
-# [DL.SCM.8] Use a versioning specification to manage software components
-
-**Capability**: DL.SCM
+**Saga**: Development lifecycle
+**Capability**: DL.SCM — Software component management
 
 ---
 

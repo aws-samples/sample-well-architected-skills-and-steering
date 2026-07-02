@@ -1,6 +1,5 @@
-# [DL.CD.4] Automate the entire deployment process
-
-**Capability**: DL.CD
+**Saga**: Development lifecycle
+**Capability**: DL.CD — Continuous delivery
 
 ---
 

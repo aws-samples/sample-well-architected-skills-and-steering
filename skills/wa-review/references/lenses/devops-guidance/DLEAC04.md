@@ -1,6 +1,5 @@
-# [DL.EAC.4] Implement continuous configuration for enhanced application management
-
-**Capability**: DL.EAC
+**Saga**: Development lifecycle
+**Capability**: DL.EAC — Everything as code
 
 ---
 

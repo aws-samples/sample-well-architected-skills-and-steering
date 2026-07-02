@@ -1,6 +1,5 @@
-# [DL.SCM.2] Keep feature branches short-lived
-
-**Capability**: DL.SCM
+**Saga**: Development lifecycle
+**Capability**: DL.SCM — Software component management
 
 ---
 

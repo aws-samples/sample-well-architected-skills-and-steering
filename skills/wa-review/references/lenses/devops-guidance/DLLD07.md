@@ -1,6 +1,5 @@
-# [DL.LD.7] Establish sandbox environments with spend limits
-
-**Capability**: DL.LD
+**Saga**: Development lifecycle
+**Capability**: DL.LD — Local development
 
 ---
 

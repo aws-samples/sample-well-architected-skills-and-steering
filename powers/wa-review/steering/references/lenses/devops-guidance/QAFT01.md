@@ -1,6 +1,5 @@
-# [QA.FT.1] Ensure individual component functionality with unit tests
-
-**Capability**: QA.FT
+**Saga**: Quality assurance
+**Capability**: QA.FT — Functional testing
 
 ---
 

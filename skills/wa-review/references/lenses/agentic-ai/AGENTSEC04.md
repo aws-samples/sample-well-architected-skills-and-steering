@@ -1,6 +1,6 @@
-# AGENTSEC04
+# AGENTSEC04 — Agent goal alignment and manipulation prevention
 
-**Pillar**: Unknown  
+**Pillar**: Security  
 **Best Practices**: 2
 
 ---

@@ -1,6 +1,5 @@
-# [DL.CR.3] Establish clear completion criteria for code tasks
-
-**Capability**: DL.CR
+**Saga**: Development lifecycle
+**Capability**: DL.CR — Code review
 
 ---
 

@@ -1,6 +1,5 @@
-# RAIDP02
+# RAIDP02 — Dataset quality
 
-**Pillar**: Unknown  
 **Best Practices**: 4
 
 ---

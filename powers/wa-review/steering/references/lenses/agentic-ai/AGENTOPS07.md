@@ -1,6 +1,6 @@
-# AGENTOPS07
+# AGENTOPS07 — Operational recovery and consumption monitoring
 
-**Pillar**: Unknown  
+**Pillar**: Operational Excellence  
 **Best Practices**: 4
 
 ---

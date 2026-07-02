@@ -1,6 +1,5 @@
-# [O.DIP.4] Aggregate health and status metrics across workloads
-
-**Capability**: O.DIP
+**Saga**: Observability
+**Capability**: O.DIP — Data ingestion and processing
 
 ---
 

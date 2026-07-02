@@ -1,6 +1,5 @@
-# [AG.DEP.8] Implement a unified developer portal for self-service environment management
-
-**Capability**: AG.DEP
+**Saga**: Automated governance
+**Capability**: AG.DEP — Dynamic environment provisioning
 
 ---
 

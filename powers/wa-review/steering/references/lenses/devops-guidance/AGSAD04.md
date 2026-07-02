@@ -1,6 +1,5 @@
-# [AG.SAD.4] Limit human access with just-in-time access
-
-**Capability**: AG.SAD
+**Saga**: Automated governance
+**Capability**: AG.SAD — Secure access and delegation
 
 ---
 

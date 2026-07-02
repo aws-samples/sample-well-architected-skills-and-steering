@@ -1,6 +1,5 @@
-# [AG.DEP.3] Enable deployment to the landing zone
-
-**Capability**: AG.DEP
+**Saga**: Automated governance
+**Capability**: AG.DEP — Dynamic environment provisioning
 
 ---
 

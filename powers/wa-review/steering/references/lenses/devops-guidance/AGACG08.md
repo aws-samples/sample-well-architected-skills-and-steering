@@ -1,6 +1,5 @@
-# [AG.ACG.8] Conduct regular scans to identify and remove unused resources
-
-**Capability**: AG.ACG
+**Saga**: Automated governance
+**Capability**: AG.ACG — Automated compliance and guardrails
 
 ---
 

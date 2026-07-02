@@ -1,6 +1,5 @@
-# RAIUC01
+# RAIUC01 — Define your specific problem
 
-**Pillar**: Unknown  
 **Best Practices**: 2
 
 ---

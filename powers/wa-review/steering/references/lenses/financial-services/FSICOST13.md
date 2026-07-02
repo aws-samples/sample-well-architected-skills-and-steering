@@ -1,3 +1,5 @@
+**Pillar**: Cost Optimization
+
 # FSICOST13: Do you use cloud services to accommodate consulting or testing of projects?
 
 Some financial services institutions hire contractors during specific months, or for a

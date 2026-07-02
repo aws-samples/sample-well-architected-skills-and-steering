@@ -1,6 +1,6 @@
-# GENREL03
+# GENREL03 — Prompt remediation and recovery actions
 
-**Pillar**: Unknown  
+**Pillar**: Reliability  
 **Best Practices**: 2
 
 ---

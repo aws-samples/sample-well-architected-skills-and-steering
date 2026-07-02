@@ -1,6 +1,5 @@
-# [QA.ST.6] Validate third-party components using software composition analysis
-
-**Capability**: QA.ST
+**Saga**: Quality assurance
+**Capability**: QA.ST — Security testing
 
 ---
 

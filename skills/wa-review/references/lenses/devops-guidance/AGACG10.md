@@ -1,6 +1,5 @@
-# [AG.ACG.10] Automate resolution of findings in tracking systems
-
-**Capability**: AG.ACG
+**Saga**: Automated governance
+**Capability**: AG.ACG — Automated compliance and guardrails
 
 ---
 

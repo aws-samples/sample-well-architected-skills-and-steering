@@ -1,6 +1,5 @@
-# RAIDP04
+# RAIDP04 — Dataset access and versioning
 
-**Pillar**: Unknown  
 **Best Practices**: 5
 
 ---

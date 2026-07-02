@@ -1,3 +1,5 @@
+**Pillar**: Security
+
 # FSISEC16: How do you use AI for threat detection and security automation?
 
 Financial institutions can use AI capabilities to enhance

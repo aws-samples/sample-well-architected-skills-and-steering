@@ -1,6 +1,5 @@
-# [AG.DLM.1] Define recovery objectives to maintain business continuity
-
-**Capability**: AG.DLM
+**Saga**: Automated governance
+**Capability**: AG.DLM — Data lifecycle management
 
 ---
 

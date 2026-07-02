@@ -1,6 +1,5 @@
-# [DL.EAC.1] Organize infrastructure as code for scale
-
-**Capability**: DL.EAC
+**Saga**: Development lifecycle
+**Capability**: DL.EAC — Everything as code
 
 ---
 

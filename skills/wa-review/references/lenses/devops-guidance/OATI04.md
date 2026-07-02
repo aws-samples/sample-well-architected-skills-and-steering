@@ -1,6 +1,5 @@
-# [OA.TI.4] Refine error tracking and resolution
-
-**Capability**: OA.TI
+**Saga**: Organizational adoption
+**Capability**: OA.TI — Team interfaces
 
 ---
 

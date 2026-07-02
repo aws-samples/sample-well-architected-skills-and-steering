@@ -1,6 +1,5 @@
-# [QA.ST.3] Use application risk assessments for secure software design
-
-**Capability**: QA.ST
+**Saga**: Quality assurance
+**Capability**: QA.ST — Security testing
 
 ---
 

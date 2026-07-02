@@ -1,6 +1,5 @@
-# [AG.SAD.3] Treat pipelines as production resources
-
-**Capability**: AG.SAD
+**Saga**: Automated governance
+**Capability**: AG.SAD — Secure access and delegation
 
 ---
 

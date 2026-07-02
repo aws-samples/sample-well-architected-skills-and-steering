@@ -1,6 +1,5 @@
-# [DL.CI.2] Trigger builds automatically upon source code modifications
-
-**Capability**: DL.CI
+**Saga**: Development lifecycle
+**Capability**: DL.CI — Continuous integration
 
 ---
 

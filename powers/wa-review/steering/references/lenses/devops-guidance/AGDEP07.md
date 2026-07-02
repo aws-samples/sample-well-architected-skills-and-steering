@@ -1,6 +1,5 @@
-# [AG.DEP.7] Utilize metadata for scalable environment management
-
-**Capability**: AG.DEP
+**Saga**: Automated governance
+**Capability**: AG.DEP — Dynamic environment provisioning
 
 ---
 

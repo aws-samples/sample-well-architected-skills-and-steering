@@ -1,6 +1,5 @@
-# [AG.ACG.6] Implement auto-remediation for non-compliant findings
-
-**Capability**: AG.ACG
+**Saga**: Automated governance
+**Capability**: AG.ACG — Automated compliance and guardrails
 
 ---
 

@@ -1,6 +1,6 @@
-# AGENTSEC03
+# AGENTSEC03 — Agent identity and permission management
 
-**Pillar**: Unknown  
+**Pillar**: Security  
 **Best Practices**: 4
 
 ---

@@ -1,3 +1,5 @@
+**Pillar**: Performance Efficiency
+
 # FSIPERF05: How do you select and optimize generative AI components for your workload?
 
 Selecting and optimizing generative AI components requires

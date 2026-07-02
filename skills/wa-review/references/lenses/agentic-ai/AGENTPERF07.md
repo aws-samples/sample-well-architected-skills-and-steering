@@ -1,6 +1,6 @@
-# AGENTPERF07
+# AGENTPERF07 — Multi-tenancy and resource optimization
 
-**Pillar**: Unknown  
+**Pillar**: Performance Efficiency  
 **Best Practices**: 2
 
 ---

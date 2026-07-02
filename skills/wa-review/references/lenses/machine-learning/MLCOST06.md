@@ -1,6 +1,6 @@
-# MLCOST06
+# MLCOST06 — Monitoring
 
-**Pillar**: Unknown  
+**Pillar**: Cost Optimization  
 **Best Practices**: 4
 
 ---

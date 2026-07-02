@@ -1,6 +1,5 @@
-# [OA.TI.1] Communicate work flow and goals between teams and stakeholders
-
-**Capability**: OA.TI
+**Saga**: Organizational adoption
+**Capability**: OA.TI — Team interfaces
 
 ---
 

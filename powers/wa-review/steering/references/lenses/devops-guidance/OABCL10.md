@@ -1,6 +1,5 @@
-# [OA.BCL.10] Make informed decisions using data
-
-**Capability**: OA.BCL
+**Saga**: Organizational adoption
+**Capability**: OA.BCL — Balanced cognitive load
 
 ---
 

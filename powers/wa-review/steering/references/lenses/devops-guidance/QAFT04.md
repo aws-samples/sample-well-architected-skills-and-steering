@@ -1,6 +1,5 @@
-# [QA.FT.4] Balance developer feedback and test coverage using advanced test selection
-
-**Capability**: QA.FT
+**Saga**: Quality assurance
+**Capability**: QA.FT — Functional testing
 
 ---
 

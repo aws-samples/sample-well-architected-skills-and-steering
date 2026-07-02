@@ -1,6 +1,5 @@
-# [DL.CR.7] Create consistent and descriptive commit messages using a specification
-
-**Capability**: DL.CR
+**Saga**: Development lifecycle
+**Capability**: DL.CR — Code review
 
 ---
 

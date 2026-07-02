@@ -1,6 +1,5 @@
-# [DL.CD.6] Refine delivery pipelines using metrics for continuous improvement
-
-**Capability**: DL.CD
+**Saga**: Development lifecycle
+**Capability**: DL.CD — Continuous delivery
 
 ---
 

@@ -1,6 +1,6 @@
-# GAMEOPS02
+# GAMEOPS02 — Account structure
 
-**Pillar**: Unknown  
+**Pillar**: Operational Excellence  
 **Best Practices**: 2
 
 ---

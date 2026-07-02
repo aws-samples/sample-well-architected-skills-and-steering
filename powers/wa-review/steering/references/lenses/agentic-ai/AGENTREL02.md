@@ -1,6 +1,6 @@
-# AGENTREL02
+# AGENTREL02 — Predictable task execution
 
-**Pillar**: Unknown  
+**Pillar**: Reliability  
 **Best Practices**: 5
 
 ---

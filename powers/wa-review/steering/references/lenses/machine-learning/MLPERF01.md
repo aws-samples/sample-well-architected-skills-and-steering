@@ -1,6 +1,6 @@
-# MLPERF01
+# MLPERF01 — Business goal identification
 
-**Pillar**: Unknown  
+**Pillar**: Performance Efficiency  
 **Best Practices**: 1
 
 ---

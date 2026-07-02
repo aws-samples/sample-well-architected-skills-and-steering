@@ -1,6 +1,5 @@
-# [QA.DT.2] Enhance understanding of data through data profiling
-
-**Capability**: QA.DT
+**Saga**: Quality assurance
+**Capability**: QA.DT — Data testing
 
 ---
 

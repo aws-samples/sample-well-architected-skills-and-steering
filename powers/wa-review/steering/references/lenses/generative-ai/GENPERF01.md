@@ -1,6 +1,6 @@
-# GENPERF01
+# GENPERF01 — Establish performance evaluation processes
 
-**Pillar**: Unknown  
+**Pillar**: Performance Efficiency  
 **Best Practices**: 2
 
 ---

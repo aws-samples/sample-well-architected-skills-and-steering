@@ -1,6 +1,6 @@
-# HNREL03
+# HNREL03 — Change management
 
-**Pillar**: Unknown  
+**Pillar**: Reliability  
 **Best Practices**: 2
 
 ---

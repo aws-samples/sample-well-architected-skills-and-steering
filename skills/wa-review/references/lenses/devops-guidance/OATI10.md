@@ -1,6 +1,5 @@
-# [OA.TI.10] Choose interaction modes for improved efficiency and cost savings
-
-**Capability**: OA.TI
+**Saga**: Organizational adoption
+**Capability**: OA.TI — Team interfaces
 
 ---
 

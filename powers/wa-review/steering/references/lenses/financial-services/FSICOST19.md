@@ -1,3 +1,5 @@
+**Pillar**: Cost Optimization
+
 # FSICOST19: Do you use the cloud to drive innovation and operational excellence of your business model to impact both the top and bottom line?
 
 Today, technology and digital solutions are an integral part of FSI operations, however

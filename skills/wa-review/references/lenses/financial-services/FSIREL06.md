@@ -1,3 +1,5 @@
+**Pillar**: Reliability
+
 # FSIREL06: To mitigate operational risks, can your workload owners detect, locate, and recover from gray failures?
 
 Failures, such as loss of network connectivity, is often considered in a binary

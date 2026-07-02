@@ -1,6 +1,5 @@
-# [AG.DEP.6] Test landing zone changes in a mirrored non-production landing zone
-
-**Capability**: AG.DEP
+**Saga**: Automated governance
+**Capability**: AG.DEP — Dynamic environment provisioning
 
 ---
 

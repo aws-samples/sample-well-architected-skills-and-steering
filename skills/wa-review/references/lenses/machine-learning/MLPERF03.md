@@ -1,6 +1,6 @@
-# MLPERF03
+# MLPERF03 — Data processing
 
-**Pillar**: Unknown  
+**Pillar**: Performance Efficiency  
 **Best Practices**: 1
 
 ---

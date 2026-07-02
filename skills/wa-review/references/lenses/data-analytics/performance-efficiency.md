@@ -4,6 +4,8 @@
 
 ---
 
+## 8 – Choose the best-performing compute solution
+
 # Best practice 8.1 – Identify analytics solutions that best suit your technical challenges
 
 AWS has multiple analytics processing services that are
@@ -96,6 +98,8 @@ For an Amazon Redshift cluster, you can ﬁne-tune the SQL queries that are runn
 
 ---
 
+## 9 – Choose the best-performing storage solution
+
 # Best practice 9.1 – Identify critical performance criteria for your storage workload
 
 In data analytics, throughput is often a constraining
@@ -184,6 +188,8 @@ nodes.
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/analytics-lens/best-practice-9.3---choose-the-optimal-storage-based-on-access-patterns-data-growth-and-the-performance-metrics..html*
 
 ---
+
+## 10 – Choose the best-performing file format and partitioning
 
 # Best practice 10.1 – Select format based on data write frequency and patterns for append-only compared to in-place update
 

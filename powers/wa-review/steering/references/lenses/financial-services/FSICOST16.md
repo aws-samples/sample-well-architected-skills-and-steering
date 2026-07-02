@@ -1,3 +1,5 @@
+**Pillar**: Cost Optimization
+
 # FSICOST16: Are you continuously assessing the ongoing costs and usage of your cloud implementations?
 
 There is a process to examine existing cloud spend, and identify cost optimization

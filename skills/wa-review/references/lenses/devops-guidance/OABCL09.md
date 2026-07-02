@@ -1,6 +1,5 @@
-# [OA.BCL.9] Use guiding principles to make consistent team decisions
-
-**Capability**: OA.BCL
+**Saga**: Organizational adoption
+**Capability**: OA.BCL — Balanced cognitive load
 
 ---
 

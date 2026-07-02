@@ -1,6 +1,5 @@
-# [DL.CS.1] Implement automated digital attestation signing
-
-**Capability**: DL.CS
+**Saga**: Development lifecycle
+**Capability**: DL.CS — Cryptographic signing
 
 ---
 

@@ -1,6 +1,5 @@
-# [OA.BCL.4] Boost team efficiency by limiting work in progress
-
-**Capability**: OA.BCL
+**Saga**: Organizational adoption
+**Capability**: OA.BCL — Balanced cognitive load
 
 ---
 

@@ -1,3 +1,5 @@
+**Pillar**: Security
+
 # FSISEC05: How are you monitoring your ongoing cloud environment for potential threats?
 
 Financial services organizations require in-depth visibility

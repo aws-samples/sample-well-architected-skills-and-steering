@@ -1,6 +1,6 @@
-# AGENTSEC09
+# AGENTSEC09 — Agent vulnerability scanning and penetration testing
 
-**Pillar**: Unknown  
+**Pillar**: Security  
 **Best Practices**: 5
 
 ---

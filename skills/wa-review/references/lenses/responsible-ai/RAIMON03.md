@@ -1,6 +1,5 @@
-# RAIMON03
+# RAIMON03 — Decomissioning
 
-**Pillar**: Unknown  
 **Best Practices**: 1
 
 ---

@@ -1,6 +1,5 @@
-# [OA.TI.6] Prioritize customer needs to deliver optimal business outcomes
-
-**Capability**: OA.TI
+**Saga**: Organizational adoption
+**Capability**: OA.TI — Team interfaces
 
 ---
 

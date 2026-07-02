@@ -1,6 +1,5 @@
-# [OA.BCL.1] Clarify purpose and direction to improve cognitive well-being
-
-**Capability**: OA.BCL
+**Saga**: Organizational adoption
+**Capability**: OA.BCL — Balanced cognitive load
 
 ---
 

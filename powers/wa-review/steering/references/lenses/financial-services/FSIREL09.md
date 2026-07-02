@@ -1,3 +1,5 @@
+**Pillar**: Reliability
+
 # FSIREL09: How are you backing up data in the cloud?
 
 Not all backups are created equal, and not all have equal value. Ensure that the

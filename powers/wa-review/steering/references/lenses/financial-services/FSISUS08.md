@@ -1,3 +1,5 @@
+**Pillar**: Sustainability
+
 # FSISUS08: How do you optimize your resource usage?
 
 Review and optimize your resource usage by implementing either a pub/sub or pull

@@ -1,3 +1,5 @@
+**Pillar**: Cost Optimization
+
 # FSICOST05: How do you track anomalies in your ongoing costs for AWS services?
 
 Understanding your organization's costs and drivers is critical for managing your cost

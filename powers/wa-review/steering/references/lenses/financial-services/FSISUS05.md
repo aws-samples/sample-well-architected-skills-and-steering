@@ -1,3 +1,5 @@
+**Pillar**: Sustainability
+
 # FSISUS05: How do you define, review, and optimize network access patterns for sustainability?
 
 Assess and optimize network access patterns for sustainability. Pay attention to

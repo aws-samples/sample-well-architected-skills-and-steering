@@ -1,6 +1,5 @@
-# [QA.TEM.4] Implement a unified test data repository for enhanced test efficiency
-
-**Capability**: QA.TEM
+**Saga**: Quality assurance
+**Capability**: QA.TEM — Test environment management
 
 ---
 

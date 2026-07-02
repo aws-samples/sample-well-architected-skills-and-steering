@@ -1,6 +1,5 @@
-# [AG.CA.2] Optimize configuration item management
-
-**Capability**: AG.CA
+**Saga**: Automated governance
+**Capability**: AG.CA — Continuous auditing
 
 ---
 

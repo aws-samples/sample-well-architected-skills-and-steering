@@ -1,6 +1,5 @@
-# [DL.CD.2] Deploy exclusively from trusted artifact repositories
-
-**Capability**: DL.CD
+**Saga**: Development lifecycle
+**Capability**: DL.CD — Continuous delivery
 
 ---
 

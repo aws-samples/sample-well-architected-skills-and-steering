@@ -1,6 +1,5 @@
-# [AG.SAD.7] Implement rotation policies for secrets, keys, and certificates
-
-**Capability**: AG.SAD
+**Saga**: Automated governance
+**Capability**: AG.SAD — Secure access and delegation
 
 ---
 

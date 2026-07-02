@@ -1,3 +1,5 @@
+**Pillar**: Performance Efficiency
+
 # FSIPERF09: How do you monitor and tune AI system performance?
 
 Financial services AI systems require sophisticated monitoring

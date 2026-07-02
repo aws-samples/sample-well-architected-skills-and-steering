@@ -1,6 +1,5 @@
-# [O.CM.5] Detect performance issues using application performance monitoring
-
-**Capability**: O.CM
+**Saga**: Observability
+**Capability**: O.CM — Continuous monitoring
 
 ---
 

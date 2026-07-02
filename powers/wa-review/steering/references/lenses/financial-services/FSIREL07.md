@@ -1,3 +1,5 @@
+**Pillar**: Reliability
+
 # FSIREL07: How do you monitor your resilience objectives to achieve your strategic objectives and business plan?
 
 ## FSIREL07-BP01 Monitor and validate your RPO

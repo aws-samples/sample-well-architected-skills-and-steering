@@ -1,3 +1,5 @@
+**Pillar**: Cost Optimization
+
 # FSICOST18: Do you have specific workload modernization or refactoring goals in your cloud strategy?
 
 In traditional financial institutions, databases and core banking solutions are key

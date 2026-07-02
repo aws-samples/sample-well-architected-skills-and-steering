@@ -1,6 +1,5 @@
-# [DL.EAC.5] Integrate technical and operational documentation into the development lifecycle
-
-**Capability**: DL.EAC
+**Saga**: Development lifecycle
+**Capability**: DL.EAC — Everything as code
 
 ---
 

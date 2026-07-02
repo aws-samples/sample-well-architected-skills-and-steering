@@ -1,6 +1,6 @@
-# GENOPS05
+# GENOPS05 — Model customization
 
-**Pillar**: Unknown  
+**Pillar**: Operational Excellence  
 **Best Practices**: 1
 
 ---

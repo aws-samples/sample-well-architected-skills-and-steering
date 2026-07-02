@@ -181,6 +181,21 @@ Available lenses:
 - `references/lenses/games-industry/` — game backends, real-time multiplayer, player data, live operations
 - `references/lenses/saas/` — multi-tenancy, tenant isolation, onboarding, metering, tiering
 - `references/lenses/financial-services/` — regulatory compliance, data residency, resilience, auditability for FSI workloads
+- `references/lenses/life-sciences/` — GxP, validated systems, clinical/research data, regulatory compliance
+- `references/lenses/end-user-computing/` — virtual desktops/apps, streaming, identity, endpoint delivery
+- `references/lenses/supply-chain/` — supply chain data, integration, traceability, resilience
+- `references/lenses/video-streaming-advertising/` — video pipelines, streaming delivery, ad tech, monetization
+- `references/lenses/telco/` — telecom network workloads, 5G/edge, OSS/BSS, carrier-grade reliability
+- `references/lenses/sap/` — SAP on AWS, S/4HANA, HANA databases, SAP landscape resilience
+- `references/lenses/modern-industrial-data-technology/` — industrial data platforms, OT/IT convergence, manufacturing analytics
+- `references/lenses/microsoft-workloads/` — Windows Server, SQL Server, Active Directory, .NET on AWS
+- `references/lenses/connected-mobility/` — connected vehicles, telematics, fleet data, automotive platforms
+- `references/lenses/healthcare-industry/` — HIPAA, clinical data, interoperability, patient privacy
+- `references/lenses/container-build/` — container image builds, supply chain security, registries, CI/CD
+- `references/lenses/high-performance-computing/` — HPC clusters, parallel workloads, scheduling, low-latency networking
+- `references/lenses/streaming-media/` — media streaming, live/VOD delivery, encoding, content workflows
+- `references/lenses/iot/` — IoT devices, telemetry, edge computing, fleet provisioning, OTA updates
+- `references/lenses/government/` — public sector, privacy-by-design, compliance, real-time security
 
 ## Step 5: Risk Assessment
 

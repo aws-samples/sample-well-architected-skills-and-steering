@@ -1,6 +1,6 @@
-# MLCOST02
+# MLCOST02 — ML problem framing
 
-**Pillar**: Unknown  
+**Pillar**: Cost Optimization  
 **Best Practices**: 2
 
 ---

@@ -1,6 +1,5 @@
-# [QA.DT.1] Ensure data integrity and accuracy with data quality tests
-
-**Capability**: QA.DT
+**Saga**: Quality assurance
+**Capability**: QA.DT — Data testing
 
 ---
 

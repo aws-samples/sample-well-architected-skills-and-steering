@@ -1,6 +1,6 @@
-# GENSEC05
+# GENSEC05 — Excessive agency
 
-**Pillar**: Unknown  
+**Pillar**: Security  
 **Best Practices**: 1
 
 ---

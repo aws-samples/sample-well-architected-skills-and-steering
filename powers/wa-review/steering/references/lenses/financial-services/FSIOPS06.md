@@ -1,3 +1,5 @@
+**Pillar**: Operational Excellence
+
 # FSIOPS6: How do you assess the business impact of a cloud provider service event?
 
 Financial institutions should assess the business impact of cloud provider service

@@ -1,6 +1,5 @@
-# [QA.NT.4] Enhance user experience gradually through experimentation
-
-**Capability**: QA.NT
+**Saga**: Quality assurance
+**Capability**: QA.NT — Non-functional testing
 
 ---
 

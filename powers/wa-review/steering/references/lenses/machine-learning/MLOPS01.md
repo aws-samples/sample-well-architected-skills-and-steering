@@ -1,6 +1,6 @@
-# MLOPS01
+# MLOPS01 — Business goal identification
 
-**Pillar**: Unknown  
+**Pillar**: Operational Excellence  
 **Best Practices**: 3
 
 ---

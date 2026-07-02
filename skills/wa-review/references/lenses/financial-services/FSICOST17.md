@@ -1,3 +1,5 @@
+**Pillar**: Cost Optimization
+
 # FSICOST17: Are you continually reviewing your workload to provide the most cost-effective resources?
 
 There are multiple factors that affect the architecture, for example, new enhancements

@@ -1,6 +1,5 @@
-# [DL.LD.10] Manage unused development environments
-
-**Capability**: DL.LD
+**Saga**: Development lifecycle
+**Capability**: DL.LD — Local development
 
 ---
 

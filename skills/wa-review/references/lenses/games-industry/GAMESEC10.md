@@ -1,6 +1,6 @@
-# GAMESEC10
+# GAMESEC10 — Threat modeling
 
-**Pillar**: Unknown  
+**Pillar**: Security  
 **Best Practices**: 1
 
 ---

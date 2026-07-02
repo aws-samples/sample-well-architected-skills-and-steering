@@ -1,3 +1,5 @@
+**Pillar**: Sustainability
+
 # FSISUS10: Have you selected the storage class with the lowest carbon footprint?
 
 Data is at the heart of strategic innovations for the financial services industry. This

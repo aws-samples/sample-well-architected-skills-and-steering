@@ -1,6 +1,6 @@
-# GAMEOPS05
+# GAMEOPS05 — Load testing
 
-**Pillar**: Unknown  
+**Pillar**: Operational Excellence  
 **Best Practices**: 1
 
 ---
