@@ -381,18 +381,98 @@ def run_benchmark(config: dict, models: list[str], grade: bool = False) -> dict:
         if cost is not None:
             r["cost_usd"] = cost
 
-    # Optional grading pass
+    # Optional grading pass — multi-model judge panel, no self-grading
     if grade and config.get("grading"):
-        grading_model = config["grading"]["model"]
-        criteria = config["grading"]["criteria"]
-        print(f"\nGrading with {grading_model}...")
+        grading_config = config["grading"]
+        panel = grading_config.get("panel", [grading_config.get("model")])
+        criteria = grading_config["criteria"]
+
+        def _model_family(model_id: str) -> str:
+            """Extract provider family for self-grading exclusion."""
+            if "anthropic" in model_id:
+                return "anthropic"
+            if "openai" in model_id or "gpt" in model_id:
+                return "openai"
+            if "deepseek" in model_id:
+                return "deepseek"
+            if "nova" in model_id or "amazon" in model_id:
+                return "amazon"
+            if "meta" in model_id or "llama" in model_id:
+                return "meta"
+            if "mistral" in model_id or "pixtral" in model_id:
+                return "mistral"
+            return model_id.split(".")[0]
+
+        print(f"\nGrading with {len(panel)}-judge panel (no self-grading)...")
+        print(f"  Panel: {', '.join(panel)}")
         for r in results:
             if "error" in r:
                 r["grade"] = {"error": "skipped — model call failed"}
                 continue
-            print(f"  Grading {r['model_id']}...")
-            r["grade"] = grade_output(client, grading_model, user_prompt,
-                                      r["output"], criteria, region)
+
+            model_family = _model_family(r["model_id"])
+            eligible_judges = [j for j in panel if _model_family(j) != model_family]
+            if not eligible_judges:
+                eligible_judges = panel  # fallback if no cross-family judge available
+
+            judge_scores = []
+            for judge in eligible_judges:
+                print(f"  {r['model_id']} ← judged by {judge}...")
+                if _is_mantle_model(judge):
+                    # Use mantle for grading (Chat Completions format)
+                    grading_prompt = f"""You are an expert evaluator for AWS Well-Architected reviews.
+
+Score the following model output against each criterion on a 1-5 scale:
+1 = completely fails  2 = poor  3 = adequate  4 = good  5 = excellent
+
+MODEL INPUT (the prompt given):
+{user_prompt}
+
+MODEL OUTPUT (to evaluate):
+{r['output']}
+
+CRITERIA:
+{json.dumps(criteria, indent=2)}
+
+Respond with ONLY a JSON object:
+{{
+  "scores": {{
+    "<criterion>": {{"score": <1-5>, "reason": "<one sentence>"}},
+    ...
+  }},
+  "overall": <1-5 average rounded to 1 decimal>
+}}"""
+                    mantle_result = call_mantle_model(
+                        judge,
+                        [{"role": "user", "content": [{"text": grading_prompt}]}],
+                        max_tokens=2048, temperature=0, region=region,
+                    )
+                    if "error" not in mantle_result:
+                        text = mantle_result["output"]
+                        try:
+                            start_idx = text.find("{")
+                            end_idx = text.rfind("}") + 1
+                            parsed = json.loads(text[start_idx:end_idx])
+                            if "overall" in parsed:
+                                judge_scores.append(parsed["overall"])
+                        except (json.JSONDecodeError, ValueError):
+                            pass
+                else:
+                    result_grade = grade_output(client, judge, user_prompt,
+                                               r["output"], criteria, region)
+                    if "overall" in result_grade:
+                        judge_scores.append(result_grade["overall"])
+
+            if judge_scores:
+                avg_score = round(sum(judge_scores) / len(judge_scores), 1)
+                r["grade"] = {
+                    "overall": avg_score,
+                    "judge_scores": {panel[i] if i < len(panel) else f"judge_{i}": s
+                                     for i, s in enumerate(judge_scores)},
+                    "judges_used": len(judge_scores),
+                }
+            else:
+                r["grade"] = {"error": "all judges failed"}
 
     return {
         "timestamp": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),

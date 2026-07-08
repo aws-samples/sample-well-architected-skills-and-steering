@@ -132,9 +132,13 @@ pricing:
     output: 10.00
 
 # Quality grading (used with --grade flag)
-# Use Sonnet 4.6 for grading — reliable text output without thinking budget issues
+# Multi-model judge panel: 3 judges, no self-grading (a model never judges itself).
+# Final score = average across all eligible judges for each model.
 grading:
-  model: us.anthropic.claude-sonnet-4-6
+  panel:
+    - us.anthropic.claude-sonnet-4-6
+    - us.deepseek.r1-v1:0
+    - openai.gpt-oss-120b
   criteria:
     - "Covers all 6 WA pillars (Operational Excellence, Security, Reliability, Performance Efficiency, Cost Optimization, Sustainability)"
     - "Identifies the single-AZ ECS deployment as a reliability risk"
