@@ -47,12 +47,6 @@ examples/                           Sample IaC with planted WA issues (for demos
   insecure-serverless-app-cdk/        CDK TypeScript — ~20 issues across all 6 pillars
   insecure-serverless-app-terraform/  Terraform — ~17 issues across all 6 pillars
 
-assets/                             Shared reference material
-  well-architected-best-practices.md  Per-pillar investigation checklists
-  cloudwatch-metrics-reference.md     Metric thresholds + composite alarm patterns
-  incident-investigation-patterns.md  Triage, RCA, mitigation playbooks
-  skill-authoring-guide.md            DevOps Agent skill authoring guide
-
 scripts/                            Maintenance tooling
   crawl-wa-framework.py               Crawl AWS docs to regenerate reference files
 
@@ -780,29 +774,32 @@ The evaluation framework is included in [`evals/`](./evals) so you can reproduce
 
 ## 🏎️ Model Benchmark
 
-Compare how different foundation models perform on Well-Architected review tasks — measuring **quality**, **latency**, **throughput**, and **token cost** side by side.
+Compare how different foundation models perform on Well-Architected review tasks — measuring **quality**, **latency**, **throughput**, and **token cost** side by side. All models are consumed through **Amazon Bedrock** (`bedrock-runtime` for Converse API models, `bedrock-mantle` for OpenAI Responses/Chat Completions API models) — no direct provider APIs used.
 
 <!-- BENCHMARK-START -->
 ### Model Benchmark Results
 
-**Last run:** 2026-07-01T12:07:35Z | **Region:** us-east-1 | **Prompt:** 1,595 chars | **Max tokens:** 4,096
+**Last run:** 2026-07-08T11:24:40Z | **Region:** us-east-1 | **Prompt:** 1,595 chars | **Max tokens:** 4,096
 
 | Model | Input Tokens | Output Tokens | Latency (s) | Tokens/s | Cost | Quality |
 |-------|-------------:|--------------:|------------:|---------:|------:|--------:|
-| claude-sonnet-5 | 793 | 3,983 | 41.8 | 95 | $0.0621 | 5.0/5 |
-| r1 | 517 | 1,566 | 11.0 | 142 | $0.0092 | 4.8/5 |
-| nova-2-lite | 512 | 1,431 | 8.0 | 179 | $0.0002 | 4.2/5 |
-| pixtral-large-2502 | 620 | 1,565 | 19.1 | 82 | $0.0106 | 3.8/5 |
-| claude-haiku-4-5-20251001 | 587 | 4,096 | 21.6 | 190 | $0.0169 | 3.8/5 |
-| nova-pro | 549 | 1,316 | 9.1 | 145 | $0.0046 | 3.6/5 |
-| llama4-maverick-17b-instruct | 503 | 985 | 5.4 | 182 | $0.0005 | 3.5/5 |
-| llama3-3-70b-instruct | 505 | 1,133 | 9.9 | 114 | $0.0012 | 3.3/5 |
+| claude-sonnet-5 | 793 | 4,031 | 45.3 | 89 | $0.0628 | 5.0/5 |
+| r1 | 517 | 2,066 | 16.3 | 126 | $0.0119 | 4.8/5 |
+| openai.gpt-oss-120b | 538 | 4,096 | 25.2 | 162 | — | 4.8/5 |
+| pixtral-large-2502 | 620 | 3,075 | 38.0 | 81 | $0.0197 | 4.5/5 |
+| openai.gpt-5.5 | 477 | 4,096 | 72.4 | 57 | $0.0422 | 4.5/5 |
+| nova-2-lite | 512 | 1,900 | 9.9 | 191 | $0.0003 | 3.9/5 |
+| llama4-maverick-17b-instruct | 503 | 852 | 7.5 | 114 | $0.0005 | 3.6/5 |
+| nova-pro | 549 | 1,200 | 7.5 | 159 | $0.0043 | 3.4/5 |
+| claude-haiku-4-5-20251001 | 587 | 4,096 | 22.2 | 185 | $0.0169 | 3.3/5 |
+| llama3-3-70b-instruct | 505 | 1,086 | 8.2 | 133 | $0.0011 | 3.0/5 |
+| nova-lite | 549 | 1,567 | 11.4 | 138 | $0.0004 | 2.4/5 |
 
 <details><summary>Benchmark details</summary>
 
 - Task: Well-Architected review of an e-commerce Terraform architecture
 - Temperature: 0
-- Models tested: 9
+- Models tested: 11
 - Quality graded by: unknown
 - Criteria: coverage of 6 pillars, identification of key risks, actionability
 - Run with: `cd evals && python benchmark.py --grade`

@@ -21,6 +21,9 @@ models:
   - us.meta.llama3-3-70b-instruct-v1:0
   # Mistral
   - us.mistral.pixtral-large-2502-v1:0
+  # OpenAI (bedrock-mantle endpoint)
+  - openai.gpt-oss-120b
+  - openai.gpt-5.5
 
 # Generation settings
 max_tokens: 4096
@@ -124,6 +127,9 @@ pricing:
   us.mistral.pixtral-large-2502-v1:0:
     input: 2.00
     output: 6.00
+  openai.gpt-5.5:
+    input: 2.50
+    output: 10.00
 
 # Quality grading (used with --grade flag)
 # Use Sonnet 4.6 for grading — reliable text output without thinking budget issues

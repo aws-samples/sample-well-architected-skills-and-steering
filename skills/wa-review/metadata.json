@@ -36,7 +36,12 @@
     "resource efficiency audit",
     "operational excellence assessment",
     "CI/CD and observability review",
-    "assess operational readiness"
+    "assess operational readiness",
+    "score my app against Well-Architected",
+    "WA scorecard",
+    "grade this implementation",
+    "give me a score matrix",
+    "how does my architecture score"
   ],
   "not_for": [
     "learning WA concepts or generating visual artifacts (use wa-builder instead)",

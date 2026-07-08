@@ -120,9 +120,45 @@ Trigger phrases that indicate pillar-scoped review:
 - Sustainability: "sustainability review", "carbon footprint", "resource efficiency audit"
 - Operational Excellence: "operational assessment", "CI/CD review", "observability audit"
 
+**Score mode** (when user asks for "score", "grade", "scorecard", "matrix", or "just give me a number"):
+- Analyze the codebase at the provided path
+- Run a quick-scan pass across all 57 questions (no BP reference files loaded)
+- Produce ONLY a structured scorecard + filtered findings — no full narrative report
+- Respect depth parameter:
+  - "critical only" → show only Critical findings
+  - "critical and high" → show Critical + High
+  - "all" (default if unspecified) → show Critical + High + Medium + Low
+- Output format:
+
+```markdown
+## WA Score: {workload_name}
+
+**Overall: {X.X}/5** | OPS: {}/5 | SEC: {}/5 | REL: {}/5 | PERF: {}/5 | COST: {}/5 | SUS: {}/5
+
+| Pillar | Score | Critical | High | Medium | Low |
+|--------|-------|----------|------|--------|-----|
+| Operational Excellence | {1-5} | {n} | {n} | {n} | {n} |
+| Security | {1-5} | {n} | {n} | {n} | {n} |
+| Reliability | {1-5} | {n} | {n} | {n} | {n} |
+| Performance Efficiency | {1-5} | {n} | {n} | {n} | {n} |
+| Cost Optimization | {1-5} | {n} | {n} | {n} | {n} |
+| Sustainability | {1-5} | {n} | {n} | {n} | {n} |
+
+### Findings ({depth} and above)
+| # | Pillar | Severity | Finding | Evidence |
+|---|--------|----------|---------|----------|
+| 1 | {pillar} | {Critical/High/...} | {one-line finding} | {file:line} |
+...
+
+### Summary
+{1-2 sentence takeaway: overall posture + single most impactful action}
+```
+
+Trigger phrases: "score my app", "WA scorecard", "grade this", "give me a score matrix", "how does my architecture score"
+
 If unclear, ask:
 
-> Would you like a **full review** (deep BP-level analysis per question — thorough but longer) or a **quick review** (question-level assessment — faster, covers all pillars at a high level)?
+> Would you like a **full review** (deep BP-level analysis per question — thorough but longer), a **quick review** (question-level assessment — faster), or a **score** (just the scorecard + top findings)?
 
 ### Context management strategy
 

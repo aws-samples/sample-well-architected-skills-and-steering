@@ -85,6 +85,24 @@
         "Eisenhower prioritization covers both core and lens findings",
         "Pillar scorecard for core 6 pillars included"
       ]
+    },
+    {
+      "id": 6,
+      "prompt": "Score this architecture against WA — show me critical and high only: We have a monolithic Node.js app on a single EC2 t2.micro, MySQL on RDS single-AZ with no backups, no encryption, public S3 buckets, no monitoring, manual SSH deployments, shared root credentials. It's a customer-facing payment processing app.",
+      "expected_output": "A concise WA scorecard with per-pillar scores (1-5), overall score, and ONLY Critical and High findings listed — no Medium/Low findings, no full narrative report, no Eisenhower matrix.",
+      "assertions": [
+        "Output includes a pillar scorecard with numerical scores (1-5) for all 6 pillars",
+        "Output includes an overall score (1-5 or equivalent aggregate)",
+        "Findings table shows ONLY Critical and High severity items — no Medium or Low findings listed",
+        "Does NOT produce a full narrative report or Eisenhower prioritization matrix",
+        "Critical findings include: no encryption, shared root credentials, no backups on payment processing data",
+        "Output is concise (scorecard + findings table + brief summary) — not a multi-page report"
+      ],
+      "process_assertions": [
+        "Score mode is activated — output format is scorecard, not full review",
+        "Depth filter is respected — only Critical and High findings shown",
+        "All 6 pillars receive a score even though findings are filtered"
+      ]
     }
   ]
 }
