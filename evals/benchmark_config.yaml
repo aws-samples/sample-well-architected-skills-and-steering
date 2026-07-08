@@ -21,9 +21,9 @@ models:
   - us.meta.llama3-3-70b-instruct-v1:0
   # Mistral
   - us.mistral.pixtral-large-2502-v1:0
-  # OpenAI (bedrock-mantle endpoint — Chat Completions API)
+  # OpenAI (bedrock-mantle endpoint)
   - openai.gpt-oss-120b
-  # - openai.gpt-5.5  # requires model access enablement in Bedrock console
+  - openai.gpt-5.5
 
 # Generation settings
 max_tokens: 4096

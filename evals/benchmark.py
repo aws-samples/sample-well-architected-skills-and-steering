@@ -52,36 +52,18 @@ def _extract_text(response: dict) -> str:
     return "\n".join(text_parts)
 
 
-MANTLE_MODELS = {"openai.gpt-5.5", "openai.gpt-5.4", "openai.gpt-oss-120b", "openai.gpt-oss-20b"}
+MANTLE_CHAT_MODELS = {"openai.gpt-oss-120b", "openai.gpt-oss-20b"}
+MANTLE_RESPONSES_MODELS = {"openai.gpt-5.5", "openai.gpt-5.4"}
 
 
 def _is_mantle_model(model_id: str) -> bool:
-    """Check if a model requires the bedrock-mantle endpoint (Chat Completions API)."""
-    return model_id in MANTLE_MODELS
+    """Check if a model requires the bedrock-mantle endpoint."""
+    return model_id in MANTLE_CHAT_MODELS or model_id in MANTLE_RESPONSES_MODELS
 
 
-def call_mantle_model(model_id: str, messages: list[dict], system: str | None = None,
-                      max_tokens: int = 4096, temperature: float = 0, region: str = "us-east-1") -> dict:
-    """Call a model via bedrock-mantle Chat Completions API with SigV4 auth."""
+def _mantle_request(endpoint: str, body: dict, region: str, timeout: int = 300):
+    """Send a SigV4-signed request to bedrock-mantle."""
     import requests as req
-
-    endpoint = f"https://bedrock-mantle.{region}.api.aws/v1/chat/completions"
-
-    oai_messages = []
-    if system:
-        oai_messages.append({"role": "system", "content": system})
-    for msg in messages:
-        content = msg["content"]
-        if isinstance(content, list):
-            content = "".join(block.get("text", "") for block in content)
-        oai_messages.append({"role": msg["role"], "content": content})
-
-    body = {
-        "model": model_id,
-        "messages": oai_messages,
-        "max_tokens": max_tokens,
-        "temperature": temperature,
-    }
 
     session = boto3.Session()
     credentials = session.get_credentials().get_frozen_credentials()
@@ -95,24 +77,88 @@ def call_mantle_model(model_id: str, messages: list[dict], system: str | None = 
     )
     SigV4Auth(credentials, "bedrock", region).add_auth(aws_request)
 
+    resp = req.post(endpoint, data=body_bytes, headers=dict(aws_request.headers), timeout=timeout)
+    resp.raise_for_status()
+    return resp.json()
+
+
+def call_mantle_model(model_id: str, messages: list[dict], system: str | None = None,
+                      max_tokens: int = 4096, temperature: float = 0, region: str = "us-east-1") -> dict:
+    """Call a model via bedrock-mantle with SigV4 auth. Routes to correct API path."""
+
     start = time.time()
     try:
-        resp = req.post(
-            endpoint,
-            data=body_bytes,
-            headers=dict(aws_request.headers),
-            timeout=300,
-        )
-        resp.raise_for_status()
+        if model_id in MANTLE_RESPONSES_MODELS:
+            # GPT-5.5/5.4 use /openai/v1/responses (Responses API)
+            endpoint = f"https://bedrock-mantle.{region}.api.aws/openai/v1/responses"
+            user_input = ""
+            if system:
+                user_input += f"[System: {system}]\n\n"
+            for msg in messages:
+                content = msg["content"]
+                if isinstance(content, list):
+                    content = "".join(block.get("text", "") for block in content)
+                user_input += content
+
+            user_content = ""
+            for msg in messages:
+                content = msg["content"]
+                if isinstance(content, list):
+                    content = "".join(block.get("text", "") for block in content)
+                user_content += content
+
+            body = {
+                "model": model_id,
+                "input": user_content,
+                "max_output_tokens": max_tokens,
+            }
+            if system:
+                body["instructions"] = system
+
+            data = _mantle_request(endpoint, body, region)
+
+            # Extract text from Responses API format
+            output_text = ""
+            for output_item in data.get("output", []):
+                for content_block in output_item.get("content", []):
+                    if content_block.get("type") == "output_text":
+                        output_text += content_block.get("text", "")
+
+            usage = data.get("usage", {})
+            input_tokens = usage.get("input_tokens", 0)
+            output_tokens = usage.get("output_tokens", 0)
+
+        else:
+            # GPT-OSS models use /v1/chat/completions (Chat Completions API)
+            endpoint = f"https://bedrock-mantle.{region}.api.aws/v1/chat/completions"
+            oai_messages = []
+            if system:
+                oai_messages.append({"role": "system", "content": system})
+            for msg in messages:
+                content = msg["content"]
+                if isinstance(content, list):
+                    content = "".join(block.get("text", "") for block in content)
+                oai_messages.append({"role": msg["role"], "content": content})
+
+            body = {
+                "model": model_id,
+                "messages": oai_messages,
+                "max_tokens": max_tokens,
+                "temperature": temperature,
+            }
+
+            data = _mantle_request(endpoint, body, region)
+
+            choice = data.get("choices", [{}])[0]
+            output_text = choice.get("message", {}).get("content", "")
+            usage = data.get("usage", {})
+            input_tokens = usage.get("prompt_tokens", 0)
+            output_tokens = usage.get("completion_tokens", 0)
+
     except Exception as e:
         return {"model_id": model_id, "error": str(e), "latency_s": time.time() - start}
 
     latency = time.time() - start
-    data = resp.json()
-
-    choice = data.get("choices", [{}])[0]
-    output_text = choice.get("message", {}).get("content", "")
-    usage = data.get("usage", {})
 
     if not output_text:
         return {"model_id": model_id, "error": "empty response from mantle", "latency_s": round(latency, 2)}
@@ -120,11 +166,11 @@ def call_mantle_model(model_id: str, messages: list[dict], system: str | None = 
     return {
         "model_id": model_id,
         "output": output_text,
-        "input_tokens": usage.get("prompt_tokens", 0),
-        "output_tokens": usage.get("completion_tokens", 0),
-        "total_tokens": usage.get("total_tokens", 0),
+        "input_tokens": input_tokens,
+        "output_tokens": output_tokens,
+        "total_tokens": input_tokens + output_tokens,
         "latency_s": round(latency, 2),
-        "stop_reason": choice.get("finish_reason", "unknown"),
+        "stop_reason": data.get("status", "unknown"),
     }
 
 
