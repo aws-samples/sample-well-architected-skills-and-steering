@@ -4,6 +4,10 @@ CLAUDE.md
 evals/results/*
 !evals/results/baseline.json
 
+# MCP vs bundled study (proposal + artifacts stay local)
+evals/STUDY_MCP_VS_BUNDLED.md
+evals/study_mcp/
+
 # Python
 __pycache__/
 *.pyc
