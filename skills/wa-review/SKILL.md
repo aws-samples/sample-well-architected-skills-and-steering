@@ -377,35 +377,44 @@ Output a structured report:
 ## Cross-Pillar Trade-offs
 {Conflicts between pillars and recommended resolution}
 
-## Prioritized Remediation Plan — Now / Next / Later
+## Prioritize Improvements
 
-Present findings on a timeline that stakeholders can immediately act on. Each item lists action, effort, and (where relevant) owner.
+Not all findings should be addressed at once. Classify each finding by **importance** (business value based on risk level and pillar impact) and **effort** (time, complexity, headcount). Focus on issues with the most business impact that are easiest to implement, then iterate.
 
-### 🔥 Now (1-2 weeks) — Critical fixes and quick wins
-| Finding | Action | Effort | Owner |
-|---------|--------|--------|-------|
-{High-severity findings with low-effort fixes: enable encryption, tighten SG rules, add alarms, configure DLQs}
-
-### 📅 Next (30-60 days) — Important improvements
-| Finding | Action | Effort | Dependencies |
-|---------|--------|--------|--------------|
-{Medium-effort work: implement auto-scaling, add caching, set up CI/CD gates, add multi-AZ}
-
-### 🎯 Later (90+ days) — Strategic enhancements
-| Finding | Action | Effort | Dependencies |
-|---------|--------|--------|--------------|
-{Higher-investment work: multi-region DR, chaos engineering, re-architecture, compliance programs}
-
-### Deferred
-{Findings intentionally not addressed this iteration, with brief justification}
-
-### Solution characteristics
+### Solution Characteristics
 
 For every action in Now/Next:
 - **SMART goal**: Specific, Measurable, Achievable, Relevant, Time-bound
-- **Simple over complex**: Prefer the simplest solution that meets the requirement
-- **Two-way door**: Prefer reversible decisions; call out one-way doors explicitly
-- **Pattern-based**: Reference existing AWS solutions/blueprints where possible
+- **Owner**: Identify who is responsible (team or role)
+- **Simple over complex**: Choose the simplest solution unless complexity is a non-negotiable requirement
+- **Two-way door decisions**: Prefer reversible decisions; call out one-way doors explicitly
+- **Pattern-based**: Reference existing AWS solutions/blueprints when possible
+
+## Prioritized Remediation Plan — Now / Next / Later
+
+### 🔥 Now (1-2 weeks) — Quick wins & critical fixes
+High-importance findings with low effort (config changes, enabling features, adding tags/alarms, tightening security groups, enabling backups).
+
+| Finding | Action | SMART Goal | Owner | Effort |
+|---------|--------|-----------|-------|--------|
+| {ID} | {specific action} | {measurable outcome} | {team} | {hours/days} |
+
+### 📅 Next (30-60 days) — Important improvements
+High-importance findings requiring more coordination (Multi-AZ, CI/CD improvements, monitoring, caching, auto-scaling). Break into phases.
+
+| Finding | Action | Phases | Effort | Dependencies |
+|---------|--------|--------|--------|--------------|
+| {ID} | {action} | {phase 1 → phase 2 → phase 3} | {days/weeks} | {prereqs} |
+
+### 🎯 Later (90+ days) — Strategic enhancements
+Complex, high-investment work (multi-region DR, re-architecture, chaos engineering, compliance programs). Two-way door design where possible.
+
+| Finding | Action | Phases | Effort | Dependencies |
+|---------|--------|--------|--------|--------------|
+| {ID} | {action} | {phased plan} | {weeks/months} | {prereqs} |
+
+### Deferred — Revisit Next Iteration
+Low-importance findings intentionally not addressed this iteration, with brief justification for deferral.
 
 ## Next Steps
 {Top 5 concrete "Now" actions the team should start this week}
