@@ -14,7 +14,7 @@
 
 .PARAMETER Tool
     Install only for specific tool(s). Can be specified multiple times.
-    Valid: kiro, claude-code, cursor, codex, windsurf, github-copilot, cline, gemini-cli, antigravity, junie, amp, openclaw, devops-agent, all
+    Valid: kiro, claude-code, cursor, codex, windsurf, github-copilot, cline, gemini-cli, antigravity, junie, amp, openclaw, cortex-code, devops-agent, all
 
 .PARAMETER Symlink
     Use symlinks instead of copies (requires elevated permissions on Windows)
@@ -273,6 +273,19 @@ function Install-OpenClaw {
     Write-Host "  Done. OpenClaw will discover skills from .agents/skills/ automatically.`n"
 }
 
+function Install-CortexCode {
+    $base = if ($Global) { $env:USERPROFILE } else { $TargetDir }
+
+    Write-Host "Installing for Cortex Code (Snowflake)..."
+    Copy-OrLink "$ScriptDir\adapters\cortex-code\AGENTS.md" "$base\AGENTS.md"
+
+    foreach ($skill in Get-Skills) {
+        Copy-OrLink "$($skill.FullName)\SKILL.md" "$base\skills\$($skill.Name)\SKILL.md"
+        Copy-SkillReferences $skill.FullName "$base\skills\$($skill.Name)"
+    }
+    Write-Host "  Done. Cortex Code will read AGENTS.md and Agent Skills from skills/.`n"
+}
+
 function Install-DevOpsAgent {
     $base = if ($Global) { "$env:USERPROFILE\.devops-agent-skills" } else { $TargetDir }
 
@@ -337,7 +350,7 @@ Write-Host ""
 $resolved = Resolve-Path $TargetDir -ErrorAction SilentlyContinue
 if ($resolved) { $TargetDir = $resolved.Path }
 
-$validTools = @("kiro", "kiro-cli", "claude-code", "cursor", "codex", "windsurf", "github-copilot", "cline", "gemini-cli", "antigravity", "junie", "amp", "openclaw", "devops-agent", "auto", "all")
+$validTools = @("kiro", "kiro-cli", "claude-code", "cursor", "codex", "windsurf", "github-copilot", "cline", "gemini-cli", "antigravity", "junie", "amp", "openclaw", "cortex-code", "devops-agent", "auto", "all")
 
 # Resolve "auto" to the set of tools detected in the target directory.
 if ($Tool -contains "auto") {
@@ -359,6 +372,7 @@ foreach ($t in $Tool) {
         "junie"          { Install-Junie }
         "amp"            { Install-Amp }
         "openclaw"       { Install-OpenClaw }
+        "cortex-code"    { Install-CortexCode }
         "devops-agent"   { Install-DevOpsAgent }
         "all" {
             Install-Kiro

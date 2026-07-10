@@ -1,10 +1,10 @@
 # 🏗️ Well-Architected Skills & Steering for AI Coding Agents
 
-Reusable skills and steering that teach AI coding agents how to apply the [AWS Well-Architected Framework](https://docs.aws.amazon.com/wellarchitected/latest/framework/welcome.html). One set of playbooks, **13 supported tools**.
+Reusable skills and steering that teach AI coding agents how to apply the [AWS Well-Architected Framework](https://docs.aws.amazon.com/wellarchitected/latest/framework/welcome.html). One set of playbooks, **14 supported tools**.
 
 <div align="center">
 
-**Kiro** · **Kiro CLI** · **Claude Code** · **Cursor** · **Codex** · **Windsurf** · **GitHub Copilot** · **Gemini CLI** · **Antigravity** · **Junie** · **Amp** · **OpenClaw** · **Cline** · **AWS DevOps Agent**
+**Kiro** · **Kiro CLI** · **Claude Code** · **Cursor** · **Codex** · **Windsurf** · **GitHub Copilot** · **Gemini CLI** · **Antigravity** · **Junie** · **Amp** · **OpenClaw** · **Cline** · **Cortex Code** · **AWS DevOps Agent**
 
 </div>
 
@@ -20,7 +20,7 @@ Developers don't stop to consult documentation — they ask their AI assistant. 
 This project embeds WA best practices **where development actually happens**: in the IDE, at the moment code is being written. Instead of treating architecture reviews as a separate gate, teams get continuous, contextual guidance that:
 
 - ✅ Reduces rework by catching misalignments early
-- ✅ Works across 13 AI coding tools with a single source of truth
+- ✅ Works across 14 AI coding tools with a single source of truth
 - ✅ Requires no AWS credentials, no API calls — everything runs locally
 - ✅ Follows the open [Agent Skills specification](https://agentskills.io/)
 
@@ -62,6 +62,7 @@ adapters/                           Tool-specific configuration
   junie/                              .junie/guidelines + .junie/skills
   amp/                                .agents/skills/*.md
   openclaw/                           AGENTS.md + .agents/skills/*.md
+  cortex-code/                        AGENTS.md + skills/*.md (Snowflake)
   devops-agent/                       Packaging for AWS DevOps Agent
 
 powers/                             Kiro Powers

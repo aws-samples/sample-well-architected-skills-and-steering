@@ -19,7 +19,7 @@ Arguments:
 
 Options:
   --tool TOOL   Install only for a specific tool. Can be repeated.
-                Valid: kiro, kiro-cli, claude-code, cursor, codex, windsurf, github-copilot, cline, gemini-cli, antigravity, junie, amp, openclaw, devops-agent, auto, all
+                Valid: kiro, kiro-cli, claude-code, cursor, codex, windsurf, github-copilot, cline, gemini-cli, antigravity, junie, amp, openclaw, cortex-code, devops-agent, auto, all
   --uninstall   Remove previously installed WA files from the target directory
   --check-update  Check if a newer version is available on GitHub
   --symlink     Use symlinks instead of copies (auto-updates when this repo changes)
@@ -412,6 +412,27 @@ install_openclaw() {
   echo ""
 }
 
+install_cortex_code() {
+  local base="$TARGET_DIR"
+  if [[ "$GLOBAL" == true ]]; then
+    base="$HOME"
+  fi
+
+  echo "Installing for Cortex Code (Snowflake)..."
+  copy_or_link "$SCRIPT_DIR/adapters/cortex-code/AGENTS.md" "$base/AGENTS.md"
+
+  mkdir -p "$base/skills"
+  for skill_dir in "$SCRIPT_DIR/skills"/*/; do
+    local skill_name
+    skill_name="$(basename "$skill_dir")"
+    [[ "$skill_name" == "_shared" ]] && continue
+    copy_or_link "$skill_dir/SKILL.md" "$base/skills/$skill_name/SKILL.md"
+    copy_skill_references "$skill_dir" "$base/skills/$skill_name"
+  done
+  echo "  Done. Cortex Code will read AGENTS.md and Agent Skills from skills/."
+  echo ""
+}
+
 install_devops_agent() {
   local base="$TARGET_DIR"
   if [[ "$GLOBAL" == true ]]; then
@@ -679,7 +700,7 @@ if [[ "$UNINSTALL" == true ]]; then
   echo "Uninstalling..."
   for tool in "${TOOLS[@]}"; do
     if [[ "$tool" == "all" ]]; then
-      for t in kiro claude-code cursor codex windsurf github-copilot cline gemini-cli antigravity junie amp openclaw devops-agent; do
+      for t in kiro claude-code cursor codex windsurf github-copilot cline gemini-cli antigravity junie amp openclaw cortex-code devops-agent; do
         uninstall_tool "$t"
       done
     else
@@ -697,6 +718,7 @@ for tool in "${TOOLS[@]}"; do
     claude-code)    install_claude_code ;;
     cursor)         install_cursor ;;
     codex)          install_codex ;;
+    cortex-code)    install_cortex_code ;;
     windsurf)       install_windsurf ;;
     github-copilot) install_github_copilot ;;
     cline)          install_cline ;;
@@ -719,11 +741,12 @@ for tool in "${TOOLS[@]}"; do
       install_junie
       install_amp
       install_openclaw
+      install_cortex_code
       install_devops_agent
       ;;
     *)
       echo "Unknown tool: $tool"
-      echo "Valid options: kiro, kiro-cli, claude-code, cursor, codex, windsurf, github-copilot, cline, gemini-cli, antigravity, junie, amp, openclaw, devops-agent, auto, all"
+      echo "Valid options: kiro, kiro-cli, claude-code, cursor, codex, windsurf, github-copilot, cline, gemini-cli, antigravity, junie, amp, openclaw, cortex-code, devops-agent, auto, all"
       exit 1
       ;;
   esac
