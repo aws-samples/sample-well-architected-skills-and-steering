@@ -2,7 +2,7 @@
   "version": "3.0.0",
   "organization": "AWS",
   "date": "July 2026",
-  "abstract": "Perform a full or pillar-scoped AWS Well-Architected Framework review by analyzing code, IaC, and configurations to produce evidence-backed findings with risk assessment and Now/Next/Later remediation timeline. Supports all 6 pillars as deep-dive assessments.",
+  "abstract": "Perform a full or pillar-scoped AWS Well-Architected Framework review by analyzing code, IaC, and configurations to produce evidence-backed findings with risk assessment and prioritized remediation. Supports all 6 pillars as deep-dive assessments.",
   "references": [
     "https://docs.aws.amazon.com/wellarchitected/latest/framework/welcome.html"
   ],

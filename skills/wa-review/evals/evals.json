@@ -4,19 +4,19 @@
     {
       "id": 1,
       "prompt": "I have a serverless e-commerce app on AWS using API Gateway, Lambda, DynamoDB, S3, and CloudFront. It handles about 10k orders per day. Can you do a Well-Architected review?",
-      "expected_output": "A systematic 307-BP-level Well-Architected review with per-question assessment table (all 57 questions), BP ID citations, pillar scorecard, risk matrix, Now/Next/Later prioritization, and serverless-specific findings.",
+      "expected_output": "A systematic 307-BP-level Well-Architected review with per-question assessment table (all 57 questions), BP ID citations, pillar scorecard, risk matrix, Eisenhower prioritization, and serverless-specific findings.",
       "assertions": [
         "The output includes a per-question assessment table covering all 57 WA questions (OPS 1-11, SEC 1-11, REL 1-13, PERF 1-5, COST 1-11, SUS 1-6) with Status and Risk Level columns",
         "Findings cite specific Best Practice IDs (format like SEC03-BP02, REL06-BP01, COST05-BP03) demonstrating BP-level evaluation",
         "The output includes a pillar scorecard with numerical scores (1-5) per pillar",
         "Risk assessment uses Impact x Likelihood matrix producing Critical/High/Medium/Low classifications",
-        "The output includes an Now/Next/Later timeline remediation plan",
+        "The output includes an Eisenhower-matrix prioritized remediation plan with four quadrants (Do First, Plan, Delegate, Defer)",
         "Findings include serverless-specific issues referencing Lambda cold starts, DynamoDB capacity modes, API Gateway throttling, or CloudFront caching"
       ],
       "process_assertions": [
         "Response covers all 57 questions (not just 5-10 high-level themes)",
         "Findings are backed by specific BP IDs, not just pillar-level comments",
-        "A prioritized remediation plan using Now/Next/Later timeline is included",
+        "A prioritized remediation plan using Eisenhower matrix is included",
         "Architecture overview or discovery summary is presented before evaluation"
       ],
       "knowledge_assertions": [
@@ -35,15 +35,15 @@
     {
       "id": 2,
       "prompt": "Review my architecture: we have a monolithic Java app on a single EC2 instance, MySQL on RDS single-AZ, no backups configured, SSH access with shared keys, no monitoring besides CloudWatch basic metrics. It's a customer-facing SaaS product.",
-      "expected_output": "A review with 57-question table showing majority 'Not Implemented', BP-level citations for critical gaps, risk matrix showing multiple Critical/High findings, low pillar scores (1-2), and Now/Next/Later prioritization recognizing business criticality mismatch.",
+      "expected_output": "A review with 57-question table showing majority 'Not Implemented', BP-level citations for critical gaps, risk matrix showing multiple Critical/High findings, low pillar scores (1-2), and Eisenhower prioritization recognizing business criticality mismatch.",
       "assertions": [
         "Per-question assessment table covers all 57 questions with majority marked Not Implemented or Partially Implemented",
         "BP IDs cited for critical gaps: REL02 (network topology), REL11 (backups), SEC03 (permissions/shared keys), SEC08 (compute protection), OPS06 (observability)",
         "Risk assessment: single EC2 = Critical (Severe x High), no backups = High (Severe x Medium), shared SSH keys = Critical (Severe x High), single-AZ RDS = High (Severe x Medium)",
         "Pillar scorecard shows low scores (1-2) across most pillars",
-        "Now section includes: enable backups, replace SSH keys with SSM/IAM",
+        "Eisenhower Do First quadrant includes: enable backups, replace SSH keys with SSM/IAM",
         "Review recognizes business criticality mismatch — customer-facing SaaS with minimal reliability",
-        "Recommendations are organized by Now (1-2 weeks) / Next (30-60 days) / Later (90+ days)"
+        "Recommendations are organized by Eisenhower quadrant (Do First, Plan, Delegate, Defer)"
       ]
     },
     {
@@ -56,7 +56,7 @@
         "Does NOT classify majority of findings as Critical — architecture is solid with multi-AZ, WAF, GuardDuty, canary deployments",
         "Prominently acknowledges existing strengths: canary deployments, multi-AZ Aurora, WAF, GuardDuty, X-Ray, automated scaling, Savings Plans",
         "Suggests advanced improvements: chaos engineering, multi-region DR, game days, sustainability, SLA-based alerting",
-        "Includes Now/Next/Later or equivalent prioritized remediation plan"
+        "Includes Eisenhower-matrix or equivalent prioritized remediation plan"
       ]
     },
     {
@@ -68,7 +68,7 @@
         "Per-question table covers the 24 scoped questions (SEC 1-11, REL 1-13) with Status and Risk Level",
         "BP IDs cited: SEC04 (detective controls/GuardDuty), SEC05 (network protection/WAF), REL10 (fault isolation/single-AZ RDS), and DLQ gap referenced as REL06 or REL07",
         "Risk assessment: no WAF = Medium, no GuardDuty = Medium, single-AZ RDS = High, no DLQ = High",
-        "Now/Next/Later prioritization covers only the scoped findings",
+        "Eisenhower prioritization covers only the scoped findings",
         "Pillar scorecard shows only Security and Reliability scores (not all 6)"
       ]
     },
@@ -82,19 +82,19 @@
         "BP citations from BOTH core (SEC01, SEC06, OPS04) AND GenAI lens (GENSEC01-06, GENOPS01-05)",
         "GenAI-specific findings: no guardrails = High, no content filtering = High, no model eval pipeline = Medium, prompts in plaintext = High",
         "Lens findings in SEPARATE section after core framework findings",
-        "Now/Next/Later prioritization covers both core and lens findings",
+        "Eisenhower prioritization covers both core and lens findings",
         "Pillar scorecard for core 6 pillars included"
       ]
     },
     {
       "id": 6,
       "prompt": "Score this architecture against WA — show me critical and high only: We have a monolithic Node.js app on a single EC2 t2.micro, MySQL on RDS single-AZ with no backups, no encryption, public S3 buckets, no monitoring, manual SSH deployments, shared root credentials. It's a customer-facing payment processing app.",
-      "expected_output": "A concise WA scorecard with per-pillar scores (1-5), overall score, and ONLY Critical and High findings listed — no Medium/Low findings, no full narrative report, no Now/Next/Later timeline.",
+      "expected_output": "A concise WA scorecard with per-pillar scores (1-5), overall score, and ONLY Critical and High findings listed — no Medium/Low findings, no full narrative report, no Eisenhower matrix.",
       "assertions": [
         "Output includes a pillar scorecard with numerical scores (1-5) for all 6 pillars",
         "Output includes an overall score (1-5 or equivalent aggregate)",
         "Findings table shows ONLY Critical and High severity items — no Medium or Low findings listed",
-        "Does NOT produce a full narrative report or Now/Next/Later prioritization matrix",
+        "Does NOT produce a full narrative report or Eisenhower prioritization matrix",
         "Critical findings include: no encryption, shared root credentials, no backups on payment processing data",
         "Output is concise (scorecard + findings table + brief summary) — not a multi-page report"
       ],
