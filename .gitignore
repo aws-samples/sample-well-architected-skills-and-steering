@@ -7,6 +7,7 @@ evals/results/*
 # MCP vs bundled study (proposal + artifacts stay local)
 evals/STUDY_MCP_VS_BUNDLED.md
 evals/study_mcp/
+skills/wa-review/DESIGN.md
 
 # Python
 __pycache__/
