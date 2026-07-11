@@ -31,15 +31,15 @@ Three content modes are supported:
        Output: one file per pillar section, containing all pages for that section.
 
 Output structure:
-    skills/wa-review/references/questions/{QUESTION_ID}.md   (framework pillars)
-    skills/wa-review/references/lenses/{lens-name}/*.md      (WA lenses)
+    skills/wa-review/references/pillars/{pillar-name}.md   (framework pillars, one per pillar)
+    skills/wa-review/references/lenses/{lens-name}/*.md    (WA lenses, per-question)
 
 Usage:
     uv run scripts/crawl-wa-framework.py [--output-dir DIR] [--delay SECS] [--pillar PILLAR] [--dry-run]
     uv run scripts/crawl-wa-framework.py --lens <URL> [--lens-name NAME] [--dry-run]
 
 Examples:
-    # Crawl all 6 framework pillars (produces 57 question files)
+    # Crawl all 6 framework pillars (produces 6 pillar-merged files)
     uv run scripts/crawl-wa-framework.py
 
     # Crawl only the security pillar
@@ -762,62 +762,102 @@ def crawl_pillar(pillar_name: str, config: dict, delay: float, dry_run: bool) ->
 # ---------------------------------------------------------------------------
 
 
-def write_output(all_questions: dict[str, list[dict]], output_dir: Path) -> int:
-    """
-    Write consolidated markdown files — one file per WA question.
+def _question_block(question_id: str, bps: list[dict]) -> str:
+    """Build a markdown block for a single WA question (H1 title + all BPs)."""
+    group = next((b.get("group") for b in bps if b.get("group")), None)
+    if question_id in QUESTION_TITLES:
+        title = QUESTION_TITLES[question_id]
+    elif group:
+        title = f"{question_id} — {group}"
+    else:
+        title = question_id
+    pillar = pillar_for_id(question_id)
 
-    Each file contains:
-    - H1 title with the official question text
-    - Metadata (pillar name, BP count)
-    - All BPs for that question in order, separated by horizontal rules
-    - Source URL for each BP (for traceability back to the docs)
+    lines = [f"# {title}", ""]
+    if pillar:
+        lines.append(f"**Pillar**: {pillar}  ")
+    lines += [
+        f"**Best Practices**: {len(bps)}",
+        "",
+        "---",
+        "",
+    ]
+    for bp in sorted(bps, key=lambda b: b["bp_id"]):
+        lines.append(bp["content"])
+        lines.append("")
+        lines.append(f"*Source: {bp['url']}*")
+        lines.append("")
+        lines.append("---")
+        lines.append("")
+    return "\n".join(lines)
 
-    The agent loads one of these files at a time during a review to get
-    full best-practice-level detail for the question it's evaluating.
-    """
+
+def write_output_per_question(all_questions: dict[str, list[dict]], output_dir: Path) -> int:
+    """Per-question output — used by lenses (each question stays in its own file)."""
     output_dir.mkdir(parents=True, exist_ok=True)
     written = 0
-
     for question_id in sorted(all_questions.keys()):
         bps = all_questions[question_id]
         if not bps:
             continue
+        content = _question_block(question_id, bps)
+        (output_dir / f"{question_id}.md").write_text(content, encoding="utf-8")
+        written += 1
+    return written
 
-        # Title precedence: the official framework question text (57 pillars) →
-        # the lens question group name captured from the TOC (e.g. "Reasoning
-        # and execution cost optimization" for AGENTCOST01) → the raw ID.
-        group = next((b.get("group") for b in bps if b.get("group")), None)
-        if question_id in QUESTION_TITLES:
-            title = QUESTION_TITLES[question_id]
-        elif group:
-            title = f"{question_id} — {group}"
-        else:
-            title = question_id
-        # Resolve the pillar (None for lenses not organized by the 6 pillars,
-        # e.g. responsible-ai / DevOps — those omit the Pillar line).
-        pillar = pillar_for_id(question_id)
 
-        # Build the file content
-        lines = [f"# {title}", ""]
-        if pillar:
-            lines.append(f"**Pillar**: {pillar}  ")
-        lines += [
-            f"**Best Practices**: {len(bps)}",
+# Pillar names, prefixes, and expected question counts — used for pillar-merged output.
+PILLAR_MERGED_ORDER = [
+    ("operational-excellence", "OPS", 11),
+    ("security",              "SEC", 11),
+    ("reliability",           "REL", 13),
+    ("performance-efficiency","PERF", 5),
+    ("cost-optimization",     "COST", 11),
+    ("sustainability",        "SUS",  6),
+]
+
+
+def write_output_pillar_merged(all_questions: dict[str, list[dict]], output_dir: Path) -> int:
+    """Pillar-merged output — one file per pillar containing all its questions.
+
+    Used for the 6 WA Framework pillars. The v4.2+ SKILL.md dispatches one
+    Task subagent per pillar and each subagent loads exactly one of these
+    files, so grouping by pillar matches how the skill consumes the data.
+    """
+    output_dir.mkdir(parents=True, exist_ok=True)
+    written = 0
+
+    for pillar_name, prefix, count in PILLAR_MERGED_ORDER:
+        pillar_qids = sorted(qid for qid in all_questions
+                             if re.match(rf"^{prefix}\d+$", qid) and all_questions[qid])
+        if not pillar_qids:
+            continue
+
+        parts = [
+            f"# {pillar_name.replace('-', ' ').title()} — All Questions & Best Practices",
+            "",
+            f"This file contains all {len(pillar_qids)} WA Framework questions for the "
+            f"{pillar_name} pillar and their complete best-practice content. Load this ONE "
+            f"file to have the entire pillar in context at once.",
+            "",
+            "For a lightweight catalog of every BP ID across all 6 pillars, see "
+            "`references/manifest.md`.",
             "",
             "---",
             "",
         ]
+        for qid in pillar_qids:
+            parts.append(f"## Question {qid}")
+            parts.append("")
+            parts.append(_question_block(qid, all_questions[qid]).strip())
+            parts.append("")
+            parts.append("---")
+            parts.append("")
 
-        # Append each BP's content with source attribution
-        for bp in sorted(bps, key=lambda b: b["bp_id"]):
-            lines.append(bp["content"])
-            lines.append("")
-            lines.append(f"*Source: {bp['url']}*")
-            lines.append("")
-            lines.append("---")
-            lines.append("")
-
-        (output_dir / f"{question_id}.md").write_text("\n".join(lines), encoding="utf-8")
+        out_file = output_dir / f"{pillar_name}.md"
+        out_file.write_text("\n".join(parts), encoding="utf-8")
+        size_kb = out_file.stat().st_size / 1024
+        print(f"  {pillar_name:<25s} → {size_kb:>7.1f} KB ({len(pillar_qids)} questions)")
         written += 1
 
     return written
@@ -973,7 +1013,7 @@ def crawl_lens(lens_url: str, lens_name: str, output_dir: Path, delay: float, dr
             })
             print("OK")
 
-        written = write_output(dict(question_bps), output_dir)
+        written = write_output_per_question(dict(question_bps), output_dir)
         total = sum(len(v) for v in question_bps.values())
         print(f"\n  Done: {written} files, {total} best practices -> {output_dir}/")
 
@@ -1031,7 +1071,7 @@ def crawl_lens(lens_url: str, lens_name: str, output_dir: Path, delay: float, dr
         # they stay byte-identical.
         embedded = split_embedded_bps(section_pages)
         if embedded:
-            written = write_output(embedded, output_dir)
+            written = write_output_per_question(embedded, output_dir)
             total = sum(len(v) for v in embedded.values())
             print(f"\n  Done: {written} question files, {total} best practices -> {output_dir}/")
             return
@@ -1110,17 +1150,21 @@ def main():
 
     Two modes:
     - Pillar mode (default): Crawl one or all 6 WA Framework pillars.
-      Produces per-question files in skills/wa-review/references/questions/.
+      Produces pillar-merged files in skills/wa-review/references/pillars/
+      (one file per pillar containing all its questions).
 
     - Lens mode (--lens URL): Crawl a WA Lens by its docs URL.
       Auto-detects BP-style vs topic-page-style.
       Produces files in skills/wa-review/references/lenses/{name}/.
     """
     parser = argparse.ArgumentParser(
-        description="Crawl AWS WA docs and produce per-question reference files"
+        description="Crawl AWS WA docs. Framework mode → pillar-merged files "
+                    "(6 files, one per pillar). Lens mode → per-question files."
     )
-    parser.add_argument("--output-dir", default="skills/wa-review/references/questions",
-                        help="Output directory (default: skills/wa-review/references/questions)")
+    parser.add_argument("--output-dir", default="skills/wa-review/references/pillars",
+                        help="Output directory for framework pillars "
+                             "(default: skills/wa-review/references/pillars). "
+                             "Lens mode uses skills/wa-review/references/lenses/{name}/.")
     parser.add_argument("--delay", type=float, default=0.3,
                         help="Delay between requests in seconds (default: 0.3)")
     parser.add_argument("--pillar", choices=list(PILLAR_CONFIGS.keys()),
@@ -1142,7 +1186,7 @@ def main():
         # Derive a short name from the URL path if not provided
         # e.g., ".../generative-ai-lens/..." -> "generative-ai"
         lens_name = args.lens_name or args.lens.rsplit("/", 2)[-2].replace("-lens", "")
-        if args.output_dir == "skills/wa-review/references/questions":
+        if args.output_dir == "skills/wa-review/references/pillars":
             output_dir = Path(f"skills/wa-review/references/lenses/{lens_name}")
         crawl_lens(args.lens, lens_name, output_dir, args.delay, args.dry_run)
         return
@@ -1166,10 +1210,10 @@ def main():
         print(f"\nDry run complete.")
         return
 
-    written = write_output(all_questions, output_dir)
+    written = write_output_pillar_merged(all_questions, output_dir)
     total_bps = sum(len(v) for v in all_questions.values())
     print(f"\n{'='*60}")
-    print(f"  DONE: {written} question files, {total_bps} best practices")
+    print(f"  DONE: {written} pillar files, {total_bps} best practices")
     print(f"  Output: {output_dir}/")
     print(f"{'='*60}")
 

@@ -122,7 +122,7 @@ copy_skill_references() {
   local skill_dir="$1"
   local dest_dir="$2"
   if [[ -d "$skill_dir/references" ]]; then
-    # Recurse through references/ so nested content (questions/, lenses/, etc.)
+    # Recurse through references/ so nested content (pillars/, lenses/, etc.)
     # is installed too, preserving the relative directory structure. A flat
     # top-level-only copy would silently drop the entire reference corpus.
     while IFS= read -r -d '' ref_file; do
