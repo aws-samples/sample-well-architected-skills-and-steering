@@ -98,7 +98,7 @@ Before starting the evaluation, determine the review depth based on the user's r
 
 **Full review** (default when user says "WA review", "full review", "comprehensive"):
 - Evaluate ALL 57 questions
-- For EACH question, load `references/questions/{QUESTION_ID}.md` and evaluate against every best practice
+- Load `references/pillars/{pillar-slug}.md` per pillar (see Step 4b for parallel subagent dispatch); each pillar file contains every question and every best practice for that pillar
 - Cite specific BP IDs in findings (e.g., "SEC03-BP02: No permission boundaries defined")
 
 **Quick review** (when user says "quick review", "high-level", "summary", or time-constrained):
@@ -164,11 +164,10 @@ If unclear, ask:
 
 ### Coverage strategy — MANIFEST-FIRST, THEN PILLAR FILES
 
-**The purpose of a full review is comprehensive BP-level coverage.** To achieve this reliably, the reference corpus is provided in THREE layers:
+**The purpose of a full review is comprehensive BP-level coverage.** To achieve this reliably, the reference corpus is provided in TWO layers:
 
 1. **`references/manifest.md`** (~24 KB) — Lightweight catalog of every BP ID with 1-line titles. **ALWAYS load this file first** for any full review. It shows you the complete universe of 307 BPs to cite from.
 2. **`references/pillars/{pillar-slug}.md`** (6 files, ~150-580 KB each) — Merged per-pillar reference containing ALL questions and full BP content for one pillar. Load these to get full BP detail (implementation guidance, anti-patterns, resources).
-3. **`references/questions/{QUESTION_ID}.md`** (57 files) — Per-question reference. Available for granular loading if needed, but for a full review, prefer the 6 pillar files above.
 
 ### Mandatory loading pattern for a full review
 

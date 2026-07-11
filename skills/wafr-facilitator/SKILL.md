@@ -334,7 +334,7 @@ Do NOT generate all pillars at once when multiple are requested. Wait for approv
 When generating facilitator cards, load reference files from the `wa-review` skill to ground your questions in actual best practices. This skill does NOT bundle its own references — it reads from the shared corpus.
 
 **Reference loading strategy:**
-- Load `skills/wa-review/references/questions/{QUESTION_ID}.md` for each question as you generate its card
+- Load `skills/wa-review/references/pillars/{pillar-slug}.md` for each pillar you need — one pillar file contains every question and every best practice for that pillar (OPS, SEC, REL, PERF, COST, SUS)
 - Use the best practices, anti-patterns, and implementation guidance to craft SPECIFIC probing questions (not generic ones)
 - The facilitator card should reflect BP-level depth without exposing BP IDs to the customer
 

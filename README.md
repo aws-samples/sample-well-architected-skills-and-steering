@@ -36,8 +36,7 @@ steering/                           Always-on context (Kiro)
 skills/                             Step-by-step playbooks (tool-agnostic)
   wa-review/                          Full or pillar-scoped review (all 6 pillars + 27 lenses)
     references/manifest.md              Canonical catalog of all 307 BP IDs (loaded first)
-    references/pillars/                 6 pillar-merged files (subagent references for full reviews)
-    references/questions/               57 per-question files (canonical source; granular loading)
+    references/pillars/                 6 pillar-merged files (one per pillar; subagent references)
     references/lenses/                  Lens-specific references (27 lenses)
     references/pillar-playbooks/        Per-pillar deep-dive discovery procedures
   wa-builder/                         Learn WA + produce artifacts (diagrams, trees, roadmaps, ADRs)
@@ -224,7 +223,7 @@ Then in Kiro: Powers panel → **Add Custom Power** → **Import power from a fo
 
 - Auto-activates when you mention "well-architected", "architecture review", "security review", "reliability", etc.
 - Loads only relevant steering based on your current task
-- Progressive BP-level reference loading (57 question files + 27 lens packs) — managed automatically
+- Parallel per-pillar reference loading (6 pillar files + 27 lens packs, one file per Task subagent) — managed automatically
 
 > [!NOTE]
 > Kiro's "Import from GitHub" expects `POWER.md` at the repository root. Since this repo contains multiple skills and adapters, the Power lives under `powers/wa-review/` and must be imported from a local folder. If you want GitHub-based import, you can fork just the `powers/wa-review/` directory into its own repo.
@@ -547,13 +546,13 @@ graph LR
 
 ## 📊 Reference data and token consumption
 
-The `wa-review` skill includes **307 best practices** across **57 framework questions** plus **27 lens extensions** — sourced directly from the [AWS Well-Architected public documentation](https://docs.aws.amazon.com/wellarchitected/latest/framework/welcome.html). This reference data lives in `skills/wa-review/references/` and is loaded progressively (one question at a time), not all at once.
+The `wa-review` skill includes **307 best practices** across **57 framework questions** plus **27 lens extensions** — sourced directly from the [AWS Well-Architected public documentation](https://docs.aws.amazon.com/wellarchitected/latest/framework/welcome.html). This reference data lives in `skills/wa-review/references/` and is loaded one pillar file at a time (via parallel `Task` subagents in v4.2+), not all at once.
 
 ### Reference data summary
 
 | Content | Files | Size | Loaded when |
 |---------|-------|------|-------------|
-| Framework questions | 57 | 2.2 MB | Full review — one file per question evaluated |
+| Framework pillars (merged) | 6 | 2.2 MB | Full review — one pillar file per parallel `Task` subagent (v4.2+) |
 | Serverless Lens | 6 | 120 KB | Workload uses Lambda/API Gateway/Step Functions |
 | Generative AI Lens | 29 | 368 KB | LLM, RAG, or fine-tuning workloads |
 | Agentic AI Lens | 41 | 1.2 MB | AI agent workloads |
@@ -584,14 +583,13 @@ The `wa-review` skill includes **307 best practices** across **57 framework ques
 
 ### Token strategies
 
-A **full review** loading all 57 question files would consume ~500K–600K input tokens of reference material. Most models and tools have context limits far below that. Here are strategies to manage token consumption:
+A **full review** loads all 6 pillar files (~500K–600K input tokens of reference material). Most single-context models have limits below that, which is why v4.2+ dispatches **one Task subagent per pillar** — each subagent loads only its own pillar file (~150–580 KB), so no single context holds the whole corpus. Alternative modes for smaller footprints:
 
 | Strategy | How | Best for |
 |----------|-----|----------|
-| **Quick review** | Ask for "quick review" — evaluates at question level without loading BP reference files | Fast feedback, budget-conscious |
-| **Pillar-scoped** | Ask for specific pillars ("review security and reliability only") — loads only 11+13=24 question files | Targeted deep-dives |
-| **Single-question** | Ask about a specific area ("how are we handling permissions?") — loads only SEC03.md | Focused investigation |
-| **Lens-only** | Ask for just a lens review ("evaluate against the serverless lens") — skips core 57 questions | Domain-specific checks |
+| **Quick review** | Ask for "quick review" — evaluates at question level using SKILL.md summaries only (no BP reference files loaded) | Fast feedback, budget-conscious |
+| **Pillar-scoped** | Ask for specific pillars ("review security and reliability only") — loads only 2 pillar files | Targeted deep-dives |
+| **Lens-only** | Ask for just a lens review ("evaluate against the serverless lens") — skips core pillars | Domain-specific checks |
 | **Progressive** | Start quick, then drill into flagged pillars | Balanced depth vs cost |
 
 > [!TIP]
@@ -600,10 +598,10 @@ A **full review** loading all 57 question files would consume ~500K–600K input
 > 2. Then do a **pillar-scoped full review** on only the weak areas
 > 3. Apply a **lens** if the workload type warrants it
 >
-> This typically loads 10–20 reference files (~100K tokens) instead of all 57+lens (~600K+).
+> This typically loads 1–2 pillar files (~100–300 KB) instead of all 6 (~2.2 MB) plus lenses.
 
 > [!NOTE]
-> **How the agent manages context:** The skill instructs the agent to work **sequentially** — load one question's reference file, evaluate it, write the finding, then move on. Reference files are not held in context simultaneously. The skill also supports a **two-pass approach**: a quick scan first to identify gaps, then deep-dives only on flagged questions (50–70% token reduction). See the `Context management strategy` section in [wa-review/SKILL.md](skills/wa-review/SKILL.md) for full details.
+> **How the agent manages context:** In v4.2+, the skill dispatches **6 parallel `Task` subagents** (one per pillar) so each subagent's context holds only its own pillar file — the full 2.2 MB corpus is never in a single context. The manifest (~24 KB) is the only file the top-level agent loads upfront. See the `Coverage strategy` section in [wa-review/SKILL.md](skills/wa-review/SKILL.md) for full details.
 
 ### Estimated costs
 
@@ -612,8 +610,8 @@ Token estimates assume ~4 characters per token. Costs use [Claude Opus 4 pricing
 | Review type | Reference tokens loaded | Est. input cost | Est. total cost |
 |-------------|------------------------|-----------------|-----------------|
 | **Quick review** (no reference files) | ~5K (SKILL.md only) | < $0.01 | ~$0.50–$1.00 |
-| **Full review, two-pass** (~20 gap files) | ~190K | ~$2.85 | ~$4–$7 |
-| **Full review, all 57 questions** | ~550K | ~$8.25 | ~$10–$15 |
+| **Pillar-scoped** (1–2 pillar files) | ~50–150K | ~$0.75–$2.25 | ~$2–$5 |
+| **Full review, subagent-mode** (6 pillars in parallel, one per subagent) | ~550K total | ~$8.25 | ~$10–$15 |
 | **+ Serverless Lens** | +27K | +$0.40 | +$0.50–$1.00 |
 | **+ Generative AI Lens** | +80K | +$1.20 | +$1.50–$3.00 |
 | **+ Agentic AI Lens** | +294K | +$4.40 | +$5–$8 |
@@ -628,10 +626,10 @@ Total cost includes output tokens (the report itself, typically 8K–30K tokens 
 
 ### Regenerating reference data
 
-The reference files are committed to this repo and don't need regeneration unless the AWS docs update. To refresh:
+The reference files are committed to this repo as a snapshot of the AWS Well-Architected public docs at the time of the last crawl. **You are responsible for checking whether the data needs updating before use** — AWS updates the framework and lens pages over time, and stale references can produce outdated guidance. If in doubt, compare a few BP pages against the [live AWS docs](https://docs.aws.amazon.com/wellarchitected/latest/framework/welcome.html) or re-run the crawler. To refresh:
 
 ```bash
-# Regenerate all 57 framework question files
+# Regenerate all 6 pillar-merged framework files
 uv run scripts/crawl-wa-framework.py
 
 # Regenerate a single pillar
@@ -756,16 +754,47 @@ All skills are evaluated using an automated LLM-as-judge framework with paired c
 
 | Skill | Baseline | With Skill | Delta |
 |-------|----------|-----------|-------|
-| `wa-review` | 82% | **100%** | +18% |
 | `wa-builder` | 61% | **94%** | +33% |
 | `wa-guardrails` | 76% | **99%** | +23% |
 | `wafr-facilitator` | 61% | **97%** | +35% |
 | `migration-readiness` | 85% | **100%** | +15% |
-| **Average** | **73%** | **98%** | **+25%** |
 
-- **Pillar-scoped** reviews (security, reliability, cost, performance, sustainability, ops) are now handled by `wa-review` with domain-specific playbooks — same BP-level depth, unified entry point
-- **Average +15% improvement** over the same model without skill guidance
-- Skills never produce worse output than baseline — they improve or match
+> [!IMPORTANT]
+> **`wa-review` is measured separately — see [Real Claude Code CLI evaluation](#real-claude-code-cli-evaluation) below.** Since v4.2, wa-review's full-review path dispatches 6 parallel `Task` subagents (one per pillar) to reliably achieve 100% BP coverage ([see the empirical study behind the pattern](https://github.com/aws-samples/sample-well-architected-skills-and-steering/pull/93)). That pattern requires a runtime with subagent tool support (Claude Code, Kiro, Cursor, etc.). The raw Bedrock Converse API used above has no Task tool, so it can't execute the skill's subagent-dispatch pattern — the numbers there would reflect only single-agent guidance quality, not what the skill actually does in production.
+
+### Real Claude Code CLI evaluation
+
+To measure what the skill actually does in a Task-capable runtime, we invoke `claude -p` (real Claude Code CLI) against 6 eval cases × 3 runs each, and score every pillar subagent's output against a ground truth of applicable BPs. Ground truth is the consensus of 2 top-tier models × 5 runs each: a BP is "applicable" only if cited by BOTH models in ≥3 of 5 runs (yields ~270–306 applicable BPs per case out of the 307 canonical corpus).
+
+Two layers are measured:
+
+- **Subagent analysis** — every BP surfaced by the 6 parallel pillar subagents combined (the underlying analysis)
+- **Assembled report** — only the BPs that survive into the final report the user sees
+
+![wa-review effectiveness](docs/wa-review-effectiveness.png)
+
+**Results (n=18, 6 cases × 3 runs, Opus via Claude Code CLI):**
+
+| Case | Report F1 | Subagent F1 | Compression cost |
+| ---- | --------- | ----------- | ---------------- |
+| 1 (Serverless e-commerce) | 0.62 | 0.87 | 0.25 |
+| 2 (Financial multi-account) | **0.95** | **1.00** | 0.05 |
+| 3 (SaaS multi-tenant) | 0.51 | 0.70 | 0.19 |
+| 4 (Data analytics warehouse) | 0.21 | 0.65 | **0.44** |
+| 5 (ML training pipeline) | 0.74 | 0.89 | 0.15 |
+| 6 (Score mode) | 0.35 | 0.78 | 0.43 |
+| **Mean** | **0.53** | **0.83** | 0.30 |
+
+**Takeaways:**
+
+- **Subagent F1 ≈ 0.83** — the 6-parallel-pillar architecture reliably surfaces most applicable BPs. Case 2 hits perfect coverage (F1 = 1.00).
+- **Report F1 ≈ 0.53** — the assembled report loses ~30 F1 points on average during top-level synthesis. Case 4 shows the worst compression (0.44 gap).
+- **Precision is consistently high** at both layers (0.88–1.00) — the skill doesn't hallucinate BPs, it just under-surfaces them.
+- **Cost ≈ $4/run, wall ≈ 3 min** in Claude Code CLI (Opus tier).
+
+The gap between subagent and report F1 is the **compression cost** — a measurable target for future SKILL.md improvements to preserve more of the analysis in the final report.
+
+**Other modes** (score / quick / pillar-scoped) work in raw Converse and improve output there (case-level scores 80–100%). Skills never produce catastrophically worse output than baseline.
 
 The evaluation framework is included in [`evals/`](./evals) so you can reproduce results on your own models and prompts. Use `--parallel` for ~3x faster runs.
 

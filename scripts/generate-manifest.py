@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: MIT-0
 """Generate references/manifest.md — a single lightweight index of all 307 BPs.
 
-Scans references/questions/*.md for canonical BP definitions (H1 headings matching
+Scans references/pillars/*.md for canonical BP definitions (H1 headings matching
 `# {ID} {title}`) and emits a compact manifest the wa-review skill loads first.
 """
 
@@ -15,7 +15,7 @@ from pathlib import Path
 
 SCRIPT_DIR = Path(__file__).resolve().parent
 REPO_ROOT = SCRIPT_DIR.parent
-REFS = REPO_ROOT / "skills" / "wa-review" / "references" / "questions"
+REFS = REPO_ROOT / "skills" / "wa-review" / "references" / "pillars"
 OUTPUT = REPO_ROOT / "skills" / "wa-review" / "references" / "manifest.md"
 
 # Match H1 heading of question or BP.
@@ -38,18 +38,23 @@ def main() -> int:
         "SUS": "Sustainability",
     }
 
-    # Collect all questions and BPs
+    # Collect all questions and BPs. Each pillar file contains multiple questions,
+    # each starting with a `# {prefix} {num} — {title}` H1 and followed by
+    # `# {ID}-BP{num}` H1s. Split the file by question-H1 offsets so BPs are
+    # attributed to the correct question.
     questions: dict[str, tuple[str, list[tuple[str, str]]]] = {}
-    for qfile in sorted(REFS.glob("*.md")):
-        content = qfile.read_text()
-        qmatch = Q_H1.search(content)
-        if not qmatch:
-            continue
-        qid_readable = qmatch.group(1)
-        qid = qid_readable.replace(" ", "")
-        qtitle = qmatch.group(3).strip()
-        bps = [(m.group(1), m.group(2).strip()) for m in BP_H1.finditer(content)]
-        questions[qid] = (qtitle, bps)
+    for pfile in sorted(REFS.glob("*.md")):
+        content = pfile.read_text()
+        q_matches = list(Q_H1.finditer(content))
+        for i, qmatch in enumerate(q_matches):
+            qid_readable = qmatch.group(1)
+            qid = qid_readable.replace(" ", "")
+            qtitle = qmatch.group(3).strip()
+            start = qmatch.end()
+            end = q_matches[i + 1].start() if i + 1 < len(q_matches) else len(content)
+            section = content[start:end]
+            bps = [(m.group(1), m.group(2).strip()) for m in BP_H1.finditer(section)]
+            questions[qid] = (qtitle, bps)
 
     lines = [
         "# Well-Architected Framework — Best Practice Manifest",
