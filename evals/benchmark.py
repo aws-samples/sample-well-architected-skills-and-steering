@@ -211,6 +211,124 @@ def _converse_with_retries(client, kwargs: dict, inference_config: dict, model_i
         raise
 
 
+PILLAR_FILES = [
+    ("operational-excellence", "Operational Excellence (OPS)"),
+    ("security", "Security (SEC)"),
+    ("reliability", "Reliability (REL)"),
+    ("performance-efficiency", "Performance Efficiency (PERF)"),
+    ("cost-optimization", "Cost Optimization (COST)"),
+    ("sustainability", "Sustainability (SUS)"),
+]
+
+
+def _load_pillar_content() -> dict[str, str]:
+    """Load the 6 pillar-merged reference files from the shipped skill."""
+    pillars_dir = SCRIPT_DIR.parent / "skills" / "wa-review" / "references" / "pillars"
+    content = {}
+    for slug, _ in PILLAR_FILES:
+        p = pillars_dir / f"{slug}.md"
+        if p.exists():
+            content[slug] = p.read_text()
+    return content
+
+
+def call_model_subagent(client, model_id: str, workload_prompt: str,
+                        system: str | None = None, max_tokens: int = 4096,
+                        temperature: float = 0, region: str = "us-east-1") -> dict:
+    """Subagent-pattern review: 6 parallel Converse calls (one per pillar) with
+    pre-loaded pillar references. Aggregates cost/latency/output.
+
+    This measures what real users experience when following the shipped skill's
+    default full-review path (dispatch 6 pillar subagents).
+    """
+    pillar_content = _load_pillar_content()
+    if len(pillar_content) != 6:
+        return {"model_id": model_id,
+                "error": f"missing pillar files (got {len(pillar_content)}/6)",
+                "latency_s": 0}
+
+    def _one_pillar(pillar_slug: str, pillar_name: str) -> dict:
+        pillar_prompt = f"""# Reference: {pillar_name} pillar
+
+The following pillar reference is pre-loaded. All best-practice content for this
+pillar is included below.
+
+{pillar_content[pillar_slug]}
+
+---
+
+# Workload to review
+
+{workload_prompt}
+
+---
+
+# Your task
+
+Review the workload above **ONLY for the {pillar_name} pillar**. Enumerate every
+BP in the reference above. For each BP, assign one of four statuses: Implemented,
+Partially Implemented, Not Implemented, or Not Applicable (with brief rationale).
+
+Cite BPs in canonical `PILLAR##-BP##` format. Do not comment on other pillars —
+they are reviewed in separate subagent invocations."""
+
+        messages = [{"role": "user", "content": [{"text": pillar_prompt}]}]
+
+        if _is_mantle_model(model_id):
+            return call_mantle_model(model_id, messages, system=system,
+                                     max_tokens=max_tokens, temperature=temperature,
+                                     region=region)
+        return call_model(client, model_id, messages, system=system,
+                          max_tokens=max_tokens, temperature=temperature)
+
+    start = time.time()
+    pillar_results: list[dict] = []
+    with ThreadPoolExecutor(max_workers=6) as pool:
+        futures = {pool.submit(_one_pillar, slug, name): slug
+                   for slug, name in PILLAR_FILES}
+        for fut in as_completed(futures):
+            slug = futures[fut]
+            try:
+                pillar_results.append({"slug": slug, "result": fut.result()})
+            except Exception as e:
+                pillar_results.append({"slug": slug, "result": {"error": str(e)}})
+
+    wall_clock = time.time() - start
+
+    total_input = 0
+    total_output = 0
+    total_pillar_latency = 0.0
+    output_parts = []
+    errors: list[str] = []
+
+    for pr in pillar_results:
+        r = pr["result"]
+        if "error" in r:
+            errors.append(f"{pr['slug']}: {r['error']}")
+            continue
+        total_input += r.get("input_tokens", 0)
+        total_output += r.get("output_tokens", 0)
+        total_pillar_latency += r.get("latency_s", 0)
+        output_parts.append(f"\n\n===== {pr['slug']} =====\n\n{r.get('output', '')}")
+
+    if errors and not output_parts:
+        return {"model_id": model_id, "error": f"all pillars failed: {'; '.join(errors)}",
+                "latency_s": round(wall_clock, 2)}
+
+    return {
+        "model_id": model_id,
+        "mode": "subagent",
+        "output": "".join(output_parts),
+        "input_tokens": total_input,
+        "output_tokens": total_output,
+        "total_tokens": total_input + total_output,
+        "latency_s": round(wall_clock, 2),  # bounded by slowest pillar (parallel)
+        "sum_pillar_latency_s": round(total_pillar_latency, 2),  # cost-proxy sum
+        "pillars_succeeded": 6 - len(errors),
+        "pillar_errors": errors,
+    }
+
+
 def call_model(client, model_id: str, messages: list[dict], system: str | None = None,
                max_tokens: int = 4096, temperature: float = 0) -> dict:
     """Call a single model via Converse API. Returns metrics + output."""
@@ -346,10 +464,17 @@ def run_benchmark(config: dict, models: list[str], grade: bool = False) -> dict:
 
     results = []
 
+    mode = config.get("mode", "single")
+
     def run_one(model_id):
-        print(f"  → {model_id}...")
+        print(f"  → {model_id} ({mode} mode)...")
         try:
-            if _is_mantle_model(model_id):
+            if mode == "subagent":
+                result = call_model_subagent(client, model_id, user_prompt,
+                                             system=system_prompt,
+                                             max_tokens=max_tokens,
+                                             temperature=temperature, region=region)
+            elif _is_mantle_model(model_id):
                 result = call_mantle_model(model_id, messages, system=system_prompt,
                                            max_tokens=max_tokens, temperature=temperature, region=region)
             else:
@@ -525,12 +650,17 @@ def main():
     parser.add_argument("--grade", action="store_true", help="Run LLM-as-judge quality grading")
     parser.add_argument("--results", type=Path, help="Custom output file path")
     parser.add_argument("--concurrency", type=int, help="Max parallel model calls")
+    parser.add_argument("--mode", choices=["single", "subagent"], default="single",
+                        help="single = one Converse call per model (baseline). "
+                             "subagent = 6 parallel calls per model with pre-loaded pillar refs "
+                             "(measures the shipped skill's default full-review path).")
     args = parser.parse_args()
 
     config = load_config(args.config)
     models = args.models or config["models"]
     if args.concurrency:
         config["concurrency"] = args.concurrency
+    config["mode"] = args.mode
 
     benchmark = run_benchmark(config, models, grade=args.grade)
     print_summary(benchmark)
