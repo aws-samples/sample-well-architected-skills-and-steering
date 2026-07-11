@@ -35,17 +35,15 @@ steering/                           Always-on context (Kiro)
 
 skills/                             Step-by-step playbooks (tool-agnostic)
   wa-review/                          Full or pillar-scoped review (all 6 pillars + 27 lenses)
-    references/questions/               57 per-question BP-level reference files (307 BPs)
+    references/manifest.md              Canonical catalog of all 307 BP IDs (loaded first)
+    references/pillars/                 6 pillar-merged files (subagent references for full reviews)
+    references/questions/               57 per-question files (canonical source; granular loading)
     references/lenses/                  Lens-specific references (27 lenses)
     references/pillar-playbooks/        Per-pillar deep-dive discovery procedures
   wa-builder/                         Learn WA + produce artifacts (diagrams, trees, roadmaps, ADRs)
   wa-guardrails/                      Preventive controls (Config rules, SCPs, CI checks)
   wafr-facilitator/                   Conversational WAFR facilitation with customers
   migration-readiness/                7 Rs assessment with migration plan
-
-examples/                           Sample IaC with planted WA issues (for demos and eval fixtures)
-  insecure-serverless-app-cdk/        CDK TypeScript — ~20 issues across all 6 pillars
-  insecure-serverless-app-terraform/  Terraform — ~17 issues across all 6 pillars
 
 scripts/                            Maintenance tooling
   crawl-wa-framework.py               Crawl AWS docs to regenerate reference files
@@ -777,63 +775,36 @@ The evaluation framework is included in [`evals/`](./evals) so you can reproduce
 
 Compare how different foundation models perform on Well-Architected review tasks — measuring **quality**, **latency**, **throughput**, and **token cost** side by side. All models are consumed through **Amazon Bedrock** (`bedrock-runtime` for Converse API models, `bedrock-mantle` for OpenAI Responses/Chat Completions API models) — no direct provider APIs used.
 
+The benchmark below measures **subagent-mode full reviews** — the shipped skill's default path for `wa-review` full reviews, which dispatches 6 parallel Converse calls (one per pillar) per model with pre-loaded pillar references. This is what real users experience. Cost figures include all 6 subagent calls per review.
+
 <!-- BENCHMARK-START -->
 ### Model Benchmark Results
 
-**Last run:** 2026-07-10T12:34:43Z | **Region:** us-east-1 | **Prompt:** 1,595 chars | **Max tokens:** 4,096
+**Last run:** 2026-07-11T00:24:45Z | **Region:** us-east-1 | **Prompt:** 1,595 chars | **Max tokens:** 4,096
 
 | Model | Input Tokens | Output Tokens | Latency (s) | Tokens/s | Cost | Quality |
 |-------|-------------:|--------------:|------------:|---------:|------:|--------:|
-| claude-sonnet-5 | 793 | 4,096 | 44.8 | 91 | $0.0638 | 5.0/5 |
-| claude-fable-5 | 793 | 4,096 | 61.8 | 66 | $0.0638 | 5.0/5 |
-| r1 | 517 | 1,542 | 10.3 | 150 | $0.0090 | 4.8/5 |
-| pixtral-large-2502 | 620 | 2,223 | 29.6 | 75 | $0.0146 | 4.8/5 |
-| openai.gpt-oss-120b | 538 | 4,096 | 63.5 | 64 | — | 4.5/5 |
-| openai.gpt-5.5 | 477 | 4,096 | 78.9 | 52 | $0.0422 | 4.5/5 |
-| llama4-maverick-17b-instruct | 503 | 883 | 4.3 | 203 | $0.0005 | 4.2/5 |
-| llama3-3-70b-instruct | 505 | 1,225 | 7.4 | 165 | $0.0012 | 4.2/5 |
-| nova-2-lite | 512 | 1,518 | 7.4 | 206 | $0.0003 | 4.0/5 |
-| nova-pro | 549 | 1,216 | 11.6 | 105 | $0.0043 | 3.9/5 |
-| claude-haiku-4-5-20251001 | 587 | 4,096 | 22.4 | 183 | $0.0169 | 3.0/5 |
-| nova-lite | 549 | 1,700 | 10.5 | 162 | $0.0004 | 2.8/5 |
+| claude-sonnet-5 | 798,959 | 24,039 | 41.9 | 573 | $2.7575 | 5.0/5 |
+| openai.gpt-5.5 | 466,596 | 23,948 | 80.5 | 298 | $1.4060 | 5.0/5 |
+| openai.gpt-oss-120b | 466,962 | 23,834 | 100.7 | 237 | $0.0869 | 5.0/5 |
+| claude-haiku-4-5-20251001 | 551,338 | 24,576 | 38.6 | 637 | $0.5394 | 4.9/5 |
+| claude-fable-5 | 798,959 | 24,576 | 70.7 | 348 | $2.7655 | 4.8/5 |
+| r1 | 487,939 | 14,749 | 59.7 | 247 | $0.7384 | 4.7/5 |
+| nova-lite | 530,811 | 22,406 | 38.8 | 578 | $0.0372 | 4.2/5 |
+| llama4-maverick-17b-instruct | 459,380 | 14,339 | 25.5 | 562 | $0.1611 | 4.1/5 |
+| nova-2-lite | 455,426 | 16,944 | 43.0 | 394 | $0.0209 | 4.1/5 |
+| nova-pro | 530,811 | 23,306 | 72.4 | 322 | $0.4992 | 3.2/5 |
+| pixtral-large-2502 | 293,570 | 12,663 | 64.9 | 195 | $0.6631 | 2.5/5 |
+| llama3-3-70b-instruct | 470,011 | 10,511 | 45.3 | 232 | $0.3460 | 1.5/5 |
 
-**Key takeaways:**
-- **Top tier (5.0/5):** Claude Sonnet 5 and Claude Fable 5 tied — both confirmed by independent cross-family judges
-- **Best quality/latency:** DeepSeek R1 (4.8/5 in 10.3s) — near-frontier quality at 4x less latency than Sonnet 5
-- **Best value:** DeepSeek R1 at $0.009 or Pixtral Large at $0.015 — 4.8/5 quality for a fraction of Sonnet 5's cost
-- **Cheapest usable:** Nova 2 Lite (4.0/5 at $0.0003/call) — 200x cheaper than Sonnet 5
-- **Fastest capable:** Llama4 Maverick (4.2/5 in 4.3s at $0.0005) — best for high-volume quick scans
+<details><summary>Benchmark details</summary>
 
-<details><summary>Benchmark methodology</summary>
-
-- **Task:** Well-Architected review of an e-commerce Terraform architecture (ECS Fargate, RDS, CloudFront, Redis)
-- **Temperature:** 0
-- **Models tested:** 12 across 6 providers (Anthropic, Amazon, DeepSeek, Meta, Mistral, OpenAI)
-- **Quality grading:** 3-judge panel with **no self-grading** — a model is never judged by its own provider family
-- **Judges:** Claude Sonnet 4.6, DeepSeek R1, GPT OSS 120B
-- **Criteria:** coverage of all 6 WA pillars, identification of key risks, actionability of recommendations
-- **Run with:** `cd evals && python benchmark.py --grade`
-
-</details>
-
-<details><summary>Per-judge scores (transparency)</summary>
-
-| Model | Claude Sonnet 4.6 | DeepSeek R1 | GPT OSS 120B | Average |
-|-------|:-----------------:|:-----------:|:------------:|:-------:|
-| claude-fable-5 | — (same family) | 5.0 | 5.0 | **5.0** |
-| claude-sonnet-5 | — (same family) | 5.0 | 5.0 | **5.0** |
-| deepseek-r1 | 4.8 | — (same family) | 4.9 | **4.8** |
-| pixtral-large-2502 | 4.5 | 5.0 | 4.8 | **4.8** |
-| gpt-5.5 | 4.6 | 4.4 | — (same family) | **4.5** |
-| gpt-oss-120b | 4.6 | 4.4 | — (same family) | **4.5** |
-| llama3-3-70b | 3.5 | 4.5 | 4.5 | **4.2** |
-| llama4-maverick | 3.5 | 4.5 | 4.5 | **4.2** |
-| nova-2-lite | 3.8 | 4.0 | 4.1 | **4.0** |
-| nova-pro | 3.4 | 4.1 | 4.3 | **3.9** |
-| claude-haiku-4.5 | — (same family) | 3.1 | 3.0 | **3.0** |
-| nova-lite | 2.0 | 3.0 | 3.3 | **2.8** |
-
-*"— (same family)" means that judge was excluded to prevent self-grading bias.*
+- Task: Well-Architected review of an e-commerce Terraform architecture
+- Temperature: 0
+- Models tested: 12
+- Quality graded by: unknown
+- Criteria: coverage of 6 pillars, identification of key risks, actionability
+- Run with: `cd evals && python benchmark.py --grade`
 
 </details>
 <!-- BENCHMARK-END -->

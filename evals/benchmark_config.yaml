@@ -137,6 +137,9 @@ pricing:
   openai.gpt-5.5:
     input: 2.50
     output: 10.00
+  openai.gpt-oss-120b:
+    input: 0.1545
+    output: 0.6180
 
 # Quality grading (used with --grade flag)
 # Multi-model judge panel: 3 judges, no self-grading (a model never judges itself).

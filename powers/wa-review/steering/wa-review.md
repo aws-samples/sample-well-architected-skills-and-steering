@@ -76,6 +76,8 @@ Do NOT proceed past this point until the user explicitly confirms.
 
 ## Step 4: Evaluate EVERY WA Framework question with code evidence
 
+**CRITICAL — DO NOT PRODUCE A SHORT REVIEW.** The single most common failure mode is citing 20-30 BPs and stopping. The reference corpus contains **307 BPs across 57 questions**; a real full review MUST evaluate ALL 307. Every BP receives a status: Implemented, Partially Implemented, Not Implemented, or Not Applicable (with rationale). If you find yourself with fewer than 200 BP citations, you have not finished the review. Iterate until every BP is addressed.
+
 Assess the workload against ALL 57 questions in the Well-Architected Framework. For each question, provide:
 - **Status**: "Implemented", "Partially Implemented", "Not Implemented", "Cannot Determine"
 - **Evidence**: specific file paths and line numbers
@@ -105,53 +107,169 @@ Before starting the evaluation, determine the review depth based on the user's r
 - Flag obvious gaps but do not exhaustively check every BP
 - Faster, less detailed, still covers all pillars
 
-**Pillar-scoped review** (when user asks for specific pillars, e.g., "review security and reliability only"):
+**Pillar-scoped review** (when user asks for specific pillars, e.g., "review security and reliability only", "assess my security", "identify single points of failure", "optimize our costs"):
 - Evaluate ONLY the questions for the requested pillars
+- Load `references/pillar-playbooks/{pillar}.md` to apply domain-specific discovery steps (specialized evidence collection beyond generic infrastructure scan)
 - Apply full-review depth (load BP reference files) for those pillars
 - Skip all other pillars entirely — do not comment on them unless a critical cross-pillar issue is obvious
-- Still produce the same report format but only for the scoped pillars
+- Produce a pillar-focused report with domain-specific scorecard (e.g., Security: 6-domain scorecard; Reliability: SPOF table + testing plan)
+
+Trigger phrases that indicate pillar-scoped review:
+- Security: "security assessment", "IAM review", "encryption audit", "assess my security posture"
+- Reliability: "reliability plan", "identify SPOFs", "assess disaster recovery", "fault tolerance review"
+- Cost: "cost optimization", "right-sizing review", "reduce AWS spend", "cost assessment"
+- Performance: "performance assessment", "latency analysis", "bottleneck identification"
+- Sustainability: "sustainability review", "carbon footprint", "resource efficiency audit"
+- Operational Excellence: "operational assessment", "CI/CD review", "observability audit"
+
+**Score mode** (when user asks for "score", "grade", "scorecard", "matrix", or "just give me a number"):
+- Analyze the codebase at the provided path
+- Run a quick-scan pass across all 57 questions (no BP reference files loaded)
+- Produce ONLY a structured scorecard + filtered findings — no full narrative report
+- Respect depth parameter:
+  - "critical only" → show only Critical findings
+  - "critical and high" → show Critical + High
+  - "all" (default if unspecified) → show Critical + High + Medium + Low
+- Output format:
+
+```markdown
+## WA Score: {workload_name}
+
+**Overall: {X.X}/5** | OPS: {}/5 | SEC: {}/5 | REL: {}/5 | PERF: {}/5 | COST: {}/5 | SUS: {}/5
+
+| Pillar | Score | Critical | High | Medium | Low |
+|--------|-------|----------|------|--------|-----|
+| Operational Excellence | {1-5} | {n} | {n} | {n} | {n} |
+| Security | {1-5} | {n} | {n} | {n} | {n} |
+| Reliability | {1-5} | {n} | {n} | {n} | {n} |
+| Performance Efficiency | {1-5} | {n} | {n} | {n} | {n} |
+| Cost Optimization | {1-5} | {n} | {n} | {n} | {n} |
+| Sustainability | {1-5} | {n} | {n} | {n} | {n} |
+
+### Findings ({depth} and above)
+| # | Pillar | Severity | Finding | Evidence |
+|---|--------|----------|---------|----------|
+| 1 | {pillar} | {Critical/High/...} | {one-line finding} | {file:line} |
+...
+
+### Summary
+{1-2 sentence takeaway: overall posture + single most impactful action}
+```
+
+Trigger phrases: "score my app", "WA scorecard", "grade this", "give me a score matrix", "how does my architecture score"
 
 If unclear, ask:
 
-> Would you like a **full review** (deep BP-level analysis per question — thorough but longer) or a **quick review** (question-level assessment — faster, covers all pillars at a high level)?
+> Would you like a **full review** (deep BP-level analysis per question — thorough but longer), a **quick review** (question-level assessment — faster), or a **score** (just the scorecard + top findings)?
 
-### Context management strategy
+### Coverage strategy — MANIFEST-FIRST, THEN PILLAR FILES
 
-The full reference corpus is ~2.2 MB (57 question files). Do NOT attempt to load all files at once. Use this two-pass, pillar-by-pillar approach:
+**The purpose of a full review is comprehensive BP-level coverage.** To achieve this reliably, the reference corpus is provided in THREE layers:
 
-**Pass 1 — Quick scan (no reference files loaded):**
+1. **`references/manifest.md`** (~24 KB) — Lightweight catalog of every BP ID with 1-line titles. **ALWAYS load this file first** for any full review. It shows you the complete universe of 307 BPs to cite from.
+2. **`references/pillars/{pillar-slug}.md`** (6 files, ~150-580 KB each) — Merged per-pillar reference containing ALL questions and full BP content for one pillar. Load these to get full BP detail (implementation guidance, anti-patterns, resources).
+3. **`references/questions/{QUESTION_ID}.md`** (57 files) — Per-question reference. Available for granular loading if needed, but for a full review, prefer the 6 pillar files above.
 
-Work through all 6 pillars sequentially (OPS → SEC → REL → PERF → COST → SUS). For each question, use your knowledge and the code discovered in Steps 2-3 to assign a preliminary status. Mark questions as:
-- "Implemented" — clear evidence found, no obvious gaps
-- "Gaps found" — missing or weak implementation detected
-- "Cannot Determine" — not enough evidence
+### Mandatory loading pattern for a full review
 
-Produce a summary table after Pass 1 showing which questions have gaps.
+**Step 4a — Load the manifest (MANDATORY, 1 Read call):**
 
-**Pass 2 — Deep dive (reference files loaded selectively):**
+```
+Read: references/manifest.md
+```
 
-For ONLY the questions marked "Gaps found" in Pass 1:
-1. Load `references/questions/{QUESTION_ID}.md`
-2. Evaluate the workload against each BP in that file
-3. Record detailed findings with BP IDs, evidence, and risk
-4. Move to the next flagged question — the reference file does not need to remain loaded
+This gives you every BP ID and title in ~24 KB.
 
-This typically loads 15–25 reference files instead of 57, reducing token consumption by 50–70%.
+**Step 4b — Dispatch 6 parallel pillar subagents (MANDATORY for full coverage):**
 
-**Key rules:**
-- Never load more than one question's reference file simultaneously — read, evaluate, record, move on
-- Write findings as you go — do not accumulate them in memory
-- After completing each pillar in Pass 2, produce that pillar's findings before starting the next
-- If the user explicitly asks for a full deep-dive on ALL questions (not just gaps), follow the same sequential pattern but load every question file one at a time
+**Why this pattern:** Empirical measurement shows that when a single agent tries to enumerate all 307 BPs in one response, it produces **20-60 findings and stops** — regardless of prompt strength, retrieval strategy (local files, MCP, or hybrid), or explicit "evaluate all 307" instructions. This is a stable behavioral equilibrium of the model's concision priors.
 
-### How to evaluate each question (full review)
+**The fix:** narrow scope per subagent. When one agent reviews ONE pillar, it naturally enumerates the pillar's 30-55 BPs. Dispatching **6 parallel subagents (one per pillar)** aggregates to **~307 BPs of coverage** — measured empirically at **100% (307/307)** in evals/study_mcp with **zero hallucinations**.
 
-For EACH question in a full review:
+Dispatch all 6 Task calls in a single turn (parallel execution):
 
-1. **Load the question file**: Read `references/questions/{QUESTION_ID}.md` (e.g., `references/questions/SEC03.md` for SEC 3). Each file contains all best practices for that question with implementation guidance, anti-patterns, and risk levels.
-2. **Evaluate against every BP**: Check whether the workload implements each best practice listed in the file. Use the anti-patterns and implementation guidance to determine gaps.
-3. **Record and release**: Write the finding immediately. You do not need to keep the reference file in context for subsequent questions.
-4. **Cite BP IDs in findings**: When flagging a gap, reference the specific BP ID (e.g., "SEC03-BP02: No permission boundaries defined").
+```
+Task(subagent_type="general-purpose",
+     description="Review Operational Excellence",
+     prompt="Read references/pillars/operational-excellence.md, then review the following workload ONLY for the OPS pillar. Enumerate every BP in the pillar file. For each BP assign one of: Implemented / Partially Implemented / Not Implemented / Not Applicable (with rationale). Cite BPs in `PILLAR##-BP##` format. Return findings inline in your final message. Workload: {workload description + code}")
+
+Task(subagent_type="general-purpose",
+     description="Review Security",
+     prompt="Read references/pillars/security.md, then review the workload ONLY for the SEC pillar. [same instruction format] Workload: {workload}")
+
+Task(subagent_type="general-purpose",
+     description="Review Reliability",
+     prompt="Read references/pillars/reliability.md, then review the workload ONLY for the REL pillar. [same instruction format] Workload: {workload}")
+
+Task(subagent_type="general-purpose",
+     description="Review Performance Efficiency",
+     prompt="Read references/pillars/performance-efficiency.md, then review the workload ONLY for the PERF pillar. [same instruction format] Workload: {workload}")
+
+Task(subagent_type="general-purpose",
+     description="Review Cost Optimization",
+     prompt="Read references/pillars/cost-optimization.md, then review the workload ONLY for the COST pillar. [same instruction format] Workload: {workload}")
+
+Task(subagent_type="general-purpose",
+     description="Review Sustainability",
+     prompt="Read references/pillars/sustainability.md, then review the workload ONLY for the SUS pillar. [same instruction format] Workload: {workload}")
+```
+
+**Total: 6 Task calls in one turn.** Each subagent runs independently with its own context, so each can be exhaustive without stealing from the others.
+
+**Cost/latency:** ~3-4x the tokens of a single-agent review (each subagent duplicates workload context), but wall-clock is bounded by the slowest single pillar (~2-3 min). Users trade cost for coverage.
+
+**When to skip subagent dispatch:**
+- User explicitly asked for **quick review** / **score mode** / **pillar-scoped review** — those modes stay single-agent
+- **Cost-constrained** environments where 3-4x token usage is unacceptable — do a single-agent review but be honest with the user that coverage will be ~50-60 BPs, not 307
+
+**Step 4c — Aggregate subagent findings:**
+
+Once all 6 subagents return, merge their findings into a single structured report:
+- **Coverage**: Sum unique BPs cited across all subagents (target: 250-307)
+- **Findings by pillar**: Use each subagent's output as the pillar's section
+- **Cross-pillar patterns**: Identify trade-offs and conflicts across pillars
+- **Prioritization**: Apply the Now/Next/Later timeline across all findings
+
+For each of the 307 BPs (visible in the manifest, cited by subagents), the final report shows:
+- **Implemented** — the workload demonstrates this BP (cite the BP + evidence)
+- **Partially Implemented** — some coverage, gaps exist (cite the BP + gap)
+- **Not Implemented** — the workload lacks this BP (cite the BP as missing)
+- **Not Applicable** — this BP doesn't apply to the workload's context (explain why briefly)
+
+**Coverage expectations** — a full review MUST evaluate all **307 BPs**. Every BP receives one of four statuses: Implemented, Partially Implemented, Not Implemented, or Not Applicable (with rationale for N/A). "Not Implemented" for absent controls is a valid, valuable finding — do not skip a BP just because the workload lacks the underlying capability.
+
+### Step 4d — MANDATORY coverage audit (do NOT skip)
+
+**Before producing the final report**, you MUST perform a self-audit and iterate if coverage is incomplete:
+
+1. **Count**: How many unique BP IDs have you evaluated so far (in canonical `PILLAR##-BP##` format)? Count all four statuses — Implemented, Partially Implemented, Not Implemented, AND Not Applicable.
+2. **Compare against the target**: A full review evaluates ALL **307 BPs** in the manifest. Anything less is incomplete.
+3. **If your evaluated count is below 307**, you MUST NOT proceed to the final report. Instead, iterate:
+   - Compare your evaluated set against the full 307-BP list in `references/manifest.md`
+   - For each un-evaluated BP, load the corresponding pillar file if not already loaded, then add an entry (Implemented / Partially Implemented / Not Implemented / N/A)
+   - Repeat the count check.
+4. **Continue iterating** until every one of the 307 BPs has an entry. If a BP is genuinely N/A (e.g., serverless-specific BP for a container workload), mark it N/A with a one-line rationale — do not silently skip.
+
+**Why this matters:** The default agent behavior is to cite the 20-30 most salient findings and stop. That produces a superficial review that misses systemic gaps. The value of the WA corpus is comprehensive coverage — every BP evaluated, every gap surfaced. A customer paying for a WA review expects the full 307-BP assessment, not the model's top-of-mind list.
+
+**Audit output format** (include in your final report before the executive summary):
+
+```
+## Coverage audit
+- BPs evaluated: {count} / 307
+- Iterations performed: {N}
+- Status distribution: {implemented} Implemented, {partial} Partial, {not_impl} Not Implemented, {na} N/A
+```
+
+If `BPs evaluated` is less than 307, you have not finished the review — go back to Step 4d.
+
+### When economy matters — quick review mode
+
+If the user explicitly asks for a **quick review**, a **high-level summary**, a **score**, or is time-constrained, load ONLY `references/manifest.md` (24 KB) and cite BPs at question-level or by ID without loading pillar files. This gives you canonical BP IDs but skips the deep implementation content.
+
+### Pillar-scoped review
+
+For a single-pillar review, load `references/manifest.md` + only that pillar's file (e.g., `references/pillars/security.md`).
 
 ### When a WA Lens applies
 
