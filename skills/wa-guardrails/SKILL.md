@@ -183,3 +183,8 @@ Keep each statement tied to a WA Question/BP ID, and keep the doc short enough t
 - Don't over-generate: a focused set of high-value controls that the team will keep beats 50 noisy rules they'll mute.
 - Respect the workload's existing dialect and conventions — emit CDK Aspects for a CDK app, `cfn-guard` for CloudFormation, OPA/Sentinel for Terraform; don't mix paradigms.
 - The governance steering doc complements controls, it doesn't replace them — prefer a machine-enforced control whenever one exists, and use the doc for what code can't express. Keep it concise enough for always-on context.
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

@@ -414,3 +414,8 @@ For rejected options:
 - When generating artifacts from a wa-review, USE the review's findings — don't re-assess
 - PlantUML is primary (most tools support it), Mermaid is the alternative (renders in GitHub/VS Code)
 - ASCII fallbacks for dependency graphs work everywhere including terminals
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

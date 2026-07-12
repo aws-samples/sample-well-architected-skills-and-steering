@@ -386,3 +386,8 @@ After the review session, if asked, generate a **Facilitator Debrief**:
 - **Be honest about "Cannot Determine."** If the facilitator hasn't gathered enough information, say what's still needed rather than guessing.
 - **Progressive disclosure.** Start with the opening question, go deeper only if the answer reveals gaps.
 - **Respect time.** If the facilitator says they have 30 minutes for Security, help them prioritize the 3-4 most important questions for the workload rather than rushing all 10.
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

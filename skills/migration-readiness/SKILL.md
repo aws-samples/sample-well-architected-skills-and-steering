@@ -291,3 +291,8 @@ After delivering the assessment, offer:
 - For shared databases, always flag the migration ordering constraint — this is the #1 cause of migration complexity
 - Cost estimates from static analysis are rough — acknowledge uncertainty and recommend AWS Pricing Calculator for precision
 - Acknowledge migration-ready aspects prominently (containerized, stateless, IaC already exists)
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

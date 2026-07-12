@@ -529,3 +529,8 @@ After delivering the report, offer:
 - Every finding MUST have code evidence — no generic recommendations without backing
 - If something cannot be determined from code, say "Cannot Determine" and explain what runtime/interview data is needed
 - Acknowledge strengths prominently — a mature workload should feel validated, not just criticized
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

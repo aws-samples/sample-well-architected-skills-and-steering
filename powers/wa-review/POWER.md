@@ -43,3 +43,8 @@ This power is licensed under MIT-0.
 
 - [Privacy Policy](https://aws.amazon.com/privacy/)
 - [Support](https://github.com/aws-samples/skills-and-steering-docs/issues)
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->
