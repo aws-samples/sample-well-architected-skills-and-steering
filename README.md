@@ -764,35 +764,62 @@ All skills are evaluated using an automated LLM-as-judge framework with paired c
 
 ### Real Claude Code CLI evaluation
 
-To measure what the skill actually does in a Task-capable runtime, we invoke `claude -p` (real Claude Code CLI) against 6 eval cases × 3 runs each, and score every pillar subagent's output against a ground truth of applicable BPs. Ground truth is the consensus of 2 top-tier models × 5 runs each: a BP is "applicable" only if cited by BOTH models in ≥3 of 5 runs (yields ~270–306 applicable BPs per case out of the 307 canonical corpus).
+To measure what the skill actually delivers in a Task-capable runtime, we invoke `claude -p` (real Claude Code CLI) against 6 eval cases × 3 runs each in two configurations:
 
-Two layers are measured:
+- **With skill** — `~/.claude/skills/wa-review/` installed; the skill auto-triggers on the WA prompt and dispatches its 6 parallel pillar subagents
+- **Baseline (without skill)** — `claude -p --safe-mode --disable-slash-commands` from a scratch workdir; no skill, no CLAUDE.md, no plugins, nothing that could inject WA guidance
 
-- **Subagent analysis** — every BP surfaced by the 6 parallel pillar subagents combined (the underlying analysis)
-- **Assembled report** — only the BPs that survive into the final report the user sees
+Both configurations score against the same ground truth: consensus of 2 top-tier models × 5 runs each (a BP is "applicable" only if cited by BOTH models in ≥3 of 5 runs; yields ~270–306 applicable BPs per case out of the 307 canonical corpus).
 
-![wa-review effectiveness](docs/wa-review-effectiveness.png)
+**Results (n=18 per configuration, 6 cases × 3 runs, Opus via Claude Code CLI):**
 
-**Results (n=18, 6 cases × 3 runs, Opus via Claude Code CLI):**
+| Case | With skill (F1) | Baseline (F1) | Δ F1 | With skill $/run | Baseline $/run |
+| ---- | --------------- | ------------- | ---- | ---------------- | -------------- |
+| 1 (Serverless e-commerce) | 0.947 | 0.225 | **+0.72** | $7.24 | $0.13 |
+| 2 (Financial multi-account) | **0.998** | 0.194 | **+0.80** | $7.63 | $0.09 |
+| 3 (SaaS multi-tenant) | 0.968 | 0.319 | **+0.65** | $8.18 | $0.09 |
+| 4 (Pillar-scoped, SEC+REL only) † | 0.955 | 0.381 | **+0.57** | $3.25 | $0.10 |
+| 5 (ML training pipeline) | 0.936 | 0.210 | **+0.73** | $7.75 | $0.14 |
+| 6 (Score mode) | 0.958 | 0.255 | **+0.70** | $7.51 | $0.07 |
+| **Mean** | **0.960** | **0.264** | **+0.70** | **$6.93** | **$0.10** |
 
-| Case | Report F1 | Subagent F1 | Compression cost |
-| ---- | --------- | ----------- | ---------------- |
-| 1 (Serverless e-commerce) | 0.62 | 0.87 | 0.25 |
-| 2 (Financial multi-account) | **0.95** | **1.00** | 0.05 |
-| 3 (SaaS multi-tenant) | 0.51 | 0.70 | 0.19 |
-| 4 (Data analytics warehouse) | 0.21 | 0.65 | **0.44** |
-| 5 (ML training pipeline) | 0.74 | 0.89 | 0.15 |
-| 6 (Score mode) | 0.35 | 0.78 | 0.43 |
-| **Mean** | **0.53** | **0.83** | 0.30 |
+† Case 4 is a pillar-scoped test ("Review only Security and Reliability"). Scored against the SEC + REL subset of the ground truth (116 of 280 BPs) to match what the prompt asked for.
 
 **Takeaways:**
 
-- **Subagent F1 ≈ 0.83** — the 6-parallel-pillar architecture reliably surfaces most applicable BPs. Case 2 hits perfect coverage (F1 = 1.00).
-- **Report F1 ≈ 0.53** — the assembled report loses ~30 F1 points on average during top-level synthesis. Case 4 shows the worst compression (0.44 gap).
-- **Precision is consistently high** at both layers (0.88–1.00) — the skill doesn't hallucinate BPs, it just under-surfaces them.
-- **Cost ≈ $4/run, wall ≈ 3 min** in Claude Code CLI (Opus tier).
+- **Recall lift: 0.15 → 1.00** — bare Claude Code cites ~15% of applicable BPs (30–50 out of 270+); with the skill it cites every applicable BP.
+- **Precision holds at ≥0.88 in both configurations** — neither hallucinates BPs. The skill's gain is entirely from surfacing missed BPs, not from filtering false ones.
+- **Zero run-to-run variance with the skill** — each case's 3 runs produced identical F1. The subagent-dispatch pattern + the mandatory Full BP Ledger in Step 4c (v2.2) make the review deterministic.
+- **Cost trade-off: ~$0.10 → ~$7 per review, ~1 min → ~11 min wall clock.** The skill is ~69× more expensive per invocation. For a one-time architecture assessment worth taking seriously, that's cheap; for a per-commit CI check, it's not.
 
-The gap between subagent and report F1 is the **compression cost** — a measurable target for future SKILL.md improvements to preserve more of the analysis in the final report.
+<details>
+<summary><b>How to interpret these results</b></summary>
+
+**The metrics**
+
+- **Recall** — "of every BP that applies to this workload, how many did the review cite?" Range 0–1. A recall of 1.00 means the review surfaced every applicable BP.
+- **Precision** — "of the BPs the review cited, how many were actually applicable?" Range 0–1. A precision of 1.00 means every cited BP was on the mark.
+- **F1** — the harmonic mean of recall and precision. A single number that only stays high when *both* are high. Cheating by citing all 307 BPs would tank precision; cheating by citing 5 obvious ones would tank recall. F1 = 1.00 is perfect on both axes.
+
+**The two layers**
+
+- **Subagent analysis** — the raw output of the 6 parallel pillar subagents combined. This is the *underlying analysis* the skill produces.
+- **Assembled report** — what the top-level agent synthesizes into the final user-facing report after the subagents return. This is *what the user actually sees*.
+
+In wa-review v2.2 these two numbers are identical — the mandatory Full BP Ledger section (see [SKILL.md Step 4c](skills/wa-review/SKILL.md)) forces the assembler to preserve every citation the subagents produce. In v2.1 the report layer dropped 30–70% of the subagent findings; that gap ("compression cost") is now zero.
+
+**How "applicable" is decided (ground truth)**
+
+For each workload we ran a separate consensus panel: 2 top-tier models (Claude Sonnet 5, GPT OSS 120B) × 5 runs each. A BP counts as applicable only if **both** models cited it in **≥3 of their 5 runs**. This yields 270–306 applicable BPs per workload out of the 307 canonical corpus — a defensible set of "what a strong review should catch."
+
+**Baseline definition**
+
+The "without skill" column is `claude -p --safe-mode --disable-slash-commands` invoked from an empty scratch workdir (`/tmp/wa-review-baseline-scratch/`). `--safe-mode` disables all skills, CLAUDE.md discovery, plugins, hooks, and MCP servers. `--disable-slash-commands` blocks explicit skill invocation. Same case prompts, same model (Opus), same ground truth scoring — the only variable removed is the wa-review skill.
+
+**Scope**
+
+Numbers reflect: `claude -p` CLI (real Claude Code runtime) + Opus + wa-review v2.2 + n=3 runs per case + 6 workload cases. Not a universal claim about all models or runtimes — results will vary with the underlying LLM's capability and the runtime's tool support.
+</details>
 
 **Other modes** (score / quick / pillar-scoped) work in raw Converse and improve output there (case-level scores 80–100%). Skills never produce catastrophically worse output than baseline.
 

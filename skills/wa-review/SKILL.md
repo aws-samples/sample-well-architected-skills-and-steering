@@ -2,7 +2,7 @@
 name: wa-review
 description: Perform a full AWS Well-Architected Framework review evaluating all 57 questions across 6 pillars by analyzing code, IaC, and configurations to produce evidence-backed findings with Eisenhower-prioritized remediation.
 not_for: single-pillar deep-dives (use the specific pillar skill), learning WA (use wa-builder), ADRs (use architecture-decision-record), migration (use migration-readiness)
-version: 2.1.0
+version: 2.2.0
 ---
 
 # Well-Architected Review
@@ -185,35 +185,56 @@ This gives you every BP ID and title in ~24 KB.
 
 **The fix:** narrow scope per subagent. When one agent reviews ONE pillar, it naturally enumerates the pillar's 30-55 BPs. Dispatching **6 parallel subagents (one per pillar)** aggregates to **~307 BPs of coverage** — measured empirically at **100% (307/307)** in evals/study_mcp with **zero hallucinations**.
 
-Dispatch all 6 Task calls in a single turn (parallel execution):
+Dispatch all 6 Task calls in a single turn (parallel execution). **Each subagent MUST return a structured markdown table** so the top-level aggregator can merge findings verbatim without paraphrasing.
+
+**Required return format (every subagent):**
+
+```markdown
+## {Pillar} Findings
+
+| BP ID | Status | Severity | Evidence | Recommendation |
+|-------|--------|----------|----------|-----------------|
+| SEC03-BP02 | Not Implemented | High | No permission boundaries found in cdk/iam.ts | Add IAM permission boundaries per role |
+| SEC04-BP01 | Partially Implemented | Medium | CloudTrail on, but no S3 access logging | Enable S3 server access logging |
+| ...one row per BP evaluated in this pillar... |
+```
+
+**Row requirements:**
+- One row per BP evaluated (target 30-55 rows per pillar; MUST cover every BP in the pillar file)
+- Status: exactly one of `Implemented` / `Partially Implemented` / `Not Implemented` / `Not Applicable`
+- Severity: `Critical` / `High` / `Medium` / `Low` (or blank for Implemented/Not Applicable)
+- Evidence: specific file:line references when code was analyzed, or "Based on description" when reviewing verbally
+- BP ID in canonical `PILLAR##-BP##` format only
+
+**Dispatch template:**
 
 ```
 Task(subagent_type="general-purpose",
      description="Review Operational Excellence",
-     prompt="Read references/pillars/operational-excellence.md, then review the following workload ONLY for the OPS pillar. Enumerate every BP in the pillar file. For each BP assign one of: Implemented / Partially Implemented / Not Implemented / Not Applicable (with rationale). Cite BPs in `PILLAR##-BP##` format. Return findings inline in your final message. Workload: {workload description + code}")
+     prompt="Read references/pillars/operational-excellence.md, then review the following workload ONLY for the OPS pillar. Enumerate EVERY BP in the pillar file (all 30+ BPs) — do not filter to 'top issues'. Return findings as the mandatory markdown table (columns: BP ID | Status | Severity | Evidence | Recommendation) with one row per BP. Do NOT prepend narrative summary text before the table. Workload: {workload description + code}")
 
 Task(subagent_type="general-purpose",
      description="Review Security",
-     prompt="Read references/pillars/security.md, then review the workload ONLY for the SEC pillar. [same instruction format] Workload: {workload}")
+     prompt="Read references/pillars/security.md, then review the workload ONLY for the SEC pillar. [same table format, every BP as a row] Workload: {workload}")
 
 Task(subagent_type="general-purpose",
      description="Review Reliability",
-     prompt="Read references/pillars/reliability.md, then review the workload ONLY for the REL pillar. [same instruction format] Workload: {workload}")
+     prompt="Read references/pillars/reliability.md, then review the workload ONLY for the REL pillar. [same table format, every BP as a row] Workload: {workload}")
 
 Task(subagent_type="general-purpose",
      description="Review Performance Efficiency",
-     prompt="Read references/pillars/performance-efficiency.md, then review the workload ONLY for the PERF pillar. [same instruction format] Workload: {workload}")
+     prompt="Read references/pillars/performance-efficiency.md, then review the workload ONLY for the PERF pillar. [same table format, every BP as a row] Workload: {workload}")
 
 Task(subagent_type="general-purpose",
      description="Review Cost Optimization",
-     prompt="Read references/pillars/cost-optimization.md, then review the workload ONLY for the COST pillar. [same instruction format] Workload: {workload}")
+     prompt="Read references/pillars/cost-optimization.md, then review the workload ONLY for the COST pillar. [same table format, every BP as a row] Workload: {workload}")
 
 Task(subagent_type="general-purpose",
      description="Review Sustainability",
-     prompt="Read references/pillars/sustainability.md, then review the workload ONLY for the SUS pillar. [same instruction format] Workload: {workload}")
+     prompt="Read references/pillars/sustainability.md, then review the workload ONLY for the SUS pillar. [same table format, every BP as a row] Workload: {workload}")
 ```
 
-**Total: 6 Task calls in one turn.** Each subagent runs independently with its own context, so each can be exhaustive without stealing from the others.
+**Total: 6 Task calls in one turn.** Each subagent runs independently with its own context, so each can be exhaustive without stealing from the others. The uniform table format means aggregation is a mechanical concatenation, not an interpretive summary — this prevents ~30-70% recall loss observed with narrative subagent output.
 
 **Cost/latency:** ~3-4x the tokens of a single-agent review (each subagent duplicates workload context), but wall-clock is bounded by the slowest single pillar (~2-3 min). Users trade cost for coverage.
 
@@ -221,21 +242,23 @@ Task(subagent_type="general-purpose",
 - User explicitly asked for **quick review** / **score mode** / **pillar-scoped review** — those modes stay single-agent
 - **Cost-constrained** environments where 3-4x token usage is unacceptable — do a single-agent review but be honest with the user that coverage will be ~50-60 BPs, not 307
 
-**Step 4c — Aggregate subagent findings:**
+**Step 4c — Aggregate subagent findings (PRESERVE citations verbatim):**
 
-Once all 6 subagents return, merge their findings into a single structured report:
-- **Coverage**: Sum unique BPs cited across all subagents (target: 250-307)
-- **Findings by pillar**: Use each subagent's output as the pillar's section
-- **Cross-pillar patterns**: Identify trade-offs and conflicts across pillars
-- **Prioritization**: Apply the Now/Next/Later timeline across all findings
+Once all 6 subagents return, merge their findings into a single structured report. **CRITICAL**: preserve every BP citation each subagent produced. The aggregation step is a merge, NOT a summary — do not paraphrase, cluster, or omit BP citations that a subagent surfaced. Empirical measurement shows the assembly step is where recall is typically lost: subagents surface 250-307 BPs but naive aggregation collapses to 60-90 in the final report.
 
-For each of the 307 BPs (visible in the manifest, cited by subagents), the final report shows:
+**Aggregation rules — follow all of these:**
+1. **Full BP Ledger required.** The report MUST contain a "Full BP Ledger" section (see Step 6) with a row per BP-status pair from every subagent. If subagent A cited `SEC03-BP02` as Not Implemented, that row appears in the ledger — verbatim, no paraphrase.
+2. **No compression by pillar.** Do NOT reduce a subagent's 45 BP citations to "top 5 findings per pillar" in the final output. Every cited BP appears in the ledger. High-severity findings ALSO get a full-detail narrative in the "Critical and High Risk Findings" section, but that is IN ADDITION to the ledger, never instead of it.
+3. **Verify count before writing.** Count BP IDs in your assembled draft (in `PILLAR##-BP##` format) BEFORE returning. If the count is lower than the sum of subagent citations, you dropped some — go back and add them.
+4. **Cross-pillar patterns and prioritization** are additive analyses that reference the ledger; they do NOT replace it.
+
+For each BP citation, the ledger row shows:
 - **Implemented** — the workload demonstrates this BP (cite the BP + evidence)
 - **Partially Implemented** — some coverage, gaps exist (cite the BP + gap)
 - **Not Implemented** — the workload lacks this BP (cite the BP as missing)
 - **Not Applicable** — this BP doesn't apply to the workload's context (explain why briefly)
 
-**Coverage expectations** — a full review MUST evaluate all **307 BPs**. Every BP receives one of four statuses: Implemented, Partially Implemented, Not Implemented, or Not Applicable (with rationale for N/A). "Not Implemented" for absent controls is a valid, valuable finding — do not skip a BP just because the workload lacks the underlying capability.
+**Coverage expectations** — a full review MUST evaluate all **307 BPs**. Every BP receives one of four statuses. "Not Implemented" for absent controls is a valid, valuable finding — do not skip a BP just because the workload lacks the underlying capability.
 
 ### Step 4d — MANDATORY coverage audit (do NOT skip)
 
@@ -395,14 +418,29 @@ Output a structured report:
 
 {Complete this table for all 57 questions — do not truncate}
 
+## Full BP Ledger (MANDATORY)
+
+**This section MUST list every BP citation produced by every subagent.** Concatenate all 6 subagent tables here, sorted by pillar then BP ID. Do NOT filter, cluster, or paraphrase. If a subagent surfaced 45 BPs for its pillar, this ledger shows 45 rows for that pillar. Target row count: 250-307 (one row per BP evaluated across all pillars).
+
+Empirical measurement shows this section is where recall reaches the user. Skipping it or truncating it drops final-report recall from ~1.00 (what the subagents surface) to ~0.30 (what the assembler compresses to). **Do not skip this section.**
+
+| BP ID | Pillar | Status | Severity | Evidence | Recommendation |
+|-------|--------|--------|----------|----------|-----------------|
+| OPS01-BP01 | Operational Excellence | {status} | {severity or blank} | {evidence} | {recommendation} |
+| OPS01-BP02 | Operational Excellence | {status} | {severity or blank} | {evidence} | {recommendation} |
+| ... | ... | ... | ... | ... | ... |
+| SUS06-BP05 | Sustainability | {status} | {severity or blank} | {evidence} | {recommendation} |
+
+{After writing this table, count the rows and confirm the count matches the sum of subagent rows. If not, you dropped citations — go back and add them.}
+
 ## Critical and High Risk Findings
-{For each: ID, pillar, title, description, evidence (file:line), impact assessment, recommendation, effort, AWS services}
+{For each: ID, pillar, title, description, evidence (file:line), impact assessment, recommendation, effort, AWS services. This section EXPANDS on rows in the Full BP Ledger — it does NOT replace them.}
 
 ## Medium Risk Findings
-{Same format, condensed}
+{Same format, condensed. Also references ledger rows.}
 
 ## Low Risk Findings
-{Summary table: ID | Pillar | Title | Recommendation}
+{Summary table: ID | Pillar | Title | Recommendation. Also references ledger rows.}
 
 ## Cross-Pillar Trade-offs
 {Conflicts between pillars and recommended resolution}
