@@ -4,10 +4,13 @@ CLAUDE.md
 evals/results/*
 !evals/results/baseline.json
 
-# MCP vs bundled study (proposal + artifacts stay local)
+# Local study/design artifacts kept out of the shipped repo
 evals/STUDY_MCP_VS_BUNDLED.md
-evals/study_mcp/
 skills/wa-review/DESIGN.md
+# Measurement outputs from evals/cli_effectiveness/ (harness code is shipped;
+# per-run result JSONs are large and specific to your credentials/model tier)
+evals/cli_effectiveness/wa_review_effectiveness.json
+evals/cli_effectiveness/wa_review_baseline.json
 
 # Python
 __pycache__/

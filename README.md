@@ -642,6 +642,48 @@ uv run scripts/crawl-wa-framework.py --lens https://docs.aws.amazon.com/wellarch
 uv run scripts/crawl-wa-framework.py --lens https://docs.aws.amazon.com/wellarchitected/latest/devops-guidance/devops-guidance.html --lens-name devops-guidance
 ```
 
+### Data strategy — why static pillar files, not MCP
+
+The reference corpus lives in `skills/wa-review/references/pillars/*.md` as **6 pre-crawled markdown files**, not as an MCP retrieval server. This is a deliberate choice backed by measurement, not convention. The trade-offs:
+
+**Static pillar files (what this repo ships):**
+
+- **One file load per subagent.** wa-review's full-review dispatches 6 parallel Task subagents; each subagent loads exactly one pillar file and holds the entire pillar (30–55 BPs) in a single context window. Zero back-and-forth.
+- **Snapshot in time.** The files are a snapshot of the AWS Well-Architected docs at the last crawl. Users must check freshness before use (see the regeneration section above). This is honest — we can't lie about live data if we hold static data.
+- **Predictable token cost.** Loading a pillar file is a one-shot input-token charge (~50–150K tokens per subagent, cache-friendly since the corpus is static). Total review cost stays deterministic per invocation.
+- **No infrastructure to run.** No MCP server, no auth, no availability concerns. The skill works offline once installed.
+
+**Why not MCP retrieval per BP?**
+
+MCP servers do incremental retrieval — the agent asks "give me guidance for SEC03-BP02," gets a chunk, decides what to look up next, and iterates. That model has real drawbacks for this workload:
+
+- **Turn explosion.** Full-review coverage needs 307 BPs evaluated. If retrieval is one BP per call, the agent spends 300+ tool-use turns on retrieval alone — before it's written a single finding.
+- **Empirical plateau.** In our exhaustive study of retrieval strategies, models that had to iteratively fetch citations reliably plateaued at **20–60 BPs** cited before stopping. This wasn't a prompt problem — no amount of "evaluate all 307" pressure changed the behavior. Once the agent has enough material to write *some* findings, it converges on writing them.
+- **Token overhead.** Each MCP call carries protocol overhead, tool-use framing, and the accumulated agent context. Pre-loading one pillar file per subagent uses 30–50% fewer input tokens than the same content retrieved incrementally, because the pillar file amortizes the framing cost once.
+- **Cache-unfriendly.** MCP responses vary by query; static pillar files are byte-identical across runs and cache perfectly.
+
+**The pillar-merged shape specifically** (not 57 per-question files) — this was also measured. Per-question files force the agent to navigate 57 file names to figure out what to read; pillar-merged files map 1:1 to the subagent dispatch pattern, and the subagent sees the pillar as a coherent whole. The pillar-file layout was validated in the [subagent-coverage empirical study](https://github.com/aws-samples/sample-well-architected-skills-and-steering/pull/93).
+
+### When to use each review mode (CI/CD guidance)
+
+Full-review mode (v2.2) achieves recall = 1.00 with F1 ≈ 0.96, but at **~$7 per invocation and ~11 min wall clock**. That's designed for **one-shot architecture assessments** — the kind of review that would take a human reviewer half a day. Not designed for per-commit CI checks.
+
+For CI/CD workflows, reach for lighter modes:
+
+| Mode | Trigger phrase | Cost | Latency | Use when |
+| ---- | -------------- | ---- | ------- | -------- |
+| **Score** | "score this architecture", "grade this" | ~$0.30–$1 | 30–90s | Fast pass/fail signal, pillar scorecard only |
+| **Quick review** | "quick review", "high-level" | ~$0.50–$1 | 30–90s | Question-level assessment, no BP files loaded |
+| **Pillar-scoped** | "review only security and reliability" | ~$2–$5 | 2–5 min | Deep-dive on 1–2 pillars (loads only those pillar files) |
+| **Full review** | "WA review", "comprehensive review" | ~$7 | ~11 min | One-time architecture assessment |
+
+Practical guidance:
+
+- **PR gates**: Score or pillar-scoped for the pillar most affected by the change (e.g. IaC change → REL + SEC scope, not full review). Wall clock stays under 5 min so PR feedback loops don't stall.
+- **Weekly / monthly audits**: Full review is appropriate. Cost amortizes over the audit cycle.
+- **Deployment gates**: Score mode filtered to Critical/High severity — fast, actionable, doesn't block on Medium/Low findings.
+- **Human review supplement**: Full review before a human WA session; the ledger becomes the reviewer's checklist. Human catches nuance; the skill catches nothing missed.
+
 ---
 
 ## ✅ Verifying it works
@@ -664,6 +706,14 @@ If configured correctly, it will reference all six pillars with specific guidanc
 ## 🧪 Evaluating skills
 
 Each skill includes structured evaluations in `skills/*/evals/evals.json` following the [Agent Skills eval spec](https://agentskills.io/skill-creation/evaluating-skills). Evals let you measure whether the skills produce better outputs than a bare agent.
+
+> [!IMPORTANT]
+> **Two frameworks — pick the right one for your skill.** This repo ships two eval harnesses because a single one can't fairly measure both kinds of skills:
+>
+> - **[`evals/run.py`](./evals) (raw Bedrock Converse + LLM-as-judge)** — cheap, fast, fair for skills whose value lives entirely in the `SKILL.md` prose (`wa-builder`, `wa-guardrails`, `wafr-facilitator`, `migration-readiness`). Cannot execute `Task` subagents or MCP tools.
+> - **[`evals/cli_effectiveness/`](./evals/cli_effectiveness) (real `claude -p` CLI + paired baseline + F1 vs ground truth)** — the honest framework for skills that depend on runtime tools. **Use this for `wa-review`.** Costs more (~$125/full run at Opus tier) but measures what the skill actually delivers.
+>
+> Running `evals/run.py --skill wa-review` produces misleading numbers because Converse can't dispatch the pillar subagents wa-review relies on. The runner prints a banner warning about this — but the honest measure is under `cli_effectiveness/`.
 
 Each test case includes:
 
@@ -746,21 +796,38 @@ Cost breakdown assumes ~1K input tokens and ~8K output tokens per generation cal
 > [!TIP]
 > Start by running a single skill eval (`--skill wa-review --verbose`) to see detailed per-assertion grading. The delta between baseline and with-skill scores quantifies the value each skill adds.
 
+**Using this framework for your own skills**
+
+The `evals/` runner is skill-agnostic — it reads `skills/{name}/SKILL.md` and `skills/{name}/evals/evals.json` from wherever you point it. To evaluate a skill you're developing:
+
+1. Drop your skill directory under `skills/` (or fork this repo and add it there).
+2. Author an `evals.json` with 3–7 realistic prompts and PASS/FAIL assertions per case ([spec](https://agentskills.io/skill-creation/evaluating-skills)).
+3. Run `uv run python run.py --skill your-skill --verbose`.
+4. Iterate on `SKILL.md` until the with-skill score meaningfully beats baseline.
+
+The paired-comparison approach (with skill vs bare model, same prompts) is the fair way to measure whether SKILL.md content is actually earning the tokens it costs. If your skill's delta is <10%, the guidance is probably too generic to move the model — worth revisiting.
+
+> [!NOTE]
+> **Limitation to be aware of.** The `evals/` runner uses raw Bedrock Converse API, which has no `Task` tool. Skills whose value depends on subagent dispatch (like wa-review's full-review mode) will look weaker here than they actually are in Claude Code / Kiro. See the [Real Claude Code CLI evaluation](#real-claude-code-cli-evaluation) section for how wa-review is measured in a Task-capable runtime.
+
 ---
 
 ## 📈 Effectiveness
 
-All skills are evaluated using an automated LLM-as-judge framework with paired comparison (same prompt, with and without skill context). Results with Claude Opus 4.8 (generation and grading), 16k token output:
+Two frameworks measure different kinds of skills. Both compare with-skill against a matched baseline; the metric differs by framework:
 
-| Skill | Baseline | With Skill | Delta |
-|-------|----------|-----------|-------|
-| `wa-builder` | 61% | **94%** | +33% |
-| `wa-guardrails` | 76% | **99%** | +23% |
-| `wafr-facilitator` | 61% | **97%** | +35% |
-| `migration-readiness` | 85% | **100%** | +15% |
+| Skill | Baseline | With Skill | Delta | Framework |
+| ----- | -------- | ---------- | ----- | --------- |
+| `wa-review` † | F1 0.264 | **F1 0.960** | **+0.70 F1** | CC CLI + F1 vs ground truth |
+| `wa-builder` | 61% | **94%** | +33% | LLM-as-judge (raw Converse) |
+| `wa-guardrails` | 76% | **99%** | +23% | LLM-as-judge (raw Converse) |
+| `wafr-facilitator` | 61% | **97%** | +35% | LLM-as-judge (raw Converse) |
+| `migration-readiness` | 85% | **100%** | +15% | LLM-as-judge (raw Converse) |
+
+† `wa-review` is measured in the real Claude Code CLI runtime because its full-review path depends on the `Task` tool (6 parallel pillar subagents per review, v4.2+). Raw Bedrock Converse has no Task tool, so it can't execute the skill's subagent-dispatch pattern; scoring `wa-review` there produces misleading numbers. See [Real Claude Code CLI evaluation](#real-claude-code-cli-evaluation) below for the measurement setup, and [`evals/cli_effectiveness/`](./evals/cli_effectiveness) for the harness code + ground truth to reproduce.
 
 > [!IMPORTANT]
-> **`wa-review` is measured separately — see [Real Claude Code CLI evaluation](#real-claude-code-cli-evaluation) below.** Since v4.2, wa-review's full-review path dispatches 6 parallel `Task` subagents (one per pillar) to reliably achieve 100% BP coverage ([see the empirical study behind the pattern](https://github.com/aws-samples/sample-well-architected-skills-and-steering/pull/93)). That pattern requires a runtime with subagent tool support (Claude Code, Kiro, Cursor, etc.). The raw Bedrock Converse API used above has no Task tool, so it can't execute the skill's subagent-dispatch pattern — the numbers there would reflect only single-agent guidance quality, not what the skill actually does in production.
+> **Don't run `evals/run.py --skill wa-review` and trust the number.** The raw Converse framework can't execute Task subagents, and wa-review's value is largely in that dispatch pattern. Use [`evals/cli_effectiveness/`](./evals/cli_effectiveness) instead — it measures the skill in a real `claude -p` runtime with a paired `--safe-mode` baseline. If you're evaluating a skill you're developing that ALSO depends on runtime tools (Task, MCP, etc.), use the CC CLI harness as a template rather than the Converse runner.
 
 ### Real Claude Code CLI evaluation
 
