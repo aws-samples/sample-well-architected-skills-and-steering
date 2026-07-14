@@ -6,6 +6,7 @@ requires-python = ">=3.13"
 dependencies = [
     "boto3>=1.35.0",
     "openai>=1.40.0",
+    "python-docx>=1.2.0",
     "pyyaml>=6.0",
     "requests>=2.31.0",
 ]

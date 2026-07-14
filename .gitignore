@@ -8,9 +8,15 @@ evals/results/*
 evals/STUDY_MCP_VS_BUNDLED.md
 skills/wa-review/DESIGN.md
 # Measurement outputs from evals/cli_effectiveness/ (harness code is shipped;
-# per-run result JSONs are large and specific to your credentials/model tier)
+# per-run result JSONs and embedding caches are specific to your account/tier)
 evals/cli_effectiveness/wa_review_effectiveness.json
 evals/cli_effectiveness/wa_review_baseline.json
+evals/cli_effectiveness/mcp_effectiveness.json
+evals/cli_effectiveness/bp_embeddings.json
+evals/cli_effectiveness/aws_knowledge_mcp_effectiveness.json
+
+# Generated study charts (regenerate with: uv run python cli_effectiveness/plot_study.py)
+docs/study/
 
 # Python
 __pycache__/
