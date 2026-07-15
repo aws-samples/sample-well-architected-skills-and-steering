@@ -276,7 +276,7 @@ For each BP citation, the ledger row shows:
 
 **Audit output format** (include in your final report before the executive summary):
 
-```
+```text
 ## Coverage audit
 - BPs evaluated: {count} / 307
 - Iterations performed: {N}
