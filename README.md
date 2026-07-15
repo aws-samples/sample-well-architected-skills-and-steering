@@ -469,42 +469,6 @@ Windows (PowerShell):
 
 </details>
 
-### AWS DevOps Agent — wa-review autonomous variant
-
-The AWS DevOps Agent is different from coding agents: it runs **autonomously** in response to incidents and operational events, not in response to developer prompts. The standard `wa-review` skill was designed for interactive sessions — it asks the user to describe the workload and includes checkpoints that stall in autonomous mode.
-
-`wa-review` ships a dedicated variant for DevOps Agent:
-
-| File | Use when |
-| ---- | -------- |
-| `SKILL.md` | Claude Code, Kiro, Cursor, and all interactive coding agents |
-| `SKILL-devops-agent.md` | AWS DevOps Agent — autonomous, post-incident, no checkpoints |
-
-**Key differences in `SKILL-devops-agent.md`:**
-
-- **Trigger model**: fires on post-incident root cause analysis and explicit on-demand requests, not on generic "WA review" phrases
-- **Workload discovery**: derives workload context from incident ticket, investigation findings, metrics, logs, and source code already accessed — never asks the user
-- **No interactive checkpoints**: the two `---STOP---` blocks in the interactive skill are replaced with non-blocking progress notes
-- **Post-incident framing**: connects WA findings to the incident timeline, elevates severity for proven failure modes, and leads the Executive Summary with the incident trigger
-- **On-premises support**: when no IaC exists, derives infrastructure evidence from metrics, logs, and source code
-- **Agent type targeting**: `INCIDENT_RCA` + `ON_DEMAND` (not `GENERIC`) — loads only when structurally relevant
-
-**To upload to your Agent Space:**
-
-```bash
-# Generate a DevOps Agent-compatible zip for wa-review (16 files, <1 MB)
-zip wa-review-devops-agent.zip \
-  skills/wa-review/SKILL-devops-agent.md \
-  skills/wa-review/metadata-devops-agent.json \
-  skills/wa-review/references/manifest.md \
-  skills/wa-review/references/pillars/*.md \
-  skills/wa-review/references/pillar-playbooks/*.md
-# Then upload via the Operator Web App
-```
-
-> [!NOTE]
-> The DevOps Agent zip excludes lens files (the standard zip exceeds the 100-file upload limit — see #102). Full-review subagent dispatch uses the 6 pillar files; lenses can be added per-deployment if needed.
-
 ---
 
 ## ⚙️ How it works
@@ -553,7 +517,7 @@ graph LR
 | Junie | `.junie/guidelines/*.md` | `.junie/skills/*/SKILL.md` |
 | Amp | `AGENTS.md` | `.agents/skills/*/SKILL.md` |
 | OpenClaw | `AGENTS.md` | `.agents/skills/*/SKILL.md` |
-| AWS DevOps Agent | N/A (skills are self-contained) | `SKILL.md` zip upload to Agent Space — use `SKILL-devops-agent.md` for `wa-review` (see below) |
+| AWS DevOps Agent | N/A (skills are self-contained) | `SKILL.md` zip upload to Agent Space — use `SKILL-devops-agent.md` for `wa-review` (see [AWS DevOps Agent](#aws-devops-agent)) |
 
 ---
 
@@ -1041,6 +1005,42 @@ uv run python benchmark_report.py results/benchmark-YYYYMMDD-HHMMSS.json --updat
 ```
 
 Configure models and prompts in [`evals/benchmark_config.yaml`](evals/benchmark_config.yaml). Add new models as they become available in Bedrock and re-run to keep the table current.
+
+---
+
+## AWS DevOps Agent
+
+The AWS DevOps Agent operates differently from coding agents — it runs **autonomously** in response to incidents and operational events, not developer prompts. `wa-review` ships a dedicated variant that fits this model.
+
+| File | Use when |
+| ---- | -------- |
+| `SKILL.md` | Claude Code, Kiro, and all interactive coding agents |
+| `SKILL-devops-agent.md` | AWS DevOps Agent — autonomous, post-incident, no checkpoints |
+
+**Key differences in `SKILL-devops-agent.md`:**
+
+- **Triggers** on post-incident root cause analysis and explicit on-demand requests — not on generic "WA review" phrases
+- **Workload discovery** derives context from the incident ticket, investigation findings, metrics, logs, and source code already accessed — never asks the user
+- **No interactive checkpoints** — the `---STOP---` confirmation blocks are replaced with non-blocking progress notes
+- **Post-incident framing** — connects WA findings to the incident timeline, elevates severity for proven failure modes, leads the Executive Summary with the incident trigger
+- **On-premises support** — when no IaC exists, uses metrics, logs, and source code as evidence
+- **Agent type targeting** — `INCIDENT_RCA` + `ON_DEMAND` instead of `GENERIC`
+
+**To upload to your Agent Space:**
+
+```bash
+# Generate a DevOps Agent-compatible zip for wa-review (16 files, <1 MB)
+zip wa-review-devops-agent.zip \
+  skills/wa-review/SKILL-devops-agent.md \
+  skills/wa-review/metadata-devops-agent.json \
+  skills/wa-review/references/manifest.md \
+  skills/wa-review/references/pillars/*.md \
+  skills/wa-review/references/pillar-playbooks/*.md
+# Then upload via the Operator Web App
+```
+
+> [!NOTE]
+> The zip excludes lens files — the full skill directory exceeds the 100-file upload limit. Full-review subagent dispatch uses only the 6 pillar files; lenses can be added per-deployment if needed.
 
 ---
 
