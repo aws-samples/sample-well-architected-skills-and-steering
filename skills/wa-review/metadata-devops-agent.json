@@ -1,0 +1,61 @@
+{
+  "version": "2.2.0-devops-agent",
+  "organization": "AWS",
+  "date": "July 2026",
+  "abstract": "Well-Architected Framework review optimized for the AWS DevOps Agent context: autonomous execution, post-incident triggering, and evidence derived from incident history, metrics, logs, and source code already accessed during the investigation.",
+  "references": [
+    "https://docs.aws.amazon.com/wellarchitected/latest/framework/welcome.html"
+  ],
+  "agent_types": [
+    "INCIDENT_RCA",
+    "ON_DEMAND"
+  ],
+  "triggers": [
+    "post-incident review",
+    "recurring failure",
+    "same incident type twice",
+    "architectural weakness identified",
+    "structural gap in root cause",
+    "why does this keep happening",
+    "WA review",
+    "well-architected review",
+    "architectural assessment",
+    "run a wa-review on",
+    "architecture health check"
+  ],
+  "not_for": [
+    "routine incident triage — use standard investigation flow",
+    "learning WA concepts — use wa-builder instead",
+    "migration readiness assessment — use migration-readiness instead",
+    "generating guardrails or enforcement controls — use wa-guardrails instead"
+  ],
+  "metadata": {
+    "service": [
+      "well-architected",
+      "iam",
+      "kms",
+      "vpc",
+      "guardduty",
+      "security-hub",
+      "backup",
+      "auto-scaling",
+      "cloudwatch",
+      "cost-explorer"
+    ],
+    "task": [
+      "review",
+      "assess",
+      "audit",
+      "post-incident-analysis"
+    ],
+    "persona": [
+      "solutions-architect",
+      "devops-engineer",
+      "platform-engineer",
+      "site-reliability-engineer"
+    ],
+    "workload": [
+      "any"
+    ]
+  }
+}

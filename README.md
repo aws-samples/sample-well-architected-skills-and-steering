@@ -469,6 +469,42 @@ Windows (PowerShell):
 
 </details>
 
+### AWS DevOps Agent — wa-review autonomous variant
+
+The AWS DevOps Agent is different from coding agents: it runs **autonomously** in response to incidents and operational events, not in response to developer prompts. The standard `wa-review` skill was designed for interactive sessions — it asks the user to describe the workload and includes checkpoints that stall in autonomous mode.
+
+`wa-review` ships a dedicated variant for DevOps Agent:
+
+| File | Use when |
+| ---- | -------- |
+| `SKILL.md` | Claude Code, Kiro, Cursor, and all interactive coding agents |
+| `SKILL-devops-agent.md` | AWS DevOps Agent — autonomous, post-incident, no checkpoints |
+
+**Key differences in `SKILL-devops-agent.md`:**
+
+- **Trigger model**: fires on post-incident root cause analysis and explicit on-demand requests, not on generic "WA review" phrases
+- **Workload discovery**: derives workload context from incident ticket, investigation findings, metrics, logs, and source code already accessed — never asks the user
+- **No interactive checkpoints**: the two `---STOP---` blocks in the interactive skill are replaced with non-blocking progress notes
+- **Post-incident framing**: connects WA findings to the incident timeline, elevates severity for proven failure modes, and leads the Executive Summary with the incident trigger
+- **On-premises support**: when no IaC exists, derives infrastructure evidence from metrics, logs, and source code
+- **Agent type targeting**: `INCIDENT_RCA` + `ON_DEMAND` (not `GENERIC`) — loads only when structurally relevant
+
+**To upload to your Agent Space:**
+
+```bash
+# Generate a DevOps Agent-compatible zip for wa-review (16 files, <1 MB)
+zip wa-review-devops-agent.zip \
+  skills/wa-review/SKILL-devops-agent.md \
+  skills/wa-review/metadata-devops-agent.json \
+  skills/wa-review/references/manifest.md \
+  skills/wa-review/references/pillars/*.md \
+  skills/wa-review/references/pillar-playbooks/*.md
+# Then upload via the Operator Web App
+```
+
+> [!NOTE]
+> The DevOps Agent zip excludes lens files (the standard zip exceeds the 100-file upload limit — see #102). Full-review subagent dispatch uses the 6 pillar files; lenses can be added per-deployment if needed.
+
 ---
 
 ## ⚙️ How it works
@@ -489,7 +525,8 @@ graph LR
     A --> AM[Amp]
     A --> OC[OpenClaw]
     A --> CL[Cline]
-    A --> DA[DevOps Agent]
+    A --> DA[DevOps Agent<br/>generic skills]
+    A --> DAR[DevOps Agent<br/>wa-review autonomous]
 ```
 
 | Component | What it does |
@@ -516,7 +553,7 @@ graph LR
 | Junie | `.junie/guidelines/*.md` | `.junie/skills/*/SKILL.md` |
 | Amp | `AGENTS.md` | `.agents/skills/*/SKILL.md` |
 | OpenClaw | `AGENTS.md` | `.agents/skills/*/SKILL.md` |
-| AWS DevOps Agent | N/A (skills are self-contained) | `SKILL.md` zip upload to Agent Space |
+| AWS DevOps Agent | N/A (skills are self-contained) | `SKILL.md` zip upload to Agent Space — use `SKILL-devops-agent.md` for `wa-review` (see below) |
 
 ---
 
@@ -852,12 +889,27 @@ Both configurations score against the same ground truth: consensus of 2 top-tier
 
 † Case 4 is a pillar-scoped test ("Review only Security and Reliability"). Scored against the SEC + REL subset of the ground truth (116 of 280 BPs) to match what the prompt asked for.
 
+**Kiro runtime results (wa-review v2.2, Opus, 18 runs — 6 cases × 3 runs):**
+
+| Case | Kiro F1 | CC CLI F1 | Delta |
+| ---- | ------- | --------- | ----- |
+| 1 (Serverless) | **0.947** | 0.947 | 0.000 |
+| 2 (Financial) | **0.998** | 0.998 | 0.000 |
+| 3 (SaaS) | **0.968** | 0.968 | 0.000 |
+| 4 (Pillar-scoped) | **0.951** | 0.955 | −0.004 |
+| 5 (ML) | **0.936** | 0.936 | 0.000 |
+| 6 (Score mode) | **0.958** | 0.958 | 0.000 |
+| **Mean** | **0.960** | **0.960** | **0.000** |
+
+Kiro and Claude Code CLI produce **identical results** on the same model (`claude-opus-4.6`). The skill's architecture — not the runtime — determines effectiveness. Kiro credits per full review: ~12–14 credits (~$7 equivalent at Opus tier).
+
 **Takeaways:**
 
-- **Recall lift: 0.15 → 1.00** — bare Claude Code cites ~15% of applicable BPs (30–50 out of 270+); with the skill it cites every applicable BP.
-- **Precision holds at ≥0.88 in both configurations** — neither hallucinates BPs. The skill's gain is entirely from surfacing missed BPs, not from filtering false ones.
-- **Zero run-to-run variance with the skill** — each case's 3 runs produced identical F1. The subagent-dispatch pattern + the mandatory Full BP Ledger in Step 4c (v2.2) make the review deterministic.
-- **Cost trade-off: ~$0.10 → ~$7 per review, ~1 min → ~11 min wall clock.** The skill is ~69× more expensive per invocation. For a one-time architecture assessment worth taking seriously, that's cheap; for a per-commit CI check, it's not.
+- **Recall lift: 0.15 → 1.00** — bare Claude Code or Kiro cites ~15% of applicable BPs; with the skill, every applicable BP is surfaced.
+- **Precision holds at ≥0.88 in both configurations** — neither hallucinates BPs. The skill's gain is entirely from surfacing missed BPs.
+- **Zero run-to-run variance with the skill** — each case's 3 runs produced identical F1 across both runtimes. The subagent-dispatch pattern + Full BP Ledger in Step 4c (v2.2) make the review deterministic.
+- **Same skill, same F1, across runtimes** — the skill was measured in Claude Code CLI and Kiro; results are interchangeable.
+- **Cost trade-off: ~$0.10 → ~$7 per review, ~1 min → ~11 min wall clock.** For a one-time architecture assessment worth taking seriously, that's cheap; for a per-commit CI check, use score or pillar-scoped mode.
 
 <details>
 <summary><b>How to interpret these results</b></summary>
