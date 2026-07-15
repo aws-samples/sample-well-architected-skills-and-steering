@@ -477,7 +477,7 @@ The AWS DevOps Agent is different from coding agents: it runs **autonomously** i
 
 | File | Use when |
 | ---- | -------- |
-| `SKILL.md` | Claude Code, Kiro, Cursor, and all interactive coding agents |
+| `SKILL.md` | Claude Code, Kiro, and any runtime with parallel subagent dispatch |
 | `SKILL-devops-agent.md` | AWS DevOps Agent — autonomous, post-incident, no checkpoints |
 
 **Key differences in `SKILL-devops-agent.md`:**
@@ -701,6 +701,10 @@ MCP servers do incremental retrieval — the agent asks "give me guidance for SE
 
 **The pillar-merged shape specifically** (not 57 per-question files) — this was also measured. Per-question files force the agent to navigate 57 file names to figure out what to read; pillar-merged files map 1:1 to the subagent dispatch pattern, and the subagent sees the pillar as a coherent whole. The pillar-file layout was validated in the [subagent-coverage empirical study](https://github.com/aws-samples/sample-well-architected-skills-and-steering/pull/93).
 
+### Runtime requirements for full-review mode
+
+`wa-review` full-review dispatches 6 parallel subagents (one per pillar). This requires a runtime with parallel subagent dispatch support. Confirmed: **Claude Code** (measured, F1 = 0.96), **Kiro** (measured, F1 = 0.960), **Amp** (documented), and **Google Antigravity 2.0** (documented, Google I/O 2026). On runtimes without this capability, use score or pillar-scoped mode — both work correctly on all runtimes.
+
 ### When to use each review mode (CI/CD guidance)
 
 Full-review mode (v2.2) achieves recall = 1.00 with F1 ≈ 0.96, but at **~$7 per invocation and ~11 min wall clock**. That's designed for **one-shot architecture assessments** — the kind of review that would take a human reviewer half a day. Not designed for per-commit CI checks.
@@ -709,10 +713,10 @@ For CI/CD workflows, reach for lighter modes:
 
 | Mode | Trigger phrase | Cost | Latency | Use when |
 | ---- | -------------- | ---- | ------- | -------- |
-| **Score** | "score this architecture", "grade this" | ~$0.30–$1 | 30–90s | Fast pass/fail signal, pillar scorecard only |
-| **Quick review** | "quick review", "high-level" | ~$0.50–$1 | 30–90s | Question-level assessment, no BP files loaded |
-| **Pillar-scoped** | "review only security and reliability" | ~$2–$5 | 2–5 min | Deep-dive on 1–2 pillars (loads only those pillar files) |
-| **Full review** | "WA review", "comprehensive review" | ~$7 | ~11 min | One-time architecture assessment |
+| **Score** | "score this architecture", "grade this" | ~$0.30–$1 | 30–90s | Fast pass/fail signal — works on all runtimes |
+| **Quick review** | "quick review", "high-level" | ~$0.50–$1 | 30–90s | Question-level assessment — works on all runtimes |
+| **Pillar-scoped** | "review only security and reliability" | ~$2–$5 | 2–5 min | Deep-dive on 1–2 pillars — works on all runtimes |
+| **Full review** | "WA review", "comprehensive review" | ~$7 | ~11 min | One-time assessment — **requires Claude Code, Kiro, or Amp** |
 
 Practical guidance:
 
@@ -908,7 +912,7 @@ Kiro and Claude Code CLI produce **identical results** on the same model (`claud
 - **Recall lift: 0.15 → 1.00** — bare Claude Code or Kiro cites ~15% of applicable BPs; with the skill, every applicable BP is surfaced.
 - **Precision holds at ≥0.88 in both configurations** — neither hallucinates BPs. The skill's gain is entirely from surfacing missed BPs.
 - **Zero run-to-run variance with the skill** — each case's 3 runs produced identical F1 across both runtimes. The subagent-dispatch pattern + Full BP Ledger in Step 4c (v2.2) make the review deterministic.
-- **Same skill, same F1, across runtimes** — measured in Claude Code CLI and Kiro; results are interchangeable. **Note:** wa-review's full-review path requires a runtime with parallel subagent dispatch support. Of the 14 supported tools, confirmed support: **Claude Code** (Agent tool) and **Kiro** (measured); **Amp** also documents a Subagents feature. Cursor, Codex, GitHub Copilot, Gemini CLI, and Amazon Q Developer do not support in-session parallel dispatch — use score or pillar-scoped mode on those runtimes.
+- **Same skill, same F1, across runtimes** — measured in Claude Code CLI and Kiro; results are interchangeable on runtimes that support parallel subagent dispatch. Confirmed support: **Claude Code** (Agent tool), **Kiro** (measured), **Amp** (Subagents), **Google Antigravity 2.0** (Subagents with workspace isolation — announced Google I/O 2026). On sequential runtimes, the skill falls back to a single-agent sequential sweep — same 307-BP coverage target, longer wall clock.
 - **Cost trade-off: ~$0.10 → ~$7 per review, ~1 min → ~11 min wall clock.** For a one-time architecture assessment worth taking seriously, that's cheap; for a per-commit CI check, use score or pillar-scoped mode.
 
 <details>
