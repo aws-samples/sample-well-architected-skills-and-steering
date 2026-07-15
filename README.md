@@ -843,7 +843,7 @@ The `evals/` runner is skill-agnostic — it reads `skills/{name}/SKILL.md` and 
 The paired-comparison approach (with skill vs bare model, same prompts) is the fair way to measure whether SKILL.md content is actually earning the tokens it costs. If your skill's delta is <10%, the guidance is probably too generic to move the model — worth revisiting.
 
 > [!NOTE]
-> **Limitation to be aware of.** The `evals/` runner uses raw Bedrock Converse API, which has no `Task` tool. Skills whose value depends on subagent dispatch (like wa-review's full-review mode) will look weaker here than they actually are in Claude Code / Kiro. See the [Real Claude Code CLI evaluation](#real-claude-code-cli-evaluation) section for how wa-review is measured in a Task-capable runtime.
+> **Limitation to be aware of.** The `evals/` runner uses raw Bedrock Converse API, which has no `Task` tool. Skills whose value depends on subagent dispatch (like wa-review's full-review mode) will look weaker here than they actually are in Claude Code / Kiro. See the [Real Claude Code CLI evaluation](#real-agent-evaluation) section for how wa-review is measured in a Task-capable runtime.
 
 ---
 
@@ -859,55 +859,36 @@ Two frameworks measure different kinds of skills. Both compare with-skill agains
 | `wafr-facilitator` | 61% | **97%** | +35% | LLM-as-judge (raw Converse) |
 | `migration-readiness` | 85% | **100%** | +15% | LLM-as-judge (raw Converse) |
 
-† `wa-review` is measured in the real Claude Code CLI runtime because its full-review path depends on the `Task` tool (6 parallel pillar subagents per review, v4.2+). Raw Bedrock Converse has no Task tool, so it can't execute the skill's subagent-dispatch pattern; scoring `wa-review` there produces misleading numbers. See [Real Claude Code CLI evaluation](#real-claude-code-cli-evaluation) below for the measurement setup, and [`evals/cli_effectiveness/`](./evals/cli_effectiveness) for the harness code + ground truth to reproduce.
+† `wa-review` is measured in the real Claude Code CLI runtime because its full-review path depends on the `Task` tool (6 parallel pillar subagents per review, v4.2+). Raw Bedrock Converse has no Task tool, so it can't execute the skill's subagent-dispatch pattern; scoring `wa-review` there produces misleading numbers. See [Real Claude Code CLI evaluation](#real-agent-evaluation) below for the measurement setup, and [`evals/cli_effectiveness/`](./evals/cli_effectiveness) for the harness code + ground truth to reproduce.
 
 > [!IMPORTANT]
 > **Don't run `evals/run.py --skill wa-review` and trust the number.** The raw Converse framework can't execute Task subagents, and wa-review's value is largely in that dispatch pattern. Use [`evals/cli_effectiveness/`](./evals/cli_effectiveness) instead — it measures the skill in a real `claude -p` runtime with a paired `--safe-mode` baseline. If you're evaluating a skill you're developing that ALSO depends on runtime tools (Task, MCP, etc.), use the CC CLI harness as a template rather than the Converse runner.
 
-### Real Claude Code CLI evaluation
+### Real agent evaluation
 
-To measure what the skill actually delivers in a Task-capable runtime, we invoke `claude -p` (real Claude Code CLI) against 6 eval cases × 3 runs each in two configurations:
+To measure what the skill actually delivers in production, we run it inside real agent runtimes against 6 eval cases × 3 runs each, scored against a ground truth built from a 2-model × 5-run consensus panel (270–306 applicable BPs per case).
 
-- **With skill** — `~/.claude/skills/wa-review/` installed; the skill auto-triggers on the WA prompt and dispatches its 6 parallel pillar subagents
-- **Baseline (without skill)** — `claude -p --safe-mode --disable-slash-commands` from a scratch workdir; no skill, no CLAUDE.md, no plugins, nothing that could inject WA guidance
+**Results by runtime (wa-review v2.2, Opus-tier models, 18 runs per runtime):**
 
-Both configurations score against the same ground truth: consensus of 2 top-tier models × 5 runs each (a BP is "applicable" only if cited by BOTH models in ≥3 of 5 runs; yields ~270–306 applicable BPs per case out of the 307 canonical corpus).
+| Case | Claude Code | Kiro | Codex (GPT-5.5) | Baseline |
+| ---- | ----------- | ---- | --------------- | -------- |
+| 1 (Serverless e-commerce) | 0.947 | 0.947 | 0.633 | 0.225 |
+| 2 (Financial multi-account) | **0.998** | **0.998** | 0.675 | 0.194 |
+| 3 (SaaS multi-tenant) | 0.968 | 0.968 | 0.605 | 0.319 |
+| 4 (Pillar-scoped, SEC+REL) † | 0.955 | 0.951 | **0.902** | 0.381 |
+| 5 (ML / GenAI) | 0.936 | 0.936 | 0.674 | 0.210 |
+| 6 (Score mode) | 0.958 | 0.958 | 0.615 | 0.255 |
+| **Mean** | **0.960** | **0.960** | **0.684** | **0.264** |
+| Run-to-run variance | zero | zero | high | moderate |
 
-**Results (n=18 per configuration, 6 cases × 3 runs, Opus via Claude Code CLI):**
-
-| Case | With skill (F1) | Baseline (F1) | Δ F1 | With skill $/run | Baseline $/run |
-| ---- | --------------- | ------------- | ---- | ---------------- | -------------- |
-| 1 (Serverless e-commerce) | 0.947 | 0.225 | **+0.72** | $7.24 | $0.13 |
-| 2 (Financial multi-account) | **0.998** | 0.194 | **+0.80** | $7.63 | $0.09 |
-| 3 (SaaS multi-tenant) | 0.968 | 0.319 | **+0.65** | $8.18 | $0.09 |
-| 4 (Pillar-scoped, SEC+REL only) † | 0.955 | 0.381 | **+0.57** | $3.25 | $0.10 |
-| 5 (ML training pipeline) | 0.936 | 0.210 | **+0.73** | $7.75 | $0.14 |
-| 6 (Score mode) | 0.958 | 0.255 | **+0.70** | $7.51 | $0.07 |
-| **Mean** | **0.960** | **0.264** | **+0.70** | **$6.93** | **$0.10** |
-
-† Case 4 is a pillar-scoped test ("Review only Security and Reliability"). Scored against the SEC + REL subset of the ground truth (116 of 280 BPs) to match what the prompt asked for.
-
-**Kiro runtime results (wa-review v2.2, Opus, 18 runs — 6 cases × 3 runs):**
-
-| Case | Kiro F1 | CC CLI F1 | Delta |
-| ---- | ------- | --------- | ----- |
-| 1 (Serverless) | **0.947** | 0.947 | 0.000 |
-| 2 (Financial) | **0.998** | 0.998 | 0.000 |
-| 3 (SaaS) | **0.968** | 0.968 | 0.000 |
-| 4 (Pillar-scoped) | **0.951** | 0.955 | −0.004 |
-| 5 (ML) | **0.936** | 0.936 | 0.000 |
-| 6 (Score mode) | **0.958** | 0.958 | 0.000 |
-| **Mean** | **0.960** | **0.960** | **0.000** |
-
-Kiro and Claude Code CLI produce **identical results** on the same model (`claude-opus-4.6`). The skill's architecture — not the runtime — determines effectiveness. Kiro credits per full review: ~12–14 credits (~$7 equivalent at Opus tier).
+† Case 4 is a pillar-scoped test ("Review only Security and Reliability"). Scored against the SEC + REL subset of the ground truth (116 of 280 BPs).
 
 **Takeaways:**
 
-- **Recall lift: 0.15 → 1.00** — bare Claude Code or Kiro cites ~15% of applicable BPs; with the skill, every applicable BP is surfaced.
-- **Precision holds at ≥0.88 in both configurations** — neither hallucinates BPs. The skill's gain is entirely from surfacing missed BPs.
-- **Zero run-to-run variance with the skill** — each case's 3 runs produced identical F1 across both runtimes. The subagent-dispatch pattern + Full BP Ledger in Step 4c (v2.2) make the review deterministic.
-- **Same skill, same F1, across runtimes** — measured in Claude Code CLI and Kiro; results are interchangeable. **Note:** wa-review's full-review path requires a runtime with parallel subagent dispatch support. Of the 14 supported tools, confirmed support: **Claude Code** (Agent tool) and **Kiro** (measured); **Amp** also documents a Subagents feature. Cursor, Codex, GitHub Copilot, Gemini CLI, and Amazon Q Developer do not support in-session parallel dispatch — use score or pillar-scoped mode on those runtimes.
-- **Cost trade-off: ~$0.10 → ~$7 per review, ~1 min → ~11 min wall clock.** For a one-time architecture assessment worth taking seriously, that's cheap; for a per-commit CI check, use score or pillar-scoped mode.
+- **Skill vs baseline: +0.70 F1** — without the skill, agents cite ~15% of applicable BPs regardless of runtime. With it, parallel-dispatch runtimes reach 100% recall deterministically.
+- **Claude Code and Kiro: identical results** — same model (`claude-opus-4.6`), same F1, zero variance. The skill's architecture determines effectiveness, not which runtime runs it.
+- **Codex (GPT-5.5): mean F1 0.684**, high variance (stdev up to 0.28). Pillar-scoped mode significantly improves Codex — Case 4 averaged 0.902, near-parity with parallel runtimes. One Codex run hit F1 = 0.998 (Case 2), confirming full coverage is possible but non-deterministic on sequential runtimes.
+- **Cost**: Claude Code/Kiro ~$7/run at Opus tier; Codex ~$5–12/run at GPT-5.5 tier (token usage varies 270K–835K). Baseline (no skill) ~$0.10/run.
 
 <details>
 <summary><b>How to interpret these results</b></summary>
