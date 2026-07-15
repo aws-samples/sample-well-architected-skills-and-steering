@@ -908,7 +908,7 @@ Kiro and Claude Code CLI produce **identical results** on the same model (`claud
 - **Recall lift: 0.15 → 1.00** — bare Claude Code or Kiro cites ~15% of applicable BPs; with the skill, every applicable BP is surfaced.
 - **Precision holds at ≥0.88 in both configurations** — neither hallucinates BPs. The skill's gain is entirely from surfacing missed BPs.
 - **Zero run-to-run variance with the skill** — each case's 3 runs produced identical F1 across both runtimes. The subagent-dispatch pattern + Full BP Ledger in Step 4c (v2.2) make the review deterministic.
-- **Same skill, same F1, across runtimes** — the skill was measured in Claude Code CLI and Kiro; results are interchangeable.
+- **Same skill, same F1, across runtimes** — measured in Claude Code CLI and Kiro; results are interchangeable. **Note:** wa-review's full-review path requires a runtime with parallel subagent dispatch support. Of the 14 supported tools, confirmed support: **Claude Code** (Agent tool) and **Kiro** (measured); **Amp** also documents a Subagents feature. Cursor, Codex, GitHub Copilot, Gemini CLI, and Amazon Q Developer do not support in-session parallel dispatch — use score or pillar-scoped mode on those runtimes.
 - **Cost trade-off: ~$0.10 → ~$7 per review, ~1 min → ~11 min wall clock.** For a one-time architecture assessment worth taking seriously, that's cheap; for a per-commit CI check, use score or pillar-scoped mode.
 
 <details>
