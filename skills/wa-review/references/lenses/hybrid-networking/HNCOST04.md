@@ -165,3 +165,8 @@ compression for REST APIs in API Gateway](https://docs.aws.amazon.com/apigateway
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/hybrid-networking-lens/hncost04-bp03.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

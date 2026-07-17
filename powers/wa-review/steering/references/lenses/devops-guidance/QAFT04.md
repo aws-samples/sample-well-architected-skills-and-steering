@@ -69,3 +69,8 @@ Learning - Amazon Web Services](https://aws.amazon.com/sagemaker/)
 Rise of Test Impact Analysis](https://martinfowler.com/articles/rise-test-impact-analysis.html)
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/devops-guidance/qa.ft.4-balance-developer-feedback-and-test-coverage-using-advanced-test-selection.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

@@ -201,3 +201,8 @@ protection in Amazon EC2: Encryption in-transit](https://docs.aws.amazon.com/AWS
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/healthcare-industry-lens/resources-3.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

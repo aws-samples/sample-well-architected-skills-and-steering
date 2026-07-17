@@ -29,3 +29,8 @@ formats for AWS Clean Rooms](https://docs.aws.amazon.com/clean-rooms/latest/user
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/video-streaming-advertising-lens/advcost05-bp01.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

@@ -163,3 +163,8 @@ Protection Best Practices in Machine Learning](https://www.youtube.com/watch?v=1
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/machine-learning-lens/mlsec02-bp01.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

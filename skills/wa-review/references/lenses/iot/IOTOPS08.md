@@ -42,3 +42,8 @@ policies can be assigned and implemented on them.
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/iot-lens/operate.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

@@ -58,3 +58,8 @@ approach to security during development: Security Review
 Process](https://youtu.be/NeR7FhHqDGQ?t=1285)
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/devops-guidance/oa.std.7-amplify-the-scale-and-impact-of-centralized-functions.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

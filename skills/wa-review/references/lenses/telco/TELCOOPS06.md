@@ -86,3 +86,8 @@ Service Quotas](https://docs.aws.amazon.com/general/latest/gr/aws_service_limits
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/telco-lens/telcoops06-bp01.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

@@ -688,3 +688,8 @@ AWS AppSync (FWM310)](https://www.youtube.com/watch?v=iW7OWwct-Ww)
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/responsible-ai-lens/raisp02-bp10.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

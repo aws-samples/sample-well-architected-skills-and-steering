@@ -56,3 +56,8 @@ GxP Infrastructure Installation Qualification on AWS with
 Chef InSpec](https://aws.amazon.com/blogs/industries/automating-gxp-infrastructure-installation-qualification-on-aws-with-chef-inspec/)
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/devops-guidance/qa.nt.5-automate-adherence-to-compliance-standards-through-conformance-testing.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

@@ -51,3 +51,8 @@ When delivering Well-Architected guidance:
 ## Skills
 
 For structured assessments, invoke the corresponding skill by name: `wa-review`, `security-assessment`, `reliability-improvement-plan`, `cost-optimization-review`, `performance-efficiency`, `sustainability-optimization`, `operational-excellence`, `migration-readiness`, `architecture-decision-record`, `wa-builder`, or `wa-guardrails`.
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

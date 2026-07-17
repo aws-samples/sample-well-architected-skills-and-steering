@@ -72,3 +72,8 @@ The skills in this repository follow the [Agent Skills specification](https://ag
 - `references/` directory with Markdown docs — optional
 - `assets/` directory with images, diagrams, data — optional
 - No executable scripts (not supported by DevOps Agent)
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

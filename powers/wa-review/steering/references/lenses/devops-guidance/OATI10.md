@@ -41,3 +41,8 @@ different interaction modes by choosing the right mode for the
 use case.
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/devops-guidance/oa.ti.10-choose-interaction-modes-for-optimal-efficiency-and-cost-savings.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

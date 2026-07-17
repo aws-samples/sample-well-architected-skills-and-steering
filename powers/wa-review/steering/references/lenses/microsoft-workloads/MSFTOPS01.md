@@ -354,3 +354,8 @@ common application problems with CloudWatch Application Insights](https://docs.a
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/microsoft-workloads-lens/msftops01-bp03.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

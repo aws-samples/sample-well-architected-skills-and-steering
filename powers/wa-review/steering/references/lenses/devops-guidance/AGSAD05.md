@@ -36,3 +36,8 @@ approach to high-availability deployment: Dealing with the
 real world](https://youtu.be/bCgD2bX1LI4?t=1300)
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/devops-guidance/ag.sad.5-implement-break-glass-procedures.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

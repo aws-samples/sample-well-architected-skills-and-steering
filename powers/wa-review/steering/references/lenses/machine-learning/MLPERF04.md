@@ -1039,3 +1039,8 @@ machine learning (ML) model drift in production](https://www.youtube.com/watch?v
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/machine-learning-lens/mlperf04-bp06.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

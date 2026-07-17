@@ -25,3 +25,8 @@ embeddings) in Amazon Glacier or Deep Archive. Automate transitions using S3 Lif
 minimize long-term storage costs while preserving retrieval fidelity when needed.
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/financial-services-industry-lens/fsicost09.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

@@ -306,3 +306,8 @@ re:Invent 2019: Serverless SaaS deep dive: Building serverless SaaS on AWS (ARC4
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/saas-lens/resources-2.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

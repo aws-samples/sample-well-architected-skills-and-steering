@@ -38,3 +38,8 @@ is Amazon CodeGuru Reviewer?](https://docs.aws.amazon.com/codeguru/latest/review
 - [Checkov](https://www.checkov.io/)
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/devops-guidance/qa.nt.1-evaluate-code-quality-through-static-testing.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

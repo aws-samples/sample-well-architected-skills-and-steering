@@ -100,3 +100,8 @@ performance trend analysis of key system metrics.
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/end-user-computing-lens/eucperf08-bp04.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

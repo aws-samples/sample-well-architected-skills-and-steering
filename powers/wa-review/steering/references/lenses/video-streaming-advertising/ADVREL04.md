@@ -85,3 +85,8 @@ methods](Users/jblatch/Downloads/%E2%80%A2%20https:/docs.aws.amazon.com/whitepap
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/video-streaming-advertising-lens/advrel04-bp02.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

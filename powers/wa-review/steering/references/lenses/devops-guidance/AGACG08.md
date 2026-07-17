@@ -49,3 +49,8 @@ resources - Cost Optimization Pillar](https://docs.aws.amazon.com/wellarchitecte
 your unused resources - DynamoDB](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/CostOptimization_UnusedResources.html)
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/devops-guidance/ag.acg.8-conduct-regular-scans-to-identify-and-remove-unused-resources.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

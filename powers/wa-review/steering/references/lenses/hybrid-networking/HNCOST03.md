@@ -58,3 +58,8 @@ Connectivity](https://docs.aws.amazon.com/whitepapers/latest/building-scalable-s
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/hybrid-networking-lens/hncost03-bp01.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

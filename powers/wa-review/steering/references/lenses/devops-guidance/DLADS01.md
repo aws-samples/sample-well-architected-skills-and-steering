@@ -44,3 +44,8 @@ pre-production environments](https://aws.amazon.com/builders-library/automating-
 approach to high-availability deployment](https://youtu.be/bCgD2bX1LI4)
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/devops-guidance/dl.ads.1-test-deployments-in-pre-production-environments.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

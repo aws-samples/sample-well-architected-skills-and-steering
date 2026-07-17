@@ -38,3 +38,8 @@ business outcomes (such as hours saved, throughput increased, or accuracy gains)
 reinforcing a culture of accountable AI innovation.
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/financial-services-industry-lens/fsicost19.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

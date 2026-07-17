@@ -47,3 +47,8 @@ data backup automatically](https://docs.aws.amazon.com/wellarchitected/latest/re
 manage and automate data protection - AWS Backup](https://aws.amazon.com/backup/)
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/devops-guidance/ag.dlm.7-ensure-data-safety-with-automated-backup-processes.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

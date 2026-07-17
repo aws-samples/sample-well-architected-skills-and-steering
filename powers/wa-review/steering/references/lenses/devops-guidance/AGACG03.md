@@ -32,3 +32,8 @@ Prowler into a QuickSight powered AWS Security
 Dashboard](https://catalog.us-east-1.prod.workshops.aws/workshops/b1cdc52b-eb11-44ed-8dc8-9dfe5fb254f5/en-US)
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/devops-guidance/ag.acg.3-automate-deployment-of-detective-controls.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

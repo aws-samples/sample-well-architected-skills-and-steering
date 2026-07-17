@@ -41,3 +41,8 @@ Information Request Report](https://d1.awsstatic.com/Security/pdfs/Amazon_Inform
 - [AWS Security Blog: Data Privacy](https://aws.amazon.com/blogs/security/)
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/devops-guidance/ag.acg.5-automate-compliance-for-data-regulations-and-policies.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

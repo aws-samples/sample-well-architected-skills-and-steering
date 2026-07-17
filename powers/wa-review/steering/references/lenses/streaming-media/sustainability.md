@@ -15,3 +15,8 @@ There are no sustainability practices unique to this lens. For information on Su
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/streaming-media-lens/sustainability.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

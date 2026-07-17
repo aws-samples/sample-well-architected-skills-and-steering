@@ -201,3 +201,8 @@ trends across testing cycles.
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/life-sciences-lens/lsperf19-bp03.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

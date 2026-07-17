@@ -71,6 +71,23 @@ from pathlib import Path
 
 BASE_URL = "https://docs.aws.amazon.com"
 
+# Appended to every generated markdown file. An HTML comment at the END of the
+# file (never the start — SKILL.md-style YAML frontmatter must begin at line 1)
+# so anyone reading a reference file in isolation knows its license terms.
+LICENSE_FOOTER = (
+    "<!--\n"
+    "Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.\n"
+    "SPDX-License-Identifier: MIT-0\n"
+    "-->\n"
+)
+
+
+def write_markdown(path: Path, content: str) -> None:
+    """Write a generated markdown file with the MIT-0 license footer appended."""
+    if "Copyright Amazon.com" not in content:
+        content = content.rstrip("\n") + "\n\n" + LICENSE_FOOTER
+    path.write_text(content, encoding="utf-8")
+
 # Each pillar has a dedicated documentation set with its own toc-contents.json.
 # The "prefix" is the shorthand used in BP IDs (e.g., SEC03-BP01).
 PILLAR_CONFIGS = {
@@ -801,7 +818,7 @@ def write_output_per_question(all_questions: dict[str, list[dict]], output_dir: 
         if not bps:
             continue
         content = _question_block(question_id, bps)
-        (output_dir / f"{question_id}.md").write_text(content, encoding="utf-8")
+        write_markdown(output_dir / f"{question_id}.md", content)
         written += 1
     return written
 
@@ -855,7 +872,7 @@ def write_output_pillar_merged(all_questions: dict[str, list[dict]], output_dir:
             parts.append("")
 
         out_file = output_dir / f"{pillar_name}.md"
-        out_file.write_text("\n".join(parts), encoding="utf-8")
+        write_markdown(out_file, "\n".join(parts))
         size_kb = out_file.stat().st_size / 1024
         print(f"  {pillar_name:<25s} → {size_kb:>7.1f} KB ({len(pillar_qids)} questions)")
         written += 1
@@ -967,7 +984,7 @@ def crawl_lens(lens_url: str, lens_name: str, output_dir: Path, delay: float, dr
                 f"*Source: {url}*",
                 "",
             ]
-            (output_dir / filename).write_text("\n".join(lines), encoding="utf-8")
+            write_markdown(output_dir / filename, "\n".join(lines))
             written += 1
             print("OK")
 
@@ -1098,7 +1115,7 @@ def crawl_lens(lens_url: str, lens_name: str, output_dir: Path, delay: float, dr
                     f"*Source: {p['url']}*",
                     "",
                 ]
-                (output_dir / f"{p['qid']}.md").write_text("\n".join(lines), encoding="utf-8")
+                write_markdown(output_dir / f"{p['qid']}.md", "\n".join(lines))
                 written += 1
             print(f"\n  Done: {written} question files, {len(all_pages)} pages -> {output_dir}/")
         else:
@@ -1132,7 +1149,7 @@ def crawl_lens(lens_url: str, lens_name: str, output_dir: Path, delay: float, dr
                     lines.append("---")
                     lines.append("")
 
-                (output_dir / f"{slug}.md").write_text("\n".join(lines), encoding="utf-8")
+                write_markdown(output_dir / f"{slug}.md", "\n".join(lines))
                 written += 1
 
             total = sum(len(v) for v in section_pages.values())

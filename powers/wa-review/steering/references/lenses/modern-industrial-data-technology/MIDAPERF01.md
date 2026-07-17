@@ -215,3 +215,8 @@ Computing](https://pages.awscloud.com/rs/112-TZM-766/images/2020_0320-IOT_Slide-
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/modern-industrial-data-technology-lens/midaperf01-bp02..html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

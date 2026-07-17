@@ -164,3 +164,8 @@ cost-effectiveness while maintaining performance.
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/telco-lens/telcocost02-bp02.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

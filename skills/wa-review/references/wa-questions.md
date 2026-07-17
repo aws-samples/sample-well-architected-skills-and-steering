@@ -112,3 +112,8 @@ Use this reference when evaluating a workload against the 57 WA Framework questi
 - **SUS 4 — How do you take advantage of data management policies and patterns?** Look for: lifecycle policies, compression, tiering (Intelligent-Tiering, Glacier), TTL, deduplication. Evidence: S3 lifecycle rules, compression configs.
 - **SUS 5 — How do you select and use cloud hardware and services to support your sustainability goals?** Look for: Graviton/ARM adoption, latest instance generations, managed services, GPU optimization. Flag x86 where Graviton is available. Evidence: instance type selections.
 - **SUS 6 — How do your organizational processes support your sustainability goals?** Look for: multi-stage Docker builds, CI caching, incremental deployments, up-to-date dependencies. Evidence: Dockerfiles, CI configs, dependency versions.
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

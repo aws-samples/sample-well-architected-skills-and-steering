@@ -32,3 +32,8 @@ cost optimization paths where available.
 limiting, embeddings batch sizing, and model A/B testing for price‑performance.
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/financial-services-industry-lens/fsicost01.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

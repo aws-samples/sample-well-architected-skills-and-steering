@@ -415,3 +415,8 @@ to Coding Preferences](https://arxiv.org/pdf/2403.09032v3)
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/responsible-ai-lens/raidp03-bp05.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

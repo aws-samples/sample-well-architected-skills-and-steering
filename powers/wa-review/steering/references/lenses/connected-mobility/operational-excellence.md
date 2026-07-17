@@ -452,3 +452,8 @@ daemon](https://github.com/COVESA/dlt-daemon#overview) (GitHub)
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/connected-mobility-lens/resources-ops.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

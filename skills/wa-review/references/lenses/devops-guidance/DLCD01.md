@@ -38,3 +38,8 @@ while ensuring that the code base remains up-to-date and
 releasable at all times.
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/devops-guidance/dl.cd.1-deploy-changes-to-production-frequently.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

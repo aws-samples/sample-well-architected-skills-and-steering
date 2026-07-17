@@ -21,3 +21,8 @@ practices.
 - [Amazon CodeWhisperer](https://aws.amazon.com/codewhisperer/)
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/devops-guidance/dl.ld.11-implement-smart-code-completion-with-machine-learning.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

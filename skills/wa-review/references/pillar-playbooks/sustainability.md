@@ -98,3 +98,8 @@ When producing a pillar-scoped sustainability report, include:
 - Frame findings positively (resource efficiency gains, not blame)
 - Don't recommend region changes without considering latency and data residency
 - "Cannot Determine" is valid for actual utilization data (recommend Compute Optimizer)
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

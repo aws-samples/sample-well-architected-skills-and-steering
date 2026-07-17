@@ -49,3 +49,8 @@ flow](https://guides.github.com/introduction/flow/)
 successful Git branching model: Note of reflection](https://nvie.com/posts/a-successful-git-branching-model/)
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/devops-guidance/dl.scm.2-keep-feature-branches-short-lived.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

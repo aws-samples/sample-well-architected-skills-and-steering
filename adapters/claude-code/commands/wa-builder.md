@@ -61,3 +61,8 @@ Then offer to refine an artifact, deep-dive a decision, generate IaC for a roadm
 - Always tie back to WA Framework Question IDs (OPS 4, SEC 3, REL 9, etc.) so builders can look up details
 - When generating from a `/wa-review`, USE its findings — don't re-assess
 - PlantUML is primary (broadest support); Mermaid is the alternative (renders in GitHub/VS Code); ASCII fallbacks work everywhere
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

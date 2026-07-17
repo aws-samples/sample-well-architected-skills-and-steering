@@ -45,3 +45,8 @@ tags for your environment](https://docs.aws.amazon.com/whitepapers/latest/establ
 policies - AWS Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_tag-policies.html)
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/devops-guidance/ag.dep.7-utilize-metadata-for-scalable-environment-management.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

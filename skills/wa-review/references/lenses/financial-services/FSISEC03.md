@@ -129,3 +129,8 @@ Activity](https://aws.amazon.com/blogs/mt/monitor-and-notify-on-aws-account-root
 - [AWS re:Inforce 2022 - Security best practices with AWS IAM](https://www.youtube.com/watch?v=SMjvtxXOXdU)
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/financial-services-industry-lens/fsisec03.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

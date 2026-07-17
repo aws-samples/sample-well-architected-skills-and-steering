@@ -841,3 +841,8 @@ Bedrock AgentCore](https://aws.amazon.com/bedrock/agentcore/)
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/agentic-ai-lens/agentsec07-bp05.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

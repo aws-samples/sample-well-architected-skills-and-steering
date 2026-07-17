@@ -51,3 +51,8 @@ software and systems at Amazon: Continuous Integration and
 Deployment](https://youtu.be/o1sc3cK9bMU?t=1313)
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/devops-guidance/dl.ci.1-integrate-code-changes-regularly-and-frequently.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

@@ -290,3 +290,8 @@ Bedrock Evaluations](https://aws.amazon.com/bedrock/evaluations/)
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/responsible-ai-lens/raisp03-bp04.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

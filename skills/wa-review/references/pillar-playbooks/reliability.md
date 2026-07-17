@@ -103,3 +103,8 @@ When producing a pillar-scoped reliability report, include:
 - Match expectations to availability target: 99.9% doesn't require multi-region, 99.99% does
 - For data pipelines: prioritize data durability over compute availability
 - "Cannot Determine" is valid for whether DR drills are actually run
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

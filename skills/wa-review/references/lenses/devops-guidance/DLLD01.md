@@ -51,3 +51,8 @@ the development cycle - Testing in the cloud](https://docs.aws.amazon.com/prescr
 the development cycle - Testing locally](https://docs.aws.amazon.com/prescriptive-guidance/latest/hexagonal-architectures/improve-dev-cycle.html)
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/devops-guidance/dl.ld.1-establish-development-environments-for-local-development.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

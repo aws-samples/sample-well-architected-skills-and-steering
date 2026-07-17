@@ -133,3 +133,8 @@ Scaling launch templates](https://docs.aws.amazon.com/autoscaling/ec2/userguide/
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/microsoft-workloads-lens/msftrel04-bp01.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

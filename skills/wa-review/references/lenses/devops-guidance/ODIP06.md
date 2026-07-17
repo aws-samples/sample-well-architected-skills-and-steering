@@ -46,3 +46,8 @@ for OpenTelemetry](https://aws.amazon.com/otel/)
 - [OpenTelemetry](https://opentelemetry.io/)
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/devops-guidance/o.dip.6-standardize-telemetry-data-with-common-formats.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

@@ -27,3 +27,8 @@ labels: bug
 ## Logs / screenshots
 
 <!-- Paste any relevant output or attach screenshots -->
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

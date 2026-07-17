@@ -118,3 +118,8 @@ delivery through the Technology Modernization Fund (TMF)](https://aws.amazon.com
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/government-lens/cost-optimization-pillar.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

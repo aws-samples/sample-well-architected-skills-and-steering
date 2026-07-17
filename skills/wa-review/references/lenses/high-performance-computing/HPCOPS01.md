@@ -155,3 +155,8 @@ environment with clear lines of support.
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/high-performance-computing-lens/organization.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

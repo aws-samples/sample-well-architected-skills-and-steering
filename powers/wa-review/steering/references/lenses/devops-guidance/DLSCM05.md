@@ -22,3 +22,8 @@ the code base, reducing the risk of legal issues and license violations while p
 developers with fast feedback.
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/devops-guidance/dl.scm.5-maintain-an-approved-open-source-software-license-list.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

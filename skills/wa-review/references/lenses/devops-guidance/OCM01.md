@@ -41,3 +41,8 @@ approach to high-availability deployment: Anomaly
 detection](https://youtu.be/bCgD2bX1LI4?t=2493)
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/devops-guidance/o.cm.1-automate-alerts-for-security-and-performance-issues.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

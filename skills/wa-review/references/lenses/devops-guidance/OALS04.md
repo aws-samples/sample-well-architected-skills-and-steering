@@ -32,3 +32,8 @@ progress.
 - [Business Value is IT's Primary Measure of Progress](https://aws.amazon.com/blogs/enterprise-strategy/business-value-is-its-primary-measure-of-progress/)
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/devops-guidance/oa.ls.4-open-dialogue-between-leadership-and-teams.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

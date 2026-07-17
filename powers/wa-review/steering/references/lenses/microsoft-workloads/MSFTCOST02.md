@@ -301,3 +301,8 @@ is AWS License Manager?](https://docs.aws.amazon.com/license-manager/latest/user
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/microsoft-workloads-lens/msftcost02-bp03.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

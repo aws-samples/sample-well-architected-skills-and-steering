@@ -32,3 +32,8 @@ Financial Management](https://docs.aws.amazon.com/wellarchitected/latest/managem
 - [AWS Cost Anomaly Detection](https://aws.amazon.com/aws-cost-management/aws-cost-anomaly-detection/)
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/devops-guidance/ag.acg.7-use-automated-tools-for-scalable-cost-management.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

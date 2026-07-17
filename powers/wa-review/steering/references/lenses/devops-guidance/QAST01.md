@@ -47,3 +47,8 @@ DevOps: Why You Should Run What You Build](https://aws.amazon.com/blogs/enterpri
 Software Vulnerability Management - Amazon Inspector](https://aws.amazon.com/inspector/)
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/devops-guidance/qa.st.1-evolve-vulnerability-management-processes-to-be-conducive-of-devops-practices.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

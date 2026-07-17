@@ -59,3 +59,8 @@ Command Line Interface: Testing resource types using
 contract tests](https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/resource-type-test.html)
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/devops-guidance/qa.nt.7-verify-service-integrations-through-contract-testing.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

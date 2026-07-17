@@ -179,3 +179,8 @@ Is AWS Microservice Extractor for .NET?](https://docs.aws.amazon.com/microservic
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/microsoft-workloads-lens/msftcost08-bp02.net-applications.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

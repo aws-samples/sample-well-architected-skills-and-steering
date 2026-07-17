@@ -28,3 +28,8 @@ researchers to find the right information to report vulnerabilities they discove
 Disclosure](https://www.rfc-editor.org/rfc/rfc9116)
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/devops-guidance/dl.scm.7-standardize-vulnerability-disclosure-processes.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

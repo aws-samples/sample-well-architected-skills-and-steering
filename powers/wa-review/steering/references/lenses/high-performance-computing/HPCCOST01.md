@@ -40,3 +40,8 @@ in Amazon CloudWatch](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monito
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/high-performance-computing-lens/practice-cloud-financial-management.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

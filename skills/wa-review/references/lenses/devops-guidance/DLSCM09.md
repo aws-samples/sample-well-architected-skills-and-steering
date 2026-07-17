@@ -32,3 +32,8 @@ Enforce data retention policies](https://docs.aws.amazon.com/wellarchitected/lat
 the creation and maintenance of unused assets](https://docs.aws.amazon.com/wellarchitected/latest/sustainability-pillar/sus_sus_user_a4.html)
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/devops-guidance/dl.scm.9-implement-plans-for-deprecating-and-revoking-outdated-software-components.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

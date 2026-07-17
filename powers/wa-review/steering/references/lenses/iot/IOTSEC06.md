@@ -161,3 +161,8 @@ Amazon SNS when the alert is sent.
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/iot-lens/detective-controls.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

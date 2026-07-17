@@ -44,3 +44,8 @@ performance in Amazon EC2](https://aws.amazon.com/blogs/aws/aws-graviton4-based-
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/high-performance-computing-lens/hardware-and-services.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

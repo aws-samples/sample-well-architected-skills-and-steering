@@ -259,3 +259,8 @@ best practices](https://www.youtube.com/watch?v=JofsaZ3H1qM)
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/container-build-lens/resources-3.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

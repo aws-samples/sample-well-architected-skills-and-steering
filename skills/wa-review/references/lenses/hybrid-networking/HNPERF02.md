@@ -289,3 +289,8 @@ your VPN throughput using Transit Gateway](https://aws.amazon.com/blogs/networki
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/hybrid-networking-lens/hnperf02-bp05.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

@@ -28,3 +28,8 @@ approach to high-availability deployment: How we learn
 from deployment failures](https://youtu.be/bCgD2bX1LI4?t=325)
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/devops-guidance/oa.ti.4-refine-error-tracking-and-resolution.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

@@ -51,3 +51,8 @@ identify compromised or outdated software components post-deployment.
 specification](https://slsa.dev/spec/v1.0/)
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/devops-guidance/ag.acg.9-integrate-software-provenance-tracking-throughout-the-development-lifecycle.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

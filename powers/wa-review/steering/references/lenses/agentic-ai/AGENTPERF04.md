@@ -416,3 +416,8 @@ Effectively building AI agents on AWS Serverless](https://aws.amazon.com/blogs/c
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/agentic-ai-lens/agentperf04-bp03.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

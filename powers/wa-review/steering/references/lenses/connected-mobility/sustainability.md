@@ -401,3 +401,8 @@ Gas Protocol](https://ghgprotocol.org/)
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/connected-mobility-lens/resources-sus.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

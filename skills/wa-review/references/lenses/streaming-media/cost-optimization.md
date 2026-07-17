@@ -200,3 +200,8 @@ To Work with Amazon Mechanical Turk](https://www.youtube.com/watch?v=r7xR9kLHCHc
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/streaming-media-lens/resources-cost.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

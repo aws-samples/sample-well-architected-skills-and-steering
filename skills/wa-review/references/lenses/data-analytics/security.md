@@ -1030,3 +1030,8 @@ secure, and manage data lakes with AWS Lake Formation](https://aws.amazon.com/bl
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/analytics-lens/best-practice-5.4---secure-the-audit-logs-that-record-every-data-or-resource-access-in-analytics-infrastructure..html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

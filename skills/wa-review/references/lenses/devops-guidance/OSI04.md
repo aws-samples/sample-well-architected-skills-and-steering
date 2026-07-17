@@ -50,3 +50,8 @@ propagating throughout the entire system.
 health checks](https://aws.amazon.com/builders-library/implementing-health-checks/)
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/devops-guidance/o.si.4-build-health-checks-into-every-service.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

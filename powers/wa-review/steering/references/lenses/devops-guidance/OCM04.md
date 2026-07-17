@@ -49,3 +49,8 @@ Cloud Fitness Functions to Drive Evolutionary
 Architecture](https://aws.amazon.com/blogs/architecture/using-cloud-fitness-functions-to-drive-evolutionary-architecture/)
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/devops-guidance/o.cm.4-report-on-business-metrics-to-drive-data-driven-decision-making.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

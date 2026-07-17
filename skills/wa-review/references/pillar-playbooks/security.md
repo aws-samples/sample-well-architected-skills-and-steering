@@ -97,3 +97,8 @@ When producing a pillar-scoped security report, include:
 
 - Flag protocol-level risks explicitly: TLS < 1.2 is always Critical, weak ciphers always High
 - "Cannot Determine" is valid for operational aspects (e.g., actual IAM usage requires Access Analyzer data)
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

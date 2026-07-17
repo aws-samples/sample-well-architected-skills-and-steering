@@ -65,3 +65,8 @@ Trust Maturity Model](https://www.cisa.gov/sites/default/files/2023-04/zero_trus
 - [AWS Verified Access](https://aws.amazon.com/verified-access)
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/devops-guidance/ag.sad.8-adopt-a-zero-trust-security-model-shifting-towards-an-identity-centric-security-perimeter.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

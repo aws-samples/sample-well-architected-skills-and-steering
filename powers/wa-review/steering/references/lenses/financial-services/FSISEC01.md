@@ -128,3 +128,8 @@ Pitfalls to Avoid When Building a CCOE](https://aws.amazon.com/blogs/enterprise-
 - [How to Build Your Cloud Enablement Engine with the People You Already Have](https://pages.awscloud.com/How-to-Build-Your-Cloud-Enablement-Engine-with-the-People-You-Already-Have_2019_0617-ENT_OD.html)
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/financial-services-industry-lens/fsisec01.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

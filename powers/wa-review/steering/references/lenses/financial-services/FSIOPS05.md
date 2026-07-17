@@ -157,3 +157,8 @@ Establish baseline performance metrics and use Amazon CloudWatch anomaly detecti
 Implement data leakage detection in model outputs and monitor unauthorized access attempts to generative AI endpoints.
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/financial-services-industry-lens/fsiops5.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

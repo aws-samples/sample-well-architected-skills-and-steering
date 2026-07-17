@@ -73,3 +73,8 @@ approach to security during development: Penetration
 Testing](https://youtu.be/NeR7FhHqDGQ?t=1432)
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/devops-guidance/qa.st.7-conduct-proactive-exploratory-security-testing-activities.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

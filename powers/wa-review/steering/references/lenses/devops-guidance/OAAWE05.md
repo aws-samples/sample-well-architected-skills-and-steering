@@ -15,3 +15,8 @@ or enjoyable they are. These events are more impactful for distributed teams tha
 span multiple time zones, and cities, or work fully remote.
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/devops-guidance/oa.awe.5-organize-team-building-activities-and-social-events-to-foster-a-sense-of-community-and-promote-collaboration.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

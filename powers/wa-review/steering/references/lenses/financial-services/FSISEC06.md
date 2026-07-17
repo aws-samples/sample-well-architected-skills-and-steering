@@ -102,3 +102,8 @@ Testing at AWS](https://aws.amazon.com/security/penetration-testing/)
 - [AWS re:Invent 2022 - Detect vulnerabilities in AWS Lambda functions using Amazon Inspector](https://www.youtube.com/watch?v=gWoJqnRB3MA&ab_channel=AWSEvents)
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/financial-services-industry-lens/fsisec06.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

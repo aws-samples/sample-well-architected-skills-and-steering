@@ -61,3 +61,8 @@ When the user asks for a specific assessment, follow the structured approach in 
 - `wa-guardrails` — Generate preventive guardrails (Config rules, SCPs, CI policy checks, alarms) to keep a workload aligned with Well-Architected best practices over time
 
 Read the corresponding `skills/{skill-name}/SKILL.md` file and follow its steps.
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

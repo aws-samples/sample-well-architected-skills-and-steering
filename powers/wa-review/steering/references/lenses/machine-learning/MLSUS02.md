@@ -276,3 +276,8 @@ goals](https://aws.amazon.com/blogs/architecture/how-to-select-a-region-for-your
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/machine-learning-lens/mlsus02-bp02.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

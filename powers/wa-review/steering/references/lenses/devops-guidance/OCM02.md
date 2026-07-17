@@ -34,3 +34,8 @@ approach to security during development: Handling a
 security incident](https://youtu.be/NeR7FhHqDGQ?t=1962)
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/devops-guidance/o.cm.2-plan-for-large-scale-events.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

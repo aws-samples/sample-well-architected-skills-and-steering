@@ -84,3 +84,8 @@ Best Practices for AI Services](https://docs.aws.amazon.com/IAM/latest/UserGuide
 - [Amazon SageMaker AI Model Governance](https://docs.aws.amazon.com/sagemaker/latest/dg/model-governance.html)
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/financial-services-industry-lens/fsisec15.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

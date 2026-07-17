@@ -32,3 +32,8 @@ encryption keys for cross-Region replication, can be automated and performed usi
 [AWS Backup](https://docs.aws.amazon.com/aws-backup/latest/devguide/cross-region-backup.html).
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/financial-services-industry-lens/fsirel09.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

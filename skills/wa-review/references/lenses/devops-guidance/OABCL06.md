@@ -23,3 +23,8 @@ making decisions and taking action.
 approach to security during development: Ownership](https://youtu.be/NeR7FhHqDGQ?t=632)
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/devops-guidance/oa.bcl.6-provide-teams-the-autonomy-to-make-decision-that-align-with-organizational-objectives.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

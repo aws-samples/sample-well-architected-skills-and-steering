@@ -55,3 +55,8 @@ Amazon Software Development Process: Continuous
 Delivery](https://youtu.be/52SC80SFPOw?t=814)
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/devops-guidance/dl.cd.4-automate-the-entire-deployment-process.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

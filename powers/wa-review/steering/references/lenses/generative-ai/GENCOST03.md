@@ -424,3 +424,8 @@ Bedrock Prompt Management is now Available in GA](https://aws.amazon.com/blogs/m
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/generative-ai-lens/gencost03-bp04.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

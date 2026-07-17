@@ -84,3 +84,8 @@ practice is not established: Low**
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/iot-lens/process-and-culture-user-guidance.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

@@ -656,3 +656,8 @@ Hyperparameter Ranges](https://docs.aws.amazon.com/sagemaker/latest/dg/automatic
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/machine-learning-lens/mlsus04-bp04.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

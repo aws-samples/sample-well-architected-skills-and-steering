@@ -123,3 +123,8 @@ your data with backups](https://docs.aws.amazon.com/fsx/latest/WindowsGuide/usin
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/video-streaming-advertising-lens/advrel07-bp03.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

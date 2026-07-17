@@ -63,3 +63,8 @@ Masking using AWS DMS (AWS Data Migration Service)](https://aws.amazon.com/blogs
 Lake Governance - AWS Lake Formation](https://aws.amazon.com/lake-formation/)
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/devops-guidance/qa.tem.4-implement-a-unified-test-data-repository-for-enhanced-test-efficiency.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

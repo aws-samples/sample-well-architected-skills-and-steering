@@ -23,3 +23,8 @@ the collaboration tools and any new features that could
 enhance their virtual collaboration experience.
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/devops-guidance/oa.awe.1-equip-teams-with-feature-rich-tools-for-virtual-collaboration.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

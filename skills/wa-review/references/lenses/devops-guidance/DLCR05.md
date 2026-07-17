@@ -32,3 +32,8 @@ agreed upon team guiding principles to quickly resolve team
 differences and act as tie breakers during disagreement.
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/devops-guidance/dl.cr.5-foster-a-constructive-and-inclusive-review-culture.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

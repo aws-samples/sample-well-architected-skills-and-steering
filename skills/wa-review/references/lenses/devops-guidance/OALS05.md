@@ -31,3 +31,8 @@ centralized governance and an internal service provider consulting partner](http
 one?](https://aws.amazon.com/blogs/publicsector/what-is-cloud-center-excellence-why-should-your-organization-create-one/)
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/devops-guidance/oa.ls.5-assemble-a-cross-functional-enabling-team-that-focuses-on-organizational-transformation.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

@@ -497,3 +497,8 @@ how to assess the risk of AI systems](https://aws.amazon.com/blogs/machine-learn
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/responsible-ai-lens/raibr02-bp09.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

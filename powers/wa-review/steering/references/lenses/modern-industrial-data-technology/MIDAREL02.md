@@ -296,3 +296,8 @@ Edge](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/edge-data-proces
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/modern-industrial-data-technology-lens/midarel02-bp03.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

@@ -48,3 +48,8 @@ Vogels: Learning from the Amazon technology platform](https://queue.acm.org/deta
 High-Performing Agile Organizations](https://aws.amazon.com/blogs/enterprise-strategy/two-pizza-teams-are-just-the-start-accountability-and-empowerment-are-key-to-high-performing-agile-organizations-part-2/)
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/devops-guidance/oa.ls.1-appoint-a-decision-making-leader-to-own-devops-adoption.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

@@ -30,3 +30,8 @@ visualization can help to reduce cost, alert fatigue, and data
 overload that comes with having too many alerts.
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/devops-guidance/o.cm.9-optimize-alerts-to-prevent-fatigue-and-minimize-monitoring-costs.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

@@ -33,3 +33,8 @@ Academy: DevOps Training Library](https://cloudacademy.com/library/devops/)
 DevOps Courses](https://www.pluralsight.com/search?q=DevOps)
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/devops-guidance/oa.ppd.3-offer-diverse-and-accessible-training-options.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

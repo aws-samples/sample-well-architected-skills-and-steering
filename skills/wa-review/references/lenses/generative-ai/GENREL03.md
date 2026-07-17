@@ -238,3 +238,8 @@ Amazon Bedrock Agents - Part 2](https://aws.amazon.com/blogs/machine-learning/be
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/generative-ai-lens/genrel03-bp02.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->
