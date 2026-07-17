@@ -34,3 +34,8 @@ Magical Number Seven, Plus or Minus Two](https://en.wikipedia.org/wiki/The_Magic
 Teams](https://docs.aws.amazon.com/whitepapers/latest/introduction-devops-aws/two-pizza-teams.html)
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/devops-guidance/oa.bcl.8-determine-team-sizes-based-on-cognitive-capacity.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

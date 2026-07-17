@@ -35,3 +35,8 @@ for load testing](https://docs.aws.amazon.com/prescriptive-guidance/latest/load-
 Testing](https://aws.amazon.com/solutions/implementations/distributed-load-testing-on-aws/).
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/financial-services-industry-lens/fsiperf01.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

@@ -216,3 +216,8 @@ sustainability for your Microsoft workloads on AWS](https://aws.amazon.com/blogs
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/microsoft-workloads-lens/msftsus01-bp02.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

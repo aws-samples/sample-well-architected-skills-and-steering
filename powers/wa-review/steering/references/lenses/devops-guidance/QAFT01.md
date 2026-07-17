@@ -40,3 +40,8 @@ started with testing serverless applications](https://aws.amazon.com/blogs/compu
 - [TestDouble](https://martinfowler.com/bliki/TestDouble.html)
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/devops-guidance/qa.ft.1-ensure-individual-component-functionality-with-unit-tests.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

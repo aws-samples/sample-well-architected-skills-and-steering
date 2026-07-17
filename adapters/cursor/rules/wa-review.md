@@ -131,3 +131,8 @@ Structure:
 - "Cannot Determine" is valid when code alone is insufficient
 - Acknowledge strengths before gaps
 - Match expectations to business criticality tier
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

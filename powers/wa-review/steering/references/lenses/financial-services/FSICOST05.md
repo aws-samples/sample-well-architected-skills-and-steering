@@ -25,3 +25,8 @@ schedule. Combine these alerts with CloudWatch dashboards to correlate generativ
 trends with cost anomalies in near real-time.
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/financial-services-industry-lens/fsicost05.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

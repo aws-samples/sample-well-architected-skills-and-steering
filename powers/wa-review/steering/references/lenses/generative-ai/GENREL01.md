@@ -134,3 +134,8 @@ request rates – part 1](https://aws.amazon.com/blogs/compute/building-well-arc
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/generative-ai-lens/genrel01-bp01.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

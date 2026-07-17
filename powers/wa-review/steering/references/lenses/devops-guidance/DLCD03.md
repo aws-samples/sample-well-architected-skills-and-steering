@@ -48,3 +48,8 @@ Amazon Software Development Process: Automated
 Testing](https://youtu.be/52SC80SFPOw?t=1340)
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/devops-guidance/dl.cd.3-integrate-quality-assurance-into-deployments.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

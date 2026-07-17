@@ -426,3 +426,8 @@ purchased.
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/analytics-lens/best-practice-14.2---consult-with-your-finance-team-and-determine-optimal-payment-models..html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

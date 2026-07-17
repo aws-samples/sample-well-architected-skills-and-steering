@@ -47,3 +47,8 @@ access keys for IAM users - AWS IAM](https://docs.aws.amazon.com/IAM/latest/User
 AWS KMS keys - AWS Key Management Service](https://docs.aws.amazon.com/kms/latest/developerguide/rotate-keys.html)
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/devops-guidance/ag.sad.7-implement-rotation-policies-for-secrets-keys-and-certificates.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

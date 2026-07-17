@@ -94,3 +94,8 @@ When producing a pillar-scoped cost report, include:
 - Always assess trade-offs: cost optimization MUST NOT introduce reliability risks without acknowledgment
 - "Cannot Determine" is valid for actual utilization (recommend Compute Optimizer, Cost Explorer)
 - Savings estimates should be relative (%) when absolute spend is unknown
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

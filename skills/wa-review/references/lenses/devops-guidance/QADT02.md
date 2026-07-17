@@ -39,3 +39,8 @@ single column profiling](https://github.com/awslabs/deequ/blob/master/src/main/s
 - [AWS Glue DataBrew](https://aws.amazon.com/glue/features/databrew/)
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/devops-guidance/qa.dt.2-enhance-understanding-of-data-through-data-profiling.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

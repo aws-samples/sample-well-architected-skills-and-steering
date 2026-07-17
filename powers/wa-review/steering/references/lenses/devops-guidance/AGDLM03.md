@@ -50,3 +50,8 @@ updates](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/blue-green-deplo
 Perform automations for operations](https://docs.aws.amazon.com/wellarchitected/latest/cost-optimization-pillar/cost_evaluate_cost_effort_automations_operations.html)
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/devops-guidance/ag.dlm.3-automate-data-processes-for-reliable-collection-transformation-and-storage-using-pipelines.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

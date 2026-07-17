@@ -23,3 +23,8 @@ For example, create internal wiki pages for each team to document
 their team norms and best practices.
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/devops-guidance/oa.ti.7-maintain-a-unified-knowledge-source-for-teams.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

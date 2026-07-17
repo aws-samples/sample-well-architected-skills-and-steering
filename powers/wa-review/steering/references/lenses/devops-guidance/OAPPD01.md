@@ -47,3 +47,8 @@ well.
 typology of organisational cultures](https://qualitysafety.bmj.com/content/13/suppl_2/ii22)
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/devops-guidance/oa.ppd.1-encourage-collaboration-innovation-learning-and-continuous-growth-to-foster-a-generative-culture.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

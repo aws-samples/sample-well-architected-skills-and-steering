@@ -71,3 +71,8 @@ When producing a pillar-scoped operational excellence report, include:
 - If something cannot be determined from code (e.g., on-call rotation quality, incident review process), mark "Cannot Determine"
 - For workloads transitioning architectures, focus on what the NEW architecture introduces as operational requirements
 - Acknowledge existing operational strengths before listing gaps
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

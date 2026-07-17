@@ -33,3 +33,8 @@ and distribution](https://docs.aws.amazon.com/wellarchitected/latest/management-
 your AWS resources - AWS Resource Access Manager](https://docs.aws.amazon.com/ram/latest/userguide/getting-started-sharing.html)
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/devops-guidance/ag.dep.5-standardize-and-manage-shared-resources-across-environments.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

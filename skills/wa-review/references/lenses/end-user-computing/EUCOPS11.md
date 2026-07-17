@@ -310,3 +310,8 @@ key to maintaining end user engagement and productivity.
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/end-user-computing-lens/eucops11-bp01.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

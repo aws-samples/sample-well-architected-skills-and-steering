@@ -275,3 +275,8 @@ retry and timeout issues with AWS SDK](https://aws.amazon.com/premiumsupport/kno
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/serverless-applications-lens/resources-2.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

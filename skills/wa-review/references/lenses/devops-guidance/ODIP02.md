@@ -49,3 +49,8 @@ Logging with OpenSearch](https://aws.amazon.com/solutions/implementations/centra
 - [AWS Marketplace: SIEM](https://aws.amazon.com/marketplace/solutions/security/siem)
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/devops-guidance/o.dip.2-centralize-logs-for-enhanced-security-investigations.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

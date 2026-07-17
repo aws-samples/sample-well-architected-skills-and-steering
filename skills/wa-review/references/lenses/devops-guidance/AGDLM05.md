@@ -50,3 +50,8 @@ unneeded or redundant data](https://docs.aws.amazon.com/wellarchitected/latest/s
 your storage lifecycle](https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-lifecycle-mgmt.html)
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/devops-guidance/ag.dlm.5-reduce-risks-and-costs-with-systematic-data-retention-strategies.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

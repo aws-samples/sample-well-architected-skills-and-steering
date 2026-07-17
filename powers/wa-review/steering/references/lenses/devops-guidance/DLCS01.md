@@ -31,3 +31,8 @@ governance tools for deeper analysis.
 attestations](https://slsa.dev/attestation-model)
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/devops-guidance/dl.cs.1-implement-automated-digital-attestation-signing.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

@@ -326,3 +326,8 @@ Amazon ECS clusters and containers](https://ecsworkshop.com/monitoring/)
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/container-build-lens/resources.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

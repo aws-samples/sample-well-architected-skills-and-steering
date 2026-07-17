@@ -338,3 +338,8 @@ tenant isolation patterns](https://youtu.be/fuDZq-EspNA?t=1519)
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/saas-lens/resources-3.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

@@ -274,3 +274,8 @@ AWS services like Amazon EC2 Auto Scaling, AWS CloudFormation, and AWS Backup.
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/telco-lens/telcoperf01-bp03.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

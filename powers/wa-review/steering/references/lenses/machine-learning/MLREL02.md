@@ -545,3 +545,8 @@ Pipelines using Amazon SageMaker AI](https://github.com/aws/amazon-sagemaker-exa
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/machine-learning-lens/mlrel02-bp03.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

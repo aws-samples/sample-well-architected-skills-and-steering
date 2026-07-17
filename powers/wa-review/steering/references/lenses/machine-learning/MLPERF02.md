@@ -418,3 +418,8 @@ JumpStart](https://www.youtube.com/watch?v=i4W7SfP6_38)
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/machine-learning-lens/mlperf02-bp02.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

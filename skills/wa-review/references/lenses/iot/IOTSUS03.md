@@ -326,3 +326,8 @@ calculations are offloaded to the cloud.
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/iot-lens/hardware-and-services-optimization.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

@@ -265,3 +265,8 @@ Porting Advisor for Graviton](https://aws.amazon.com/blogs/compute/using-porting
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/video-streaming-advertising-lens/advperf02-bp05.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

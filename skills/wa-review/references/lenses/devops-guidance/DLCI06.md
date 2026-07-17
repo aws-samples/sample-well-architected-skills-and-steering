@@ -33,3 +33,8 @@ subsequent enhancements to the pipeline being driven by
 metrics.
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/devops-guidance/dl.ci.6-refine-integration-pipelines-with-build-metrics.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

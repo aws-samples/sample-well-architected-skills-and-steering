@@ -27,3 +27,8 @@ criteria. Having a clear definition of done can streamline the review process an
 number of issues that need to be addressed in later stages of the development lifecycle.
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/devops-guidance/dl.cr.3-establish-clear-completion-criteria-for-code-tasks.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

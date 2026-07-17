@@ -61,3 +61,8 @@ Build reliable data collection and validation pipelines, emphasizing real-time m
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/video-streaming-advertising-lens/advrel09-bp02.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

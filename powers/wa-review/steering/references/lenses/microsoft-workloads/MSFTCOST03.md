@@ -577,3 +577,8 @@ continued](https://aws.amazon.com/blogs/modernizing-with-aws/optimize-cpus-best-
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/microsoft-workloads-lens/msftcost03-bp06.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

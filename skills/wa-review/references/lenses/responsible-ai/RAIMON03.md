@@ -33,3 +33,8 @@ of the decommissioning process](https://docs.aws.amazon.com/controltower/latest/
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/responsible-ai-lens/raimon03-bp01.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

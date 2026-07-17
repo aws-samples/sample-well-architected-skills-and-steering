@@ -30,3 +30,8 @@ Tracing System – AWS X-Ray](https://aws.amazon.com/xray/)
 - [AWS X-Ray integration with Grafana](https://docs.aws.amazon.com/grafana/latest/userguide/x-ray-data-source.html)
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/devops-guidance/o.dip.3-implement-distributed-tracing-for-system-wide-request-tracking.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

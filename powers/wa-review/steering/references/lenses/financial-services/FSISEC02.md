@@ -98,3 +98,8 @@ secure prompt storage and version control.
 workloads](https://www.youtube.com/watch?v=PpUnH9Y52X0&ab_channel=AWSEvents)
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/financial-services-industry-lens/fsisec02.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

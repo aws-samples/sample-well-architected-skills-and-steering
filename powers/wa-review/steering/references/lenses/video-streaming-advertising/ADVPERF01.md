@@ -236,3 +236,8 @@ an AWS database service](https://docs.aws.amazon.com/decision-guides/latest/data
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/video-streaming-advertising-lens/advperf01-bp05.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

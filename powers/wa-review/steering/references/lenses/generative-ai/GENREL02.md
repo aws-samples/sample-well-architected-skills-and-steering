@@ -121,3 +121,8 @@ AI Risk in a Rapidly Changing Landscape](https://aws.amazon.com/blogs/enterprise
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/generative-ai-lens/genrel02-bp01.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

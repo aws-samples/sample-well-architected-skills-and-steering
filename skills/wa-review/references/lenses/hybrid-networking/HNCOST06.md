@@ -70,3 +70,8 @@ Connect virtual interfaces](https://docs.aws.amazon.com/directconnect/latest/Use
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/hybrid-networking-lens/hncost06-bp02.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

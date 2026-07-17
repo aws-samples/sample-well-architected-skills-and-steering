@@ -333,3 +333,8 @@ Update Catalog](https://www.catalog.update.microsoft.com/)
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/microsoft-workloads-lens/msftsec01-bp03.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

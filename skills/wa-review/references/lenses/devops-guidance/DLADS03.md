@@ -78,3 +78,8 @@ Amazon Software Development Process: Pessimistic
 Deployments](https://youtu.be/52SC80SFPOw?t=1024)
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/devops-guidance/dl.ads.3-use-staggered-deployment-and-release-strategies.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

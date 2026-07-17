@@ -196,3 +196,8 @@ AI](https://www.guardrailsai.com/)
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/generative-ai-lens/gensec04-bp02.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

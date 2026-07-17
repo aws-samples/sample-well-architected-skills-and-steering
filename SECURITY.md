@@ -76,3 +76,8 @@ Examples contain intentionally insecure code for demonstration purposes. They MU
 ## Reporting Security Issues
 
 If you discover a security vulnerability in this project, please report it through the [AWS Vulnerability Reporting](https://aws.amazon.com/security/vulnerability-reporting/) page. Do not open a public issue.
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

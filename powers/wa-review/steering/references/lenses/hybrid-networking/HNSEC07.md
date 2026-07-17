@@ -50,3 +50,8 @@ an HTTPS listener for your Application Load Balancer](https://docs.aws.amazon.co
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/hybrid-networking-lens/hnsec07-bp01.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

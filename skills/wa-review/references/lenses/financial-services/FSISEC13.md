@@ -57,3 +57,8 @@ Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/security.ht
 for Security](https://docs.aws.amazon.com/prescriptive-guidance/latest/security-reference-architecture/ai-ml.html)
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/financial-services-industry-lens/fsisec13.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

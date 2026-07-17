@@ -48,3 +48,8 @@ The configuration of endpoint security software should verify that the status of
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/end-user-computing-lens/eucsec08-bp01.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

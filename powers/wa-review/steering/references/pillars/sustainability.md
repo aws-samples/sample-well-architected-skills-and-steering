@@ -2726,3 +2726,8 @@ Web tests for AWS Device Farm](https://github.com/aws-samples/aws-device-farm-sa
 ---
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

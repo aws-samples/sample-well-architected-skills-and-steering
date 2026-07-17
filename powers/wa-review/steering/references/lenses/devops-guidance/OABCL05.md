@@ -28,3 +28,8 @@ team members raise concerns and stop processes when problems arise. The Andon co
 as a mechanism for team members to escalate issues quickly, addressing problems promptly and effectively.
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/devops-guidance/oa.bcl.5-establish-clear-escalation-paths-and-encourage-constructive-disagreement.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

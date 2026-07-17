@@ -94,3 +94,8 @@ secure way to troubleshoot IoT devices](https://aws.amazon.com/blogs/iot/introdu
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/iot-lens/process-and-culture.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

@@ -178,3 +178,8 @@ troubleshoot and improve the application to mitigate risks.
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/iot-lens/prepare.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

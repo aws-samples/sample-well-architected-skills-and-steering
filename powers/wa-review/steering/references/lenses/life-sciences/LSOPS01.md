@@ -100,3 +100,8 @@ Systems on AWS](https://d0.awsstatic.com/whitepapers/compliance/Using_AWS_in_GxP
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/life-sciences-lens/lsops01-bp01.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

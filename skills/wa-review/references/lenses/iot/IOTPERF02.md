@@ -75,3 +75,8 @@ security posture using AWS IoT Device Defender](https://aws.amazon.com/blogs/iot
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/iot-lens/compute-and-hardware.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

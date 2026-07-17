@@ -39,3 +39,8 @@ generative AI orchestration (for example, Bedrock Agents) to reduce operational 
 over time.
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/financial-services-industry-lens/fsicost18.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

@@ -2148,3 +2148,8 @@ JumpStart pretrained Models](https://docs.aws.amazon.com/sagemaker/latest/dg/stu
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/machine-learning-lens/mlcost04-bp14.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

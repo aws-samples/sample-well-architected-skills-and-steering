@@ -157,3 +157,8 @@ processing](https://docs.aws.amazon.com/lambda/latest/operatorguide/integrations
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/games-industry-lens/gameperf05-bp02.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

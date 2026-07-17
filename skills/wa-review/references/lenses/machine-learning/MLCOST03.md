@@ -677,3 +677,8 @@ and Tuning State-of-the-Art Models with Amazon SageMaker AI](https://aws.amazon.
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/machine-learning-lens/mlcost03-bp04.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

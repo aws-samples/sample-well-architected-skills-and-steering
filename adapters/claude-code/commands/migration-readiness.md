@@ -120,3 +120,8 @@ Structure:
 - For shared databases, always flag migration ordering constraint
 - Cost estimates from static analysis are rough — acknowledge uncertainty
 - Acknowledge migration-ready aspects prominently (containerized, stateless, IaC exists)
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

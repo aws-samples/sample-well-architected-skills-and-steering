@@ -16,3 +16,8 @@ needs, you could run DR in a less costly Region. Consider cheaper Regions for
 non-production environments.
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/financial-services-industry-lens/fsicost10.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

@@ -26,3 +26,8 @@ your workload's dependency chains to prove that if any of its dependencies fail,
 service can stay within the boundary of the defined RTO.
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/financial-services-industry-lens/fsirel07.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

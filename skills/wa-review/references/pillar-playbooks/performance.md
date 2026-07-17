@@ -105,3 +105,8 @@ When producing a pillar-scoped performance report, include:
 
 - "Cannot Determine" is valid when actual performance data is needed (e.g., whether an instance is CPU-bound requires CloudWatch metrics)
 - Always assess trade-offs: performance optimizations may increase cost or complexity
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

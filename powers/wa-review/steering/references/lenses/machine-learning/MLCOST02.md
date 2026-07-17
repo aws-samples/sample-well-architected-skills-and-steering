@@ -336,3 +336,8 @@ Financial Management with AWS](https://aws.amazon.com/aws-cost-management/)
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/machine-learning-lens/mlcost02-bp02.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

@@ -52,3 +52,8 @@ Innovation and Speed with Amazon's Two-Pizza Teams](https://aws.amazon.com/execu
 Amazon Software Development Process: DevOps Teams](https://youtu.be/52SC80SFPOw?t=387)
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/devops-guidance/oa.std.6-provide-teams-ownership-of-the-entire-value-stream-for-their-product.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

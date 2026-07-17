@@ -176,3 +176,8 @@ updates across the signaling layer infrastructure.
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/telco-lens/telsec03-bp03.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

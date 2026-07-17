@@ -198,3 +198,8 @@ inference observability on HyperPod clusters](https://docs.aws.amazon.com/sagema
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/generative-ai-lens/genperf03-bp01.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

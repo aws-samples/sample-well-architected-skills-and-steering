@@ -346,3 +346,8 @@ Defender System Guard](https://docs.microsoft.com/en-us/windows/security/threat-
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/microsoft-workloads-lens/msftsec03-bp03.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

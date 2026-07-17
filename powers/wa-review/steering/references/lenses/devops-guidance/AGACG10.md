@@ -27,3 +27,8 @@ analytics capabilities to support continuous improvement of the security posture
 rules - AWS Security Hub CSPM](https://docs.aws.amazon.com/securityhub/latest/userguide/automation-rules.html)
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/devops-guidance/ag.acg.10-automate-resolution-of-findings-in-tracking-systems.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

@@ -29,3 +29,8 @@ Establish cloud budgets and forecasts](https://docs.aws.amazon.com/wellarchitect
 - [AWS Learning Needs Analysis](https://aws.amazon.com/training/teams/learning-needs-analysis/)
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/devops-guidance/oa.ppd.2-allocate-time-and-budget-for-targeted-training.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

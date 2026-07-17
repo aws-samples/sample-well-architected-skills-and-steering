@@ -98,3 +98,8 @@ Well-Architected game days](https://wa.aws.amazon.com/wat.concept.gameday.en.htm
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/government-lens/reliability-pillar.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

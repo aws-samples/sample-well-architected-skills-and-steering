@@ -488,3 +488,8 @@ guide to building AI agents in GxP environments](https://aws.amazon.com/blogs/ma
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/agentic-ai-lens/agentsec04-bp02.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

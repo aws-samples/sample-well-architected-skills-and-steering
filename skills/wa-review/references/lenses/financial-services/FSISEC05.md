@@ -108,3 +108,8 @@ You can
 - [The top 7 ways to operationalize AWS Security Hub CSPM](https://www.youtube.com/watch?v=ZEgCsKHPpFI&ab_channel=AWSOnlineTechTalks)
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/financial-services-industry-lens/fsisec05.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

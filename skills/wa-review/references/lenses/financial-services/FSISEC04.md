@@ -93,3 +93,8 @@ tutorial, see
 - [Least Privilege & Separation of Duties for AWS ACM Private CA](https://www.youtube.com/watch?v=ifImMYHQbp0&ab_channel=AmazonWebServices)
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/financial-services-industry-lens/fsisec04.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

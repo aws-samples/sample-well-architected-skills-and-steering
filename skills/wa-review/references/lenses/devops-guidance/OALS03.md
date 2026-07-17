@@ -55,3 +55,8 @@ targets](https://docs.aws.amazon.com/wellarchitected/latest/cost-optimization-pi
 Migrations](https://aws.amazon.com/blogs/mt/the-importance-of-key-performance-indicators-kpis-for-large-scale-cloud-migrations/)
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/devops-guidance/oa.ls.3-drive-continued-improvement-through-business-reviews.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

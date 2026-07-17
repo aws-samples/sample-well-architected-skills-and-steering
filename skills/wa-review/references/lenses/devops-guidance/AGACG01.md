@@ -34,3 +34,8 @@ Cloud Audits - AWS Audit Manager](https://aws.amazon.com/audit-manager/)
 - [AWS Well-Architected Tool](https://aws.amazon.com/well-architected-tool/)
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/devops-guidance/ag.acg.1-adopt-a-risk-based-compliance-framework.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

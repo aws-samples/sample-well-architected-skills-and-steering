@@ -263,3 +263,8 @@ state and determine when re-qualification is required.
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/life-sciences-lens/lsrel04-bp03.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

@@ -41,3 +41,8 @@ Assessment (DORA)](https://dora.dev/)
 - [SPACE](https://queue.acm.org/detail.cfm?id=3454124)
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/devops-guidance/dl.cd.6-refine-delivery-pipelines-using-metrics-for-continuous-improvement.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

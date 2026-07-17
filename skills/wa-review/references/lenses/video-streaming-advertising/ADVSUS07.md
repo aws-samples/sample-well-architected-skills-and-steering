@@ -31,3 +31,8 @@ KPIs](https://wellarchitectedlabs.com/sustainability/200_labs/200_optimize_hardw
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/video-streaming-advertising-lens/advsus07-bp01.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

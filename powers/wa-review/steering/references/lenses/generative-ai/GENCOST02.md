@@ -240,3 +240,8 @@ reporting for cost attribution in SageMaker AI HyperPod](https://docs.aws.amazon
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/generative-ai-lens/gencost02-bp02.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

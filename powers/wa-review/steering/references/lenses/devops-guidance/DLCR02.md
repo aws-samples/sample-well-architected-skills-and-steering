@@ -44,3 +44,8 @@ Collaboration with Amazon CodeCatalyst](https://aws.amazon.com/blogs/devops/team
 review](https://en.wikipedia.org/wiki/Code_review)
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/devops-guidance/dl.cr.2-perform-peer-review-for-code-changes.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

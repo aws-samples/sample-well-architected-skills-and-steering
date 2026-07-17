@@ -46,3 +46,8 @@ with test reporting in AWS CodeBuild](https://docs.aws.amazon.com/codebuild/late
 Reports with AWS CodeBuild](https://aws.amazon.com/blogs/devops/test-reports-with-aws-codebuild/)
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/devops-guidance/qa.tem.3-store-and-manage-test-results.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

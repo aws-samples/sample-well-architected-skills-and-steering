@@ -253,3 +253,8 @@ monitoring for connected devices across OT, IoT, edge, cloud (TDR222)](https://w
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/iot-lens/prepare.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

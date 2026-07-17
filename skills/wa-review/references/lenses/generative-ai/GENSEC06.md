@@ -135,3 +135,8 @@ Data Poisoning Attack](https://owasp.org/www-project-machine-learning-security-t
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/generative-ai-lens/gensec06-bp01.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

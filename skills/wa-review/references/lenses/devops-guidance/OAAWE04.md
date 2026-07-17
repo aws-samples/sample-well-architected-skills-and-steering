@@ -27,3 +27,8 @@ effectiveness of the workspace environments, and make necessary
 improvements to be sure that they meet the needs of the teams.
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/devops-guidance/oa.awe.4-provide-adaptable-workspaces-for-effective-onsite-collaboration.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

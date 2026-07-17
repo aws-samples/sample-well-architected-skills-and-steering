@@ -39,3 +39,8 @@ outliers](https://docs.aws.amazon.com/quicksight/latest/user/anomaly-detection-f
 - [Amazon Kinesis: Detecting Data Anomalies on a Stream](https://docs.aws.amazon.com/kinesisanalytics/latest/dev/app-anomaly-detection.html)
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/devops-guidance/qa.dt.4-detect-and-mitigate-data-issues-with-anomaly-detection.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

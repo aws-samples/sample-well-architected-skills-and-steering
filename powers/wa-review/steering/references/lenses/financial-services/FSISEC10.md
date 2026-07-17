@@ -150,3 +150,8 @@ deletion events.
 [Data protection strategies for the cloud - AWS Online Tech Talks](https://www.youtube.com/watch?v=4PgoBjqpm8U&ab_channel=AWSOnlineTechTalks)
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/financial-services-industry-lens/fsisec10.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

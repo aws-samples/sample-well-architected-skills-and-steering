@@ -89,3 +89,8 @@ indexing](https://docs.aws.amazon.com/iot/latest/developerguide/iot-indexing.htm
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/iot-lens/networking-and-content-delivery.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

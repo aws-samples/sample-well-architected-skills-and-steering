@@ -64,3 +64,8 @@ and manage accounts with Account Factory](https://docs.aws.amazon.com/controltow
 address](https://github.com/aws-samples/aws-account-factory-email)
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/devops-guidance/ag.dep.1-establish-a-controlled-multi-environment-landing-zone.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

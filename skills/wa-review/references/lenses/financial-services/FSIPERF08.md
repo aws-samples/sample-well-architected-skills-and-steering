@@ -65,3 +65,8 @@ improvements in production.
 paths through financial AI systems.
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/financial-services-industry-lens/fsiperf08-how-do-you-optimize-ai-model-inference-performance.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

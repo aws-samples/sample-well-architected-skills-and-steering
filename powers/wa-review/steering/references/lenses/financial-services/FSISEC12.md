@@ -76,3 +76,8 @@ Data Protection Regulation (GDPR) Center](https://aws.amazon.com/compliance/gdpr
 to AWS Compliance Center](https://www.youtube.com/watch?v=lp-Yn-xkhM8&ab_channel=AmazonWebServices)
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/financial-services-industry-lens/fsisec12.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

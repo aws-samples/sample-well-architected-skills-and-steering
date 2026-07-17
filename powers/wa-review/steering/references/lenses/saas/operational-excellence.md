@@ -359,3 +359,8 @@ re:Invent 2017: GPS: SaaS Monitoring - Creating a Unified View of Multi-tenant H
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/saas-lens/resources.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

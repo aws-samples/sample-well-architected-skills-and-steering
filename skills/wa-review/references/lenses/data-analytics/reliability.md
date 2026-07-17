@@ -256,3 +256,8 @@ Spline](https://aws.amazon.com/blogs/big-data/build-data-lineage-for-data-lakes-
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/analytics-lens/best-practice-7.3---trace-data-lineage..html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

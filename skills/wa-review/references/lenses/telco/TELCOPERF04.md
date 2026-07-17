@@ -195,3 +195,8 @@ adjusting as the telco network and workloads evolve.
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/telco-lens/telcoperf04-bp02.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

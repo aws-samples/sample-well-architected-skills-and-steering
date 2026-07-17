@@ -136,3 +136,8 @@ following blog post:
 - [AWS re:Invent 2022 - A deep dive on the current security threat landscape with AWS](https://www.youtube.com/watch?v=h7WvCyygb8U)
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/financial-services-industry-lens/fsisec07.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

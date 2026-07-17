@@ -11,3 +11,8 @@ labels: question
 ## Context
 
 <!-- What are you trying to accomplish? Which skill or feature is this about? -->
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->
