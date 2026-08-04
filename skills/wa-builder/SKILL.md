@@ -1,6 +1,6 @@
 ---
 name: wa-builder
-description: "Learn then Build" — help developers understand AWS Well-Architected best practices for their specific workload, then produce actionable visual artifacts (architecture diagrams with WA annotations, decision trees, improvement roadmaps) they can commit and use. Adapts explanations for beginners and generates artifacts faster for experienced builders. Use when the user wants to understand WA for their project, create architecture diagrams with pillar health overlays, get guided decision flows for architectural choices, or generate a visual improvement roadmap.
+description: '"Learn then Build" — help developers understand AWS Well-Architected best practices for their specific workload, then produce actionable visual artifacts (architecture diagrams with WA annotations, decision trees, improvement roadmaps) they can commit and use. Adapts explanations for beginners and generates artifacts faster for experienced builders. Use when the user wants to understand WA for their project, create architecture diagrams with pillar health overlays, get guided decision flows for architectural choices, or generate a visual improvement roadmap.'
 not_for: assessments or reviews that produce findings (use wa-review), migration planning (use migration-readiness), generating guardrails (use wa-guardrails), facilitating a WAFR (use wafr-facilitator)
 version: 1.0.0
 ---
