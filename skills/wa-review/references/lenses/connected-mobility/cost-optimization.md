@@ -1,5 +1,6 @@
 # Cost optimization
 
+**Pillar**: Cost Optimization  
 **Pages**: 8
 
 ---
