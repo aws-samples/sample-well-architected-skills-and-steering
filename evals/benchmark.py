@@ -41,13 +41,13 @@ def load_config(path: Path = CONFIG_PATH) -> dict:
         return yaml.safe_load(f)
 
 
-def _extract_text(response: dict) -> str:
+def _extract_text(response: dict, include_reasoning: bool = True) -> str:
     """Extract text from a Converse API response, handling thinking/reasoning blocks."""
     text_parts = []
     for block in response["output"]["message"]["content"]:
         if "text" in block:
             text_parts.append(block["text"])
-        elif "reasoningContent" in block:
+        elif include_reasoning and "reasoningContent" in block:
             reasoning = block["reasoningContent"].get("reasoningText", {}).get("text", "")
             if reasoning:
                 text_parts.append(reasoning)
@@ -245,6 +245,7 @@ def call_mantle_model(model_id: str, messages: list[dict], system: str | None = 
             usage = data.get("usage", {})
             input_tokens = usage.get("input_tokens", 0)
             output_tokens = usage.get("output_tokens", 0)
+            stop_reason = data.get("status", "unknown")
 
         else:
             # GPT-OSS models use /v1/chat/completions (Chat Completions API)
@@ -272,6 +273,7 @@ def call_mantle_model(model_id: str, messages: list[dict], system: str | None = 
             usage = data.get("usage", {})
             input_tokens = usage.get("prompt_tokens", 0)
             output_tokens = usage.get("completion_tokens", 0)
+            stop_reason = choice.get("finish_reason", "unknown")
 
     except Exception as e:
         return {"model_id": model_id, "error": str(e), "latency_s": time.time() - start}
@@ -288,7 +290,7 @@ def call_mantle_model(model_id: str, messages: list[dict], system: str | None = 
         "output_tokens": output_tokens,
         "total_tokens": input_tokens + output_tokens,
         "latency_s": round(latency, 2),
-        "stop_reason": data.get("status", "unknown"),
+        "stop_reason": stop_reason,
     }
 
 
@@ -353,12 +355,15 @@ def _load_pillar_content() -> dict[str, str]:
 def call_model_subagent(client, model_id: str, workload_prompt: str,
                         system: str | None = None, max_tokens: int = 4096,
                         temperature: float = 0, region: str = "us-east-1",
-                        config: dict | None = None) -> dict:
+                        config: dict | None = None,
+                        pillar_task: str | None = None,
+                        include_reasoning: bool = True) -> dict:
     """Subagent-pattern review: 6 parallel model calls (one per pillar) with
     pre-loaded pillar references. Aggregates cost/latency/output.
 
     This measures what real users experience when following the shipped skill's
-    default full-review path (dispatch 6 pillar subagents).
+    default full-review path (dispatch 6 pillar subagents). ``pillar_task`` can
+    replace the default per-pillar instructions for structured research runs.
     """
     pillar_content = _load_pillar_content()
     if len(pillar_content) != 6:
@@ -367,6 +372,16 @@ def call_model_subagent(client, model_id: str, workload_prompt: str,
                 "latency_s": 0}
 
     def _one_pillar(pillar_slug: str, pillar_name: str) -> dict:
+        task = pillar_task.format(
+            pillar_name=pillar_name,
+            pillar_slug=pillar_slug,
+        ) if pillar_task else f"""Review the workload above **ONLY for the {pillar_name} pillar**. Enumerate every
+BP in the reference above. For each BP, assign one of four statuses: Implemented,
+Partially Implemented, Not Implemented, or Not Applicable (with brief rationale).
+
+Cite BPs in canonical `PILLAR##-BP##` format. Do not comment on other pillars —
+they are reviewed in separate subagent invocations."""
+
         pillar_prompt = f"""# Reference: {pillar_name} pillar
 
 The following pillar reference is pre-loaded. All best-practice content for this
@@ -384,12 +399,7 @@ pillar is included below.
 
 # Your task
 
-Review the workload above **ONLY for the {pillar_name} pillar**. Enumerate every
-BP in the reference above. For each BP, assign one of four statuses: Implemented,
-Partially Implemented, Not Implemented, or Not Applicable (with brief rationale).
-
-Cite BPs in canonical `PILLAR##-BP##` format. Do not comment on other pillars —
-they are reviewed in separate subagent invocations."""
+{task}"""
 
         messages = [{"role": "user", "content": [{"text": pillar_prompt}]}]
 
@@ -403,7 +413,8 @@ they are reviewed in separate subagent invocations."""
                                      max_tokens=max_tokens, temperature=temperature,
                                      region=region)
         return call_model(client, model_id, messages, system=system,
-                          max_tokens=max_tokens, temperature=temperature)
+                          max_tokens=max_tokens, temperature=temperature,
+                          include_reasoning=include_reasoning)
 
     start = time.time()
     pillar_results: list[dict] = []
@@ -454,7 +465,8 @@ they are reviewed in separate subagent invocations."""
 
 
 def call_model(client, model_id: str, messages: list[dict], system: str | None = None,
-               max_tokens: int = 4096, temperature: float = 0) -> dict:
+               max_tokens: int = 4096, temperature: float = 0,
+               include_reasoning: bool = True) -> dict:
     """Call a single model via Converse API. Returns metrics + output."""
     inference_config = {"maxTokens": max_tokens}
 
@@ -484,7 +496,7 @@ def call_model(client, model_id: str, messages: list[dict], system: str | None =
 
     latency = time.time() - start
     usage = response.get("usage", {})
-    output_text = _extract_text(response)
+    output_text = _extract_text(response, include_reasoning=include_reasoning)
 
     if not output_text:
         return {"model_id": model_id, "error": "empty response (no text blocks)", "latency_s": round(latency, 2)}
