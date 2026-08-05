@@ -102,3 +102,8 @@ significant price performance benefits. For more information, see [Getting start
 Graviton](https://aws.amazon.com/ec2/graviton/getting-started/).
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/financial-services-industry-lens/fsicost11.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

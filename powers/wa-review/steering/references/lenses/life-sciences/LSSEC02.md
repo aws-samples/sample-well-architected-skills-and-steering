@@ -90,3 +90,8 @@ protection in Amazon DataZone](https://docs.aws.amazon.com/datazone/latest/userg
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/life-sciences-lens/lssec02-bp01.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

@@ -886,3 +886,8 @@ AWS](https://www.youtube.com/watch?v=Oaw_cpLBpoI&themeRefresh=1)
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/connected-mobility-lens/resources-perf.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

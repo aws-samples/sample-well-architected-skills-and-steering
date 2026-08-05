@@ -28,3 +28,8 @@ Understand storage characteristics and requirements](https://docs.aws.amazon.com
 unneeded or redundant data](https://docs.aws.amazon.com/wellarchitected/latest/sustainability-pillar/sus_sus_data_a6.html)
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/devops-guidance/o.dip.5-optimize-telemetry-data-storage-and-costs.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

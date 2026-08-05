@@ -458,3 +458,8 @@ Maintain an accurate and complete record of all your cloud workloads, their rela
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/migration-lens/migrate-ops.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

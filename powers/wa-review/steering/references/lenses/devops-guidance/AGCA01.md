@@ -57,3 +57,8 @@ and Auditing with AWS](https://aws.amazon.com/cloudops/compliance-and-auditing/?
 Controls Evidence Store](https://aws.amazon.com/solutions/implementations/verifiable-controls-evidence-store/)
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/devops-guidance/ag.ca.1-establish-comprehensive-audit-trails.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

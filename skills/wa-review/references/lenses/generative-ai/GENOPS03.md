@@ -368,3 +368,8 @@ base - Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/agen
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/generative-ai-lens/genops03-bp02.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

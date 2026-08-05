@@ -74,3 +74,8 @@ sector](https://aws.amazon.com/blogs/publicsector/4-steps-build-data-strategy-ma
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/government-lens/performance-efficiency-pillar.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

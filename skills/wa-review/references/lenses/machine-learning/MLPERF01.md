@@ -160,3 +160,8 @@ Business Value with AWS AI/ML](https://www.youtube.com/watch?v=A2bIIznG-80)
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/machine-learning-lens/mlperf01-bp01.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

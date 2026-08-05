@@ -384,3 +384,8 @@ approval](https://aws.amazon.com/blogs/storage/improve-recovery-resilience-with-
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/life-sciences-lens/lsrel12-bp04.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

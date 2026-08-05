@@ -297,3 +297,8 @@ Vulnerability Dependency Check](https://owasp.org/index.php/OWASP_Dependency_Che
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/serverless-applications-lens/resources-1.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

@@ -233,3 +233,8 @@ approved deployment patterns.
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/telco-lens/telcoops02-bp03.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

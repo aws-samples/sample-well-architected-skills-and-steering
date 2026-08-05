@@ -445,3 +445,8 @@ corresponding per-pillar file at `references/pillars/{pillar-slug}.md`.
 ---
 
 **Total: 307 BPs across 57 questions in 6 pillars.**
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

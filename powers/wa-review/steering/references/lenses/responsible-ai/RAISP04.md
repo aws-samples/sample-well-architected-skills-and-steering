@@ -51,3 +51,8 @@ validation](https://www.iso.org/standard/42001)
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/responsible-ai-lens/raisp04-bp01.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

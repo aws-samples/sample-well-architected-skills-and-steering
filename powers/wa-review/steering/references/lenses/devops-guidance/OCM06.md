@@ -30,3 +30,8 @@ experience
 - [AWS Marketplace - Digital Experience Monitoring](https://aws.amazon.com/marketplace/search/results?searchTerms=Digital+Experience+Monitoring)
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/devops-guidance/o.cm.6-gather-user-experience-insights-using-digital-experience-monitoring.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

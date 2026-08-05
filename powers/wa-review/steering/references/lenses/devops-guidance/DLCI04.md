@@ -22,3 +22,8 @@ such as IDEs, chat clients, or email, reducing the learning
 curve and aiding early problem detection.
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/devops-guidance/dl.ci.4-provide-consistent-actionable-feedback-to-developers.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

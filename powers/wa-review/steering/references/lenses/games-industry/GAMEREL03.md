@@ -272,3 +272,8 @@ Apps in Real Time](https://aws.amazon.com/blogs/aws/cloudwatch-metric-streams-se
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/games-industry-lens/gamerel03-bp03.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

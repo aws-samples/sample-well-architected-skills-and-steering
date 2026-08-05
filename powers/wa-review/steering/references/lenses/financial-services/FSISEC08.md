@@ -112,3 +112,8 @@ Trust architectures: An AWS perspective](https://aws.amazon.com/blogs/security/z
 - [AWS re:Invent 2020: Zero Trust: An AWS perspective](https://www.youtube.com/watch?v=O33LPy4M4vA&ab_channel=AWSEvents)
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/financial-services-industry-lens/fsisec08.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

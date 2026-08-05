@@ -17,3 +17,8 @@ continually be analyzed to identify trends, prioritize areas for improvement, an
 communicate progress to stakeholders.
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/devops-guidance/oa.ti.3-establish-mechanisms-for-teams-to-gather-and-manage-customer-feedback.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

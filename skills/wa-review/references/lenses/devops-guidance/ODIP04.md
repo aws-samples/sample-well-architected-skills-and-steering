@@ -28,3 +28,8 @@ Monitoring with Amazon CloudWatch](https://aws.amazon.com/solutions/implementati
 - [AWS Health Aware](https://github.com/aws-samples/aws-health-aware/)
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/devops-guidance/o.dip.4-aggregate-health-and-status-metrics-across-workloads.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

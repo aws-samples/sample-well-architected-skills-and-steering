@@ -96,3 +96,8 @@ from AI-powered services.
 detection and credit risk models.
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/financial-services-industry-lens/fsiperf09-how-do-you-monitor-and-tune-ai-system-performance.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

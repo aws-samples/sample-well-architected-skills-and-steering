@@ -132,3 +132,8 @@ Create feedback loops to capture human reviewer insights for continuous model im
 Implement monitoring and reporting on human override rates and patterns to identify potential model performance issues.
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/financial-services-industry-lens/fsiops01.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

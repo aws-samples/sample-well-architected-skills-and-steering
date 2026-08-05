@@ -106,3 +106,8 @@ auto scaling policies to balance cost and performance.
 workloads to reduce infrastructure costs.
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/financial-services-industry-lens/fsiperf07.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

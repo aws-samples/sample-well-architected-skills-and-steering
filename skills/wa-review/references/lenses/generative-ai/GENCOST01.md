@@ -106,3 +106,8 @@ costs of generative AI applications on AWS](https://aws.amazon.com/blogs/machine
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/generative-ai-lens/gencost01-bp01.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

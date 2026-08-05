@@ -46,3 +46,8 @@ AWS Cost Explorer to analyze data transfer costs](https://aws.amazon.com/blogs/m
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/hybrid-networking-lens/hncost05-bp01.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

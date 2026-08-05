@@ -1137,3 +1137,8 @@ Practice 4.3 - Regularly test business continuity plans and fault recovery](./be
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/sap-lens/best-practice-12-4.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

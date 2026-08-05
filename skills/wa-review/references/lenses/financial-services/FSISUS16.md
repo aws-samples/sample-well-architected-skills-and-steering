@@ -14,3 +14,8 @@ reviews of generative AI model training and development environments. Foster a c
 sustainable generative AI practices through team education.
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/financial-services-industry-lens/fsisus16.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

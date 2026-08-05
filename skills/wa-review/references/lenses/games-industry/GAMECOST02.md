@@ -280,3 +280,8 @@ usage and proactively manage interruptions.
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/games-industry-lens/gamecost02-bp03.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

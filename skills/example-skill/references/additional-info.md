@@ -94,3 +94,8 @@ How this skill integrates with other systems:
 - v1.0: Initial version
 - v1.1: Added feature X
 - v2.0: Major update with breaking changes
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

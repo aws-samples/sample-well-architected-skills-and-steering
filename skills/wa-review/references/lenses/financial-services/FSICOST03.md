@@ -30,3 +30,8 @@ Schedule off‑peak embedding and fine‑tuning jobs; auto‑pause development e
 and ephemeral agents outside working hours.
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/financial-services-industry-lens/fsicost03.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

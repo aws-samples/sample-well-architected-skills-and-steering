@@ -1639,3 +1639,8 @@ cost](./best-practice-4-4.html) for further information on continued optimizatio
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/sap-lens/best-practice-20-5.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

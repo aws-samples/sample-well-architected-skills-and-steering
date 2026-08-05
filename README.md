@@ -1053,3 +1053,8 @@ This project is licensed under the [MIT-0 License](LICENSE).
 - [AWS DevOps Agent](https://docs.aws.amazon.com/devopsagent/latest/userguide/)
 - [Agent Skills Specification](https://agentskills.io/)
 - [skills.sh — Skills directory for AI agents](https://skills.sh)
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

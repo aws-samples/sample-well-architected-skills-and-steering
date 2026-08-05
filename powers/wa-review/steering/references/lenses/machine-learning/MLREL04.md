@@ -318,3 +318,8 @@ in the code mines: Monitoring deployment pipelines](https://www.youtube.com/watc
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/machine-learning-lens/mlrel04-bp02.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

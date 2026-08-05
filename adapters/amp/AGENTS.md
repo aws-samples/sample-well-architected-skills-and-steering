@@ -63,3 +63,8 @@ For structured assessments, load the corresponding skill from `.agents/skills/`:
 - `architecture-decision-record` — ADR with WA pillar impact analysis
 - `wa-builder` — Understand Well-Architected for your workload and generate visual artifacts (annotated diagrams, decision trees, roadmaps)
 - `wa-guardrails` — Generate preventive guardrails (Config rules, SCPs, CI policy checks, alarms) to keep a workload aligned with Well-Architected best practices over time
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

@@ -328,3 +328,8 @@ for Datasets](https://arxiv.org/pdf/1803.09010)
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/responsible-ai-lens/raidp04-bp05.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

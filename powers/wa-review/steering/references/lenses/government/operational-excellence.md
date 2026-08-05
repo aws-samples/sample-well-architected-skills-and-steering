@@ -373,3 +373,8 @@ Digital Sovereignty Pledge: Control without compromise](https://aws.amazon.com/b
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/government-lens/resources.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

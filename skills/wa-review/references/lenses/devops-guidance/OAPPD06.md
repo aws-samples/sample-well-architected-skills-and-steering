@@ -32,3 +32,8 @@ groups help to break down silos and improve cross-team
 collaboration, which can hasten DevOps adoption.
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/devops-guidance/oa.ppd.6-promote-knowledge-sharing-through-inter-team-interest-groups.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

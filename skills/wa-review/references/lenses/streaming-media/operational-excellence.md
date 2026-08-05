@@ -173,3 +173,8 @@ AWS Media Services using Amazon CloudWatch Events](https://aws.amazon.com/blogs/
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/streaming-media-lens/resources-opex.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

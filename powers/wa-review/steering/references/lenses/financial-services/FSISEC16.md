@@ -64,3 +64,8 @@ issues before they can be exploited.
 - [Amazon GuardDuty Machine Learning](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_ml.html)
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/financial-services-industry-lens/fsisec16.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

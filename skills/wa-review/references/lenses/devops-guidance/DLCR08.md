@@ -32,3 +32,8 @@ the code base.
 code owners](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners)
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/devops-guidance/dl.cr.8-designate-code-owners-for-expert-review.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

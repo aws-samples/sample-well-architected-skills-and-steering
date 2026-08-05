@@ -15,3 +15,8 @@ agile project management tools and rules, such as Kanban or Scrum, to
 manage work in progress and complete tasks in a timely manner.
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/devops-guidance/oa.bcl.4-boost-team-efficiency-by-limiting-work-in-progress.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

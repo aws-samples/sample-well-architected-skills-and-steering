@@ -90,3 +90,8 @@ bad actors using Amazon Rekognition Face Liveness](https://aws.amazon.com/blogs/
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/games-industry-lens/gamesec07-bp02.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

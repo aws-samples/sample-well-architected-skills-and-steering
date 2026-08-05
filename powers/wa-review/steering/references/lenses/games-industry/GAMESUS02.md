@@ -136,3 +136,8 @@ and improve performance.
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/games-industry-lens/gamesus02-bp02.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

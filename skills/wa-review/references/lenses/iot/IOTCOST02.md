@@ -93,3 +93,8 @@ significant factor of cost management.
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/iot-lens/cost-effective-resources.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

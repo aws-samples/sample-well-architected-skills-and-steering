@@ -61,3 +61,8 @@ Well-Architected skills are available as reusable playbooks in the `skills/` dir
 - [architecture-decision-record](file:///skills/architecture-decision-record/SKILL.md) (Architecture decision record template)
 - [wa-builder](file:///skills/wa-builder/SKILL.md) (Understand Well-Architected for your workload and generate visual artifacts: annotated diagrams, decision trees, roadmaps)
 - [wa-guardrails](file:///skills/wa-guardrails/SKILL.md) (Generate preventive guardrails: Config rules, SCPs, CI policy checks, alarms to keep a workload aligned with Well-Architected best practices over time)
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

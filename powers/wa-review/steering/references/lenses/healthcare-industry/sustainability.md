@@ -185,3 +185,8 @@ AWS](https://www.aboutamazon.com/news/sustainability/reducing-carbon-by-moving-t
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/healthcare-industry-lens/resources-5.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

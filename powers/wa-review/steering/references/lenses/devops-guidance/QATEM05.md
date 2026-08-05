@@ -36,3 +36,8 @@ Selenium tests at scale using AWS Fargate](https://aws.amazon.com/blogs/opensour
 in AWS Device Farm](https://docs.aws.amazon.com/devicefarm/latest/developerguide/test-runs.html)
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/devops-guidance/qa.tem.5-run-tests-in-parallel-for-faster-results.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

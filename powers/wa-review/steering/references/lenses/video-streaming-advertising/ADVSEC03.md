@@ -44,3 +44,8 @@ trying to implement malicious ad injection.
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/video-streaming-advertising-lens/advsec03-bp01.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

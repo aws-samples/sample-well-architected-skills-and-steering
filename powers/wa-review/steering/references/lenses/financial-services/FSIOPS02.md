@@ -79,3 +79,8 @@ Establish prompt performance monitoring to track effectiveness and model respons
 Define escalation procedures for prompt-related security incidents and integrate with existing incident response frameworks.
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/financial-services-industry-lens/fsiops2.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

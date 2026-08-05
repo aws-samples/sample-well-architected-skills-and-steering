@@ -703,3 +703,8 @@ When assessing workloads:
 - When business criticality is "low" or "standard", accept simpler architectures without penalizing (single-region is acceptable for internal tools)
 - When business criticality is "critical", apply stricter standards (multi-region DR expected, chaos testing expected, sub-minute RTO expected)
 - Always compare against what's appropriate for the workload's tier, not against a theoretical maximum
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

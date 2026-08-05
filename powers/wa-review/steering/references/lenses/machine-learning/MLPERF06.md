@@ -1039,3 +1039,8 @@ Machine Learning Workflows with SageMaker AI Pipelines](https://aws.amazon.com/a
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/machine-learning-lens/mlperf06-bp06.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

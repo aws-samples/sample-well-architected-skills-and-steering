@@ -32,3 +32,8 @@ AWS Lambda or Amazon EventBridge rules, verifying that sandbox environments incu
 post-engagement.
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/financial-services-industry-lens/fsicost13.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

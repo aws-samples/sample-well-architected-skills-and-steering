@@ -22,3 +22,8 @@ for improvement and make necessary adjustments to create a
 more inclusive and accessible work environment.
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/devops-guidance/oa.awe.2-offer-inclusive-options-for-both-virtual-and-onsite-collaboration.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

@@ -59,3 +59,8 @@ Driven Development (BDD)](https://www.agilealliance.org/glossary/bdd/)
 started with testing serverless applications](https://aws.amazon.com/blogs/compute/getting-started-with-testing-serverless-applications/)
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/devops-guidance/qa.ft.3-confirm-end-user-experience-and-functional-correctness-with-acceptance-tests.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

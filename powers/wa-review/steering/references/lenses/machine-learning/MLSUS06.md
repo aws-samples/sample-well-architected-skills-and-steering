@@ -279,3 +279,8 @@ Resilience and Performance](https://aws.amazon.com/awstv/watch/c60e1437f63/)
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/machine-learning-lens/mlsus06-bp02.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

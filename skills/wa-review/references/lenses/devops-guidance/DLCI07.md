@@ -50,3 +50,8 @@ reproducibility difficult.
 builds](https://reproducible-builds.org/)
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/devops-guidance/dl.ci.7-validate-the-reproducibility-of-builds.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

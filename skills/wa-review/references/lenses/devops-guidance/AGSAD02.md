@@ -36,3 +36,8 @@ permission management to developers by using IAM
 permissions boundaries](https://aws.amazon.com/blogs/security/delegate-permission-management-to-developers-using-iam-permissions-boundaries/)
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/devops-guidance/ag.sad.2-delegate-identity-and-access-management-responsibilities.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

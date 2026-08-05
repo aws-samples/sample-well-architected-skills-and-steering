@@ -29,3 +29,8 @@ control data sources for automated evidence - AWS Audit
 Manager](https://docs.aws.amazon.com/audit-manager/latest/userguide/control-data-sources.html)
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/devops-guidance/ag.ca.4-enable-iterative-internal-auditing-practices.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

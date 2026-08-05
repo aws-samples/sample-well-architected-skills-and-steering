@@ -88,3 +88,8 @@ service management connections.
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/end-user-computing-lens/eucperf06-bp03.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

@@ -56,3 +56,8 @@ compatible with AWS, and often built on top of AWS WORM features. Refer to the
 website](https://aws.amazon.com/partners/work-with-partners/) for information.
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/financial-services-industry-lens/fsirel10.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

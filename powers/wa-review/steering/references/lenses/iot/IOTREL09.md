@@ -58,3 +58,8 @@ Device Simulator](https://aws.amazon.com/solutions/implementations/iot-device-si
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/iot-lens/change-management.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

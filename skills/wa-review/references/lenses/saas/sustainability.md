@@ -267,3 +267,8 @@ Well-Architected Labs – Cloud Intelligence Dashboards](https://wellarchitected
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/saas-lens/sus-resources.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

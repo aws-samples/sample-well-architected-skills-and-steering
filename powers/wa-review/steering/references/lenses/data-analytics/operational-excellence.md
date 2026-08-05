@@ -249,3 +249,8 @@ consequences and can roll back without human intervention.
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/analytics-lens/best-practice-2.4---build-standard-operating-procedures-for-deployment-test-rollback-and-backfill-tasks..html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

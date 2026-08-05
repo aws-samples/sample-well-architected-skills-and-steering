@@ -41,3 +41,8 @@ organization and its customers.
 application security](https://docs.aws.amazon.com/wellarchitected/latest/framework/sec_appsec_train_for_application_security.html)
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/devops-guidance/oa.std.8-promote-cognitive-diversity-within-teams.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

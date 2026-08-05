@@ -32,3 +32,8 @@ uses reserved compute capacity. Review plan coverage quarterly as model architec
 token volumes, and context sizes evolve.
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/financial-services-industry-lens/fsicost08.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

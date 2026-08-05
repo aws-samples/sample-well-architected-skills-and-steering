@@ -30,3 +30,8 @@ Guidelines for Java SE](https://www.oracle.com/java/technologies/javase/seccodeg
 or the [PEP8](https://pypi.org/project/pep8/) styling guide for Python.
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/devops-guidance/dl.cr.1-standardize-coding-practices.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

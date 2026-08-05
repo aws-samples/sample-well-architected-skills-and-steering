@@ -350,3 +350,8 @@ for Optimizing MLOps for Sustainability on AWS](https://aws.amazon.com/solutions
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/generative-ai-lens/gensus01-bp02.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

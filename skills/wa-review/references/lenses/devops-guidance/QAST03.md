@@ -54,3 +54,8 @@ modeling for builders](https://catalog.workshops.aws/threatmodel/)
 to approach threat modeling](https://aws.amazon.com/blogs/security/how-to-approach-threat-modeling/)
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/devops-guidance/qa.st.3-use-application-risk-assessments-for-secure-software-design.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

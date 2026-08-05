@@ -37,3 +37,8 @@ Basics - Recording Changes to the Repository](https://git-scm.com/book/en/v2/Git
 Integration - Martin Fowler](https://martinfowler.com/articles/continuousIntegration.html)
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/devops-guidance/dl.ld.3-commit-local-changes-early-and-often.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

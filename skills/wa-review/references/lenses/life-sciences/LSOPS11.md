@@ -63,3 +63,8 @@ AWS Clean Rooms querying and dashboard publishing using AWS Step Functions and Q
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/life-sciences-lens/lsops11-bp01.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

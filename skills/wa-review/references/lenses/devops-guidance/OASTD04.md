@@ -37,3 +37,8 @@ Conway's Law](https://www.thoughtworks.com/insights/articles/demystifying-conway
 Conway Maneuver](https://www.thoughtworks.com/en-de/radar/techniques/inverse-conway-maneuver)
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/devops-guidance/oa.std.4-structure-teams-around-desired-business-outcomes.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

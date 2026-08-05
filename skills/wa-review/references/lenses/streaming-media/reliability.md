@@ -453,3 +453,8 @@ for Live Stream Failure with Seamless Switching](https://www.youtube.com/watch?v
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/streaming-media-lens/resources-rel.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

@@ -179,3 +179,8 @@ workshop](https://graviton2-workshop.workshop.aws/en/amazoncontainers.html)
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/container-build-lens/resources-5.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

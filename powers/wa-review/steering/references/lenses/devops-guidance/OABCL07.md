@@ -26,3 +26,8 @@ approach to security during development: Technical
 fearlessness](https://youtu.be/NeR7FhHqDGQ?t=1031)
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/devops-guidance/oa.bcl.7-cultivate-a-psychologically-safe-culture-for-experimentation.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

@@ -100,3 +100,8 @@ spending and identify optimization opportunities.
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/supply-chain-lens/sccost01-bp02.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

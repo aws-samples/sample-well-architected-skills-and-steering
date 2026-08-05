@@ -553,3 +553,8 @@ do you test reliability](https://docs.aws.amazon.com/wellarchitected/latest/fram
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/migration-lens/migrate-rel.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

@@ -32,3 +32,8 @@ minimizes the risk of sensitive information being leaked into
 untrusted repositories.
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/devops-guidance/dl.scm.4-grant-access-only-to-trusted-repositories.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

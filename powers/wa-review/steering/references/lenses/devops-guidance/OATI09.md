@@ -30,3 +30,8 @@ Amazon Software Development Process: Self-Service
 Tools](https://youtu.be/52SC80SFPOw?t=579)
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/devops-guidance/oa.ti.9-facilitate-self-service-collaboration-through-apis-and-documentation.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

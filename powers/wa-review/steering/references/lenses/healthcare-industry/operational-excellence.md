@@ -521,3 +521,8 @@ and Compliance](https://docs.aws.amazon.com/whitepapers/latest/aws-risk-and-comp
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/healthcare-industry-lens/resources.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

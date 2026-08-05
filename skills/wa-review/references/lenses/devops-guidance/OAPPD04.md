@@ -19,3 +19,8 @@ employee. This proactive approach crafts an environment where employees can flou
 significantly contribute to the organization's triumph.
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/devops-guidance/oa.ppd.4-invest-in-attracting-developing-and-retaining-skilled-employees.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

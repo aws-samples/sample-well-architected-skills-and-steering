@@ -238,3 +238,8 @@ Started with Karpenter](https://karpenter.sh/docs/getting-started/getting-starte
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/microsoft-workloads-lens/msftcost07-bp03.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

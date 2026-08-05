@@ -1321,3 +1321,8 @@ include your SAP applications accordingly:
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/sap-lens/best-practice-9-3.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

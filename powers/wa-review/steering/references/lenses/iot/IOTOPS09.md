@@ -75,3 +75,8 @@ thresholds that indicate a high level of readiness.
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/iot-lens/evolve.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

@@ -61,3 +61,8 @@ to refine on-demand resource strategies over time.
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/supply-chain-lens/scsus08-bp01.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

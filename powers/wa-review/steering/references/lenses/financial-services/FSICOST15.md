@@ -19,3 +19,8 @@ individual people driving or contributing to the cost optimization. This drives
 cost-optimization culture in a team.
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/financial-services-industry-lens/fsicost15.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

@@ -57,3 +57,8 @@ of AWS Control Tower Account Factory for Terraform
 automatic drift detection in CDK Pipelines using Amazon EventBridge](https://aws.amazon.com/blogs/devops/implementing-automatic-drift-detection-in-cdk-pipelines-using-amazon-eventbridge)
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/devops-guidance/ag.dep.2-continuously-baseline-environments-to-manage-drift.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

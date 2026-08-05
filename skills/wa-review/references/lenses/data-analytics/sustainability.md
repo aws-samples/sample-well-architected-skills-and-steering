@@ -663,3 +663,8 @@ For more details, refer to the following information:
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/analytics-lens/best-practice-15.7-efficiently-manage-your-analytics-infrastructure-to-reduce-underutilized-resources.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

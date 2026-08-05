@@ -21,3 +21,8 @@ This approach to automated governance and change management continuously assesse
 - [Zero Trust Maturity Model](https://www.cisa.gov/sites/default/files/2023-04/zero_trust_maturity_model_v2_508.pdf)
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/devops-guidance/ag.acg.11-digital-attestation-verification-for-zero-trust-deployments.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

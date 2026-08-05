@@ -89,3 +89,8 @@ AWS Site-to-Site VPN tunnels using Amazon CloudWatch](https://docs.aws.amazon.co
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/hybrid-networking-lens/hnrel03-bp02.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

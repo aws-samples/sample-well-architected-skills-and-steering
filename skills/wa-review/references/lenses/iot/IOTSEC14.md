@@ -149,3 +149,8 @@ decisions, processing and actions taken by the IoT application.
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/iot-lens/security-governance.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

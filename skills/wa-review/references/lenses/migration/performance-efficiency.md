@@ -611,3 +611,8 @@ AWS Compute Optimizer collects resource utilization data and helps avoid over-pr
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/migration-lens/migrate-perf.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

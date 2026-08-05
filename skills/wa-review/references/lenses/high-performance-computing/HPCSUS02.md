@@ -44,3 +44,8 @@ Gateway](https://aws.amazon.com/blogs/apn/empowering-researchers-to-run-hpc-work
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/high-performance-computing-lens/software-and-architecture.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

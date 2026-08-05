@@ -104,3 +104,8 @@ S3 Glacier Deep Archive)](https://aws.amazon.com/s3/)
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/telco-lens/telcoperf05-bp01.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

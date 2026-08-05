@@ -25,3 +25,8 @@ the team.
 supercharging decision-making](https://aws.amazon.com/blogs/enterprise-strategy/tenets-supercharging-decision-making/)
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/devops-guidance/oa.bcl.9-use-guiding-principles-to-make-consistent-team-decisions.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

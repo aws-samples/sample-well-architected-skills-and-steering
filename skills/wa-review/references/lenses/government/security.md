@@ -156,3 +156,8 @@ Exchange?](https://aws.amazon.com/data-exchange/why-aws-data-exchange/)
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/government-lens/resources-1.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

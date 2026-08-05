@@ -149,3 +149,8 @@ issues to minimize impact on clinical operations.
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/life-sciences-lens/lsperf15-bp02.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

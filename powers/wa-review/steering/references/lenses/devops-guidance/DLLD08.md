@@ -40,3 +40,8 @@ Model API Service - Amazon Bedrock](https://aws.amazon.com/bedrock/)
 is Generative AI?](https://aws.amazon.com/what-is/generative-ai/)
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/devops-guidance/dl.ld.8-generate-mock-datasets-for-local-development.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

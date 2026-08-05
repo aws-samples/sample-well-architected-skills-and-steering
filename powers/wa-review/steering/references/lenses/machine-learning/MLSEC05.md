@@ -178,3 +178,8 @@ VPC](https://aws.amazon.com/blogs/machine-learning/securing-amazon-sagemaker-stu
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/machine-learning-lens/mlsec05-bp01.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

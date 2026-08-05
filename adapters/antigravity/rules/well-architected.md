@@ -53,3 +53,8 @@ When delivering Well-Architected guidance:
 - Use severity labels: 🔴 High Risk, 🟡 Medium Risk, 🟢 Best Practice
 - Include "Why it matters" for each finding
 - Provide a concrete next step for each recommendation
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

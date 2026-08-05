@@ -252,3 +252,8 @@ practices for cost optimization.
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/saas-lens/resources-4.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

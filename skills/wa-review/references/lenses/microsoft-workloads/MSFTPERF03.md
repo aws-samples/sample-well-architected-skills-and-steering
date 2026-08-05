@@ -511,3 +511,8 @@ store volumes limits for EC2 instances](https://docs.aws.amazon.com/AWSEC2/lates
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/microsoft-workloads-lens/msftperf03-bp05.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

@@ -72,3 +72,8 @@ Amazon Software Development Process: Monitor
 Everything](https://youtu.be/52SC80SFPOw?t=1548)
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/devops-guidance/o.si.3-instrument-all-systems-for-comprehensive-telemetry-data-collection.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

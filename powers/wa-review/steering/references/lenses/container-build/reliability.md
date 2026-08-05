@@ -293,3 +293,8 @@ management](https://docs.aws.amazon.com/AmazonECS/latest/bestpracticesguide/capa
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/container-build-lens/resources-2.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

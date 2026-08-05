@@ -498,3 +498,8 @@ AWS](https://youtu.be/mZenLM-E4k4)
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/streaming-media-lens/resources-perf.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

@@ -119,3 +119,8 @@ and analyze your costs, set budgets, and receive alerts for potential cost anoma
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/video-streaming-advertising-lens/advcost03-bp03.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

@@ -19,3 +19,8 @@ high-performing team environment that is essential for
 successful DevOps adoption.
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/devops-guidance/oa.std.3-prioritize-shared-accountability-over-individual-achievements.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

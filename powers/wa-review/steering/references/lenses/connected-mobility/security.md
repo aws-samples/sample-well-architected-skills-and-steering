@@ -1237,3 +1237,8 @@ builders](https://catalog.workshops.aws/threatmodel/en-US)
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/connected-mobility-lens/resources-sec.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

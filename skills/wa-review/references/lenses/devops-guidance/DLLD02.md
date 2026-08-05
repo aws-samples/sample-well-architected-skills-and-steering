@@ -23,3 +23,8 @@ Consider allowing developers to request local environments on-demand through a s
 developer portal.
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/devops-guidance/dl.ld.2-consistently-provision-local-environments.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

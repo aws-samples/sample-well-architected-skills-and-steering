@@ -230,3 +230,8 @@ Recommendations](https://docs.aws.amazon.com/appstream2/latest/developerguide/mu
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/end-user-computing-lens/euccost05-bp04.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

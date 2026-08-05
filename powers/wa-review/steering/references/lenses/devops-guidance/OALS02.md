@@ -62,3 +62,8 @@ Automate and Orchestrate to Optimize Costs and Value During the Economic
 Crisis](https://www.gartner.com/en/documents/4020625)
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/devops-guidance/oa.ls.2-align-devops-adoption-with-business-objectives.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

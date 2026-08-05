@@ -55,3 +55,8 @@ IaC projects](https://docs.aws.amazon.com/prescriptive-guidance/latest/best-prac
 the "AWS CDK bootstrap" action in Amazon CodeCatalyst](https://docs.aws.amazon.com/codecatalyst/latest/userguide/cdk-boot-action.html)
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/devops-guidance/dl.eac.6-use-general-purpose-programming-languages-to-generate-infrastructure-as-code.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

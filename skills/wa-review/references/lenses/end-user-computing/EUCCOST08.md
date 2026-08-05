@@ -58,3 +58,8 @@ Toolkit to manage Amazon WorkSpaces Applications and Amazon WorkSpaces](https://
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/end-user-computing-lens/euccost08-bp02.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

@@ -45,3 +45,8 @@ based on the type of devices that are connected.
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/iot-lens/foundations.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

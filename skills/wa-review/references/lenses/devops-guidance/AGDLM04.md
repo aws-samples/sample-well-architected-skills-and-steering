@@ -46,3 +46,8 @@ Practices for Tagging AWS Resources](https://docs.aws.amazon.com/whitepapers/lat
 Data Discovery and Protection - Amazon Macie](https://aws.amazon.com/macie/)
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/devops-guidance/ag.dlm.4-maintain-data-compliance-with-scalable-classification-strategies.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

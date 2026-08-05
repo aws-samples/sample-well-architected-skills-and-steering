@@ -85,3 +85,8 @@ training.
 - Evaluate EC2 Inferentia instances for sustainable generative AI inference.
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/financial-services-industry-lens/fsisus12.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

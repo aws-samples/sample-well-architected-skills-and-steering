@@ -26,3 +26,8 @@ data quality at scale with Deequ](https://aws.amazon.com/blogs/big-data/test-dat
 automatic suggestion of constraints](https://github.com/awslabs/deequ/blob/master/src/main/scala/com/amazon/deequ/examples/constraint_suggestion_example.md)
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/devops-guidance/qa.dt.3-validate-data-processing-rules-with-data-logic-tests.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->
