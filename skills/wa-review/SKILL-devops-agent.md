@@ -199,27 +199,27 @@ Dispatch all 6 Task calls in a single turn (parallel execution). **Each subagent
 ```text
 Task(subagent_type="general-purpose",
      description="Review Operational Excellence",
-     prompt="Read references/pillars/operational-excellence.md, then review the following workload ONLY for the OPS pillar. Enumerate EVERY BP in the pillar file (all 30+ BPs) — do not filter to 'top issues'. Return findings as the mandatory markdown table (columns: BP ID | Status | Severity | Evidence | Recommendation) with one row per BP. Do NOT prepend narrative summary text before the table. Workload: {workload description + incident context}")
+     prompt="Read references/pillars/operational-excellence.md and references/pillar-playbooks/operational-excellence.md (domain-specific evidence-collection checklist: what to examine and what to flag as HIGH RISK), then review the following workload ONLY for the OPS pillar. Enumerate EVERY BP in the pillar file (all 30+ BPs) — do not filter to 'top issues'. Return findings as the mandatory markdown table (columns: BP ID | Status | Severity | Evidence | Recommendation) with one row per BP. Do NOT prepend narrative summary text before the table. Workload: {workload description + incident context}")
 
 Task(subagent_type="general-purpose",
      description="Review Security",
-     prompt="Read references/pillars/security.md, then review the workload ONLY for the SEC pillar. [same table format, every BP as a row] Workload: {workload}")
+     prompt="Read references/pillars/security.md and references/pillar-playbooks/security.md (domain-specific evidence-collection checklist), then review the workload ONLY for the SEC pillar. [same table format, every BP as a row] Workload: {workload}")
 
 Task(subagent_type="general-purpose",
      description="Review Reliability",
-     prompt="Read references/pillars/reliability.md, then review the workload ONLY for the REL pillar. [same table format, every BP as a row] Workload: {workload}")
+     prompt="Read references/pillars/reliability.md and references/pillar-playbooks/reliability.md (domain-specific evidence-collection checklist), then review the workload ONLY for the REL pillar. [same table format, every BP as a row] Workload: {workload}")
 
 Task(subagent_type="general-purpose",
      description="Review Performance Efficiency",
-     prompt="Read references/pillars/performance-efficiency.md, then review the workload ONLY for the PERF pillar. [same table format, every BP as a row] Workload: {workload}")
+     prompt="Read references/pillars/performance-efficiency.md and references/pillar-playbooks/performance-efficiency.md (domain-specific evidence-collection checklist), then review the workload ONLY for the PERF pillar. [same table format, every BP as a row] Workload: {workload}")
 
 Task(subagent_type="general-purpose",
      description="Review Cost Optimization",
-     prompt="Read references/pillars/cost-optimization.md, then review the workload ONLY for the COST pillar. [same table format, every BP as a row] Workload: {workload}")
+     prompt="Read references/pillars/cost-optimization.md and references/pillar-playbooks/cost-optimization.md (domain-specific evidence-collection checklist), then review the workload ONLY for the COST pillar. [same table format, every BP as a row] Workload: {workload}")
 
 Task(subagent_type="general-purpose",
      description="Review Sustainability",
-     prompt="Read references/pillars/sustainability.md, then review the workload ONLY for the SUS pillar. [same table format, every BP as a row] Workload: {workload}")
+     prompt="Read references/pillars/sustainability.md and references/pillar-playbooks/sustainability.md (domain-specific evidence-collection checklist), then review the workload ONLY for the SUS pillar. [same table format, every BP as a row] Workload: {workload}")
 ```
 
 **Total: 6 Task calls in one turn.** Each subagent runs independently with its own context, so each can be exhaustive without stealing from the others. The uniform table format means aggregation is a mechanical concatenation, not an interpretive summary — this prevents ~30-70% recall loss observed with narrative subagent output.
