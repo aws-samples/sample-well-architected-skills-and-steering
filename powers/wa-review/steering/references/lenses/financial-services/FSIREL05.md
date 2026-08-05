@@ -17,3 +17,8 @@ test the resiliency of your AWS Direct Connect connection by disabling the Borde
 Protocol session between your on-premises networks and AWS.
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/financial-services-industry-lens/fsirel05.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

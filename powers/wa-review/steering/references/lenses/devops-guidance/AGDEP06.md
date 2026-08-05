@@ -36,3 +36,8 @@ organizations: Test changes to your overall AWS
 environment](https://docs.aws.amazon.com/whitepapers/latest/organizing-your-aws-environment/multiple-organizations.html)
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/devops-guidance/ag.dep.6-test-landing-zone-changes-in-a-mirrored-non-production-landing-zone.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

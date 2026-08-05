@@ -99,3 +99,8 @@ Beyond machine-enforced controls, offer to capture the same standards as a **hum
 - Tie every control to a WA Question/BP ID — a guardrail without a "why" gets disabled the first time it's inconvenient.
 - Don't over-generate: a focused set the team keeps beats 50 noisy rules they'll mute.
 - Match the workload's dialect — CDK Aspects for CDK, `cfn-guard` for CloudFormation, OPA/Sentinel for Terraform; don't mix paradigms.
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

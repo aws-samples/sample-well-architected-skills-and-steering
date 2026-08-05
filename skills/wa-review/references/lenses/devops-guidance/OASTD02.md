@@ -41,3 +41,8 @@ model 2 by 2 representations](https://docs.aws.amazon.com/wellarchitected/latest
 your Cloud Operating Model: Organize for Success](https://docs.aws.amazon.com/prescriptive-guidance/latest/strategy-cloud-operating-model/implement-roadmap.html#organize)
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/devops-guidance/oa.std.2-tailor-operating-models-to-business-needs-and-team-preferences.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

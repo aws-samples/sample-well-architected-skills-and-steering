@@ -43,3 +43,8 @@ model downgrades (for example, from large general models to smaller task‑speci
 models) on those paths first.
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/financial-services-industry-lens/fsicost02.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

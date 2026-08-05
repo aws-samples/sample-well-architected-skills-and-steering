@@ -128,3 +128,8 @@ Legend:
 
 Scoring: 🟢 = 4-5 (Healthy) | 🟡 = 2-3 (Needs attention) | 🔴 = 1 (Critical gaps)
 ```
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

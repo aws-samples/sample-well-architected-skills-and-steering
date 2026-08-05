@@ -82,3 +82,8 @@ groups](https://docs.aws.amazon.com/autoscaling/ec2/userguide/what-is-amazon-ec2
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/video-streaming-advertising-lens/advsus06-bp02.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

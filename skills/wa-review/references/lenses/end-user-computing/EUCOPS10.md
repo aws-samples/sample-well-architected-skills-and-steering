@@ -76,3 +76,8 @@ delivery services contributes to a more engaged workforce and a successful deplo
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/end-user-computing-lens/eucops10-bp01.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

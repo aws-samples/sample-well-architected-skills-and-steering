@@ -39,3 +39,8 @@ is SSO (Single-Sign-On)?](https://aws.amazon.com/what-is/sso/)
 providers and federation](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers.html)
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/devops-guidance/ag.sad.1-centralize-and-federate-access-with-temporary-credential-vending.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

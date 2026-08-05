@@ -43,3 +43,8 @@ sustainable, high-performing architectures](https://www.youtube.com/watch?v=FBc9
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/high-performance-computing-lens/process-and-culture.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

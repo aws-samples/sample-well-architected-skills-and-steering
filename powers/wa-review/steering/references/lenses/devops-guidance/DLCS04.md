@@ -37,3 +37,8 @@ Commits](https://git-scm.com/book/en/v2/Git-Tools-Signing-Your-Work#_signing_com
 Guard](https://gnupg.org/)
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/devops-guidance/dl.cs.4-enhance-traceability-using-commit-signing.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

@@ -111,3 +111,8 @@ Risk Management Framework](https://www.nist.gov/itl/ai-risk-management-framework
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/responsible-ai-lens/raibr04-bp03.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

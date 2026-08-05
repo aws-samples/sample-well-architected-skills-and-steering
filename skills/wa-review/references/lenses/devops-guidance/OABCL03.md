@@ -22,3 +22,8 @@ issues, ultimately resulting in more stable and reliable
 systems.
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/devops-guidance/oa.bcl.3-reduce-troubleshooting-and-technical-debt-through-continuous-improvement.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

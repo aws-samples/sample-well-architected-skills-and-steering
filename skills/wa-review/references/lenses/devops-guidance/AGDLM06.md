@@ -45,3 +45,8 @@ Collaboration Service - AWS Clean Rooms](https://aws.amazon.com/clean-rooms/)
 - [AWS Data Exchange](https://aws.amazon.com/data-exchange)
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/devops-guidance/ag.dlm.6-centralize-shared-data-to-enhance-governance.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

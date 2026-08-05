@@ -190,3 +190,8 @@ Optimization with AWS](https://aws.amazon.com/aws-cost-management/cost-optimizat
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/modern-industrial-data-technology-lens/midacost01-bp02.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

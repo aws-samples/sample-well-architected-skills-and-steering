@@ -34,3 +34,8 @@ special files found in the root directory of a
 repository](https://github.com/kmindi/special-files-in-repository-root)
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/devops-guidance/dl.scm.6-maintain-informative-repository-documentation.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

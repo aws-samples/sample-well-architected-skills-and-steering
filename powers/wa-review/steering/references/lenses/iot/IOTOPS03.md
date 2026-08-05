@@ -119,3 +119,8 @@ for monitoring, and enabled with the right set of permissions.
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/iot-lens/prepare.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

@@ -28,3 +28,8 @@ organization's success.
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/responsible-ai-lens/raibr01-bp01.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

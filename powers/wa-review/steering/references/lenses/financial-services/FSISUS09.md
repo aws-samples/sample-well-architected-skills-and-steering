@@ -19,3 +19,8 @@ models.
 - Use specialized instances like EC2 Inferentia for generative AI workloads.
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/financial-services-industry-lens/fsisus09.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

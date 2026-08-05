@@ -329,3 +329,8 @@ Graviton-based EC2 instances](https://www.youtube.com/watch?v=pzSvcsduijM&t=804s
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/life-sciences-lens/lssus01-bp02.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

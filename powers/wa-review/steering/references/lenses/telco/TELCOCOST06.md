@@ -83,3 +83,8 @@ Application Load Balancer](https://aws.amazon.com/elasticloadbalancing/applicati
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/telco-lens/telcocost06-bp01.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

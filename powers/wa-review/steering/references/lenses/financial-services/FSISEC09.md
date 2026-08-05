@@ -90,3 +90,8 @@ AWS KMS External Key Store (XKS)](https://aws.amazon.com/blogs/aws/announcing-aw
 - [AWS re:Invent 2022 – Introducing AWS KMS external keys](https://www.youtube.com/watch?v=prj6xgpHFTo&t=672s&ab_channel=AWSEvents)
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/financial-services-industry-lens/fsisec09.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

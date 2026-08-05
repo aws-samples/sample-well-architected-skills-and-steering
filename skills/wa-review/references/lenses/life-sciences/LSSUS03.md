@@ -363,3 +363,8 @@ a GPU-enabled CryoEM workflow on AWS](https://aws.amazon.com/blogs/industries/bu
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/life-sciences-lens/lssus03-bp02.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

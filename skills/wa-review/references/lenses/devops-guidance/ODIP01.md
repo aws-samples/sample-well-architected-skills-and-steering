@@ -35,3 +35,8 @@ Logs Directly to Amazon S3](https://docs.aws.amazon.com/AmazonCloudWatch/latest/
 Observability Workshop](https://observability.workshop.aws/)
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/devops-guidance/o.dip.1-aggregate-logs-and-events-across-workloads.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

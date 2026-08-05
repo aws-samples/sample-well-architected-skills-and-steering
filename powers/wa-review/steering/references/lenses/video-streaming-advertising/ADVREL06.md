@@ -63,3 +63,8 @@ Recovery of Workloads on AWS: Recovery in the Cloud](https://docs.aws.amazon.com
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/video-streaming-advertising-lens/advrel06-bp01.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

@@ -60,3 +60,8 @@ Amazon WorkSpaces by integrating Service Catalog with ServiceNow](https://aws.am
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/end-user-computing-lens/euccost03-bp02.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

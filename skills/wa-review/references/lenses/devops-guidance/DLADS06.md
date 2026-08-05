@@ -56,3 +56,8 @@ to cell-based microservices architecture on AWS for
 hyperscale](https://www.youtube.com/watch?v=ReRrhU-yRjg)
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/devops-guidance/dl.ads.6-utilize-cell-based-architectures-for-granular-deployment-and-release.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

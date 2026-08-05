@@ -44,3 +44,8 @@ in CodeCatalyst](https://docs.aws.amazon.com/codecatalyst/latest/userguide/space
 OU](https://docs.aws.amazon.com/whitepapers/latest/organizing-your-aws-environment/deployments-ou.html)
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/devops-guidance/ag.dep.3-enable-deployment-to-the-landing-zone.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

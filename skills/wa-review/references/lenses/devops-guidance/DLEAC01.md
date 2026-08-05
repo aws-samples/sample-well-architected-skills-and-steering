@@ -55,3 +55,8 @@ Patterns](https://refactoring.guru/design-patterns)
 approach to security during development: Octane](https://youtu.be/NeR7FhHqDGQ?t=1571)
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/devops-guidance/dl.eac.1-organize-infrastructure-as-code-for-scale.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

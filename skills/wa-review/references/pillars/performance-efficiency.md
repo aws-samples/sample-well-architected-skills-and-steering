@@ -4256,3 +4256,8 @@ a dashboard with Quick](https://github.com/aws-samples/amazon-quicksight-sdk-pro
 ---
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

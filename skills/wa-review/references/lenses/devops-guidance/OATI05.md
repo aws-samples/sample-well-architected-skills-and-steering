@@ -23,3 +23,8 @@ measure the time it takes to submit, review, approve, and deploy changes. Use th
 metrics to drive continuous improvement in the change management process.
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/devops-guidance/oa.ti.5-design-adaptive-approval-workflows-without-compromising-safety.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

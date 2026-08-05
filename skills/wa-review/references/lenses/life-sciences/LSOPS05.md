@@ -125,3 +125,8 @@ with CMDB](https://docs.aws.amazon.com/en_us/smc/latest/ag/config-sync.html)
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/life-sciences-lens/lsops05-bp01.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

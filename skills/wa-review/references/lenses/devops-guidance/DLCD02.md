@@ -35,3 +35,8 @@ Managed Container Registry - Amazon Elastic Container Registry](https://aws.amaz
 Repositories and Artifact Management | AWS Marketplace](https://aws.amazon.com/marketplace/solutions/devops/code-repositories-and-artifact-management?aws-marketplace-cards.sort-by=item.additionalFields.headline&aws-marketplace-cards.sort-order=asc&awsf.aws-marketplace-devops-store-use-cases=*all)
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/devops-guidance/dl.cd.2-deploy-exclusively-from-trusted-artifact-repositories.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

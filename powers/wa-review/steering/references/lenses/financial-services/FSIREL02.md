@@ -53,3 +53,8 @@ make sure that they don't repeat the same mistakes that have disrupted other
 workloads.
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/financial-services-industry-lens/fsirel02.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

@@ -321,3 +321,8 @@ SQL Server Point-in-Time Recovery Using EBS Snapshots](https://aws.amazon.com/bl
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/microsoft-workloads-lens/msftrel01-bp03.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

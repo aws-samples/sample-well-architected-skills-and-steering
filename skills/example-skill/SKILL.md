@@ -178,3 +178,8 @@ echo "Advanced setup..."
 
 **Mistake 2**: Another common mistake.
 **Fix**: Resolution steps for this mistake.
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

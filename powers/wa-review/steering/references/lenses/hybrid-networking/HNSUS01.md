@@ -45,3 +45,8 @@ Amazon Data Lifecycle Manager policies](https://docs.aws.amazon.com/ebs/latest/u
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/hybrid-networking-lens/hnsus01-bp01.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

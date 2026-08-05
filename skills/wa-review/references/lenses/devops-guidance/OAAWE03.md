@@ -26,3 +26,8 @@ improve the organization's remote work and flexible schedule policies to better 
 needs and preferences of its workforce.
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/devops-guidance/oa.awe.3-balance-work-schedules-for-diverse-global-teams.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

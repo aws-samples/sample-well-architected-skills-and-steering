@@ -64,3 +64,8 @@ requirements.
 - [Continuous configuration](https://www.allthingsdistributed.com/2021/08/continuous-configuration-on-aws.html)
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/devops-guidance/dl.eac.4-implement-continuous-configuration-for-enhanced-application-management.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

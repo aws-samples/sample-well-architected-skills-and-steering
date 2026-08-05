@@ -41,3 +41,8 @@ approach to high-availability deployment: Dealing with the
 real world](https://youtu.be/bCgD2bX1LI4?t=1349)
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/devops-guidance/ag.ca.3-implement-systematic-exception-tracking-and-review-processes.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

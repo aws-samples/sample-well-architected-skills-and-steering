@@ -36,3 +36,8 @@ function without it.
 Commits](https://www.conventionalcommits.org/en/v1.0.0/)
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/devops-guidance/dl.cr.7-create-consistent-and-descriptive-commit-messages-using-a-specification.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

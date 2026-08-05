@@ -40,3 +40,8 @@ Bedrock](https://aws.amazon.com/bedrock/)
 - [Amazon OpenSearch Service](https://aws.amazon.com/opensearch-service/)
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/devops-guidance/oa.ti.8-simplify-access-to-organizational-information.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

@@ -242,3 +242,8 @@ learn : make_scorer](https://scikit-learn.org/stable/modules/generated/sklearn.m
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/responsible-ai-lens/rairc02-bp03.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

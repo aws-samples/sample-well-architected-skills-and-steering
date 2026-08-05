@@ -32,3 +32,8 @@ Is Scrum?](https://aws.amazon.com/what-is/scrum)
 sequence in small groups](https://psycnet.apa.org/record/1965-12187-001)
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/devops-guidance/oa.std.5-establish-team-norms-that-enhance-work-performance.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

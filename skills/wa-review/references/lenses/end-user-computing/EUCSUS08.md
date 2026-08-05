@@ -45,3 +45,8 @@ footprint](https://aws.amazon.com/about-aws/whats-new/2024/08/amazon-workspaces-
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/end-user-computing-lens/eucsus08-bp02.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

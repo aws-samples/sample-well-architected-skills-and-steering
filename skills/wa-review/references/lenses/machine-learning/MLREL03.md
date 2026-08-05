@@ -677,3 +677,8 @@ use of artificial intelligence and machine learning](https://pages.awscloud.com/
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/machine-learning-lens/mlrel03-bp04.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

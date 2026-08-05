@@ -43,3 +43,8 @@ Data-at-Rest and -in-Transit](https://docs.aws.amazon.com/whitepapers/latest/log
 approach to security during development: Encryption](https://youtu.be/NeR7FhHqDGQ?t=1646)
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/devops-guidance/ag.dlm.2-strengthen-security-with-systematic-encryption-enforcement.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

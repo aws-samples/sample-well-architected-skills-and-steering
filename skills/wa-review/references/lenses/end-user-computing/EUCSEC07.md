@@ -61,3 +61,8 @@ Image Builder for On-Demand and Always-On fleets.
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/end-user-computing-lens/eucsec07-bp01.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

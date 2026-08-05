@@ -34,3 +34,8 @@ code reviews in Amazon CodeGuru Reviewer](https://docs.aws.amazon.com/codeguru/l
 code reviews with Amazon CodeGuru Reviewer](https://aws.amazon.com/blogs/devops/automate-code-reviews-with-amazon-codeguru-reviewer/)
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/devops-guidance/dl.cr.4-comprehensive-code-reviews-with-an-emphasis-on-business-logic.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

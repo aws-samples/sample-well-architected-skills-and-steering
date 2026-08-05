@@ -40,3 +40,8 @@ processing to reduce transfer needs.
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/video-streaming-advertising-lens/advsus08-bp01.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

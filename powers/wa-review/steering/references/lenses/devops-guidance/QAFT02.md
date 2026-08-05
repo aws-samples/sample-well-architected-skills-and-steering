@@ -44,3 +44,8 @@ hexagonal architectures on AWS - Write and run tests from
 the beginning](https://docs.aws.amazon.com/prescriptive-guidance/latest/hexagonal-architectures/best-practices.html)
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/devops-guidance/qa.ft.2-validate-system-interactions-and-data-flows-with-integration-tests.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

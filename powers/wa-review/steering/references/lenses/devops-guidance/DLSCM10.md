@@ -38,3 +38,8 @@ Supply Chain Best Practices](https://project.linuxfoundation.org/hubfs/CNCF_SSCP
 CycloneDX](https://owasp.org/www-project-cyclonedx/)
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/devops-guidance/dl.scm.10-generate-a-comprehensive-software-inventory-for-each-build.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

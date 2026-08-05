@@ -57,3 +57,8 @@ in transit](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/data-protection.
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/high-performance-computing-lens/data-protection.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

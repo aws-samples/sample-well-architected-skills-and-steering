@@ -213,3 +213,8 @@ data processing](https://aws.amazon.com/lambda/)
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/telco-lens/telcorel04-bp03.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

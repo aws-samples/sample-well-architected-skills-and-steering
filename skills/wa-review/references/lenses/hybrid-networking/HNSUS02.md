@@ -83,3 +83,8 @@ Tool](https://aws.amazon.com/sustainability/tools/aws-customer-carbon-footprint-
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/hybrid-networking-lens/hnsus02-bp02.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

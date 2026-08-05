@@ -43,3 +43,8 @@ procedures with these new features as well.
 service control policies](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_scps_examples_general.html)
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/devops-guidance/ag.acg.2-implement-controlled-procedures-for-introducing-new-services-and-features.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

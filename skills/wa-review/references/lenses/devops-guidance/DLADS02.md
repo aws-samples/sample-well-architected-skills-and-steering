@@ -58,3 +58,8 @@ approach to high-availability deployment: Rollback
 alarms](https://youtu.be/bCgD2bX1LI4?t=1669)
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/devops-guidance/dl.ads.2-implement-automatic-rollbacks-for-failed-deployments.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

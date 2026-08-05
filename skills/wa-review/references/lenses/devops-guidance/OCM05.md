@@ -58,3 +58,8 @@ Monitoring (RUM) for Amazon CloudWatch](https://docs.aws.amazon.com/AmazonCloudW
 - [Amazon CloudWatch Internet Monitor](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-InternetMonitor.html)
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/devops-guidance/o.cm.5-detect-performance-issues-using-application-performance-monitoring.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

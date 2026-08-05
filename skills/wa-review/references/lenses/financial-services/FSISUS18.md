@@ -24,3 +24,8 @@ generative AI implementations in financial services maintain both regulatory
 adherence and environmental responsibility.
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/financial-services-industry-lens/fsisus18.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

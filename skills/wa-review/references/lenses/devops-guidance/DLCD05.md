@@ -35,3 +35,8 @@ allowing for faster and more efficient delivery of applications and services.
 - [AWS Deployment Pipeline Reference Architecture](https://aws-samples.github.io/aws-deployment-pipeline-reference-architecture)
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/devops-guidance/dl.cd.5-ensure-on-demand-deployment-capabilities.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

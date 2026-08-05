@@ -33,3 +33,8 @@ to Build on AWS](https://aws.amazon.com/developer/tools/)
 Environments in CodeCatalyst](https://docs.aws.amazon.com/codecatalyst/latest/userguide/devenvironment.html)
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/devops-guidance/dl.ld.6-leverage-extensible-development-tools.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

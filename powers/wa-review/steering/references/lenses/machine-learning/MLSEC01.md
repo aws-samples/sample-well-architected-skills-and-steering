@@ -188,3 +188,8 @@ Learning Best Practices in Financial Services](https://youtu.be/HlSEUvApDZE?t=57
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/machine-learning-lens/mlsec01-bp01.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

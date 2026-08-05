@@ -44,3 +44,8 @@ This could involve refining your partitions or improving the computation logic.
 stateful metrics computation](https://github.com/awslabs/deequ/blob/master/src/main/scala/com/amazon/deequ/examples/algebraic_states_example.md)
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/devops-guidance/qa.dt.5-utilize-incremental-metrics-computation.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

@@ -76,3 +76,8 @@ maintenance due, and end-of-life) to enable proactive asset management.
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/telco-lens/telcosus03-bp01.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

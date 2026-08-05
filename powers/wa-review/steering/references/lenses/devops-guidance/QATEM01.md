@@ -41,3 +41,8 @@ environments in AWS Device Farm](https://docs.aws.amazon.com/devicefarm/latest/d
 Pipeline Reference Architecture](https://pipelines.devops.aws.dev/application-pipeline/index.html#test-gamma)
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/devops-guidance/qa.tem.1-establish-dedicated-testing-environments.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

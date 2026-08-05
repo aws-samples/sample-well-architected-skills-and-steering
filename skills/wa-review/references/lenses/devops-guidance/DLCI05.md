@@ -27,3 +27,8 @@ establishing a solid continuous integration pipeline and then
 later enhancing it by optimizing the build.
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/devops-guidance/dl.ci.5-sequence-build-actions-strategically-for-prompt-feedback.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

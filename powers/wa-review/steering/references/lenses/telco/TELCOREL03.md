@@ -206,3 +206,8 @@ Controller](https://aws.amazon.com/blogs/opensource/kubernetes-ingress-aws-alb-i
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/telco-lens/telcorel03-bp02.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

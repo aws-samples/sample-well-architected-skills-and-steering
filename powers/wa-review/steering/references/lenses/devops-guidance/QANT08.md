@@ -83,3 +83,8 @@ Cloud Computing](https://aws.amazon.com/sustainability/)
 carbon by moving to AWS](https://www.aboutamazon.com/news/sustainability/reducing-carbon-by-moving-to-aws)
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/devops-guidance/qa.nt.8-practice-eco-conscious-development-with-sustainability-testing.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

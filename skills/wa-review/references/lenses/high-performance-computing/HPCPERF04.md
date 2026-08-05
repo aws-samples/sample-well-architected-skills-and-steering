@@ -105,3 +105,8 @@ Amazon File Cache works](https://www.youtube.com/watch?v=I1-Vxwgzlbk)
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/high-performance-computing-lens/storage-architecture.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

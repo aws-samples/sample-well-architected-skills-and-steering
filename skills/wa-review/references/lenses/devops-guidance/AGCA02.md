@@ -36,3 +36,8 @@ your AWS resources](https://docs.aws.amazon.com/tag-editor/latest/userguide/tagg
 are resource groups?](https://docs.aws.amazon.com/ARG/latest/userguide/resource-groups.html)
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/devops-guidance/ag.ca.2-optimize-configuration-item-management.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

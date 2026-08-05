@@ -28,3 +28,8 @@ identify bottlenecks, areas for improvement, and opportunities
 to optimize the process.
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/devops-guidance/oa.ti.1-communicate-work-flow-and-goals-between-teams-and-stakeholders.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

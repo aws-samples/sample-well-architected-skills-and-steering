@@ -143,3 +143,8 @@ and gain insights into your VPC Flow logs with Amazon Managed Grafana](https://a
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/hybrid-networking-lens/hncost02-bp03.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

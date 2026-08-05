@@ -39,3 +39,8 @@ data availability and costs are within EUC project guidelines.
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/end-user-computing-lens/eucops14-bp01.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

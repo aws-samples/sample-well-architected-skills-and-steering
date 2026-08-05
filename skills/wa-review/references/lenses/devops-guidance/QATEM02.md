@@ -51,3 +51,8 @@ arising from test bed setup, data inconsistency, or test execution.
 Increase utilization of build environments](https://docs.aws.amazon.com/wellarchitected/latest/sustainability-pillar/sus_sus_dev_a4.html)
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/devops-guidance/qa.tem.2-ensure-consistent-test-case-execution-using-test-beds.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

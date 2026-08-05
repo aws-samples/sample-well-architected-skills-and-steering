@@ -96,3 +96,8 @@ deployment and reduces the potential of human error.
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/iot-lens/infrastructure-protection.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

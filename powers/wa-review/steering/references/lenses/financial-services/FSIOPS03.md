@@ -30,3 +30,8 @@ notified of changes. Use [AWS Artifact](https://aws.amazon.com/artifact/)
 to gather compliance reports that apply to your workload and geography.
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/financial-services-industry-lens/fsiops3.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

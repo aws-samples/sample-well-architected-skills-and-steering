@@ -153,3 +153,8 @@ Computing - AWS Lambda](https://aws.amazon.com/pm/lambda/).
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/iot-lens/security-assurance.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

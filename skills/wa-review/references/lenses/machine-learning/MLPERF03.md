@@ -229,3 +229,8 @@ lake house approach to data warehousing with Amazon Redshift](https://www.youtub
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/machine-learning-lens/mlperf03-bp01.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

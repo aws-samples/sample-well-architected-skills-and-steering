@@ -39,3 +39,8 @@ hands-on problem solving, and gamification.
 - [AWS Jams](https://aws.amazon.com/professional-services/jam/)
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/devops-guidance/oa.ppd.5-recognize-and-reward-continuous-learning.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

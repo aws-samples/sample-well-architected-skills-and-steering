@@ -43,3 +43,8 @@ confidential private repositories.
 Is Repo?](https://aws.amazon.com/what-is/repo/)
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/devops-guidance/dl.scm.1-use-a-version-control-system-with-appropriate-access-management.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

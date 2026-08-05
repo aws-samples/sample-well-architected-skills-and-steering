@@ -67,3 +67,8 @@ Well-Architected skills are available as slash commands:
 - `/sustainability-optimization` → Sustainability pillar deep-dive
 - `/operational-excellence` → Operational Excellence pillar deep-dive
 - `/architecture-decision-record` → wa-builder ADR mode
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

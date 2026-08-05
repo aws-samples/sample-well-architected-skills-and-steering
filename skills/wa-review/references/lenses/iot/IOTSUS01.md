@@ -129,3 +129,8 @@ determine if and when to reconnect.
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/iot-lens/software-and-architecture-optimization.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

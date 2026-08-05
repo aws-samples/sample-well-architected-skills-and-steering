@@ -132,3 +132,8 @@ an Amazon WorkSpaces Applications Fleet and Stack](https://docs.aws.amazon.com/a
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/end-user-computing-lens/eucsec14-bp03.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

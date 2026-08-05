@@ -50,3 +50,8 @@ Runbooks for Amazon WorkSpaces](https://docs.aws.amazon.com/systems-manager-auto
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/end-user-computing-lens/eucops06-bp01.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

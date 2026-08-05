@@ -609,3 +609,8 @@ over-reliance on uncertain outputs.
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/responsible-ai-lens/rairc03-bp10.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

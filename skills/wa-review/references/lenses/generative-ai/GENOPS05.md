@@ -157,3 +157,8 @@ HyperPod recipe repository - Amazon SageMaker AI](https://docs.aws.amazon.com/sa
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/generative-ai-lens/genops05-bp01.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

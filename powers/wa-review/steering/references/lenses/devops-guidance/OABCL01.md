@@ -27,3 +27,8 @@ in contributing to the organization's success.
 approach to security during development: Ownership](https://youtu.be/NeR7FhHqDGQ?t=632)
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/devops-guidance/oa.bcl.1-clarify-purpose-and-direction-to-improve-cognitive-well-being.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

@@ -18,3 +18,8 @@ collaboration opportunities and adjust the approach as needed
 based on feedback and observed outcomes.
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/devops-guidance/oa.ti.11-offer-optional-opportunities-for-cross-team-collaboration.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

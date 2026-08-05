@@ -54,3 +54,8 @@ Customers](https://youtu.be/52SC80SFPOw?t=2076)
 - [AWS re:Invent 2020: Working backwards](https://www.youtube.com/watch?v=aFdpBqmDpzM)
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/devops-guidance/oa.ti.6-prioritize-customer-needs-to-deliver-optimal-business-outcomes.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

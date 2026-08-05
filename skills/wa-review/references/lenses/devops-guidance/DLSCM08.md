@@ -37,3 +37,8 @@ dependencies to ensure they are regularly updated and kept secure.
 2.0.0](https://semver.org/)
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/devops-guidance/dl.scm.8-use-a-versioning-specification-to-manage-software-components.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

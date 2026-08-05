@@ -47,3 +47,8 @@ and manage accounts with Account Factory](https://docs.aws.amazon.com/controltow
 Accounts Through Service Catalog](https://docs.aws.amazon.com/controltower/latest/userguide/service-catalog.html)
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/devops-guidance/ag.dep.4-codify-environment-vending.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

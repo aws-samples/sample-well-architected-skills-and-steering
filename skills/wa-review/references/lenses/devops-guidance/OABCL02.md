@@ -20,3 +20,8 @@ necessary training and resources to support automation efforts.
 Perform automations for operations](https://docs.aws.amazon.com/wellarchitected/latest/cost-optimization-pillar/cost_evaluate_cost_effort_automations_operations.html)
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/devops-guidance/oa.bcl.2-automate-repetitive-tasks-to-reduce-toil.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

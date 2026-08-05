@@ -26,3 +26,8 @@ production AWS accounts. For more detail, see [UpdateImagePermissions](https://d
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/end-user-computing-lens/eucsus05-bp01.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

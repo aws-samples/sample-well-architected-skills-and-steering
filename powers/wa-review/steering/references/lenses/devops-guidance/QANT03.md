@@ -61,3 +61,8 @@ standards](https://www.w3.org/WAI/fundamentals/accessibility-principles/)
 Accessibility Initiative (WAI)](https://www.w3.org/WAI/design-develop/)
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/devops-guidance/qa.nt.3-prioritize-user-experience-with-ux-testing.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

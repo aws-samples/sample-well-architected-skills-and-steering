@@ -132,3 +132,8 @@ detect these failures in the future. Create runbooks for
 documentation on resolving failures to minimize impact.
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/financial-services-industry-lens/fsirel03.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

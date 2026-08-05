@@ -45,3 +45,8 @@ Is Anomaly Detection?](https://aws.amazon.com/what-is/anomaly-detection)
 Is Predictive Analytics?](https://aws.amazon.com/what-is/predictive-analytics)
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/devops-guidance/o.cm.10-proactively-detect-issues-using-aiml.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

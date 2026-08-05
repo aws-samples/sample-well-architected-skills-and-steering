@@ -41,3 +41,8 @@ supporting data-driven optimizations across model selection, prompt engineering,
 caching strategy.
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/financial-services-industry-lens/fsicost16.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

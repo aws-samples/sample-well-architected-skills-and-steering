@@ -32,3 +32,8 @@ against Bedrock-hosted foundation models to verify that the chosen deployment pa
 continues to meet cost, latency, and compliance requirements.
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/financial-services-industry-lens/fsicost17.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

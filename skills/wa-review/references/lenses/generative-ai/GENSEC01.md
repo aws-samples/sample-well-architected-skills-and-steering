@@ -620,3 +620,8 @@ Amazon SageMaker AI API Calls Using AWS CloudTrail](https://docs.aws.amazon.com/
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/generative-ai-lens/gensec01-bp04.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

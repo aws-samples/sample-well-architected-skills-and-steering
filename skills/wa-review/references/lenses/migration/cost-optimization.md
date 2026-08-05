@@ -805,3 +805,8 @@ operational analytics.
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/migration-lens/migrate-cost.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

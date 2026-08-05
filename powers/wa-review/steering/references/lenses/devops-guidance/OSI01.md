@@ -82,3 +82,8 @@ Amazon Software Development Process: Measure
 Everything](https://youtu.be/52SC80SFPOw?t=1922)
 
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/devops-guidance/o.si.1-center-observability-strategies-around-business-and-technical-outcomes.html*
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

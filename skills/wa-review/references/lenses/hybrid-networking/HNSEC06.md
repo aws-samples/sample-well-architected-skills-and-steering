@@ -84,3 +84,8 @@ RSS](https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-cloudw
 *Source: https://docs.aws.amazon.com/wellarchitected/latest/hybrid-networking-lens/hnsec06-bp02.html*
 
 ---
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->
