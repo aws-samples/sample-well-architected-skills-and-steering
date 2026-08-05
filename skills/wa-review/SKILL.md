@@ -224,11 +224,11 @@ Task(subagent_type="general-purpose",
 
 Task(subagent_type="general-purpose",
      description="Review Performance Efficiency",
-     prompt="Read references/pillars/performance-efficiency.md and references/pillar-playbooks/performance.md (domain-specific evidence-collection checklist), then review the workload ONLY for the PERF pillar. [same table format, every BP as a row] Workload: {workload}")
+     prompt="Read references/pillars/performance-efficiency.md and references/pillar-playbooks/performance-efficiency.md (domain-specific evidence-collection checklist), then review the workload ONLY for the PERF pillar. [same table format, every BP as a row] Workload: {workload}")
 
 Task(subagent_type="general-purpose",
      description="Review Cost Optimization",
-     prompt="Read references/pillars/cost-optimization.md and references/pillar-playbooks/cost.md (domain-specific evidence-collection checklist), then review the workload ONLY for the COST pillar. [same table format, every BP as a row] Workload: {workload}")
+     prompt="Read references/pillars/cost-optimization.md and references/pillar-playbooks/cost-optimization.md (domain-specific evidence-collection checklist), then review the workload ONLY for the COST pillar. [same table format, every BP as a row] Workload: {workload}")
 
 Task(subagent_type="general-purpose",
      description="Review Sustainability",

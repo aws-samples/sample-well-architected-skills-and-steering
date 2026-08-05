@@ -1,5 +1,6 @@
 # Operational excellence
 
+**Pillar**: Operational Excellence  
 **Pages**: 25
 
 ---

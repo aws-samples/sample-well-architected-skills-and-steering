@@ -133,6 +133,13 @@ PILLAR_DISPLAY = {
     "SUS": "Sustainability",
 }
 
+# Filename slug -> display name, so pillar-per-file lens output can carry the
+# same "**Pillar**:" field as the BP-ID layout (single pillar-lookup contract).
+PILLAR_SLUG_DISPLAY = {
+    re.sub(r"[^a-z0-9]+", "-", name.lower()).strip("-"): name
+    for name in PILLAR_DISPLAY.values()
+}
+
 
 def pillar_for_id(question_id: str) -> str | None:
     """
@@ -1124,9 +1131,13 @@ def crawl_lens(lens_url: str, lens_name: str, output_dir: Path, delay: float, dr
             for section, pages in sorted(section_pages.items()):
                 # Convert section title to a filesystem-safe slug
                 slug = re.sub(r"[^a-z0-9]+", "-", section.lower()).strip("-")
-                lines = [
-                    f"# {section}",
-                    "",
+                lines = [f"# {section}", ""]
+                # Stamp the pillar when the section is one of the 6 pillars, so
+                # both lens layouts expose the same "**Pillar**:" field and
+                # consumers never need to fall back to filename parsing.
+                if slug in PILLAR_SLUG_DISPLAY:
+                    lines.append(f"**Pillar**: {PILLAR_SLUG_DISPLAY[slug]}  ")
+                lines += [
                     f"**Pages**: {len(pages)}",
                     "",
                     "---",

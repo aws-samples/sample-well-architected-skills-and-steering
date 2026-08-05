@@ -79,6 +79,23 @@ install.sh                          One-command setup (macOS/Linux)
 install.ps1                         One-command setup (Windows PowerShell)
 ```
 
+### Lens layouts and the pillar-lookup contract
+
+The 27 lenses under `references/lenses/` ship in two layouts, mirroring how AWS
+publishes each lens. Both are intentional and the crawler handles both:
+
+- **Pillar-per-file** (10 lenses, e.g. `government/`, `migration/`) — one file
+  per pillar, named for the pillar (`security.md`, `cost-optimization.md`).
+- **Best-practice-per-file** (17 lenses, e.g. `iot/`, `telco/`) — one file per
+  best practice, named for its BP ID (`IOTCOST01.md`, `TELCOOPS02.md`).
+
+**Pillar-lookup contract:** a lens file's pillar is given by its `**Pillar**:`
+header. Every pillar-organized lens file carries this field in both layouts, so
+consumers walking the reference tree can read the pillar the same way regardless
+of a lens's source shape. (Lenses that AWS does not organize by the 6 pillars —
+e.g. `responsible-ai`, `devops-guidance` — omit the field.) Filenames remain a
+secondary signal but are no longer required to derive the pillar.
+
 ---
 
 ## 🚀 Quick start

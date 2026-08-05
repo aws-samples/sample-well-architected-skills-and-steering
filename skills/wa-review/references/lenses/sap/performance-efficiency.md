@@ -1,5 +1,6 @@
 # Performance efficiency
 
+**Pillar**: Performance Efficiency  
 **Pages**: 20
 
 ---
