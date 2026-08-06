@@ -28,6 +28,7 @@
     {"text": "generate a WA improvement roadmap diagram", "should_trigger": false},
     {"text": "help me facilitate a WAFR with my customer", "should_trigger": false},
     {"text": "generate guardrails and Config rules for our account", "should_trigger": false},
-    {"text": "prepare conversational questions for a WA review session", "should_trigger": false}
+    {"text": "prepare conversational questions for a WA review session", "should_trigger": false},
+    {"text": "build a decision tree to help us choose between architecture options", "should_trigger": false}
   ]
 }
