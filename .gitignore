@@ -13,6 +13,10 @@ evals/cli_effectiveness/wa_review_baseline.json
 evals/cli_effectiveness/mcp_effectiveness.json
 evals/cli_effectiveness/bp_embeddings.json
 evals/cli_effectiveness/aws_knowledge_mcp_effectiveness.json
+evals/cli_effectiveness/codex_effectiveness.json
+evals/cli_effectiveness/kiro_effectiveness.json
+evals/cli_effectiveness/review_quality_results.json
+evals/cli_effectiveness/review_artifacts/
 
 # Generated study charts
 docs/study/

@@ -245,6 +245,7 @@ def main() -> int:
                     "ttft_ms": r.get("ttft_ms"),
                     "session_file": r.get("session_file"),
                     "stdout_len": r.get("stdout_len"),
+                    "assembled_text": assembled,
                 }
                 print(f"  Run {run_idx} ✓ "
                       f"F1={s_rep['f1']:.3f} R={s_rep['recall']:.2f} "

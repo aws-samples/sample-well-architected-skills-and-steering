@@ -1,5 +1,5 @@
 {
-  "version": "2.2.0-devops-agent",
+  "version": "2.2.1-devops-agent",
   "organization": "AWS",
   "date": "July 2026",
   "abstract": "Well-Architected Framework review optimized for the AWS DevOps Agent context: autonomous execution, post-incident triggering, and evidence derived from incident history, metrics, logs, and source code already accessed during the investigation.",

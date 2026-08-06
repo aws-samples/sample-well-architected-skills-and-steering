@@ -20,6 +20,7 @@ Output: evals/cli_effectiveness/wa_review_effectiveness.json
 
 from __future__ import annotations
 
+import argparse
 import json
 import re
 import statistics
@@ -36,6 +37,7 @@ GT_DIR = SCRIPT_DIR / "ground_truth"
 MODEL = "sonnet"
 RUNS_PER_CASE = 3
 CLI_TIMEOUT_SEC = 900  # subagent dispatch is 6-way parallel; each pillar ~30-90s
+DEFAULT_OUTPUT = SCRIPT_DIR / "wa_review_effectiveness.json"
 
 # Autonomous-mode preamble: the skill has a discovery checkpoint that requires user
 # confirmation. In non-interactive eval mode we authorize the full review upfront and
@@ -44,8 +46,11 @@ AUTONOMOUS_PREAMBLE = """[NON-INTERACTIVE EVAL MODE — no follow-up questions p
 
 Use the wa-review skill. Skip the discovery checkpoint. Proceed directly to the
 full review based ONLY on the workload description below — do NOT ask for code,
-scope confirmation, or clarification. If information is missing, mark those
-findings as "Based on description — verify in code" and continue.
+scope confirmation, or clarification. Treat omitted or inconclusive details as
+unknown, not as evidence that a control is absent. Mark each such BP `Cannot
+Determine`, leave severity blank, and state the specific artifact, metric,
+configuration, or interview answer needed to decide. Use `Not Implemented` only
+when the workload explicitly says a control is absent.
 
 Dispatch the 6 parallel pillar subagents as instructed by SKILL.md Step 4b.
 Every Best Practice you cite MUST use the canonical WA identifier format
@@ -167,7 +172,7 @@ def _parse_session(session_file: Path) -> tuple[str, str]:
     return "\n".join(last_assistant_text), "\n".join(all_text_chunks)
 
 
-def run_claude_cli(prompt: str) -> dict:
+def run_claude_cli(prompt: str, model: str = MODEL) -> dict:
     """Invoke `claude -p --output-format json` (small stdout for cost/latency
     metrics), then parse the CC session .jsonl file for the full transcript.
 
@@ -191,7 +196,7 @@ def run_claude_cli(prompt: str) -> dict:
                 "claude",
                 "-p",
                 "--output-format", "json",
-                "--model", MODEL,
+                "--model", model,
                 "--allowedTools", "Task", "Read", "Grep", "Glob", "Bash",
                 "--dangerously-skip-permissions",
             ],
@@ -298,6 +303,9 @@ def score_run(cli_result: dict, gt_bps: set[str], canonical: set[str]) -> dict:
         "assembled_text_len": len(assembled_text),
         "all_text_len": len(all_text),
         "assembled_head": assembled_text[:400],
+        # Raw reports are required by the blind quality-review harness. The
+        # containing effectiveness JSON is gitignored as sensitive eval data.
+        "assembled_text": assembled_text,
     }
 
 
@@ -348,15 +356,71 @@ def aggregate(runs: list[dict]) -> dict:
     }
 
 
-def main() -> int:
+def build_parser() -> argparse.ArgumentParser:
+    parser = argparse.ArgumentParser(
+        description="Measure wa-review citation effectiveness with Claude Code.",
+    )
+    parser.add_argument(
+        "--cases",
+        type=int,
+        nargs="+",
+        help="Evaluate only the selected case IDs (default: all cases).",
+    )
+    parser.add_argument(
+        "--runs",
+        type=int,
+        default=RUNS_PER_CASE,
+        help=f"Runs per selected case (default: {RUNS_PER_CASE}).",
+    )
+    parser.add_argument(
+        "--model",
+        default=MODEL,
+        help=f"Claude Code model name or alias (default: {MODEL}).",
+    )
+    parser.add_argument(
+        "--output",
+        type=Path,
+        default=DEFAULT_OUTPUT,
+        help="Result JSON path.",
+    )
+    return parser
+
+
+def main(argv: list[str] | None = None) -> int:
+    parser = build_parser()
+    args = parser.parse_args(argv)
+    if args.runs < 1:
+        parser.error("--runs must be at least 1")
+
     canonical = build_canonical_bps()
     cases = load_eval_cases()
-    print(f"Canonical corpus: {len(canonical)} BPs")
-    print(f"Eval cases: {len(cases)}")
-    print(f"Model: {MODEL}, runs per case: {RUNS_PER_CASE}")
-    print(f"Total CLI invocations: {len(cases) * RUNS_PER_CASE}")
+    available_case_ids = {int(case["id"]) for case in cases}
+    if args.cases:
+        selected_case_ids = set(args.cases)
+        unknown_case_ids = selected_case_ids - available_case_ids
+        if unknown_case_ids:
+            parser.error(
+                "unknown case IDs: "
+                + ", ".join(str(case_id) for case_id in sorted(unknown_case_ids))
+            )
+        cases = [
+            case for case in cases
+            if int(case["id"]) in selected_case_ids
+        ]
 
-    results = {"model": MODEL, "runs_per_case": RUNS_PER_CASE, "cases": []}
+    output_path = args.output.expanduser().resolve()
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    print(f"Canonical corpus: {len(canonical)} BPs")
+    print(f"Eval cases: {', '.join(str(case['id']) for case in cases)}")
+    print(f"Model: {args.model}, runs per case: {args.runs}")
+    print(f"Total CLI invocations: {len(cases) * args.runs}")
+
+    results = {
+        "model": args.model,
+        "mode": "wa-review",
+        "runs_per_case": args.runs,
+        "cases": [],
+    }
 
     for case in cases:
         case_id = case["id"]
@@ -366,9 +430,9 @@ def main() -> int:
 
         case_runs: list[dict] = []
         wrapped = AUTONOMOUS_PREAMBLE + prompt
-        for run_idx in range(1, RUNS_PER_CASE + 1):
-            print(f"  Run {run_idx}/{RUNS_PER_CASE}...", end="", flush=True)
-            cli_result = run_claude_cli(wrapped)
+        for run_idx in range(1, args.runs + 1):
+            print(f"  Run {run_idx}/{args.runs}...", end="", flush=True)
+            cli_result = run_claude_cli(wrapped, args.model)
             scored = score_run(cli_result, gt, canonical)
             scored["run_idx"] = run_idx
             case_runs.append(scored)
@@ -395,10 +459,9 @@ def main() -> int:
               f"subagent F1: {sf1.get('mean') if sf1 else 'n/a'}")
 
         # Save incrementally so partial data survives a crash
-        out_file = SCRIPT_DIR / "wa_review_effectiveness.json"
-        out_file.write_text(json.dumps(results, indent=2))
+        output_path.write_text(json.dumps(results, indent=2))
 
-    print(f"\nSaved: {out_file.relative_to(REPO_ROOT)}")
+    print(f"\nSaved: {output_path}")
     return 0
 
 
