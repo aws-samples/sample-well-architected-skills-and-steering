@@ -2,7 +2,7 @@
 name: wa-review
 description: Perform a full AWS Well-Architected Framework review evaluating all 57 questions across 6 pillars by analyzing code, IaC, and configurations to produce evidence-backed findings with Eisenhower-prioritized remediation.
 not_for: single-pillar deep-dives (use the specific pillar skill), learning WA (use wa-builder), ADRs (use architecture-decision-record), migration (use migration-readiness)
-version: 2.2.0
+version: 2.3.0
 ---
 
 # Well-Architected Review
@@ -509,6 +509,87 @@ For each solution in "Do First" and "Plan":
 {Top 5 concrete actions from the "Do First" quadrant — the team should start this week}
 ```
 
+## Step 6b: Emit structured output (`wa-review.json`)
+
+After the markdown report, ALSO emit a machine-readable `wa-review.json` so the review can be
+diffed over time (CI gate), aggregated across workloads, or imported into the WA Tool. The
+markdown is for humans; this artifact is for tools. Conform to the versioned contract in
+[`schemas/wa-review-v1.schema.json`](../../schemas/wa-review-v1.schema.json).
+
+Write it to `wa-review.json` in the workload root (or a path the user names). Populate it from the
+same findings you just reported — do NOT re-run the analysis, just serialize what the Full BP
+Ledger already contains.
+
+**Rules:**
+- One `findings` entry per BP you evaluated, including `implemented` and `not_applicable` ones. A
+  consumer must be able to tell an evaluated-and-passed BP from one that was never assessed, so do
+  not drop the passing rows.
+- For a core-framework BP, `bp_id` MUST be canonical `PILLAR##-BP##` — it is the identity key a
+  baseline diff pairs on. Most lens BPs also publish a canonical ID (e.g. `IOTCOST01-BP01`); use it.
+- Some lenses are organized by topic and expose NO BP ID (serverless-applications, saas,
+  government, healthcare-industry, container-build, sap, streaming-media, and a few mixed cases).
+  For a finding from one of those, OMIT `bp_id` and give a `title` (plus `lens`). A title is not a
+  stable key, so these findings are reported as advisory and are never gated. Do not invent a BP
+  ID to satisfy the diff; that produces keys that drift between reviews.
+- Set `review_mode` to the depth you actually ran (`full`, `quick`, `pillar-scoped`, `score`). A
+  non-full run does not cover all 307 BPs; say so in `recall_note`.
+- Set `skill_version` to this skill's frontmatter `version`, and generate a unique `run_id`
+  (e.g. `{date}T{time}-{workload-slug}`) so two same-day reviews stay distinguishable.
+- Every gap (`not_implemented` / `partially_implemented`) MUST carry a `severity`
+  (`critical`/`high`/`medium`/`low`). The CI gate ranks by severity, so an unrated gap fails the
+  build closed. Leave `severity` off only for `implemented` / `not_applicable` / `cannot_determine`.
+- `recall_note` MUST state that coverage is high-recall but not exhaustive (wa-review measures
+  F1 ~0.96), so downstream gates never read a missing finding as proof a control exists.
+- `recommendation` stays prose guidance — never a code diff (repo design principle).
+
+**Shape** (see the schema for the authoritative, complete definition):
+
+```json
+{
+  "schema_version": "1.0.0",
+  "workload": "{workload name}",
+  "date": "{YYYY-MM-DD}",
+  "review_mode": "full",
+  "skill_version": "2.3.0",
+  "run_id": "{date}T{time}-{workload-slug}",
+  "lens": ["{lens-name}"],
+  "business_criticality": "{critical|high|standard|low}",
+  "pillar_scores": {
+    "operational_excellence": 3, "security": 2, "reliability": 2,
+    "performance_efficiency": 3, "cost_optimization": 4, "sustainability": 3
+  },
+  "findings": [
+    {
+      "bp_id": "SEC08-BP01",
+      "pillar": "security",
+      "status": "not_implemented",
+      "severity": "high",
+      "evidence": { "file": "infra/s3.tf", "line": 14 },
+      "effort": "low",
+      "recommendation": "Enable SSE and BlockPublicAccess on the uploads bucket."
+    },
+    {
+      "title": "Use asynchronous invocation for non-critical Lambda work",
+      "lens": "serverless-applications",
+      "pillar": "performance_efficiency",
+      "status": "not_implemented",
+      "severity": "medium",
+      "recommendation": "Move the notification path to async invocation so the request path is not blocked."
+    }
+  ],
+  "recall_note": "Full review, F1 approx 0.96. High recall but not exhaustive; absence of a finding is not proof of implementation."
+}
+```
+
+The second finding above shows a topic-organized lens finding: no `bp_id`, a `title` instead. It
+is advisory (reported, not gated).
+
+Once written, mention the file and point the user at CI use:
+
+> I have also written `wa-review.json` (machine-readable, conforms to `schemas/wa-review-v1.schema.json`).
+> Commit it as `.well-architected/baseline.json` and wire `tools/wa-ci` into your pipeline to gate
+> future PRs on the Well-Architected delta.
+
 ## Step 7: Offer follow-up
 
 After delivering the report, offer:
@@ -519,6 +600,7 @@ After delivering the report, offer:
 > - Create a migration plan for a specific architectural change?
 > - Compare your workload against a specific WA Lens in detail?
 > - Generate automated checks (Config rules, custom metrics) for ongoing compliance?
+> - Set up a continuous WA gate: commit `wa-review.json` as a baseline and run `tools/wa-ci` in CI?
 > - Produce a WA Tool import for tracking in the AWS console?
 
 ## Calibration Guidance

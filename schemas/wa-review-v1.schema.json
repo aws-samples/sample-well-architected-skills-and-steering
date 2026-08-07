@@ -1,0 +1,196 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/aws-samples/sample-well-architected-skills-and-steering/schemas/wa-review-v1.schema.json",
+  "title": "wa-review structured output",
+  "description": "Machine-readable output of the wa-review skill. Emitted as wa-review.json alongside the markdown report so downstream tools (wa-ci baseline diff, wa-portfolio aggregation, WA Tool import) can consume a stable contract instead of parsing prose. Version this file; external tools depend on it.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "workload",
+    "date",
+    "review_mode",
+    "skill_version",
+    "run_id",
+    "pillar_scores",
+    "findings",
+    "recall_note"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0.0",
+      "description": "Version of this schema the document conforms to. Consumers should reject a document whose major version they do not support."
+    },
+    "workload": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Human-readable workload name, stable across reviews so a baseline diff can pair a review with its predecessor."
+    },
+    "date": {
+      "type": "string",
+      "format": "date",
+      "description": "Review date in ISO 8601 (YYYY-MM-DD)."
+    },
+    "review_mode": {
+      "type": "string",
+      "enum": ["full", "quick", "pillar-scoped", "score"],
+      "description": "Which wa-review depth produced this document. Consumers use it to interpret coverage: a pillar-scoped or score run does not evaluate all 307 BPs, so its absence of a finding is not evidence of implementation."
+    },
+    "skill_version": {
+      "type": "string",
+      "description": "SKILL.md frontmatter version that generated this document (e.g. 2.2.0). Lets a consumer detect when the producing skill changed between baseline and current."
+    },
+    "run_id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Opaque identifier unique to this review run. Used to distinguish two reviews of the same workload on the same date when diffing against a baseline."
+    },
+    "lens": {
+      "type": "array",
+      "description": "WA lenses applied on top of the core framework (e.g. serverless-applications, financial-services). Empty or omitted for a core-only review.",
+      "items": { "type": "string" },
+      "default": []
+    },
+    "business_criticality": {
+      "type": "string",
+      "enum": ["critical", "high", "standard", "low"],
+      "description": "Declared business criticality of the workload. A gate may weight findings by this (e.g. fail only on new High findings in critical workloads)."
+    },
+    "pillar_scores": {
+      "type": "object",
+      "description": "Maturity score 1-5 per pillar. A pillar-scoped or single-pillar review MAY include only the pillars it evaluated.",
+      "additionalProperties": false,
+      "minProperties": 1,
+      "properties": {
+        "operational_excellence": { "$ref": "#/$defs/pillarScore" },
+        "security": { "$ref": "#/$defs/pillarScore" },
+        "reliability": { "$ref": "#/$defs/pillarScore" },
+        "performance_efficiency": { "$ref": "#/$defs/pillarScore" },
+        "cost_optimization": { "$ref": "#/$defs/pillarScore" },
+        "sustainability": { "$ref": "#/$defs/pillarScore" }
+      }
+    },
+    "findings": {
+      "type": "array",
+      "description": "One entry per best practice evaluated. A full review targets the full 307-BP corpus; other modes carry fewer. Every finding, including Implemented and Not Applicable ones, MAY appear so a consumer can tell an evaluated-and-passed BP from one that was never assessed.",
+      "items": { "$ref": "#/$defs/finding" }
+    },
+    "recall_note": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Honest statement of coverage limits. wa-review measures F1=0.96 (not 1.0), so this output is high-recall but not guaranteed exhaustive. Consumers and gates MUST NOT treat the absence of a finding as proof a control exists. State the measured recall and the review mode's coverage here."
+    }
+  },
+  "$defs": {
+    "pillarScore": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 5,
+      "description": "Maturity 1 (major gaps) to 5 (well-architected)."
+    },
+    "finding": {
+      "type": "object",
+      "required": ["pillar", "status"],
+      "additionalProperties": false,
+      "description": "One evaluated best practice. MUST carry a bp_id OR a title (see anyOf). Core framework BPs and most lens BPs have a canonical bp_id and are the only findings a baseline diff can pair over time. Some lenses (e.g. serverless-applications, saas, government, healthcare-industry, container-build, sap, streaming-media) are organized by topic and expose no BP IDs; their findings carry a title instead and are reported as advisory, never gated.",
+      "anyOf": [
+        { "required": ["bp_id"] },
+        { "required": ["title"] }
+      ],
+      "allOf": [
+        {
+          "$comment": "A gap finding (not_implemented / partially_implemented) MUST carry a non-null severity. A gate ranks by severity, so an unrated gap would silently fail open. Implemented / not_applicable / cannot_determine findings may omit it.",
+          "if": {
+            "properties": {
+              "status": { "enum": ["not_implemented", "partially_implemented"] }
+            },
+            "required": ["status"]
+          },
+          "then": {
+            "required": ["severity"],
+            "properties": {
+              "severity": { "enum": ["critical", "high", "medium", "low"] }
+            }
+          }
+        }
+      ],
+      "properties": {
+        "bp_id": {
+          "type": "string",
+          "pattern": "^[A-Z]{2,}[0-9]{1,3}-BP[0-9]{1,3}$",
+          "description": "Canonical best-practice ID in PILLAR##-BP## form (e.g. SEC03-BP02, or a lens-prefixed IOTCOST01-BP01). This is the identity key a baseline diff pairs on. Present for every core-framework BP and every lens BP that publishes an ID. Omit ONLY for findings from a topic-organized lens that exposes no BP ID; those findings MUST carry a title and are advisory (never gated)."
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Short human-readable name of the best practice or topic. Required when bp_id is absent (a topic-organized lens finding). Optional context otherwise. Not a stable identity key: a diff does NOT pair on title, so a finding with only a title is reported and counted but never gated."
+        },
+        "lens": {
+          "type": "string",
+          "description": "Name of the WA lens this finding comes from (e.g. serverless-applications), matching an entry in the document-level lens array. Omit for a core-framework finding."
+        },
+        "pillar": {
+          "type": "string",
+          "enum": [
+            "operational_excellence",
+            "security",
+            "reliability",
+            "performance_efficiency",
+            "cost_optimization",
+            "sustainability"
+          ],
+          "description": "Owning pillar. For a lens BP, use the pillar the lens BP maps to."
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "implemented",
+            "partially_implemented",
+            "not_implemented",
+            "not_applicable",
+            "cannot_determine"
+          ],
+          "description": "Assessment outcome for this BP. cannot_determine means the review could not verify from the available evidence, distinct from a confirmed gap."
+        },
+        "severity": {
+          "type": ["string", "null"],
+          "enum": ["critical", "high", "medium", "low", null],
+          "description": "Risk severity for a gap (Impact x Likelihood). Null or omitted for implemented / not_applicable BPs."
+        },
+        "evidence": {
+          "$ref": "#/$defs/evidence",
+          "description": "Where in the workload this was observed. Omit when the review was verbal and no code was analyzed."
+        },
+        "effort": {
+          "type": ["string", "null"],
+          "enum": ["low", "medium", "high", null],
+          "description": "Estimated remediation effort, feeding Eisenhower prioritization downstream."
+        },
+        "recommendation": {
+          "type": "string",
+          "description": "Concise remediation guidance. Never a code diff, consistent with the repo's review-and-guidance-not-code-mutation principle."
+        }
+      }
+    },
+    "evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "file": {
+          "type": "string",
+          "description": "Repo-relative path where the evidence was found."
+        },
+        "line": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "1-indexed line number in file."
+        },
+        "note": {
+          "type": "string",
+          "description": "Free-text evidence when no precise file:line applies (e.g. 'Based on description, verify in code')."
+        }
+      }
+    }
+  }
+}

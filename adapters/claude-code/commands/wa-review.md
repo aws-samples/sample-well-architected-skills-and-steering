@@ -190,6 +190,57 @@ Output a structured report:
 {Top 5 concrete actions the team should take this week}
 ```
 
+## Step 6b: Emit structured output (`wa-review.json`)
+
+After the markdown report, ALSO emit a machine-readable `wa-review.json` so the review can be
+diffed over time (a CI gate), aggregated across workloads, or imported into the WA Tool. Conform
+to the versioned contract in `schemas/wa-review-v1.schema.json` (repo root). Serialize the same
+findings you just reported — do not re-run the analysis.
+
+**Rules:**
+- One `findings` entry per BP you evaluated, including `implemented` and `not_applicable` ones, so
+  a consumer can tell an evaluated-and-passed BP from one never assessed.
+- For a core-framework or ID-bearing lens BP, `bp_id` MUST be canonical `PILLAR##-BP##` (e.g.
+  `SEC03-BP02`, `IOTCOST01-BP01`) — it is the identity key a baseline diff pairs on.
+- Some lenses are topic-organized and expose no BP ID (serverless-applications, saas, government,
+  healthcare-industry, container-build, sap, streaming-media, plus a few mixed cases). For those,
+  OMIT `bp_id` and give a `title` (plus `lens`). They are advisory: reported, never gated. Do not
+  invent an ID to satisfy the diff.
+- Set `review_mode` to the depth you ran (`full`, `quick`, `pillar-scoped`, `score`) and set
+  `skill_version` plus a unique `run_id`.
+- Every gap (`not_implemented` / `partially_implemented`) MUST carry a `severity`; the gate ranks
+  by it, so an unrated gap fails the build closed. Omit severity only for non-gap statuses.
+- `recall_note` MUST state coverage is high-recall but not exhaustive, so a gate never reads a
+  missing finding as proof a control exists.
+- `recommendation` stays prose guidance, never a code diff.
+
+```json
+{
+  "schema_version": "1.0.0",
+  "workload": "{name}",
+  "date": "{YYYY-MM-DD}",
+  "review_mode": "full",
+  "skill_version": "{skill version}",
+  "run_id": "{date}T{time}-{workload-slug}",
+  "pillar_scores": { "security": 2, "reliability": 2 },
+  "findings": [
+    {
+      "bp_id": "SEC08-BP01",
+      "pillar": "security",
+      "status": "not_implemented",
+      "severity": "high",
+      "evidence": { "file": "infra/s3.tf", "line": 14 },
+      "effort": "low",
+      "recommendation": "Enable SSE and BlockPublicAccess on the uploads bucket."
+    }
+  ],
+  "recall_note": "Full review, F1 approx 0.96. High recall but not exhaustive; absence of a finding is not proof of implementation."
+}
+```
+
+Commit this file as `.well-architected/baseline.json` and run `tools/wa-ci` in a pipeline to gate
+future PRs on the Well-Architected delta.
+
 ## Step 7: Offer follow-up
 
 After delivering the report, offer:
@@ -200,6 +251,7 @@ After delivering the report, offer:
 > - Create a migration plan for a specific architectural change?
 > - Compare your workload against a specific WA Lens in detail?
 > - Generate automated checks (Config rules, custom metrics) for ongoing compliance?
+> - Set up a continuous WA gate: commit `wa-review.json` as a baseline and run `tools/wa-ci` in CI?
 > - Produce a WA Tool import for tracking in the AWS console?
 
 ## Calibration Guidance
