@@ -265,6 +265,24 @@ def coverage_warnings(baseline_doc, current_doc):
             f"current review_mode is '{current_doc.get('review_mode')}' but baseline was 'full'; "
             "absent baseline gaps are NOT treated as resolved."
         )
+    # A baseline gap that the current review marks cannot_determine drops out of
+    # the delta entirely: it is neither Still-open (current is not a gap) nor
+    # Resolved (cannot_determine is not a pass). This never fails open, but it can
+    # make "Still open" undercount, so name the BPs rather than let them vanish.
+    baseline = index_findings(baseline_doc)
+    current = index_findings(current_doc)
+    undetermined = [
+        bp_id
+        for bp_id, base in baseline.items()
+        if base.get("status") in GAP_STATUSES
+        and current.get(bp_id, {}).get("status") == "cannot_determine"
+    ]
+    if undetermined:
+        warnings.append(
+            f"{len(undetermined)} baseline gap(s) are now 'cannot_determine' "
+            f"({', '.join(sorted(undetermined))}); they drop from the delta "
+            "(not still-open, not resolved), so 'Still open' may undercount."
+        )
     return warnings
 
 

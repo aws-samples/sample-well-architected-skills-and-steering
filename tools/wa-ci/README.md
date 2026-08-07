@@ -67,9 +67,12 @@ python3 tools/wa-ci/wa_ci.py --current wa-review.json --update-baseline .well-ar
 
 The report flags conditions that make a delta less trustworthy rather than failing silently:
 
-- the schema major version changed between baseline and current, or
+- the schema major version changed between baseline and current,
 - the current review is narrower than the baseline (e.g. `quick` vs `full`), so some baseline
-  gaps were not re-evaluated. Those are held as Still-open, never silently Resolved.
+  gaps were not re-evaluated. Those are held as Still-open, never silently Resolved, or
+- a baseline gap is now `cannot_determine`. It drops from the delta (neither Still-open nor
+  Resolved, since `cannot_determine` is not a pass), so `Still open` can undercount. This never
+  fails open; the warning names the affected BPs so the drop is visible.
 
 ## Wiring it into CI
 

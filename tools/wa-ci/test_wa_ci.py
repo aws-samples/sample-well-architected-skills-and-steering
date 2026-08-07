@@ -253,6 +253,17 @@ class TestCoverageWarnings(unittest.TestCase):
         cur = review([], review_mode="full")
         self.assertEqual(wa_ci.coverage_warnings(base, cur), [])
 
+    def test_baseline_gap_now_cannot_determine_warns(self):
+        base = review([finding("SEC08-BP01", "not_implemented", "high")])
+        cur = review([finding("SEC08-BP01", "cannot_determine")])
+        warnings = wa_ci.coverage_warnings(base, cur)
+        self.assertTrue(any("cannot_determine" in w and "SEC08-BP01" in w for w in warnings))
+
+    def test_baseline_gap_still_open_does_not_warn_cannot_determine(self):
+        base = review([finding("SEC08-BP01", "not_implemented", "high")])
+        cur = review([finding("SEC08-BP01", "not_implemented", "high")])
+        self.assertFalse(any("cannot_determine" in w for w in wa_ci.coverage_warnings(base, cur)))
+
 
 class TestMainExitCodes(unittest.TestCase):
     def _write(self, doc):

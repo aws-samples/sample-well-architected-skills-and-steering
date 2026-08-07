@@ -19,8 +19,8 @@
   "properties": {
     "schema_version": {
       "type": "string",
-      "const": "1.0.0",
-      "description": "Version of this schema the document conforms to. Consumers should reject a document whose major version they do not support."
+      "pattern": "^1\\.[0-9]+\\.[0-9]+$",
+      "description": "Version of this schema the document conforms to. This is the v1 contract, so it accepts any 1.x.y: a backward-compatible minor/patch bump (new optional field, widened enum) still validates. Consumers reject on the MAJOR only; wa-ci compares major versions. A breaking change ships as wa-review-v2.schema.json."
     },
     "workload": {
       "type": "string",
