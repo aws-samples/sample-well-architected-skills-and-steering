@@ -38,7 +38,16 @@ jobs:
       - uses: actions/checkout@v4
       - uses: lycheeverse/lychee-action@v2
         with:
-          args: --offline --no-progress "./**/*.md"
+          # Exclude the generated crawler corpora: their .md files carry intentional
+          # relative .html cross-links that resolve on the AWS docs site, not on disk.
+          # Links FROM authored docs INTO these dirs are still verified.
+          args: >-
+            --offline --no-progress
+            --exclude-path skills/wa-review/references
+            --exclude-path skills/wa-builder/references
+            --exclude-path skills/example-skill/references
+            --exclude-path powers/wa-review/steering/references
+            "./**/*.md"
           fail: true
 
   secret-scan:
@@ -46,9 +55,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
       - name: gitleaks detect
+        # --no-git scans the working tree (what this PR ships), not full history.
+        # A PR gate should fail on secrets a change INTRODUCES, not on unrelated
+        # historical commits. Honors .gitleaksignore.
         run: |
           curl -sSL https://github.com/gitleaks/gitleaks/releases/download/v8.18.4/gitleaks_8.18.4_linux_x64.tar.gz | tar xz gitleaks
-          ./gitleaks detect --source . --redact --no-banner
+          ./gitleaks detect --no-git --source . --redact --no-banner
