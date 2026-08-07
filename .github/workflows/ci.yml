@@ -43,6 +43,7 @@ jobs:
           # Links FROM authored docs INTO these dirs are still verified.
           args: >-
             --offline --no-progress
+            --root-dir "${{ github.workspace }}"
             --exclude-path skills/wa-review/references
             --exclude-path skills/wa-builder/references
             --exclude-path skills/example-skill/references
