@@ -345,6 +345,7 @@ def main() -> int:
                 "session_file": result["session_file"],
                 "assembled_text_len": len(assembled_text),
                 "all_text_len": len(all_text),
+                "assembled_text": assembled_text,
                 "credits_used": credits,
             }
             case_runs.append(run)
