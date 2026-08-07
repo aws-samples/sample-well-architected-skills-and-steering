@@ -1,0 +1,54 @@
+name: CI
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+      - name: Run tests (excluding Bedrock eval scenarios)
+        working-directory: evals
+        run: |
+          uv sync
+          uv run pytest -m "not eval" -q
+
+  drift-guard:
+    # Closes the #118 gap: the skills/ reference tree and its powers/ mirror must stay byte-identical.
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: skills/ vs powers/ reference trees must match
+        run: diff -rq skills/wa-review/references powers/wa-review/steering/references
+
+  link-check:
+    # Catches broken RELATIVE markdown links (the #107 / #110 class). Offline only: no flaky external calls.
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: lycheeverse/lychee-action@v2
+        with:
+          args: --offline --no-progress "./**/*.md"
+          fail: true
+
+  secret-scan:
+    # Enforces the intent behind the existing .gitleaksignore. CLI (not the action) avoids the org-license requirement.
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: gitleaks detect
+        run: |
+          curl -sSL https://github.com/gitleaks/gitleaks/releases/download/v8.18.4/gitleaks_8.18.4_linux_x64.tar.gz | tar xz gitleaks
+          ./gitleaks detect --source . --redact --no-banner
