@@ -47,6 +47,15 @@ skills/                             Step-by-step playbooks (tool-agnostic)
 scripts/                            Maintenance tooling
   crawl-wa-framework.py               Crawl AWS docs to regenerate reference files
 
+schemas/                            Structured output contracts
+  wa-review-v1.schema.json            Versioned JSON Schema for wa-review.json
+  README.md                           Contract, versioning policy, guarantees
+
+tools/                              Standalone tooling (stdlib Python, no AWS)
+  wa-ci/                              Gate a PR on the Well-Architected delta
+    wa_ci.py                            Diff a review vs a baseline, classify, gate
+    examples/                           Baseline + review + GitHub Actions workflow
+
 adapters/                           Tool-specific configuration
   claude-code/                        CLAUDE.md + slash commands
   cursor/                             .cursor/rules/*.md
@@ -535,6 +544,34 @@ graph LR
 | Amp | `AGENTS.md` | `.agents/skills/*/SKILL.md` |
 | OpenClaw | `AGENTS.md` | `.agents/skills/*/SKILL.md` |
 | AWS DevOps Agent | N/A (skills are self-contained) | `SKILL.md` zip upload to Agent Space — use `SKILL-devops-agent.md` for `wa-review` (see [AWS DevOps Agent](#aws-devops-agent)) |
+
+---
+
+## 🔁 Continuous Well-Architected (structured output + CI gate)
+
+A review is a snapshot. To keep a workload aligned as it changes, `wa-review` also emits a
+machine-readable `wa-review.json` alongside its markdown report (Step 6b), conforming to the
+versioned contract in [`schemas/wa-review-v1.schema.json`](schemas/wa-review-v1.schema.json).
+The markdown is for people; the JSON is for tools.
+
+[`tools/wa-ci`](tools/wa-ci/) turns that artifact into a merge gate. Commit an accepted review as
+`.well-architected/baseline.json`, then diff each PR's fresh review against it:
+
+```bash
+python3 tools/wa-ci/wa_ci.py \
+  --baseline .well-architected/baseline.json \
+  --current wa-review.json \
+  --fail-on high
+```
+
+Each best practice is paired on its `bp_id` and classified as **Resolved**, **Still-open**,
+**New**, or **Regressed**. Only New and Regressed gaps at or above `--fail-on` fail the build,
+because those are what the change introduced; pre-existing gaps do not block an unrelated PR. The
+gate never reads a missing finding as proof a control exists (coverage is high-recall, not
+exhaustive), and it never mutates code. See [`tools/wa-ci/README.md`](tools/wa-ci/README.md) for
+the classification rules and an example GitHub Actions workflow.
+
+The same contract is the input a portfolio view would aggregate across many workloads.
 
 ---
 

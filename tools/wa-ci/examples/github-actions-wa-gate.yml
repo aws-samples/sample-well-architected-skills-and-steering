@@ -1,0 +1,54 @@
+# Example GitHub Actions workflow: gate a pull request on the Well-Architected delta.
+#
+# Copy this into your workload repo at .github/workflows/wa-gate.yml and adjust
+# the paths. It assumes:
+#   - .well-architected/baseline.json is committed (an accepted wa-review.json).
+#   - A fresh wa-review.json is produced for the PR head and made available to
+#     this job (see the "Produce a fresh review" note below).
+#
+# This job runs no AWS calls and needs no credentials. It only diffs two JSON
+# documents and sets the build status.
+
+name: Well-Architected gate
+
+on:
+  pull_request:
+    # Only gate when architecture-relevant files change. Tune to your repo.
+    paths:
+      - "infra/**"
+      - "**/*.tf"
+      - "**/*.yaml"
+      - "**/*.yml"
+      - ".well-architected/**"
+
+jobs:
+  wa-gate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      # Produce a fresh review for the PR head.
+      #
+      # wa-review runs inside an AI coding agent, not a headless CI runner, so
+      # teams typically generate wa-review.json as part of the change and commit
+      # it (or attach it as an artifact) rather than running the skill in CI.
+      # This step assumes the fresh review is already at ./wa-review.json.
+      #
+      # If you do not have one yet, fail early with a clear message:
+      - name: Check for a fresh review
+        run: |
+          if [ ! -f wa-review.json ]; then
+            echo "No wa-review.json found. Run the wa-review skill on this change and commit the result."
+            exit 1
+          fi
+
+      - name: Well-Architected gate
+        run: |
+          python3 tools/wa-ci/wa_ci.py \
+            --baseline .well-architected/baseline.json \
+            --current wa-review.json \
+            --fail-on high
