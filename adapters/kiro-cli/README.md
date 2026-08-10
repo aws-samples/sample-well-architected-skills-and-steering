@@ -15,7 +15,7 @@ The agent follows the repository design principles (see `AGENTS.md`):
 - Aligned, not compliant. The prompt forbids "compliant" as a customer outcome.
 - Local-only. No MCP servers and no API calls are configured; the agent works entirely from the local steering, skills, and workspace files.
 
-Resources are declared for both project-level (`.kiro/...`) and global (`~/.kiro/...`) install locations; whichever exists is loaded.
+Resources are declared for both project-level (`.kiro/...`) and global (`~/.kiro/...`) install locations. Install to only one scope per machine — installing to both causes each SKILL.md to be loaded twice into the agent's context window.
 
 ## Install
 
@@ -47,3 +47,8 @@ Or switch inside a session with `/agent swap`. Validate after edits with:
 ```bash
 kiro-cli agent validate --path .kiro/agents/well-architected.json
 ```
+
+<!--
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: MIT-0
+-->

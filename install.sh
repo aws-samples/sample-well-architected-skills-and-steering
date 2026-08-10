@@ -150,6 +150,7 @@ install_kiro() {
   done
 
   copy_or_link "$SCRIPT_DIR/adapters/kiro-cli/agents/well-architected.json" "$base/.kiro/agents/well-architected.json"
+  copy_or_link "$SCRIPT_DIR/adapters/kiro-cli/agents/prompt.md" "$base/.kiro/agents/prompt.md"
   echo "  Done. Kiro will load steering automatically and skills on demand."
   echo "  Kiro CLI users: run 'kiro-cli chat --agent well-architected' for the dedicated WA agent."
   echo ""
@@ -521,7 +522,7 @@ uninstall_tool() {
   case "$tool" in
     kiro|kiro-cli)
       rm -f "$base/.kiro/steering/well-architected.md"
-      rm -f "$base/.kiro/agents/well-architected.json"
+      rm -f "$base/.kiro/agents/well-architected.json" "$base/.kiro/agents/prompt.md"
       for skill_dir in "$SCRIPT_DIR/skills"/*/; do
         local skill_name
         skill_name="$(basename "$skill_dir")"

@@ -113,6 +113,7 @@ function Install-Kiro {
         Copy-SkillReferences $skill.FullName "$base\.kiro\skills\$($skill.Name)"
     }
     Copy-OrLink "$ScriptDir\adapters\kiro-cli\agents\well-architected.json" "$base\.kiro\agents\well-architected.json"
+    Copy-OrLink "$ScriptDir\adapters\kiro-cli\agents\prompt.md" "$base\.kiro\agents\prompt.md"
     Write-Host "  Done. Kiro will load steering automatically and skills on demand."
     Write-Host "  Kiro CLI users: run 'kiro-cli chat --agent well-architected' for the dedicated WA agent.`n"
 }
