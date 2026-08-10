@@ -1,0 +1,53 @@
+{
+  "schema_version": "1.0.0",
+  "workload": "payments-api",
+  "date": "2026-07-01",
+  "review_mode": "full",
+  "skill_version": "2.2.0",
+  "run_id": "2026-07-01T09-15-payments-api",
+  "business_criticality": "critical",
+  "pillar_scores": {
+    "operational_excellence": 3,
+    "security": 2,
+    "reliability": 3,
+    "performance_efficiency": 3,
+    "cost_optimization": 4,
+    "sustainability": 3
+  },
+  "findings": [
+    {
+      "bp_id": "SEC08-BP01",
+      "pillar": "security",
+      "status": "not_implemented",
+      "severity": "high",
+      "evidence": { "file": "infra/s3.tf", "line": 14 },
+      "effort": "low",
+      "recommendation": "Enable SSE and BlockPublicAccess on the uploads bucket."
+    },
+    {
+      "bp_id": "SEC03-BP02",
+      "pillar": "security",
+      "status": "partially_implemented",
+      "severity": "medium",
+      "evidence": { "file": "infra/iam.tf", "line": 40 },
+      "effort": "medium",
+      "recommendation": "Add permission boundaries to the deploy role."
+    },
+    {
+      "bp_id": "REL09-BP01",
+      "pillar": "reliability",
+      "status": "implemented",
+      "evidence": { "file": "infra/rds.tf", "line": 22 }
+    },
+    {
+      "bp_id": "COST04-BP01",
+      "pillar": "cost_optimization",
+      "status": "not_implemented",
+      "severity": "low",
+      "evidence": { "note": "No log retention policy set; log groups never expire." },
+      "effort": "low",
+      "recommendation": "Set a retention policy on CloudWatch log groups."
+    }
+  ],
+  "recall_note": "Full review, F1 approx 0.96. High recall but not exhaustive; absence of a finding is not proof of implementation."
+}

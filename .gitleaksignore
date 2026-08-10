@@ -1,1 +1,6 @@
 3c3bf78bb52b68415af012f831b93451b403cbac:evals/results/eval_20260531_230845.json:aws-access-token:2168
+# Intentional sample secrets in a deliberately-insecure demo CDK stack, used to
+# exercise the WA security review (note the `// WA-ISSUE:` marker). The example
+# dir was later removed from the tree; this acknowledges the historical finding.
+# Not a live credential — no rotation required.
+a1643dbf81bf033cf60c75a36a6394cd27bae239:examples/insecure-serverless-app-cdk/lib/stack.ts:generic-api-key:110

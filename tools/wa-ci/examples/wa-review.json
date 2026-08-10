@@ -1,0 +1,72 @@
+{
+  "schema_version": "1.0.0",
+  "workload": "payments-api",
+  "date": "2026-08-06",
+  "review_mode": "full",
+  "skill_version": "2.2.0",
+  "run_id": "2026-08-06T14-02-payments-api",
+  "business_criticality": "critical",
+  "pillar_scores": {
+    "operational_excellence": 3,
+    "security": 3,
+    "reliability": 2,
+    "performance_efficiency": 3,
+    "cost_optimization": 4,
+    "sustainability": 3
+  },
+  "findings": [
+    {
+      "bp_id": "SEC08-BP01",
+      "pillar": "security",
+      "status": "implemented",
+      "evidence": { "file": "infra/s3.tf", "line": 14 },
+      "recommendation": "SSE-KMS and BlockPublicAccess now enabled on the uploads bucket."
+    },
+    {
+      "bp_id": "SEC03-BP02",
+      "pillar": "security",
+      "status": "partially_implemented",
+      "severity": "medium",
+      "evidence": { "file": "infra/iam.tf", "line": 40 },
+      "effort": "medium",
+      "recommendation": "Permission boundary added to the deploy role; still missing on the CI role."
+    },
+    {
+      "bp_id": "REL09-BP01",
+      "pillar": "reliability",
+      "status": "not_implemented",
+      "severity": "high",
+      "evidence": { "file": "infra/rds.tf", "line": 22 },
+      "effort": "low",
+      "recommendation": "Automated backups were disabled in the last change; re-enable PITR on the primary database."
+    },
+    {
+      "bp_id": "COST04-BP01",
+      "pillar": "cost_optimization",
+      "status": "not_implemented",
+      "severity": "low",
+      "evidence": { "note": "No log retention policy set; log groups never expire." },
+      "effort": "low",
+      "recommendation": "Set a retention policy on CloudWatch log groups."
+    },
+    {
+      "bp_id": "SEC05-BP01",
+      "pillar": "security",
+      "status": "not_implemented",
+      "severity": "critical",
+      "evidence": { "file": "infra/sg.tf", "line": 8 },
+      "effort": "low",
+      "recommendation": "A security group now allows 0.0.0.0/0 on port 22; restrict SSH to the bastion CIDR."
+    },
+    {
+      "title": "Use asynchronous invocation for non-critical Lambda work",
+      "lens": "serverless-applications",
+      "pillar": "performance_efficiency",
+      "status": "not_implemented",
+      "severity": "medium",
+      "recommendation": "Move the order-confirmation email off the request path to an async invocation."
+    }
+  ],
+  "lens": ["serverless-applications"],
+  "recall_note": "Full review, F1 approx 0.96. High recall but not exhaustive; absence of a finding is not proof of implementation."
+}

@@ -147,6 +147,7 @@ def score_baseline_run(cli_result: dict, gt_bps: set[str], canonical: set[str]) 
         "stop_reason": final.get("stop_reason"),
         "assembled_text_len": len(assembled_text),
         "all_text_len": len(all_text),
+        "assembled_text": assembled_text,
     }
 
 

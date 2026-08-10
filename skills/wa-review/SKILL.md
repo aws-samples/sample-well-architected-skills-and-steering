@@ -2,7 +2,7 @@
 name: wa-review
 description: Perform a full AWS Well-Architected Framework review evaluating all 57 questions across 6 pillars by analyzing code, IaC, and configurations to produce evidence-backed findings with Eisenhower-prioritized remediation.
 not_for: single-pillar deep-dives (use the specific pillar skill), learning WA (use wa-builder), ADRs (use architecture-decision-record), migration (use migration-readiness)
-version: 2.2.0
+version: 2.3.0
 ---
 
 # Well-Architected Review
@@ -19,7 +19,7 @@ Ask the user to describe the workload:
 
 If the user has already provided architecture details or you are in a codebase with IaC, skip the prompt and proceed with discovery.
 
-**IMPORTANT**: When no code or IaC is available to analyze (e.g., the user describes their architecture verbally), proceed with the review based on the information provided. Produce the full report using the architecture description as evidence. Mark findings where you cannot verify implementation details as "Based on description — verify in code." Do NOT ask for code if the user has already given you enough context to perform a meaningful review.
+**IMPORTANT**: When no code or IaC is available to analyze (e.g., the user describes their architecture verbally), proceed with the review based on the information provided. Produce the full report using explicit statements in the architecture description as evidence. Treat omitted details as unknown, not as evidence that a control is absent. Mark unverifiable implementation details `Cannot Determine`, state what evidence would resolve them, and do NOT ask for code if the user has already given you enough context to perform a meaningful review.
 
 Determine if a specialized WA Lens applies:
 - SaaS, Serverless, Data Analytics, Machine Learning, IoT, Containers, Games, Financial Services, Healthcare
@@ -76,13 +76,27 @@ Do NOT proceed past this point until the user explicitly confirms.
 
 ## Step 4: Evaluate EVERY WA Framework question with code evidence
 
-**CRITICAL — DO NOT PRODUCE A SHORT REVIEW.** The single most common failure mode is citing 20-30 BPs and stopping. The reference corpus contains **307 BPs across 57 questions**; a real full review MUST evaluate ALL 307. Every BP receives a status: Implemented, Partially Implemented, Not Implemented, or Not Applicable (with rationale). If you find yourself with fewer than 200 BP citations, you have not finished the review. Iterate until every BP is addressed.
+**CRITICAL — DO NOT PRODUCE A SHORT REVIEW.** The single most common failure mode is citing 20-30 BPs and stopping. The reference corpus contains **307 BPs across 57 questions**; a real full review MUST evaluate ALL 307. Every BP receives one of five statuses: Implemented, Partially Implemented, Not Implemented, Not Applicable, or Cannot Determine (with rationale). If you find yourself with fewer than 200 BP citations, you have not finished the review. Iterate until every BP is addressed.
 
 Assess the workload against ALL 57 questions in the Well-Architected Framework. For each question, provide:
-- **Status**: "Implemented", "Partially Implemented", "Not Implemented", "Cannot Determine"
+- **Status**: "Implemented", "Partially Implemented", "Not Implemented", "Not Applicable", "Cannot Determine"
 - **Evidence**: specific file paths and line numbers
 - **Gaps**: what's missing or could be improved
 - **Risk**: what could go wrong due to the gap
+
+### Evidence sufficiency gate
+
+Assign a status only after applying this gate:
+
+- **Implemented** — explicit evidence demonstrates the complete BP.
+- **Partially Implemented** — explicit evidence demonstrates part of the BP and identifies a concrete gap.
+- **Not Implemented** — explicit evidence states the control is absent, or an authoritative and sufficiently complete source was examined where the control would have to appear and it is absent.
+- **Not Applicable** — the BP is outside the workload scope; provide a workload-specific rationale.
+- **Cannot Determine** — available evidence is missing, inconclusive, runtime-only, or outside the inspected scope. State the exact artifact, metric, configuration, or interview answer needed to decide.
+
+Absence of evidence is not evidence of absence. A verbal description omitting a control, or code/IaC that is not authoritative for that control, MUST result in `Cannot Determine`, not `Not Implemented`. For example, "no backups configured" supports `Not Implemented`; no mention of control objectives or TCO analysis supports only `Cannot Determine`.
+
+Leave severity blank for `Implemented`, `Not Applicable`, and `Cannot Determine`. For `Cannot Determine`, provide a verification action rather than a remediation finding. Do not convert uncertainty into a High or Critical finding.
 
 The 6 pillars and their questions:
 - **Operational Excellence** (OPS 1–11): Organization, observability, deployment risk, operational readiness, event management, evolution
@@ -202,10 +216,14 @@ Dispatch all 6 Task calls in a single turn (parallel execution). **Each subagent
 
 **Row requirements:**
 - One row per BP evaluated (target 30-55 rows per pillar; MUST cover every BP in the pillar file)
-- Status: exactly one of `Implemented` / `Partially Implemented` / `Not Implemented` / `Not Applicable`
-- Severity: `Critical` / `High` / `Medium` / `Low` (or blank for Implemented/Not Applicable)
-- Evidence: specific file:line references when code was analyzed, or "Based on description" when reviewing verbally
+- Status: exactly one of `Implemented` / `Partially Implemented` / `Not Implemented` / `Not Applicable` / `Cannot Determine`
+- Severity: `Critical` / `High` / `Medium` / `Low` (or blank for Implemented/Not Applicable/Cannot Determine)
+- Evidence: specific file:line references when code was analyzed, an explicit quoted fact when reviewing verbally, or `Cannot Determine — need {specific evidence}`
 - BP ID in canonical `PILLAR##-BP##` format only
+
+Append this exact calibration rule to every pillar subagent prompt:
+
+> Apply the evidence sufficiency gate: omitted or inconclusive information is Cannot Determine, not Not Implemented. Use Not Implemented only for an explicitly absent control or absence from an authoritative source where the control must appear. Leave severity blank for Cannot Determine and state the specific evidence needed.
 
 **Dispatch template:**
 
@@ -256,20 +274,21 @@ Once all 6 subagents return, merge their findings into a single structured repor
 For each BP citation, the ledger row shows:
 - **Implemented** — the workload demonstrates this BP (cite the BP + evidence)
 - **Partially Implemented** — some coverage, gaps exist (cite the BP + gap)
-- **Not Implemented** — the workload lacks this BP (cite the BP as missing)
+- **Not Implemented** — explicit or authoritative evidence demonstrates that the workload lacks this BP
 - **Not Applicable** — this BP doesn't apply to the workload's context (explain why briefly)
+- **Cannot Determine** — evidence is insufficient to decide (state the specific evidence needed)
 
-**Coverage expectations** — a full review MUST evaluate all **307 BPs**. Every BP receives one of four statuses. "Not Implemented" for absent controls is a valid, valuable finding — do not skip a BP just because the workload lacks the underlying capability.
+**Coverage expectations** — a full review MUST evaluate all **307 BPs**. Every BP receives one of five statuses. `Cannot Determine` counts as evaluated coverage; exhaustive coverage does not require inventing a determinate status. `Not Implemented` for an evidenced absence is a valid, valuable finding.
 
 ### Step 4d — MANDATORY coverage audit (do NOT skip)
 
 **Before producing the final report**, you MUST perform a self-audit and iterate if coverage is incomplete:
 
-1. **Count**: How many unique BP IDs have you evaluated so far (in canonical `PILLAR##-BP##` format)? Count all four statuses — Implemented, Partially Implemented, Not Implemented, AND Not Applicable.
+1. **Count**: How many unique BP IDs have you evaluated so far (in canonical `PILLAR##-BP##` format)? Count all five statuses — Implemented, Partially Implemented, Not Implemented, Not Applicable, AND Cannot Determine.
 2. **Compare against the target**: A full review evaluates ALL **307 BPs** in the manifest. Anything less is incomplete.
 3. **If your evaluated count is below 307**, you MUST NOT proceed to the final report. Instead, iterate:
    - Compare your evaluated set against the full 307-BP list in `references/manifest.md`
-   - For each un-evaluated BP, load the corresponding pillar file if not already loaded, then add an entry (Implemented / Partially Implemented / Not Implemented / N/A)
+   - For each un-evaluated BP, load the corresponding pillar file if not already loaded, then add an entry (Implemented / Partially Implemented / Not Implemented / N/A / Cannot Determine)
    - Repeat the count check.
 4. **Continue iterating** until every one of the 307 BPs has an entry. If a BP is genuinely N/A (e.g., serverless-specific BP for a container workload), mark it N/A with a one-line rationale — do not silently skip.
 
@@ -281,7 +300,7 @@ For each BP citation, the ledger row shows:
 ## Coverage audit
 - BPs evaluated: {count} / 307
 - Iterations performed: {N}
-- Status distribution: {implemented} Implemented, {partial} Partial, {not_impl} Not Implemented, {na} N/A
+- Status distribution: {implemented} Implemented, {partial} Partial, {not_impl} Not Implemented, {na} N/A, {cannot_determine} Cannot Determine
 ```
 
 If `BPs evaluated` is less than 307, you have not finished the review — go back to Step 4d.
@@ -509,6 +528,87 @@ For each solution in "Do First" and "Plan":
 {Top 5 concrete actions from the "Do First" quadrant — the team should start this week}
 ```
 
+## Step 6b: Emit structured output (`wa-review.json`)
+
+After the markdown report, ALSO emit a machine-readable `wa-review.json` so the review can be
+diffed over time (CI gate), aggregated across workloads, or imported into the WA Tool. The
+markdown is for humans; this artifact is for tools. Conform to the versioned contract in
+[`schemas/wa-review-v1.schema.json`](../../schemas/wa-review-v1.schema.json).
+
+Write it to `wa-review.json` in the workload root (or a path the user names). Populate it from the
+same findings you just reported — do NOT re-run the analysis, just serialize what the Full BP
+Ledger already contains.
+
+**Rules:**
+- One `findings` entry per BP you evaluated, including `implemented` and `not_applicable` ones. A
+  consumer must be able to tell an evaluated-and-passed BP from one that was never assessed, so do
+  not drop the passing rows.
+- For a core-framework BP, `bp_id` MUST be canonical `PILLAR##-BP##` — it is the identity key a
+  baseline diff pairs on. Most lens BPs also publish a canonical ID (e.g. `IOTCOST01-BP01`); use it.
+- Some lenses are organized by topic and expose NO BP ID (serverless-applications, saas,
+  government, healthcare-industry, container-build, sap, streaming-media, and a few mixed cases).
+  For a finding from one of those, OMIT `bp_id` and give a `title` (plus `lens`). A title is not a
+  stable key, so these findings are reported as advisory and are never gated. Do not invent a BP
+  ID to satisfy the diff; that produces keys that drift between reviews.
+- Set `review_mode` to the depth you actually ran (`full`, `quick`, `pillar-scoped`, `score`). A
+  non-full run does not cover all 307 BPs; say so in `recall_note`.
+- Set `skill_version` to this skill's frontmatter `version`, and generate a unique `run_id`
+  (e.g. `{date}T{time}-{workload-slug}`) so two same-day reviews stay distinguishable.
+- Every gap (`not_implemented` / `partially_implemented`) MUST carry a `severity`
+  (`critical`/`high`/`medium`/`low`). The CI gate ranks by severity, so an unrated gap fails the
+  build closed. Leave `severity` off only for `implemented` / `not_applicable` / `cannot_determine`.
+- `recall_note` MUST state that coverage is high-recall but not exhaustive (wa-review measures
+  F1 ~0.96), so downstream gates never read a missing finding as proof a control exists.
+- `recommendation` stays prose guidance — never a code diff (repo design principle).
+
+**Shape** (see the schema for the authoritative, complete definition):
+
+```json
+{
+  "schema_version": "1.0.0",
+  "workload": "{workload name}",
+  "date": "{YYYY-MM-DD}",
+  "review_mode": "full",
+  "skill_version": "2.3.0",
+  "run_id": "{date}T{time}-{workload-slug}",
+  "lens": ["{lens-name}"],
+  "business_criticality": "{critical|high|standard|low}",
+  "pillar_scores": {
+    "operational_excellence": 3, "security": 2, "reliability": 2,
+    "performance_efficiency": 3, "cost_optimization": 4, "sustainability": 3
+  },
+  "findings": [
+    {
+      "bp_id": "SEC08-BP01",
+      "pillar": "security",
+      "status": "not_implemented",
+      "severity": "high",
+      "evidence": { "file": "infra/s3.tf", "line": 14 },
+      "effort": "low",
+      "recommendation": "Enable SSE and BlockPublicAccess on the uploads bucket."
+    },
+    {
+      "title": "Use asynchronous invocation for non-critical Lambda work",
+      "lens": "serverless-applications",
+      "pillar": "performance_efficiency",
+      "status": "not_implemented",
+      "severity": "medium",
+      "recommendation": "Move the notification path to async invocation so the request path is not blocked."
+    }
+  ],
+  "recall_note": "Full review, F1 approx 0.96. High recall but not exhaustive; absence of a finding is not proof of implementation."
+}
+```
+
+The second finding above shows a topic-organized lens finding: no `bp_id`, a `title` instead. It
+is advisory (reported, not gated).
+
+Once written, mention the file and point the user at CI use:
+
+> I have also written `wa-review.json` (machine-readable, conforms to `schemas/wa-review-v1.schema.json`).
+> Commit it as `.well-architected/baseline.json` and wire `tools/wa-ci` into your pipeline to gate
+> future PRs on the Well-Architected delta.
+
 ## Step 7: Offer follow-up
 
 After delivering the report, offer:
@@ -519,6 +619,7 @@ After delivering the report, offer:
 > - Create a migration plan for a specific architectural change?
 > - Compare your workload against a specific WA Lens in detail?
 > - Generate automated checks (Config rules, custom metrics) for ongoing compliance?
+> - Set up a continuous WA gate: commit `wa-review.json` as a baseline and run `tools/wa-ci` in CI?
 > - Produce a WA Tool import for tracking in the AWS console?
 
 ## Calibration Guidance
@@ -527,8 +628,8 @@ After delivering the report, offer:
 - Do NOT manufacture Critical findings for a well-built workload — accuracy over alarm
 - When business criticality is "low"/"standard", accept simpler architectures (single-region is fine for internal tools)
 - When business criticality is "critical", apply stricter standards (multi-region DR, chaos testing, sub-minute RTO expected)
-- Every finding MUST have code evidence — no generic recommendations without backing
-- If something cannot be determined from code, say "Cannot Determine" and explain what runtime/interview data is needed
+- Every determinate finding MUST have concrete code, configuration, runtime, or explicit user-provided evidence — no generic recommendations without backing
+- If something cannot be determined from the available evidence, say "Cannot Determine", leave severity blank, and explain what runtime/interview data is needed
 - Acknowledge strengths prominently — a mature workload should feel validated, not just criticized
 
 <!--
