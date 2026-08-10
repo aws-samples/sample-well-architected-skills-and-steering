@@ -11,7 +11,8 @@
         "The output includes a pillar scorecard with numerical scores (1-5) per pillar",
         "Risk assessment uses Impact x Likelihood matrix producing Critical/High/Medium/Low classifications",
         "The output includes an Eisenhower-matrix prioritized remediation plan with four quadrants (Do First, Plan, Delegate, Defer)",
-        "Findings include serverless-specific issues referencing Lambda cold starts, DynamoDB capacity modes, API Gateway throttling, or CloudFront caching"
+        "Findings include serverless-specific issues referencing Lambda cold starts, DynamoDB capacity modes, API Gateway throttling, or CloudFront caching",
+        "Controls omitted from the short architecture description are marked Cannot Determine with no severity and a specific verification action, rather than assumed Not Implemented"
       ],
       "process_assertions": [
         "Response covers all 57 questions (not just 5-10 high-level themes)",
@@ -35,9 +36,9 @@
     {
       "id": 2,
       "prompt": "Review my architecture: we have a monolithic Java app on a single EC2 instance, MySQL on RDS single-AZ, no backups configured, SSH access with shared keys, no monitoring besides CloudWatch basic metrics. It's a customer-facing SaaS product.",
-      "expected_output": "A review with 57-question table showing majority 'Not Implemented', BP-level citations for critical gaps, risk matrix showing multiple Critical/High findings, low pillar scores (1-2), and Eisenhower prioritization recognizing business criticality mismatch.",
+      "expected_output": "A review with a complete 57-question and 307-BP ledger that marks explicitly stated gaps Not Implemented, marks omitted controls Cannot Determine, cites critical gaps, and prioritizes remediation for the customer-facing SaaS workload.",
       "assertions": [
-        "Per-question assessment table covers all 57 questions with majority marked Not Implemented or Partially Implemented",
+        "Per-question assessment covers all 57 questions and distinguishes explicitly absent controls from omitted details; unspecified controls such as control objectives, TCO analysis, and incident-response processes are Cannot Determine with no severity and a specific verification action",
         "BP IDs cited for critical gaps: REL02 (network topology), REL11 (backups), SEC03 (permissions/shared keys), SEC08 (compute protection), OPS06 (observability)",
         "Risk assessment: single EC2 = Critical (Severe x High), no backups = High (Severe x Medium), shared SSH keys = Critical (Severe x High), single-AZ RDS = High (Severe x Medium)",
         "Pillar scorecard shows low scores (1-2) across most pillars",
@@ -56,7 +57,8 @@
         "Does NOT classify majority of findings as Critical — architecture is solid with multi-AZ, WAF, GuardDuty, canary deployments",
         "Prominently acknowledges existing strengths: canary deployments, multi-AZ Aurora, WAF, GuardDuty, X-Ray, automated scaling, Savings Plans",
         "Suggests advanced improvements: chaos engineering, multi-region DR, game days, sustainability, SLA-based alerting",
-        "Includes Eisenhower-matrix or equivalent prioritized remediation plan"
+        "Includes Eisenhower-matrix or equivalent prioritized remediation plan",
+        "Practices not evidenced by the architecture summary are marked Cannot Determine rather than inferred as implemented or absent"
       ]
     },
     {

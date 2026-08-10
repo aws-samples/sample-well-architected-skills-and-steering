@@ -17,7 +17,7 @@ description: |
   remediation. Evidence comes from incident history, observable metrics, application
   logs, and source code — not from user prompts.
 not_for: routine incident triage (use standard investigation flow), learning WA (use wa-builder), migration readiness (use migration-readiness), generating guardrails (use wa-guardrails)
-version: 2.2.0-devops-agent
+version: 2.2.1-devops-agent
 ---
 
 # Well-Architected Review — DevOps Agent Variant
@@ -97,9 +97,11 @@ Derive infrastructure evidence from:
 - **Source code**: connection pool settings, retry configuration, timeout values,
   exception handling patterns are the IaC equivalent for application-layer WA
 
-Mark infrastructure findings as "Based on observable evidence — verify in
-configuration" rather than "Cannot Determine". The absence of IaC is itself
-a finding under OPS 5 (infrastructure as code).
+Use "Based on observable evidence — verify in configuration" only when the
+available metrics, logs, or source code support a determinate status. If the
+relevant evidence is unavailable or inconclusive, use `Cannot Determine` and
+state what signal is needed. The absence of IaC is itself evidence for an OPS 5
+finding, but it is not evidence that unrelated controls are absent.
 
 For each infrastructure component, document:
 - Resource type, logical name, and configuration
@@ -126,13 +128,23 @@ Analyze application code for architectural patterns:
 
 ## Step 4: Evaluate EVERY WA Framework question with code evidence
 
-**CRITICAL — DO NOT PRODUCE A SHORT REVIEW.** The single most common failure mode is citing 20-30 BPs and stopping. The reference corpus contains **307 BPs across 57 questions**; a real full review MUST evaluate ALL 307. Every BP receives a status: Implemented, Partially Implemented, Not Implemented, or Not Applicable (with rationale). If you find yourself with fewer than 200 BP citations, you have not finished the review. Iterate until every BP is addressed.
+**CRITICAL — DO NOT PRODUCE A SHORT REVIEW.** The single most common failure mode is citing 20-30 BPs and stopping. The reference corpus contains **307 BPs across 57 questions**; a real full review MUST evaluate ALL 307. Every BP receives one of five statuses: Implemented, Partially Implemented, Not Implemented, Not Applicable, or Cannot Determine (with rationale). If you find yourself with fewer than 200 BP citations, you have not finished the review. Iterate until every BP is addressed.
 
 Assess the workload against ALL 57 questions in the Well-Architected Framework. For each question, provide:
-- **Status**: "Implemented", "Partially Implemented", "Not Implemented", "Cannot Determine"
+- **Status**: "Implemented", "Partially Implemented", "Not Implemented", "Not Applicable", "Cannot Determine"
 - **Evidence**: specific file paths and line numbers (or metric/log source for non-IaC workloads)
 - **Gaps**: what's missing or could be improved
 - **Risk**: what could go wrong due to the gap
+
+### Evidence sufficiency gate
+
+- **Implemented** — explicit evidence demonstrates the complete BP.
+- **Partially Implemented** — explicit evidence demonstrates part of the BP and a concrete gap.
+- **Not Implemented** — explicit evidence states the control is absent, or an authoritative and sufficiently complete source was examined where the control would have to appear and it is absent.
+- **Not Applicable** — the BP is outside the workload scope; provide a workload-specific rationale.
+- **Cannot Determine** — available incident, runtime, code, or configuration evidence is missing or inconclusive. State the exact signal needed.
+
+Absence of evidence is not evidence of absence. Leave severity blank for `Implemented`, `Not Applicable`, and `Cannot Determine`. A `Cannot Determine` row contains a verification action, not a remediation finding.
 
 The 6 pillars and their questions:
 - **Operational Excellence** (OPS 1–11): Organization, observability, deployment risk, operational readiness, event management, evolution
@@ -189,10 +201,14 @@ Dispatch all 6 Task calls in a single turn (parallel execution). **Each subagent
 
 **Row requirements:**
 - One row per BP evaluated (target 30-55 rows per pillar; MUST cover every BP in the pillar file)
-- Status: exactly one of `Implemented` / `Partially Implemented` / `Not Implemented` / `Not Applicable`
-- Severity: `Critical` / `High` / `Medium` / `Low` (or blank for Implemented/Not Applicable)
-- Evidence: specific file:line references when code was analyzed, or metric/log source for non-IaC workloads
+- Status: exactly one of `Implemented` / `Partially Implemented` / `Not Implemented` / `Not Applicable` / `Cannot Determine`
+- Severity: `Critical` / `High` / `Medium` / `Low` (or blank for Implemented/Not Applicable/Cannot Determine)
+- Evidence: specific file:line references, metric/log sources, explicit incident facts, or `Cannot Determine — need {specific evidence}`
 - BP ID in canonical `PILLAR##-BP##` format only
+
+Append this exact calibration rule to every pillar subagent prompt:
+
+> Apply the evidence sufficiency gate: omitted or inconclusive information is Cannot Determine, not Not Implemented. Use Not Implemented only for an explicitly absent control or absence from an authoritative source where the control must appear. Leave severity blank for Cannot Determine and state the specific evidence needed.
 
 **Dispatch template:**
 
@@ -234,13 +250,13 @@ Once all 6 subagents return, merge their findings into a single structured repor
 3. **Verify count before writing.** Count BP IDs in your assembled draft BEFORE returning. If the count is lower than the sum of subagent citations, you dropped some — go back and add them.
 4. **Cross-pillar patterns and prioritization** are additive analyses that reference the ledger; they do NOT replace it.
 
-**Coverage expectations** — a full review MUST evaluate all **307 BPs**. Every BP receives one of four statuses.
+**Coverage expectations** — a full review MUST evaluate all **307 BPs**. Every BP receives one of five statuses; `Cannot Determine` counts as evaluated coverage.
 
 ### Step 4d — MANDATORY coverage audit (do NOT skip)
 
 Before producing the final report, perform a self-audit:
 
-1. Count unique BP IDs evaluated (all four statuses)
+1. Count unique BP IDs evaluated (all five statuses)
 2. Compare against the target: 307 BPs
 3. If below 307: compare against `references/manifest.md`, add missing entries, repeat
 4. Continue until every BP has an entry
@@ -251,7 +267,7 @@ Before producing the final report, perform a self-audit:
 ## Coverage audit
 - BPs evaluated: {count} / 307
 - Iterations performed: {N}
-- Status distribution: {implemented} Implemented, {partial} Partial, {not_impl} Not Implemented, {na} N/A
+- Status distribution: {implemented} Implemented, {partial} Partial, {not_impl} Not Implemented, {na} N/A, {cannot_determine} Cannot Determine
 ```
 
 ### When a WA Lens applies
@@ -400,9 +416,9 @@ subagent rows. If not, you dropped citations — go back and add them.}
 - A workload with multi-AZ, encryption, CI/CD with rollback, monitoring, and auto-scaling is MATURE — most findings should be improvements, not Critical
 - Do NOT manufacture Critical findings for a well-built workload — accuracy over alarm
 - When business criticality is "critical", apply stricter standards (multi-region DR, chaos testing, sub-minute RTO expected)
-- Every finding MUST have evidence — no generic recommendations without backing
-- If something cannot be determined from available evidence, say "Cannot Determine" and state what data would be needed
-- For on-premises workloads, "Cannot Determine" is rarely appropriate — observable signals (metrics, logs, source code) are always available; use them
+- Every determinate finding MUST have evidence — no generic recommendations without backing
+- If something cannot be determined from available evidence, say "Cannot Determine", leave severity blank, and state what data would be needed
+- For on-premises workloads, exhaust available metrics, logs, configuration, and source code before using `Cannot Determine`; do not treat unavailable evidence as an absent control
 
 <!--
 Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
