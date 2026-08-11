@@ -24,12 +24,21 @@ jobs:
           uv run pytest -m "not eval" -q
 
   drift-guard:
-    # Closes the #118 gap: the skills/ reference tree and its powers/ mirror must stay byte-identical.
+    # The Kiro Power at powers/wa-review/ ships hand-copied mirrors of two things
+    # that MUST stay byte-identical to their source, or a stale copy silently
+    # ships (this is the #110/#118 drift class):
+    #   1. the whole skills/wa-review/references/ tree (pillars, playbooks, lenses,
+    #      manifest, wa-questions), and
+    #   2. the well-architected.md steering body.
+    # steering/wa-review.md is deliberately NOT mirrored — the Power's wa-review.md
+    # diverges by design — so it is intentionally excluded here.
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - name: skills/ vs powers/ reference trees must match
         run: diff -rq skills/wa-review/references powers/wa-review/steering/references
+      - name: well-architected.md steering body must match its Power mirror
+        run: diff -q steering/well-architected.md powers/wa-review/steering/well-architected.md
 
   link-check:
     # Advisory (non-blocking) for now: surfaces broken relative links in the log
