@@ -22,6 +22,12 @@ Options:
                 Valid: kiro, kiro-cli, claude-code, cursor, codex, windsurf, github-copilot, cline, gemini-cli, antigravity, junie, amp, openclaw, cortex-code, devops-agent, auto, all
   --uninstall   Remove previously installed WA files from the target directory
   --check-update  Check if a newer version is available on GitHub
+  --devops-agent  Package a skill into a DevOps Agent-compatible zip in the
+                  current directory, then exit. Includes SKILL.md, metadata.json,
+                  and all references/ EXCEPT the lens corpus, so the result stays
+                  under the DevOps Agent 100-file-per-zip upload limit.
+  --skill SKILL   Skill to package with --devops-agent. Can be repeated.
+                  Defaults to all skills. (e.g. wa-review)
   --symlink     Use symlinks instead of copies (auto-updates when this repo changes)
   --global      Install to global config (~/.kiro, ~/.claude, etc.) instead of project
   --force       Overwrite existing files without prompting
@@ -36,6 +42,7 @@ Examples:
   ./install.sh ~/my-project --tool all --force
   ./install.sh ~/my-project --uninstall --tool claude-code
   ./install.sh --check-update
+  ./install.sh --devops-agent --skill wa-review
 EOF
   exit 0
 }
@@ -46,6 +53,8 @@ GLOBAL=false
 FORCE=false
 UNINSTALL=false
 CHECK_UPDATE=false
+DEVOPS_AGENT_PACKAGE=false
+SKILLS=()
 
 while [[ $# -gt 0 ]]; do
   case $1 in
@@ -72,6 +81,14 @@ while [[ $# -gt 0 ]]; do
     --check-update)
       CHECK_UPDATE=true
       shift
+      ;;
+    --devops-agent)
+      DEVOPS_AGENT_PACKAGE=true
+      shift
+      ;;
+    --skill)
+      SKILLS+=("$2")
+      shift 2
       ;;
     --help|-h)
       usage
@@ -673,6 +690,77 @@ check_update() {
 
 if [[ "$CHECK_UPDATE" == true ]]; then
   check_update
+  exit 0
+fi
+
+# Package a single skill into a DevOps Agent-compatible zip in the current
+# directory. Includes SKILL.md, metadata.json, and every references/ file EXCEPT
+# the lens corpus (900+ files on its own, which blows past the DevOps Agent
+# 100-file-per-zip upload limit). When the skill ships DevOps Agent variants
+# (SKILL-devops-agent.md / metadata-devops-agent.json) those are packaged, but
+# written under the standard SKILL.md / metadata.json names the Agent expects.
+package_devops_agent() {
+  local skill_name="$1"
+  local skill_dir="$SCRIPT_DIR/skills/$skill_name"
+
+  if [[ ! -d "$skill_dir" ]]; then
+    echo "  ERROR: skill not found: $skill_name (looked in $SCRIPT_DIR/skills/)" >&2
+    return 1
+  fi
+
+  local stage
+  stage="$(mktemp -d)"
+  mkdir -p "$stage/references"
+
+  if [[ -f "$skill_dir/SKILL-devops-agent.md" ]]; then
+    cp "$skill_dir/SKILL-devops-agent.md" "$stage/SKILL.md"
+  elif [[ -f "$skill_dir/SKILL.md" ]]; then
+    cp "$skill_dir/SKILL.md" "$stage/SKILL.md"
+  fi
+
+  if [[ -f "$skill_dir/metadata-devops-agent.json" ]]; then
+    cp "$skill_dir/metadata-devops-agent.json" "$stage/metadata.json"
+  elif [[ -f "$skill_dir/metadata.json" ]]; then
+    cp "$skill_dir/metadata.json" "$stage/metadata.json"
+  fi
+
+  # All references except the lens corpus, preserving directory structure.
+  if [[ -d "$skill_dir/references" ]]; then
+    while IFS= read -r -d '' ref; do
+      local rel="${ref#"$skill_dir"/references/}"
+      mkdir -p "$(dirname -- "$stage/references/$rel")"
+      cp "$ref" "$stage/references/$rel"
+    done < <(find "$skill_dir/references" -type f -not -path "$skill_dir/references/lenses/*" -print0)
+  fi
+
+  local count
+  count="$(find "$stage" -type f | wc -l | tr -d ' ')"
+
+  local zip_path="$PWD/$skill_name-devops-agent.zip"
+  rm -f "$zip_path"
+  ( cd "$stage" && zip -qr "$zip_path" . >/dev/null )
+  rm -rf "$stage"
+
+  echo "  Packaged: $zip_path ($count files)"
+  if [[ "$count" -gt 100 ]]; then
+    echo "  WARNING: $count files exceeds the DevOps Agent 100-file upload limit." >&2
+  fi
+}
+
+if [[ "$DEVOPS_AGENT_PACKAGE" == true ]]; then
+  echo "Packaging DevOps Agent-compatible skill zip(s)..."
+  if [[ ${#SKILLS[@]} -eq 0 ]]; then
+    for skill_dir in "$SCRIPT_DIR/skills"/*/; do
+      skill_name="$(basename "$skill_dir")"
+      [[ "$skill_name" == "_shared" ]] && continue
+      SKILLS+=("$skill_name")
+    done
+  fi
+  for skill in "${SKILLS[@]}"; do
+    package_devops_agent "$skill"
+  done
+  echo ""
+  echo "Done. Upload the .zip via the DevOps Agent Operator Web App."
   exit 0
 fi
 
