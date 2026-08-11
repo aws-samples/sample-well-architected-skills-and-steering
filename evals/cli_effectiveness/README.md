@@ -51,6 +51,34 @@ Each configuration runs 18 CLI invocations (6 cases × 3 runs). Results are save
 
 Both files are gitignored — they're your local measurements.
 
+### Measuring the sequential variant (`SKILL-sequential.md`, #106)
+
+`SKILL-sequential.md` is the Task-free variant for runtimes without parallel
+subagent dispatch. To measure it, install the sequential file as the active
+skill and run the harness with `--variant sequential` (which drops `Task` from
+the allowed tools and swaps in the sequential preamble, so the model cannot fall
+back to subagent dispatch):
+
+```bash
+# 1. Install the sequential SKILL as the active wa-review skill
+./install.sh --global                     # installs SKILL.md (parallel) first
+cp skills/wa-review/SKILL-sequential.md ~/.claude/skills/wa-review/SKILL.md
+
+# 2. Measure with Task disabled (18 invocations: 6 cases × 3 runs)
+cd evals
+uv run python cli_effectiveness/measure_wa_review.py \
+  --variant sequential \
+  --output cli_effectiveness/wa_review_sequential.json
+
+# 3. Restore the parallel skill afterwards
+cp skills/wa-review/SKILL.md ~/.claude/skills/wa-review/SKILL.md
+```
+
+Expected: F1 close to the ~0.96 of the parallel runtimes, with higher wall-clock
+(~30–40 min total vs ~11 min) and no `Task` usage. Compare
+`wa_review_sequential.json` against `wa_review_effectiveness.json` (parallel).
+Smoke-test a single case first with `--cases 1 --runs 1`.
+
 ## Blind and adversarial quality review
 
 Citation F1 measures coverage, not whether findings are supported or correctly
