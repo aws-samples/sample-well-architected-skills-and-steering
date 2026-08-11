@@ -79,6 +79,12 @@ Expected: F1 close to the ~0.96 of the parallel runtimes, with higher wall-clock
 `wa_review_sequential.json` against `wa_review_effectiveness.json` (parallel).
 Smoke-test a single case first with `--cases 1 --runs 1`.
 
+> **Slow runtimes:** the per-invocation `claude` timeout defaults to 900s. On
+> slower models a full review can exceed it — a parallel Case 1 run measured
+> **979s on Bedrock/`claude-opus-5`** (F1 = 0.947, matching the published
+> number), and the sequential path is slower still. Raise the cap with
+> `--timeout` (e.g. `--timeout 2400`) so legitimate runs aren't killed mid-flight.
+
 ## Blind and adversarial quality review
 
 Citation F1 measures coverage, not whether findings are supported or correctly

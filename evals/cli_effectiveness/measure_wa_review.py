@@ -172,7 +172,7 @@ def _parse_session(session_file: Path) -> tuple[str, str]:
     return "\n".join(last_assistant_text), "\n".join(all_text_chunks)
 
 
-def run_claude_cli(prompt: str, model: str = MODEL, allow_task: bool = True) -> dict:
+def run_claude_cli(prompt: str, model: str = MODEL, allow_task: bool = True, timeout: int = CLI_TIMEOUT_SEC) -> dict:
     """Invoke `claude -p --output-format json` (small stdout for cost/latency
     metrics), then parse the CC session .jsonl file for the full transcript.
 
@@ -206,7 +206,7 @@ def run_claude_cli(prompt: str, model: str = MODEL, allow_task: bool = True) -> 
             input=prompt,
             capture_output=True,
             text=True,
-            timeout=CLI_TIMEOUT_SEC,
+            timeout=timeout,
         )
     except subprocess.TimeoutExpired:
         return {"error": "timeout", "wall_s": time.time() - start}
@@ -390,6 +390,13 @@ def build_parser() -> argparse.ArgumentParser:
              "SKILL file at ~/.claude/skills/wa-review/SKILL.md first (see README).",
     )
     parser.add_argument(
+        "--timeout",
+        type=int,
+        default=CLI_TIMEOUT_SEC,
+        help=f"Per-invocation claude CLI timeout in seconds (default: {CLI_TIMEOUT_SEC}). "
+             "Raise it on slower runtimes/models where a full review exceeds 15 min.",
+    )
+    parser.add_argument(
         "--output",
         type=Path,
         default=DEFAULT_OUTPUT,
@@ -459,7 +466,7 @@ def main(argv: list[str] | None = None) -> int:
         wrapped = preamble + prompt
         for run_idx in range(1, args.runs + 1):
             print(f"  Run {run_idx}/{args.runs}...", end="", flush=True)
-            cli_result = run_claude_cli(wrapped, args.model, allow_task=allow_task)
+            cli_result = run_claude_cli(wrapped, args.model, allow_task=allow_task, timeout=args.timeout)
             scored = score_run(cli_result, gt, canonical)
             scored["run_idx"] = run_idx
             case_runs.append(scored)
