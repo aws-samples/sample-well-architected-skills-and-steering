@@ -51,16 +51,15 @@ When delivering Well-Architected guidance:
 ## Skills
 
 Well-Architected skills are available as reusable playbooks in the `skills/` directory. If the user requests a specific audit or plan (e.g. WA review, security assessment, reliability improvement plan), locate and follow the step-by-step instructions in the corresponding skill directory:
-- [wa-review](file:///skills/wa-review/SKILL.md) (Full Well-Architected review)
-- [security-assessment](file:///skills/security-assessment/SKILL.md) (Security posture assessment)
-- [reliability-improvement-plan](file:///skills/reliability-improvement-plan/SKILL.md) (Reliability remediation plan)
-- [cost-optimization-review](file:///skills/cost-optimization-review/SKILL.md) (Cost optimization audit)
-- [performance-efficiency](file:///skills/performance-efficiency/SKILL.md) (Performance efficiency review)
-- [sustainability-optimization](file:///skills/sustainability-optimization/SKILL.md) (Sustainability optimization review)
-- [migration-readiness](file:///skills/migration-readiness/SKILL.md) (Migration readiness assessment)
-- [architecture-decision-record](file:///skills/architecture-decision-record/SKILL.md) (Architecture decision record template)
-- [wa-builder](file:///skills/wa-builder/SKILL.md) (Understand Well-Architected for your workload and generate visual artifacts: annotated diagrams, decision trees, roadmaps)
-- [wa-guardrails](file:///skills/wa-guardrails/SKILL.md) (Generate preventive guardrails: Config rules, SCPs, CI policy checks, alarms to keep a workload aligned with Well-Architected best practices over time)
+
+**Core skills:**
+- [wa-review](../../skills/wa-review/SKILL.md) — Full or pillar-scoped Well-Architected review (all 6 pillars supported as deep-dives)
+- [wa-builder](../../skills/wa-builder/SKILL.md) — Learn Well-Architected for your workload and generate visual artifacts: annotated diagrams, decision trees, roadmaps, ADRs
+- [wa-guardrails](../../skills/wa-guardrails/SKILL.md) — Generate preventive guardrails: Config rules, SCPs, CI policy checks, and alarms that keep a workload aligned with Well-Architected best practices over time
+- [wafr-facilitator](../../skills/wafr-facilitator/SKILL.md) — Prepare conversational Well-Architected Framework Review facilitation with customers
+- [migration-readiness](../../skills/migration-readiness/SKILL.md) — 7 Rs migration readiness assessment
+
+**Pillar-scoped variants** route to `wa-review` with a single-pillar focus — security assessment, reliability improvement plan, cost optimization review, performance efficiency review, sustainability optimization, and operational excellence — while an architecture decision record maps to `wa-builder`'s ADR mode.
 
 <!--
 Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
