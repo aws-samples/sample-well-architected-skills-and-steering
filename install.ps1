@@ -25,6 +25,14 @@
 .PARAMETER Force
     Overwrite existing files without prompting
 
+.PARAMETER Uninstall
+    Remove previously installed WA files from the target (or global) location,
+    per tool. Honors -Global and -Tool the same way an install does.
+
+.PARAMETER CheckUpdate
+    Check GitHub for a newer release and compare it to this script's version,
+    then exit without installing.
+
 .EXAMPLE
     .\install.ps1 -TargetDir C:\Projects\my-app -Tool claude-code
 
@@ -33,6 +41,12 @@
 
 .EXAMPLE
     .\install.ps1 -Tool all -Force
+
+.EXAMPLE
+    .\install.ps1 -TargetDir C:\Projects\my-app -Uninstall -Tool claude-code
+
+.EXAMPLE
+    .\install.ps1 -CheckUpdate
 #>
 
 param(
@@ -40,11 +54,16 @@ param(
     [string[]]$Tool = @("all"),
     [switch]$Symlink,
     [switch]$Global,
-    [switch]$Force
+    [switch]$Force,
+    [switch]$Uninstall,
+    [switch]$CheckUpdate
 )
 
 $ErrorActionPreference = "Stop"
 $ScriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
+
+# Kept in sync with the bash installer's VERSION constant; used by -CheckUpdate.
+$Version = "1.3.0"
 
 function Copy-OrLink {
     param(
@@ -335,7 +354,167 @@ function Get-DetectedTools {
     return $detected
 }
 
+# Delete a file or directory if it exists. Symlinks/junctions created by a
+# -Symlink install are removed as the link itself, never recursed into — this
+# mirrors `rm` on a symlink and sidesteps the PowerShell 5.1 behavior where
+# Remove-Item -Recurse follows a directory link and deletes the real target.
+function Remove-IfExists {
+    param([string]$Path)
+    $item = Get-Item -LiteralPath $Path -Force -ErrorAction SilentlyContinue
+    if (-not $item) { return }
+    if ($item.Attributes -band [System.IO.FileAttributes]::ReparsePoint) {
+        $item.Delete()
+    }
+    else {
+        Remove-Item -LiteralPath $Path -Recurse -Force -ErrorAction SilentlyContinue
+    }
+}
+
+# Mirror of install.sh's uninstall_tool: remove everything an install created,
+# per tool, honoring the same per-tool -Global base directories.
+function Uninstall-Tool {
+    param([string]$ToolName)
+
+    $base = if ($Global) {
+        # Match the per-tool global base each Install-* function writes to, so
+        # uninstall removes files from where they were actually installed.
+        switch ($ToolName) {
+            "gemini-cli"   { "$env:USERPROFILE\.gemini" }
+            "amp"          { "$env:USERPROFILE\.config\agents" }
+            "openclaw"     { "$env:USERPROFILE\.openclaw\workspace" }
+            "devops-agent" { "$env:USERPROFILE\.devops-agent-skills" }
+            "antigravity"  { "$env:USERPROFILE\.gemini" }
+            default        { $env:USERPROFILE }
+        }
+    }
+    else { $TargetDir }
+
+    switch ($ToolName) {
+        { $_ -in "kiro", "kiro-cli" } {
+            Remove-IfExists "$base\.kiro\steering\well-architected.md"
+            foreach ($skill in Get-Skills) { Remove-IfExists "$base\.kiro\skills\$($skill.Name)" }
+            Write-Host "  Removed: Kiro steering and skills"
+            break
+        }
+        "claude-code" {
+            Remove-IfExists "$base\CLAUDE.md"
+            Remove-IfExists "$base\.claude\commands"
+            foreach ($skill in Get-Skills) { Remove-IfExists "$base\.claude\skills\$($skill.Name)" }
+            Write-Host "  Removed: Claude Code CLAUDE.md, commands, and skills"
+            break
+        }
+        "cursor" {
+            Remove-IfExists "$base\.cursor\rules\well-architected.md"
+            Remove-IfExists "$base\.cursor\rules\wa-review.md"
+            foreach ($skill in Get-Skills) { Remove-IfExists "$base\.cursor\skills\$($skill.Name)" }
+            Write-Host "  Removed: Cursor rules and skills"
+            break
+        }
+        "codex" {
+            Remove-IfExists "$base\AGENTS.md"
+            foreach ($skill in Get-Skills) { Remove-IfExists "$base\skills\$($skill.Name)" }
+            Write-Host "  Removed: Codex AGENTS.md and skills"
+            break
+        }
+        "windsurf" {
+            Remove-IfExists "$base\.windsurfrules"
+            foreach ($skill in Get-Skills) { Remove-IfExists "$base\skills\$($skill.Name)" }
+            Write-Host "  Removed: Windsurf .windsurfrules and skills"
+            break
+        }
+        "github-copilot" {
+            Remove-IfExists "$base\.github\copilot-instructions.md"
+            Write-Host "  Removed: GitHub Copilot instructions"
+            break
+        }
+        "cline" {
+            Remove-IfExists "$base\.clinerules"
+            foreach ($skill in Get-Skills) { Remove-IfExists "$base\skills\$($skill.Name)" }
+            Write-Host "  Removed: Cline .clinerules and skills"
+            break
+        }
+        "gemini-cli" {
+            Remove-IfExists "$base\GEMINI.md"
+            foreach ($skill in Get-Skills) { Remove-IfExists "$base\skills\$($skill.Name)" }
+            Write-Host "  Removed: Gemini CLI GEMINI.md and skills"
+            break
+        }
+        "antigravity" {
+            if ($Global) {
+                # Global install reuses the Gemini layout (~/.gemini/GEMINI.md + skills/).
+                Remove-IfExists "$base\GEMINI.md"
+                foreach ($skill in Get-Skills) { Remove-IfExists "$base\skills\$($skill.Name)" }
+            }
+            else {
+                Remove-IfExists "$base\.agents\rules\well-architected.md"
+                Remove-IfExists "$base\.agents\rules\wa-review.md"
+                foreach ($skill in Get-Skills) { Remove-IfExists "$base\.agents\skills\$($skill.Name)" }
+            }
+            Write-Host "  Removed: Antigravity rules and skills"
+            break
+        }
+        "junie" {
+            Remove-IfExists "$base\.junie\guidelines\well-architected.md"
+            foreach ($skill in Get-Skills) { Remove-IfExists "$base\.junie\skills\$($skill.Name)" }
+            Write-Host "  Removed: Junie guidelines and skills"
+            break
+        }
+        "amp" {
+            Remove-IfExists "$base\AGENTS.md"
+            $ampSkillsDir = if ($Global) { "$base\skills" } else { "$base\.agents\skills" }
+            foreach ($skill in Get-Skills) { Remove-IfExists "$ampSkillsDir\$($skill.Name)" }
+            Write-Host "  Removed: Amp AGENTS.md and skills"
+            break
+        }
+        "openclaw" {
+            Remove-IfExists "$base\AGENTS.md"
+            $openclawSkillsDir = if ($Global) { "$base\skills" } else { "$base\.agents\skills" }
+            foreach ($skill in Get-Skills) { Remove-IfExists "$openclawSkillsDir\$($skill.Name)" }
+            Write-Host "  Removed: OpenClaw AGENTS.md and skills"
+            break
+        }
+        "devops-agent" {
+            Remove-IfExists "$base\devops-agent-skills"
+            Write-Host "  Removed: DevOps Agent skill packages"
+            break
+        }
+    }
+}
+
+# Mirror of install.sh's check_update: query the GitHub releases API and compare
+# the latest published tag to this script's $Version.
+function Test-Update {
+    $api = "https://api.github.com/repos/aws-samples/sample-well-architected-skills-and-steering/releases/latest"
+    $latest = $null
+    try {
+        $resp = Invoke-RestMethod -Uri $api -Headers @{ "User-Agent" = "wa-skills-installer" } -TimeoutSec 10 -ErrorAction Stop
+        $latest = ($resp.tag_name -replace '^v', '')
+    }
+    catch {
+        $latest = $null
+    }
+
+    if ([string]::IsNullOrEmpty($latest)) {
+        Write-Host "  Could not check for updates (no network or API rate limited)."
+        return
+    }
+
+    if ($latest -eq $Version) {
+        Write-Host "  You are up to date (v$Version)."
+    }
+    else {
+        Write-Host "  Update available: v$Version -> v$latest"
+        Write-Host "  Run the bootstrap one-liner or git pull to update."
+        Write-Host "  https://github.com/aws-samples/sample-well-architected-skills-and-steering/releases/tag/v$latest"
+    }
+}
+
 # Main
+if ($CheckUpdate) {
+    Test-Update
+    exit 0
+}
+
 Write-Host "================================================"
 Write-Host " Well-Architected Skills & Steering Installer"
 Write-Host "================================================"
@@ -355,6 +534,24 @@ $validTools = @("kiro", "kiro-cli", "claude-code", "cursor", "codex", "windsurf"
 # Resolve "auto" to the set of tools detected in the target directory.
 if ($Tool -contains "auto") {
     $Tool = Get-DetectedTools $TargetDir
+}
+
+# Uninstall mode: remove what an install created, then exit.
+if ($Uninstall) {
+    Write-Host "Uninstalling..."
+    foreach ($t in $Tool) {
+        if ($t -eq "all") {
+            foreach ($u in @("kiro", "claude-code", "cursor", "codex", "windsurf", "github-copilot", "cline", "gemini-cli", "antigravity", "junie", "amp", "openclaw", "cortex-code", "devops-agent")) {
+                Uninstall-Tool $u
+            }
+        }
+        else {
+            Uninstall-Tool $t
+        }
+    }
+    Write-Host ""
+    Write-Host "Uninstall complete!"
+    exit 0
 }
 
 foreach ($t in $Tool) {
