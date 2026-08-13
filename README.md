@@ -603,7 +603,7 @@ The table below summarises measured results. The "Full review" path dispatches 6
 
 **Kiro note:** Kiro's non-interactive mode (`--no-interactive`) requires the explicit instruction "do NOT offer follow-up actions" in the eval preamble — without it, score mode offers the Full BP Ledger as a separate step rather than producing it inline, dropping F1 to ~0.68. With the instruction it matches Claude Code exactly. This is an eval harness detail, not a production concern (interactive Kiro sessions don't have this issue).
 
-**Codex note:** Token usage is highly variable (270K–835K per run) because Codex's path through the skill is non-deterministic. Pillar-scoped reviews are more consistent and nearly as effective as full reviews on parallel runtimes. For full coverage on Codex, `SKILL-sequential.md` (tracked in [#106](https://github.com/aws-samples/sample-well-architected-skills-and-steering/issues/106)) will provide a deterministic sequential path once validated.
+**Codex note:** Token usage is highly variable (270K–835K per run) because Codex's path through the skill is non-deterministic. Pillar-scoped reviews are more consistent and nearly as effective as full reviews on parallel runtimes. For full coverage on runtimes without parallel `Task` dispatch (Codex, Cursor, GitHub Copilot, Gemini CLI, Amazon Q Developer), install [`SKILL-sequential.md`](skills/wa-review/SKILL-sequential.md) **instead of** `SKILL.md` — it walks the 6 pillars one at a time into the same Full BP Ledger, trading wall-clock (~30–40 min) for a deterministic full-coverage path with no `Task` tool. (Effectiveness measurement via `evals/cli_effectiveness/measure_wa_review.py` is still pending; expected F1 close to the parallel runtimes.)
 
 </details>
 

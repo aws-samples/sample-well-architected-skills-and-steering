@@ -172,7 +172,7 @@ def _parse_session(session_file: Path) -> tuple[str, str]:
     return "\n".join(last_assistant_text), "\n".join(all_text_chunks)
 
 
-def run_claude_cli(prompt: str, model: str = MODEL) -> dict:
+def run_claude_cli(prompt: str, model: str = MODEL, allow_task: bool = True, timeout: int = CLI_TIMEOUT_SEC) -> dict:
     """Invoke `claude -p --output-format json` (small stdout for cost/latency
     metrics), then parse the CC session .jsonl file for the full transcript.
 
@@ -197,13 +197,16 @@ def run_claude_cli(prompt: str, model: str = MODEL) -> dict:
                 "-p",
                 "--output-format", "json",
                 "--model", model,
-                "--allowedTools", "Task", "Read", "Grep", "Glob", "Bash",
+                # Task is included only for the parallel variant. The sequential
+                # variant must run with Task genuinely unavailable, so the model
+                # cannot silently fall back to (or confabulate) subagent dispatch.
+                "--allowedTools", *(["Task"] if allow_task else []), "Read", "Grep", "Glob", "Bash",
                 "--dangerously-skip-permissions",
             ],
             input=prompt,
             capture_output=True,
             text=True,
-            timeout=CLI_TIMEOUT_SEC,
+            timeout=timeout,
         )
     except subprocess.TimeoutExpired:
         return {"error": "timeout", "wall_s": time.time() - start}
@@ -378,6 +381,22 @@ def build_parser() -> argparse.ArgumentParser:
         help=f"Claude Code model name or alias (default: {MODEL}).",
     )
     parser.add_argument(
+        "--variant",
+        choices=["parallel", "sequential"],
+        default="parallel",
+        help="Which wa-review variant to measure: 'parallel' (SKILL.md — dispatches "
+             "6 Task subagents) or 'sequential' (SKILL-sequential.md — no Task, one "
+             "pillar at a time). Default: parallel. NOTE: you must install the matching "
+             "SKILL file at ~/.claude/skills/wa-review/SKILL.md first (see README).",
+    )
+    parser.add_argument(
+        "--timeout",
+        type=int,
+        default=CLI_TIMEOUT_SEC,
+        help=f"Per-invocation claude CLI timeout in seconds (default: {CLI_TIMEOUT_SEC}). "
+             "Raise it on slower runtimes/models where a full review exceeds 15 min.",
+    )
+    parser.add_argument(
         "--output",
         type=Path,
         default=DEFAULT_OUTPUT,
@@ -410,14 +429,29 @@ def main(argv: list[str] | None = None) -> int:
 
     output_path = args.output.expanduser().resolve()
     output_path.parent.mkdir(parents=True, exist_ok=True)
+    allow_task = args.variant == "parallel"
+    required_skill = "SKILL.md" if allow_task else "SKILL-sequential.md"
+    preamble = AUTONOMOUS_PREAMBLE
+    if not allow_task:
+        preamble = preamble.replace(
+            "Dispatch the 6 parallel pillar subagents as instructed by SKILL.md Step 4b.",
+            "Evaluate all 6 pillars sequentially, one at a time, per SKILL-sequential.md "
+            "Step 4b (OPS -> SEC -> REL -> PERF -> COST -> SUS). The Task tool is "
+            "unavailable \u2014 do NOT attempt parallel subagent dispatch.",
+        )
+
     print(f"Canonical corpus: {len(canonical)} BPs")
     print(f"Eval cases: {', '.join(str(case['id']) for case in cases)}")
     print(f"Model: {args.model}, runs per case: {args.runs}")
+    print(f"Variant: {args.variant} (Task {'enabled' if allow_task else 'DISABLED'})")
+    print(f"  Required skill at ~/.claude/skills/wa-review/SKILL.md: {required_skill}")
+    print(f"  Install with: cp skills/wa-review/{required_skill} ~/.claude/skills/wa-review/SKILL.md")
     print(f"Total CLI invocations: {len(cases) * args.runs}")
 
     results = {
         "model": args.model,
         "mode": "wa-review",
+        "variant": args.variant,
         "runs_per_case": args.runs,
         "cases": [],
     }
@@ -429,10 +463,10 @@ def main(argv: list[str] | None = None) -> int:
         print(f"\n=== Case {case_id} (|GT|={len(gt)}) ===")
 
         case_runs: list[dict] = []
-        wrapped = AUTONOMOUS_PREAMBLE + prompt
+        wrapped = preamble + prompt
         for run_idx in range(1, args.runs + 1):
             print(f"  Run {run_idx}/{args.runs}...", end="", flush=True)
-            cli_result = run_claude_cli(wrapped, args.model)
+            cli_result = run_claude_cli(wrapped, args.model, allow_task=allow_task, timeout=args.timeout)
             scored = score_run(cli_result, gt, canonical)
             scored["run_idx"] = run_idx
             case_runs.append(scored)
