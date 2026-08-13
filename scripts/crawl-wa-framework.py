@@ -546,9 +546,27 @@ def discover_leaf_pages(toc_json: dict, pillar_sections: list[str] | None = None
         "Performance efficiency", "Cost optimization", "Sustainability",
     ]
 
+    def _normalize_pillar_text(s: str) -> str:
+        # Make pillar matching locale-agnostic. Some lenses deviate from the
+        # canonical US-English, unsuffixed pillar names the buckets are keyed on:
+        #   - British spelling: Māori lens uses "Cost optimisation" (vs
+        #     "Cost optimization"); without folding "optimis" -> "optimiz" that
+        #     whole pillar's leaves are silently dropped.
+        #   - trailing "pillar" suffix: government lens uses "Operational
+        #     excellence pillar".
+        # Fold case, reconcile the British "-isation" spelling, and drop a
+        # trailing " pillar" so a title matches regardless of these variations.
+        s = s.replace("\xa0", " ").strip().lower()
+        s = s.replace("optimis", "optimiz")
+        if s.endswith(" pillar"):
+            s = s[: -len(" pillar")]
+        return s
+
     def matches_pillar(title):
-        tl = title.lower()
-        return next((p for p in pillar_names if p.lower() in tl), None)
+        tl = _normalize_pillar_text(title)
+        return next(
+            (p for p in pillar_names if _normalize_pillar_text(p) in tl), None
+        )
 
     # A numbered-question branch title, e.g. "1 – Monitor the health..." or
     # "11 – Choose cost-effective compute and storage...". These sit between a
