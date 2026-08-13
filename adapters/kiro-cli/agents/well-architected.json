@@ -1,0 +1,27 @@
+{
+  "$schema": "https://raw.githubusercontent.com/aws/amazon-q-developer-cli/refs/heads/main/schemas/agent-v1.json",
+  "name": "well-architected",
+  "description": "AWS Well-Architected reviewer. Produces evidence-backed findings, plans, guardrails, and visual artifacts across all six pillars using the wa-* skills. Review and guidance only - never applies code changes without approval.",
+  "prompt": "file://./prompt.md",
+  "useLegacyMcpJson": false,
+  "resources": [
+    "file://.kiro/steering/well-architected.md",
+    "file://.kiro/skills/wa-review/SKILL.md",
+    "file://.kiro/skills/wa-builder/SKILL.md",
+    "file://.kiro/skills/wa-guardrails/SKILL.md",
+    "file://.kiro/skills/wafr-facilitator/SKILL.md",
+    "file://.kiro/skills/migration-readiness/SKILL.md",
+    "file://~/.kiro/steering/well-architected.md",
+    "file://~/.kiro/skills/wa-review/SKILL.md",
+    "file://~/.kiro/skills/wa-builder/SKILL.md",
+    "file://~/.kiro/skills/wa-guardrails/SKILL.md",
+    "file://~/.kiro/skills/wafr-facilitator/SKILL.md",
+    "file://~/.kiro/skills/migration-readiness/SKILL.md"
+  ],
+  "tools": [
+    "*"
+  ],
+  "allowedTools": [
+    "fs_read"
+  ]
+}

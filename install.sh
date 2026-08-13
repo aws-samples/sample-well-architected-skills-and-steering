@@ -165,7 +165,11 @@ install_kiro() {
     copy_or_link "$skill_dir/SKILL.md" "$base/.kiro/skills/$skill_name/SKILL.md"
     copy_skill_references "$skill_dir" "$base/.kiro/skills/$skill_name"
   done
+
+  copy_or_link "$SCRIPT_DIR/adapters/kiro-cli/agents/well-architected.json" "$base/.kiro/agents/well-architected.json"
+  copy_or_link "$SCRIPT_DIR/adapters/kiro-cli/agents/prompt.md" "$base/.kiro/agents/prompt.md"
   echo "  Done. Kiro will load steering automatically and skills on demand."
+  echo "  Kiro CLI users: run 'kiro-cli chat --agent well-architected' for the dedicated WA agent."
   echo ""
 }
 
@@ -535,13 +539,14 @@ uninstall_tool() {
   case "$tool" in
     kiro|kiro-cli)
       rm -f "$base/.kiro/steering/well-architected.md"
+      rm -f "$base/.kiro/agents/well-architected.json" "$base/.kiro/agents/prompt.md"
       for skill_dir in "$SCRIPT_DIR/skills"/*/; do
         local skill_name
         skill_name="$(basename "$skill_dir")"
         [[ "$skill_name" == "_shared" ]] && continue
         rm -rf "$base/.kiro/skills/$skill_name"
       done
-      echo "  Removed: Kiro steering and skills"
+      echo "  Removed: Kiro steering, skills, and agent"
       ;;
     claude-code)
       rm -f "$base/CLAUDE.md"
