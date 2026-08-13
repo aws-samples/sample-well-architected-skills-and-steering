@@ -1065,17 +1065,23 @@ The AWS DevOps Agent operates differently from coding agents — it runs **auton
 
 ```bash
 # Generate a DevOps Agent-compatible zip for wa-review (16 files, <1 MB)
-zip wa-review-devops-agent.zip \
-  skills/wa-review/SKILL-devops-agent.md \
-  skills/wa-review/metadata-devops-agent.json \
-  skills/wa-review/references/manifest.md \
-  skills/wa-review/references/pillars/*.md \
-  skills/wa-review/references/pillar-playbooks/*.md
-# Then upload via the Operator Web App
+./install.sh --devops-agent --skill wa-review
+# -> wa-review-devops-agent.zip in the current directory
+
+# Windows (PowerShell):
+#   .\install.ps1 -DevOpsAgent -Skill wa-review
+
+# Then upload wa-review-devops-agent.zip via the Operator Web App.
 ```
 
+The `--devops-agent` flag packages `SKILL.md`, `metadata.json`, and everything
+under `references/` **except** the lens corpus. When a skill ships DevOps Agent
+variants (`SKILL-devops-agent.md` / `metadata-devops-agent.json`), those are
+packaged under the standard `SKILL.md` / `metadata.json` names. Omit `--skill`
+to package every skill. Run without arguments to package all skills.
+
 > [!NOTE]
-> The zip excludes lens files — the full skill directory exceeds the 100-file upload limit. Full-review subagent dispatch uses only the 6 pillar files; lenses can be added per-deployment if needed.
+> The zip excludes lens files — the full skill directory (970+ files) exceeds the DevOps Agent 100-file-per-zip upload limit. Full-review subagent dispatch uses only the 6 pillar files; lenses can be added per-deployment if needed.
 
 ---
 

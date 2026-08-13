@@ -25,6 +25,15 @@
 .PARAMETER Force
     Overwrite existing files without prompting
 
+.PARAMETER DevOpsAgent
+    Package a skill into a DevOps Agent-compatible zip in the current directory,
+    then exit. Includes SKILL.md, metadata.json, and all references/ EXCEPT the
+    lens corpus, so the result stays under the DevOps Agent 100-file-per-zip
+    upload limit.
+
+.PARAMETER Skill
+    Skill(s) to package with -DevOpsAgent. Defaults to all skills. (e.g. wa-review)
+
 .PARAMETER Uninstall
     Remove previously installed WA files from the target (or global) location,
     per tool. Honors -Global and -Tool the same way an install does.
@@ -43,6 +52,9 @@
     .\install.ps1 -Tool all -Force
 
 .EXAMPLE
+    .\install.ps1 -DevOpsAgent -Skill wa-review
+
+.EXAMPLE
     .\install.ps1 -TargetDir C:\Projects\my-app -Uninstall -Tool claude-code
 
 .EXAMPLE
@@ -55,6 +67,8 @@ param(
     [switch]$Symlink,
     [switch]$Global,
     [switch]$Force,
+    [switch]$DevOpsAgent,
+    [string[]]$Skill = @(),
     [switch]$Uninstall,
     [switch]$CheckUpdate
 )
@@ -354,6 +368,56 @@ function Get-DetectedTools {
     return $detected
 }
 
+# Package a single skill into a DevOps Agent-compatible zip in the current
+# directory. Includes SKILL.md, metadata.json, and every references/ file EXCEPT
+# the lens corpus (900+ files on its own, which blows past the DevOps Agent
+# 100-file-per-zip upload limit). When the skill ships DevOps Agent variants
+# (SKILL-devops-agent.md / metadata-devops-agent.json) those are packaged, but
+# written under the standard SKILL.md / metadata.json names the Agent expects.
+function Export-DevOpsAgentPackage {
+    param([string]$SkillName)
+
+    $skillDir = "$ScriptDir\skills\$SkillName"
+    if (-not (Test-Path -LiteralPath $skillDir -PathType Container)) {
+        Write-Host "  ERROR: skill not found: $SkillName (looked in $ScriptDir\skills\)"
+        return
+    }
+
+    $stage = Join-Path ([System.IO.Path]::GetTempPath()) ("wa-devops-agent-" + [System.Guid]::NewGuid().ToString("N"))
+    New-Item -ItemType Directory -Path "$stage\references" -Force | Out-Null
+
+    if (Test-Path "$skillDir\SKILL-devops-agent.md") { Copy-Item "$skillDir\SKILL-devops-agent.md" "$stage\SKILL.md" }
+    elseif (Test-Path "$skillDir\SKILL.md") { Copy-Item "$skillDir\SKILL.md" "$stage\SKILL.md" }
+
+    if (Test-Path "$skillDir\metadata-devops-agent.json") { Copy-Item "$skillDir\metadata-devops-agent.json" "$stage\metadata.json" }
+    elseif (Test-Path "$skillDir\metadata.json") { Copy-Item "$skillDir\metadata.json" "$stage\metadata.json" }
+
+    # All references except the lens corpus, preserving directory structure.
+    $refRoot = "$skillDir\references"
+    if (Test-Path $refRoot) {
+        $lensRoot = Join-Path $refRoot "lenses"
+        foreach ($ref in Get-ChildItem $refRoot -Recurse -File) {
+            if ($ref.FullName.StartsWith($lensRoot, [System.StringComparison]::OrdinalIgnoreCase)) { continue }
+            $rel = $ref.FullName.Substring($refRoot.Length).TrimStart('\')
+            $dest = "$stage\references\$rel"
+            $destDir = Split-Path -Parent $dest
+            if (-not (Test-Path $destDir)) { New-Item -ItemType Directory -Path $destDir -Force | Out-Null }
+            Copy-Item $ref.FullName $dest
+        }
+    }
+
+    $count = @(Get-ChildItem $stage -Recurse -File).Count
+    $zipPath = Join-Path (Get-Location).Path "$SkillName-devops-agent.zip"
+    if (Test-Path $zipPath) { Remove-Item $zipPath -Force }
+    Compress-Archive -Path "$stage\*" -DestinationPath $zipPath -Force
+    Remove-Item $stage -Recurse -Force -ErrorAction SilentlyContinue
+
+    Write-Host "  Packaged: $zipPath ($count files)"
+    if ($count -gt 100) {
+        Write-Host "  WARNING: $count files exceeds the DevOps Agent 100-file upload limit."
+    }
+}
+
 # Delete a file or directory if it exists. Symlinks/junctions created by a
 # -Symlink install are removed as the link itself, never recursed into — this
 # mirrors `rm` on a symlink and sidesteps the PowerShell 5.1 behavior where
@@ -514,6 +578,19 @@ if ($CheckUpdate) {
     Test-Update
     exit 0
 }
+
+if ($DevOpsAgent) {
+    Write-Host "Packaging DevOps Agent-compatible skill zip(s)..."
+    $skillsToPackage = $Skill
+    if (-not $skillsToPackage -or $skillsToPackage.Count -eq 0) {
+        $skillsToPackage = @(Get-Skills | ForEach-Object { $_.Name })
+    }
+    foreach ($s in $skillsToPackage) { Export-DevOpsAgentPackage $s }
+    Write-Host ""
+    Write-Host "Done. Upload the .zip via the DevOps Agent Operator Web App."
+    exit 0
+}
+
 
 Write-Host "================================================"
 Write-Host " Well-Architected Skills & Steering Installer"
