@@ -62,6 +62,7 @@ import sys
 import time
 import urllib.request
 import urllib.error
+import urllib.parse
 from collections import defaultdict
 from pathlib import Path
 
@@ -238,6 +239,20 @@ def fetch(url: str, retries: int = 3) -> str | None:
     headers = {
         "User-Agent": "Mozilla/5.0 (compatible; WA-Skills-Crawler/1.0)"
     }
+    # Percent-encode any non-ASCII characters in the URL. Some lens pages have
+    # them in their path (e.g. the Māori Data lens: ".../md_ops-1-...māori...html"),
+    # and http.client can only put an ASCII request line on the wire — a raw
+    # non-ASCII URL raises UnicodeEncodeError before the request is even sent.
+    # safe="/%..." preserves path separators and any already-encoded octets so
+    # ASCII URLs pass through byte-for-byte unchanged.
+    split = urllib.parse.urlsplit(url)
+    url = urllib.parse.urlunsplit((
+        split.scheme,
+        split.netloc,
+        urllib.parse.quote(split.path, safe="/%~:@!$&'()*+,;="),
+        urllib.parse.quote(split.query, safe="/%~:@!$&'()*+,;=?"),
+        split.fragment,
+    ))
     for attempt in range(retries):
         try:
             req = urllib.request.Request(url, headers=headers)
