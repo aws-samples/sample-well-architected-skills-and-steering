@@ -32,10 +32,10 @@ jobs:
         run: diff -rq skills/wa-review/references powers/wa-review/steering/references
 
   link-check:
-    # Advisory (non-blocking) for now: surfaces broken relative links in the log
-    # but does not gate. Blocked on adapters/gemini-cli/GEMINI.md, which uses
-    # repo-root-absolute links (/skills/.../SKILL.md) that render on GitHub but
-    # aren't resolvable by lychee --offline. Flip fail:true once those are fixed.
+    # Gating: fails the build on broken relative links in authored Markdown.
+    # (Generated crawler corpora are excluded below — their .md files carry
+    # intentional relative .html cross-links that resolve on the AWS docs site,
+    # not on disk.)
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -52,7 +52,7 @@ jobs:
             --exclude-path skills/example-skill/references
             --exclude-path powers/wa-review/steering/references
             "./**/*.md"
-          fail: false
+          fail: true
 
   secret-scan:
     # Enforces the intent behind the existing .gitleaksignore. CLI (not the action) avoids the org-license requirement.
