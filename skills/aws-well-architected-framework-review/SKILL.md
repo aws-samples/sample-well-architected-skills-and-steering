@@ -356,6 +356,8 @@ Available lenses:
 - `references/lenses/streaming-media/` — media streaming, live/VOD delivery, encoding, content workflows
 - `references/lenses/iot/` — IoT devices, telemetry, edge computing, fleet provisioning, OTA updates
 - `references/lenses/government/` — public sector, privacy-by-design, compliance, real-time security
+- `references/lenses/mergers-and-acquisitions/` — M&A due diligence, multi-account/multicloud governance, integration, technical debt, post-acquisition cost & security
+- `references/lenses/maori-data/` — Māori data governance, data sovereignty, Te Ao Māori principles, indigenous data protection & retention
 
 ## Step 5: Risk Assessment
 
