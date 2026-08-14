@@ -628,7 +628,7 @@ expenditure.
 - [AWS Trusted Advisor](https://aws.amazon.com/premiumsupport/technology/trusted-advisor/)
 - [AWS Budgets](https://aws.amazon.com/aws-cost-management/aws-budgets/)
 - [AWS Cost and Usage Report](https://docs.aws.amazon.com/cur/latest/userguide/what-is-cur.html)
-- [AWS Budgets Best Practices](https://docs.aws.amazon.com/cost-management/latest/userguide/budgets-best-practices.html#budgets-best-practices-setting-budgets%3Fsc_channel=ba%26sc_campaign=aws-budgets%26sc_medium=manage-and-control%26sc_content=web_pdp%26sc_detail=how-do-I%26sc_outcome=aw%26trk=how-do-I_web_pdp_aws-budgets)
+- [AWS Budgets Best Practices](https://docs.aws.amazon.com/cost-management/latest/userguide/budgets-best-practices.html)
 - [Amazon S3 Analytics](https://docs.aws.amazon.com/AmazonS3/latest/userguide/analytics-storage-class.html)
 
 **Related examples:**
@@ -4080,7 +4080,7 @@ which reduces the load on your resources. By using CloudFront,
 you can reduce the administrative effort in delivering content
 to large numbers of users globally with minimum latency. The
 [security
-savings bundle](https://aws.amazon.com/about-aws/whats-new/2021/02/introducing-amazon-cloudfront-security-savings-bundle/?sc_channel=em&sc_campaign=Launch_mult_OT_awsroadmapemail_20200910&sc_medium=em_whats_new&sc_content=launch_ot_ot&sc_country=mult&sc_geo=mult&sc_category=mult&sc_outcome=launch) can help you to save up to 30% on your
+savings bundle](https://aws.amazon.com/about-aws/whats-new/2021/02/introducing-amazon-cloudfront-security-savings-bundle/) can help you to save up to 30% on your
 CloudFront usage if you plan to grow your usage over time.
 - [AWS Direct Connect](https://aws.amazon.com/directconnect/) allows you to establish a
 dedicated network connection to AWS. This can reduce network

@@ -2333,7 +2333,7 @@ reports](https://catalog.workshops.aws/well-architected-sustainability/en-US/5-p
 **Related trainings:**
 
 - [Sustainability
-Transformation on AWS](https://explore.skillbuilder.aws/learn/course/internal/view/elearning/15981/sustainability-transformation-with-aws?trk=f5740d24-133a-44e7-bdca-e6669e296419&sc_channel=el)
+Transformation on AWS](https://explore.skillbuilder.aws/learn/course/internal/view/elearning/15981/sustainability-transformation-with-aws)
 - [SimuLearn
 - Sustainability Reporting](https://explore.skillbuilder.aws/learn/course/internal/view/elearning/20240/aws-simulearn-sustainability-reporting)
 - [Decarbonization

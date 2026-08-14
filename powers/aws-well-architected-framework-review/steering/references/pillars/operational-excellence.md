@@ -623,7 +623,7 @@ decisions](https://aws.amazon.com/executive-insights/content/how-amazon-defines-
 - [Cloud
 Governance](https://aws.amazon.com/cloudops/cloud-governance/)
 - [Management
-& Governance Cloud Environment](https://docs.aws.amazon.com/wellarchitected/latest/management-and-governance-guide/management-and-governance-cloud-environment-guide.html?did=wp_card&trk=wp_card)
+& Governance Cloud Environment](https://docs.aws.amazon.com/wellarchitected/latest/management-and-governance-guide/management-and-governance-cloud-environment-guide.html)
 - [Governance
 in the Cloud and in the Digital Age: Parts One &
 Two](https://aws.amazon.com/blogs/enterprise-strategy/governance-in-the-cloud-and-in-the-digital-age-part-one/)
@@ -4422,7 +4422,7 @@ Where applicable, [integrate AWS CodeDeploy with other AWS services](https://doc
 
 **Related documents:**
 
-- [AWS Builders Library | Automating safe, hands-off deployments | Production deployments](https://aws.amazon.com/builders-library/automating-safe-hands-off-deployments/?did=ba_card&trk=ba_card#Production_deployments)
+- [AWS Builders Library | Automating safe, hands-off deployments | Production deployments](https://aws.amazon.com/builders-library/automating-safe-hands-off-deployments/#Production_deployments)
 - [AWS Builders Library | My CI/CD pipeline is my release captain | Safe, automatic
 production releases](https://aws.amazon.com//builders-library/cicd-pipeline/#Safe.2C_automatic_production_releases)
 - [AWS Whitepaper | Practicing Continuous Integration and Continuous Delivery on AWS |

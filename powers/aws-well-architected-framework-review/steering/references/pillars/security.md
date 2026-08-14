@@ -8720,7 +8720,7 @@ landscape and best practices.
 
 **Related documents:**
 
-- [AWS Training and Certification](https://www.aws.training/LearningLibrary?query=&filters=Language%3A1%20Domain%3A27&from=0&size=15&sort=_score&trk=el_a134p000007C9OtAAK&trkCampaign=GLBL-FY21-TRAINCERT-800-Security&sc_channel=el&sc_campaign=GLBL-FY21-TRAINCERT-800-Security-Blog&sc_outcome=Training_and_Certification&sc_geo=mult)
+- [AWS Training and Certification](https://www.aws.training/LearningLibrary)
 - [How
 to think about cloud security governance](https://aws.amazon.com/blogs/security/how-to-think-about-cloud-security-governance/)
 - [How
