@@ -77,7 +77,7 @@ $ErrorActionPreference = "Stop"
 $ScriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
 
 # Kept in sync with the bash installer's VERSION constant; used by -CheckUpdate.
-$Version = "1.3.0"
+$Version = "6.0.0"
 
 function Copy-OrLink {
     param(
