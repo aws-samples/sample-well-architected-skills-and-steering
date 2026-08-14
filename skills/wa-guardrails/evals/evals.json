@@ -17,7 +17,7 @@
     },
     {
       "id": 2,
-      "prompt": "I just ran a wa-review. Lowest scores were Reliability (no RDS Multi-AZ, no DynamoDB PITR, no backups on several stores) and Security (IAM roles with Action: '*'). We're on CloudFormation. I want controls so these gaps can't come back. We have AWS Config and AWS Organizations available.",
+      "prompt": "I just ran a aws-well-architected-framework-review. Lowest scores were Reliability (no RDS Multi-AZ, no DynamoDB PITR, no backups on several stores) and Security (IAM roles with Action: '*'). We're on CloudFormation. I want controls so these gaps can't come back. We have AWS Config and AWS Organizations available.",
       "expected_output": "Guardrails derived from the review findings: Config rules and/or SCPs enforcing Multi-AZ, PITR, backups, and least-privilege, each labeled preventive vs detective and mapped to BP IDs.",
       "assertions": [
         "Derives the controls from the review's findings (Reliability and Security gaps) rather than starting from scratch",

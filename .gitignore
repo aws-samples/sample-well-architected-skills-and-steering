@@ -6,7 +6,7 @@ evals/results/*
 
 # Local study/design artifacts kept out of the shipped repo
 evals/STUDY_MCP_VS_BUNDLED.md
-skills/wa-review/DESIGN.md
+skills/aws-well-architected-framework-review/DESIGN.md
 # Measurement outputs from evals/cli_effectiveness/
 evals/cli_effectiveness/wa_review_effectiveness.json
 evals/cli_effectiveness/wa_review_baseline.json

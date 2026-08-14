@@ -15,7 +15,7 @@ Route each request to the most specific skill:
 | User intent | Skill |
 |-------------|-------|
 | Pillar-specific (security, reliability, cost, performance, sustainability, ops) | Pillar-scoped review |
-| Comprehensive / "full review" / "all pillars" | `wa-review` |
+| Comprehensive / "full review" / "all pillars" | `aws-well-architected-framework-review` |
 | Diagrams, roadmaps, ADRs, learning WA | `wa-builder` |
 | Preventive controls (Config rules, SCPs, CI checks) | `wa-guardrails` |
 | Customer facilitation / WAFR workshop prep | `wafr-facilitator` |

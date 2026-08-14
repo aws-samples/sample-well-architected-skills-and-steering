@@ -7,7 +7,7 @@
     { "text": "create SCPs to prevent anyone from disabling CloudTrail", "should_trigger": true },
     { "text": "add cfn-guard rules so non-compliant CloudFormation fails the build", "should_trigger": true },
     { "text": "enforce required tags (owner, cost-center, environment) on every resource", "should_trigger": true },
-    { "text": "codify the fixes from our wa-review as ongoing controls so they can't regress", "should_trigger": true },
+    { "text": "codify the fixes from our aws-well-architected-framework-review as ongoing controls so they can't regress", "should_trigger": true },
     { "text": "write a CDK Aspect that fails synth when RDS isn't Multi-AZ", "should_trigger": true },
     { "text": "detect configuration drift on encryption and public access continuously", "should_trigger": true },
     { "text": "give me OPA/Sentinel policies for Terraform to keep us compliant", "should_trigger": true },

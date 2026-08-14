@@ -1,14 +1,14 @@
 # CLI Effectiveness — measure skills in a real Task-capable runtime
 
-The `evals/run.py` framework (one directory up) uses raw Amazon Bedrock Converse API. Converse has **no `Task` tool**, so it can't execute skills whose value depends on subagent dispatch. `wa-review` is exactly that kind of skill — since v4.2 it dispatches 6 parallel pillar subagents, and its full-review path can only be measured in a runtime that supports the `Task` tool.
+The `evals/run.py` framework (one directory up) uses raw Amazon Bedrock Converse API. Converse has **no `Task` tool**, so it can't execute skills whose value depends on subagent dispatch. `aws-well-architected-framework-review` is exactly that kind of skill — since v4.2 it dispatches 6 parallel pillar subagents, and its full-review path can only be measured in a runtime that supports the `Task` tool.
 
-This directory ships the real-measurement harness we used to validate `wa-review` end-to-end. It invokes **Claude Code CLI** (`claude -p`) as the runtime and scores output against a **frozen ground truth of applicable Best Practices** derived from a 2-model × 5-run consensus panel.
+This directory ships the real-measurement harness we used to validate `aws-well-architected-framework-review` end-to-end. It invokes **Claude Code CLI** (`claude -p`) as the runtime and scores output against a **frozen ground truth of applicable Best Practices** derived from a 2-model × 5-run consensus panel.
 
-> **Note on published results:** The F1 and recall numbers in this repository (wa-review v2.2: F1 = 0.960, recall = 1.00) reflect a controlled evaluation — specific workload prompts, Opus tier, a specific ground truth panel, and a fixed point in time. **Customers are responsible for running their own evaluations** against their workloads, model tiers, and requirements before making data-driven decisions. The harness scripts and ground truth are provided so you can do exactly that.
+> **Note on published results:** The F1 and recall numbers in this repository (aws-well-architected-framework-review v2.2: F1 = 0.960, recall = 1.00) reflect a controlled evaluation — specific workload prompts, Opus tier, a specific ground truth panel, and a fixed point in time. **Customers are responsible for running their own evaluations** against their workloads, model tiers, and requirements before making data-driven decisions. The harness scripts and ground truth are provided so you can do exactly that.
 
 ## What you get
 
-- `measure_wa_review.py` — invokes `claude -p` with the wa-review skill installed and scores against ground truth
+- `measure_wa_review.py` — invokes `claude -p` with the aws-well-architected-framework-review skill installed and scores against ground truth
 - `measure_baseline.py` — paired baseline: `claude -p --safe-mode --disable-slash-commands` from a scratch workdir (no skill, no CLAUDE.md, no plugins). Same prompts, same ground truth. The delta between the two is the honest measure of what the skill adds.
 - `generate_ground_truth.py` — regenerates the ground truth. Not needed for the shipped v1 data (already in `ground_truth/`), but useful if you want to re-derive against different consensus rules or additional models.
 - `ground_truth/case_N.json` — six frozen consensus datasets, one per eval case. Each JSON contains the consensus applicable-BP list and per-model per-run citation frequencies.
@@ -21,7 +21,7 @@ This directory ships the real-measurement harness we used to validate `wa-review
 | A skill that depends on `Task` subagents, MCP tools, or other runtime affordances | `cli_effectiveness/` (this directory) |
 | A skill whose value is captured by a well-crafted `SKILL.md` alone (no runtime tool calls) | `evals/run.py` — the LLM-as-judge framework is cheaper and faster |
 
-`evals/run.py` remains the appropriate framework for `wa-builder`, `wa-guardrails`, `wafr-facilitator`, and `migration-readiness` — none of those depend on Task subagents. For `wa-review`, only the CLI effectiveness harness produces honest numbers.
+`evals/run.py` remains the appropriate framework for `wa-builder`, `wa-guardrails`, `wafr-facilitator`, and `migration-readiness` — none of those depend on Task subagents. For `aws-well-architected-framework-review`, only the CLI effectiveness harness produces honest numbers.
 
 ## Reproducing our published F1 = 0.96
 
@@ -29,7 +29,7 @@ This directory ships the real-measurement harness we used to validate `wa-review
 
 - Claude Code CLI installed (`claude --version`)
 - AWS credentials with Bedrock access enabled for Anthropic and OpenAI GPT OSS 120B in `us-east-1`
-- The `wa-review` skill installed globally (`./install.sh --global` from the repo root)
+- The `aws-well-architected-framework-review` skill installed globally (`./install.sh --global` from the repo root)
 - Python 3.13+ and [uv](https://docs.astral.sh/uv/) for the Bedrock-based ground truth generator (only if regenerating; not needed to score against the shipped ground truth)
 
 **Run both configurations:**
@@ -37,10 +37,10 @@ This directory ships the real-measurement harness we used to validate `wa-review
 ```bash
 cd evals
 
-# With skill — measures wa-review end-to-end in Claude Code CLI
+# With skill — measures aws-well-architected-framework-review end-to-end in Claude Code CLI
 uv run python cli_effectiveness/measure_wa_review.py
 
-# Without skill — paired baseline (no wa-review, no plugins)
+# Without skill — paired baseline (no aws-well-architected-framework-review, no plugins)
 uv run python cli_effectiveness/measure_baseline.py
 ```
 
@@ -60,9 +60,9 @@ the allowed tools and swaps in the sequential preamble, so the model cannot fall
 back to subagent dispatch):
 
 ```bash
-# 1. Install the sequential SKILL as the active wa-review skill
+# 1. Install the sequential SKILL as the active aws-well-architected-framework-review skill
 ./install.sh --global                     # installs SKILL.md (parallel) first
-cp skills/wa-review/SKILL-sequential.md ~/.claude/skills/wa-review/SKILL.md
+cp skills/aws-well-architected-framework-review/SKILL-sequential.md ~/.claude/skills/aws-well-architected-framework-review/SKILL.md
 
 # 2. Measure with Task disabled (18 invocations: 6 cases × 3 runs)
 cd evals
@@ -71,7 +71,7 @@ uv run python cli_effectiveness/measure_wa_review.py \
   --output cli_effectiveness/wa_review_sequential.json
 
 # 3. Restore the parallel skill afterwards
-cp skills/wa-review/SKILL.md ~/.claude/skills/wa-review/SKILL.md
+cp skills/aws-well-architected-framework-review/SKILL.md ~/.claude/skills/aws-well-architected-framework-review/SKILL.md
 ```
 
 Expected: F1 close to the ~0.96 of the parallel runtimes, with higher wall-clock
@@ -179,7 +179,7 @@ DeepSeek model as adversary. Candidate-family self-grading and same-family
 reviewer panels are rejected. Override model IDs with `--reviewers` and
 `--adversary` when evaluating a different candidate family.
 
-**Expected results (v2.2 wa-review, Opus tier):**
+**Expected results (v2.2 aws-well-architected-framework-review, Opus tier):**
 
 | Configuration | Mean report F1 | Mean recall | Cost/run | Wall/run |
 | ------------- | -------------- | ----------- | -------- | -------- |
@@ -189,7 +189,7 @@ reviewer panels are rejected. Override model IDs with `--reviewers` and
 
 If your numbers land far below this (say, report F1 < 0.85 with skill), likely causes:
 
-1. **Older wa-review version** — v2.2's Full BP Ledger is what closes the compression gap. Check `~/.claude/skills/wa-review/SKILL.md` header for `version: 2.2.0` or later.
+1. **Older aws-well-architected-framework-review version** — v2.2's Full BP Ledger is what closes the compression gap. Check `~/.claude/skills/aws-well-architected-framework-review/SKILL.md` header for `version: 2.2.0` or later.
 2. **Different model tier** — these numbers are Opus. Sonnet or Haiku produce different results.
 3. **Skill install location** — Claude Code reads `~/.claude/skills/`. If the skill lives elsewhere (e.g. project-local `.claude/`) the harness may not find it.
 

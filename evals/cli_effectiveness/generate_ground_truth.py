@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
 # SPDX-License-Identifier: MIT-0
-"""Generate ground-truth applicable-BP sets for wa-review eval cases.
+"""Generate ground-truth applicable-BP sets for aws-well-architected-framework-review eval cases.
 
 Uses the subagent-per-pillar pattern (call_model_subagent from benchmark.py)
 against 2 top-tier models × 5 runs × 6 eval cases = 60 total runs. Each model
@@ -93,15 +93,15 @@ Do not include markdown or narrative outside the JSON."""
 
 
 def load_eval_cases() -> list[dict]:
-    """Load the 6 wa-review eval prompts."""
-    evals_file = REPO_ROOT / "skills" / "wa-review" / "evals" / "evals.json"
+    """Load the 6 aws-well-architected-framework-review eval prompts."""
+    evals_file = REPO_ROOT / "skills" / "aws-well-architected-framework-review" / "evals" / "evals.json"
     data = json.loads(evals_file.read_text())
     return data["evals"]
 
 
 def build_canonical_bps() -> set[str]:
     """Extract the 307 canonical BPs from the corpus (H1 headings)."""
-    refs_dir = REPO_ROOT / "skills" / "wa-review" / "references" / "pillars"
+    refs_dir = REPO_ROOT / "skills" / "aws-well-architected-framework-review" / "references" / "pillars"
     canonical: set[str] = set()
     canonical_re = re.compile(r"^# ([A-Z]{2,}\d{1,3}-BP\d{1,3})\b", re.MULTILINE)
     for f in refs_dir.glob("*.md"):

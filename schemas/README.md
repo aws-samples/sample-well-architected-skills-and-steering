@@ -1,7 +1,7 @@
-# wa-review structured output schema
+# aws-well-architected-framework-review structured output schema
 
-`wa-review-v1.schema.json` is the versioned contract for `wa-review.json`, the machine-readable
-artifact the [`wa-review`](../skills/wa-review/SKILL.md) skill emits alongside its markdown report.
+`aws-well-architected-framework-review-v1.schema.json` is the versioned contract for `aws-well-architected-framework-review.json`, the machine-readable
+artifact the [`aws-well-architected-framework-review`](../skills/aws-well-architected-framework-review/SKILL.md) skill emits alongside its markdown report.
 It exists so downstream tools consume a stable shape instead of parsing prose:
 
 - [`tools/wa-ci`](../tools/wa-ci/) diffs a review against a committed baseline and gates a PR.
@@ -18,7 +18,7 @@ This is a published contract: external tools depend on it, so treat changes with
 - **Backward-compatible change** (new optional field, a widened enum): bump the minor/patch in
   `schema_version`, keep the same file. Consumers keyed on the major version keep working.
 - **Breaking change** (a required field, a removed/narrowed field): add
-  `wa-review-v2.schema.json` and leave v1 in place until consumers migrate.
+  `aws-well-architected-framework-review-v2.schema.json` and leave v1 in place until consumers migrate.
 
 A consumer should read `schema_version` and reject a document whose major version it does not
 support, rather than assume the shape.
@@ -37,7 +37,7 @@ support, rather than assume the shape.
   This is deliberate. Gating on an identity that can drift between reviews would make the gate
   noisy and untrustworthy. Every finding therefore has a `bp_id` OR a `title` (enforced by the
   schema's `anyOf`).
-- **Coverage is not exhaustiveness.** `wa-review` measures F1 = 0.96, not 1.0. The absence of a
+- **Coverage is not exhaustiveness.** `aws-well-architected-framework-review` measures F1 = 0.96, not 1.0. The absence of a
   finding is NOT proof a control exists. Every document carries a `recall_note` stating this, and
   `review_mode` tells a consumer how much was evaluated (a `score` or `pillar-scoped` run does not
   cover all 307 BPs). Gates MUST NOT read "no finding" as "implemented".
@@ -53,7 +53,7 @@ support, rather than assume the shape.
 
 ```bash
 # With check-jsonschema (pip install check-jsonschema), or any Draft 2020-12 validator:
-check-jsonschema --schemafile schemas/wa-review-v1.schema.json path/to/wa-review.json
+check-jsonschema --schemafile schemas/aws-well-architected-framework-review-v1.schema.json path/to/aws-well-architected-framework-review.json
 ```
 
 A minimal valid document:

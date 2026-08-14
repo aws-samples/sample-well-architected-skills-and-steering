@@ -29,7 +29,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: skills/ vs powers/ reference trees must match
-        run: diff -rq skills/wa-review/references powers/wa-review/steering/references
+        run: diff -rq skills/aws-well-architected-framework-review/references powers/aws-well-architected-framework-review/steering/references
 
   link-check:
     # Advisory (non-blocking) for now: surfaces broken relative links in the log
@@ -47,10 +47,10 @@ jobs:
           args: >-
             --offline --no-progress
             --root-dir "${{ github.workspace }}"
-            --exclude-path skills/wa-review/references
+            --exclude-path skills/aws-well-architected-framework-review/references
             --exclude-path skills/wa-builder/references
             --exclude-path skills/example-skill/references
-            --exclude-path powers/wa-review/steering/references
+            --exclude-path powers/aws-well-architected-framework-review/steering/references
             "./**/*.md"
           fail: false
 

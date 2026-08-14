@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
 # SPDX-License-Identifier: MIT-0
-"""Measure wa-review effectiveness via real Kiro CLI runs.
+"""Measure aws-well-architected-framework-review effectiveness via real Kiro CLI runs.
 
 Parallel to measure_wa_review.py but uses kiro-cli instead of claude -p.
 Kiro loads skills from ~/.kiro/skills/ and steering from ~/.kiro/steering/.
@@ -46,7 +46,7 @@ KIRO_SESSIONS = Path.home() / ".kiro" / "sessions" / "cli"
 
 AUTONOMOUS_PREAMBLE = """[NON-INTERACTIVE EVAL MODE — no follow-up questions possible]
 
-Use the /wa-review skill. Skip the discovery checkpoint. Proceed directly to the
+Use the /aws-well-architected-framework-review skill. Skip the discovery checkpoint. Proceed directly to the
 full review based ONLY on the workload description below — do NOT ask for code,
 scope confirmation, or clarification. If information is missing, mark findings
 as "Based on description — verify in code" and continue.
@@ -72,7 +72,7 @@ def _extract_bps(text: str) -> set[str]:
 
 
 def build_canonical_bps() -> set[str]:
-    refs_dir = REPO_ROOT / "skills" / "wa-review" / "references" / "pillars"
+    refs_dir = REPO_ROOT / "skills" / "aws-well-architected-framework-review" / "references" / "pillars"
     canonical: set[str] = set()
     bp_re = re.compile(r"^# ([A-Z]{2,}\d{1,3}-BP\d{1,3})\b", re.MULTILINE)
     for f in refs_dir.glob("*.md"):
@@ -83,7 +83,7 @@ def build_canonical_bps() -> set[str]:
 
 def load_eval_cases() -> list[dict]:
     data = json.loads(
-        (REPO_ROOT / "skills" / "wa-review" / "evals" / "evals.json").read_text()
+        (REPO_ROOT / "skills" / "aws-well-architected-framework-review" / "evals" / "evals.json").read_text()
     )
     return data["evals"]
 
@@ -270,9 +270,9 @@ def main() -> int:
         return 1
 
     # Verify skill is installed
-    skill_path = Path.home() / ".kiro" / "skills" / "wa-review" / "SKILL.md"
+    skill_path = Path.home() / ".kiro" / "skills" / "aws-well-architected-framework-review" / "SKILL.md"
     if not skill_path.exists():
-        print(f"wa-review skill not found at {skill_path}")
+        print(f"aws-well-architected-framework-review skill not found at {skill_path}")
         print("Run: ./install.sh --global --tool kiro  (from repo root)")
         return 1
     skill_version = ""
@@ -280,7 +280,7 @@ def main() -> int:
         if line.startswith("version:"):
             skill_version = line.split(":", 1)[1].strip()
             break
-    print(f"wa-review SKILL.md version: {skill_version}")
+    print(f"aws-well-architected-framework-review SKILL.md version: {skill_version}")
 
     canonical = build_canonical_bps()
     cases = load_eval_cases()

@@ -51,7 +51,7 @@ When delivering Well-Architected guidance:
 ## Skills
 
 Well-Architected skills are available as reusable playbooks in the `skills/` directory. If the user requests a specific audit or plan (e.g. WA review, security assessment, reliability improvement plan), locate and follow the step-by-step instructions in the corresponding skill directory:
-- [wa-review](file:///skills/wa-review/SKILL.md) (Full Well-Architected review)
+- [aws-well-architected-framework-review](file:///skills/aws-well-architected-framework-review/SKILL.md) (Full Well-Architected review)
 - [security-assessment](file:///skills/security-assessment/SKILL.md) (Security posture assessment)
 - [reliability-improvement-plan](file:///skills/reliability-improvement-plan/SKILL.md) (Reliability remediation plan)
 - [cost-optimization-review](file:///skills/cost-optimization-review/SKILL.md) (Cost optimization audit)

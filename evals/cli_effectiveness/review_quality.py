@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
 # SPDX-License-Identifier: MIT-0
-"""Blind and adversarial quality evaluation for captured wa-review reports.
+"""Blind and adversarial quality evaluation for captured aws-well-architected-framework-review reports.
 
 The existing effectiveness harness measures Best Practice citation coverage.
 This module adds an evaluation-only quality layer for evidence, status,
@@ -31,7 +31,7 @@ from botocore.config import Config as BotoConfig
 SCRIPT_DIR = Path(__file__).resolve().parent
 EVALS_DIR = SCRIPT_DIR.parent
 REPO_ROOT = EVALS_DIR.parent
-REFERENCES_DIR = REPO_ROOT / "skills" / "wa-review" / "references" / "pillars"
+REFERENCES_DIR = REPO_ROOT / "skills" / "aws-well-architected-framework-review" / "references" / "pillars"
 ARTIFACTS_DIR = SCRIPT_DIR / "review_artifacts"
 DEFAULT_RESULTS = SCRIPT_DIR / "wa_review_effectiveness.json"
 DEFAULT_OUTPUT = SCRIPT_DIR / "review_quality_results.json"
@@ -837,7 +837,7 @@ def load_candidates(
     eval_cases = {
         int(case["id"]): case["prompt"]
         for case in json.loads(
-            (REPO_ROOT / "skills" / "wa-review" / "evals" / "evals.json").read_text()
+            (REPO_ROOT / "skills" / "aws-well-architected-framework-review" / "evals" / "evals.json").read_text()
         )["evals"]
     }
     pending: list[dict[str, Any]] = []
@@ -2287,7 +2287,7 @@ def summarize_metrics(metrics: list[dict[str, Any]]) -> dict[str, Any]:
 
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
-        description="Run blind and adversarial quality review over captured wa-review reports.",
+        description="Run blind and adversarial quality review over captured aws-well-architected-framework-review reports.",
     )
     parser.add_argument("--results", type=Path, default=DEFAULT_RESULTS)
     parser.add_argument("--output", type=Path, default=DEFAULT_OUTPUT)

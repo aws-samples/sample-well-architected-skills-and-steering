@@ -9,10 +9,10 @@ Configuration A (MCP-only baseline):
   No skill, no systematic coverage instructions.
   Expected: 2-22% recall (replicates Dec 2025 study conditions in CC CLI).
 
-Configuration B (MCP + wa-review skill):
-  claude -p (normal mode, wa-review skill installed)
+Configuration B (MCP + aws-well-architected-framework-review skill):
+  claude -p (normal mode, aws-well-architected-framework-review skill installed)
   + aws-knowledge MCP loaded via --mcp-config
-  The wa-review skill instructs systematic per-pillar dispatch.
+  The aws-well-architected-framework-review skill instructs systematic per-pillar dispatch.
   Expected: does the skill's coverage strategy lift recall past the plateau?
 
 Scores both against the same ground truth used in measure_wa_review.py.
@@ -120,7 +120,7 @@ def run_mcp_only(prompt: str) -> dict:
 
 
 def run_mcp_with_skill(prompt: str) -> dict:
-    """claude -p (wa-review skill loaded) + aws-knowledge MCP."""
+    """claude -p (aws-well-architected-framework-review skill loaded) + aws-knowledge MCP."""
     start = time.time()
     wrapped = AUTONOMOUS_PREAMBLE + prompt
     try:

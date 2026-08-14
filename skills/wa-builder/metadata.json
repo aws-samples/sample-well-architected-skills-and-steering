@@ -25,7 +25,7 @@
     "record our architecture choice"
   ],
   "not_for": [
-    "assessments or reviews that produce findings (use wa-review instead)",
+    "assessments or reviews that produce findings (use aws-well-architected-framework-review instead)",
     "migration planning (use migration-readiness instead)",
     "generating guardrails or enforcement controls (use wa-guardrails instead)",
     "facilitating a conversational WAFR (use wafr-facilitator instead)"

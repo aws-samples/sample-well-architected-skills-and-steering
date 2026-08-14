@@ -2263,7 +2263,7 @@
       ]
     },
     {
-      "skill_name": "wa-review",
+      "skill_name": "aws-well-architected-framework-review",
       "cases": [
         {
           "id": 1,
@@ -2566,7 +2566,7 @@
       "with_skill": 0.9074074074074074,
       "delta": 0.2142857142857143
     },
-    "wa-review": {
+    "aws-well-architected-framework-review": {
       "baseline": 0.6857142857142856,
       "with_skill": 1.0,
       "delta": 0.3142857142857144

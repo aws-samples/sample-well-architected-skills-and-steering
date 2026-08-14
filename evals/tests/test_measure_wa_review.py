@@ -1,6 +1,6 @@
 # Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
 # SPDX-License-Identifier: MIT-0
-"""Offline tests for the Claude Code wa-review effectiveness harness."""
+"""Offline tests for the Claude Code aws-well-architected-framework-review effectiveness harness."""
 
 import sys
 from pathlib import Path

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
 # SPDX-License-Identifier: MIT-0
-"""Measure wa-review effectiveness via real Codex CLI (codex exec).
+"""Measure aws-well-architected-framework-review effectiveness via real Codex CLI (codex exec).
 
 Parallel to measure_kiro.py but uses `codex exec` instead of `kiro-cli chat`.
 Codex writes session JSONL to ~/.codex/sessions/YYYY/MM/DD/rollout-*.jsonl

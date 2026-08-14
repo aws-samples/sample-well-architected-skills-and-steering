@@ -32,7 +32,7 @@
     upload limit.
 
 .PARAMETER Skill
-    Skill(s) to package with -DevOpsAgent. Defaults to all skills. (e.g. wa-review)
+    Skill(s) to package with -DevOpsAgent. Defaults to all skills. (e.g. aws-well-architected-framework-review)
 
 .PARAMETER Uninstall
     Remove previously installed WA files from the target (or global) location,
@@ -52,7 +52,7 @@
     .\install.ps1 -Tool all -Force
 
 .EXAMPLE
-    .\install.ps1 -DevOpsAgent -Skill wa-review
+    .\install.ps1 -DevOpsAgent -Skill aws-well-architected-framework-review
 
 .EXAMPLE
     .\install.ps1 -TargetDir C:\Projects\my-app -Uninstall -Tool claude-code
@@ -180,7 +180,7 @@ function Install-Cursor {
         Copy-OrLink "$($skill.FullName)\SKILL.md" "$base\.cursor\skills\$($skill.Name)\SKILL.md"
         Copy-SkillReferences $skill.FullName "$base\.cursor\skills\$($skill.Name)"
     }
-    Write-Host "  Done. The well-architected rule is always-on; wa-review activates on demand.`n"
+    Write-Host "  Done. The well-architected rule is always-on; aws-well-architected-framework-review activates on demand.`n"
 }
 
 function Install-Codex {
@@ -472,7 +472,7 @@ function Uninstall-Tool {
         }
         "cursor" {
             Remove-IfExists "$base\.cursor\rules\well-architected.md"
-            Remove-IfExists "$base\.cursor\rules\wa-review.md"
+            Remove-IfExists "$base\.cursor\rules\aws-well-architected-framework-review.md"
             foreach ($skill in Get-Skills) { Remove-IfExists "$base\.cursor\skills\$($skill.Name)" }
             Write-Host "  Removed: Cursor rules and skills"
             break
@@ -514,7 +514,7 @@ function Uninstall-Tool {
             }
             else {
                 Remove-IfExists "$base\.agents\rules\well-architected.md"
-                Remove-IfExists "$base\.agents\rules\wa-review.md"
+                Remove-IfExists "$base\.agents\rules\aws-well-architected-framework-review.md"
                 foreach ($skill in Get-Skills) { Remove-IfExists "$base\.agents\skills\$($skill.Name)" }
             }
             Write-Host "  Removed: Antigravity rules and skills"

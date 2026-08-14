@@ -6,7 +6,7 @@
 # SPDX-License-Identifier: MIT-0
 """
 Crawl AWS Well-Architected Framework public documentation and produce
-per-question reference files for the wa-review skill.
+per-question reference files for the aws-well-architected-framework-review skill.
 
 Architecture:
     AWS docs publish a toc-contents.json manifest alongside each pillar/lens
@@ -31,8 +31,8 @@ Three content modes are supported:
        Output: one file per pillar section, containing all pages for that section.
 
 Output structure:
-    skills/wa-review/references/pillars/{pillar-name}.md   (framework pillars, one per pillar)
-    skills/wa-review/references/lenses/{lens-name}/*.md    (WA lenses, per-question)
+    skills/aws-well-architected-framework-review/references/pillars/{pillar-name}.md   (framework pillars, one per pillar)
+    skills/aws-well-architected-framework-review/references/lenses/{lens-name}/*.md    (WA lenses, per-question)
 
 Usage:
     uv run scripts/crawl-wa-framework.py [--output-dir DIR] [--delay SECS] [--pillar PILLAR] [--dry-run]
@@ -1196,21 +1196,21 @@ def main():
 
     Two modes:
     - Pillar mode (default): Crawl one or all 6 WA Framework pillars.
-      Produces pillar-merged files in skills/wa-review/references/pillars/
+      Produces pillar-merged files in skills/aws-well-architected-framework-review/references/pillars/
       (one file per pillar containing all its questions).
 
     - Lens mode (--lens URL): Crawl a WA Lens by its docs URL.
       Auto-detects BP-style vs topic-page-style.
-      Produces files in skills/wa-review/references/lenses/{name}/.
+      Produces files in skills/aws-well-architected-framework-review/references/lenses/{name}/.
     """
     parser = argparse.ArgumentParser(
         description="Crawl AWS WA docs. Framework mode → pillar-merged files "
                     "(6 files, one per pillar). Lens mode → per-question files."
     )
-    parser.add_argument("--output-dir", default="skills/wa-review/references/pillars",
+    parser.add_argument("--output-dir", default="skills/aws-well-architected-framework-review/references/pillars",
                         help="Output directory for framework pillars "
-                             "(default: skills/wa-review/references/pillars). "
-                             "Lens mode uses skills/wa-review/references/lenses/{name}/.")
+                             "(default: skills/aws-well-architected-framework-review/references/pillars). "
+                             "Lens mode uses skills/aws-well-architected-framework-review/references/lenses/{name}/.")
     parser.add_argument("--delay", type=float, default=0.3,
                         help="Delay between requests in seconds (default: 0.3)")
     parser.add_argument("--pillar", choices=list(PILLAR_CONFIGS.keys()),
@@ -1232,8 +1232,8 @@ def main():
         # Derive a short name from the URL path if not provided
         # e.g., ".../generative-ai-lens/..." -> "generative-ai"
         lens_name = args.lens_name or args.lens.rsplit("/", 2)[-2].replace("-lens", "")
-        if args.output_dir == "skills/wa-review/references/pillars":
-            output_dir = Path(f"skills/wa-review/references/lenses/{lens_name}")
+        if args.output_dir == "skills/aws-well-architected-framework-review/references/pillars":
+            output_dir = Path(f"skills/aws-well-architected-framework-review/references/lenses/{lens_name}")
         crawl_lens(args.lens, lens_name, output_dir, args.delay, args.dry_run)
         return
 

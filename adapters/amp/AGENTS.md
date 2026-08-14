@@ -52,7 +52,7 @@ When delivering Well-Architected guidance:
 
 For structured assessments, load the corresponding skill from `.agents/skills/`:
 
-- `wa-review` — Full 6-pillar review with prioritized findings report
+- `aws-well-architected-framework-review` — Full 6-pillar review with prioritized findings report
 - `security-assessment` — Deep-dive into IAM, detection, infrastructure, data protection, incident response
 - `reliability-improvement-plan` — Find SPOFs, assess recovery, produce remediation plan
 - `cost-optimization-review` — Identify waste, right-sizing, pricing model improvements

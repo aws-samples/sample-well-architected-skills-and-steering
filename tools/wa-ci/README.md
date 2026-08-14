@@ -1,12 +1,12 @@
 # wa-ci: continuous Well-Architected gating
 
-`wa_ci.py` diffs a fresh `wa-review.json` against a committed baseline and gates a pull request
+`wa_ci.py` diffs a fresh `aws-well-architected-framework-review.json` against a committed baseline and gates a pull request
 on the Well-Architected delta. A review is a point-in-time snapshot; this turns it into a
 tripwire, so a change that erodes the workload's posture fails the build instead of landing
 silently.
 
-It consumes the structured output the [`wa-review`](../../skills/wa-review/SKILL.md) skill emits
-(Step 6b), validated by [`schemas/wa-review-v1.schema.json`](../../schemas/wa-review-v1.schema.json).
+It consumes the structured output the [`aws-well-architected-framework-review`](../../skills/aws-well-architected-framework-review/SKILL.md) skill emits
+(Step 6b), validated by [`schemas/aws-well-architected-framework-review-v1.schema.json`](../../schemas/aws-well-architected-framework-review-v1.schema.json).
 
 - **Stdlib only.** No third-party packages, no AWS credentials, no network. Runs on any Python 3.8+.
 - **Reports and gates. Never mutates code**, consistent with the repo's
@@ -47,17 +47,17 @@ refresh the baseline.
 # Gate a PR: fail on any new or regressed finding at High or above (the default).
 python3 tools/wa-ci/wa_ci.py \
   --baseline .well-architected/baseline.json \
-  --current wa-review.json \
+  --current aws-well-architected-framework-review.json \
   --fail-on high
 
 # Report the full delta without ever failing (useful on a warn-only branch).
-python3 tools/wa-ci/wa_ci.py --baseline baseline.json --current wa-review.json --fail-on none
+python3 tools/wa-ci/wa_ci.py --baseline baseline.json --current aws-well-architected-framework-review.json --fail-on none
 
 # Emit the classified delta as JSON (for a bot comment, a dashboard, wa-portfolio).
-python3 tools/wa-ci/wa_ci.py --baseline baseline.json --current wa-review.json --json
+python3 tools/wa-ci/wa_ci.py --baseline baseline.json --current aws-well-architected-framework-review.json --json
 
 # Accept a new review as the baseline (run after a review is reviewed and merged).
-python3 tools/wa-ci/wa_ci.py --current wa-review.json --update-baseline .well-architected/baseline.json
+python3 tools/wa-ci/wa_ci.py --current aws-well-architected-framework-review.json --update-baseline .well-architected/baseline.json
 ```
 
 `--fail-on` accepts `low`, `medium`, `high` (default), `critical`, or `none`. The process exits
@@ -77,15 +77,15 @@ The report flags conditions that make a delta less trustworthy rather than faili
 ## Wiring it into CI
 
 See [`examples/github-actions-wa-gate.yml`](examples/github-actions-wa-gate.yml) for a GitHub
-Actions workflow. `wa-review` runs inside an AI coding agent, not a headless runner, so teams
-typically generate `wa-review.json` as part of the change (and commit it or attach it as an
+Actions workflow. `aws-well-architected-framework-review` runs inside an AI coding agent, not a headless runner, so teams
+typically generate `aws-well-architected-framework-review.json` as part of the change (and commit it or attach it as an
 artifact) rather than invoking the skill in CI. The gate job only diffs two JSON documents.
 
 Recommended flow:
 
-1. Run a full `wa-review`, accept it, and commit the emitted `wa-review.json` as
+1. Run a full `aws-well-architected-framework-review`, accept it, and commit the emitted `aws-well-architected-framework-review.json` as
    `.well-architected/baseline.json`.
-2. For each PR, produce a fresh `wa-review.json` for the change and run `wa_ci.py` against the
+2. For each PR, produce a fresh `aws-well-architected-framework-review.json` for the change and run `wa_ci.py` against the
    baseline.
 3. When you deliberately close gaps, refresh the baseline with `--update-baseline` so Still-open
    counts shrink over time.
@@ -105,7 +105,7 @@ process exit codes.
 
 ## Try it against the examples
 
-[`examples/`](examples/) holds a `baseline.json` and a later `wa-review.json` for the same
+[`examples/`](examples/) holds a `baseline.json` and a later `aws-well-architected-framework-review.json` for the same
 workload. Running the gate against them produces one Resolved, one New (critical), one Regressed
 (high), two Still-open findings, and one Advisory (a serverless-lens finding with no BP ID, shown
 but not gated), and exits `1`:
@@ -113,7 +113,7 @@ but not gated), and exits `1`:
 ```bash
 python3 tools/wa-ci/wa_ci.py \
   --baseline tools/wa-ci/examples/baseline.json \
-  --current tools/wa-ci/examples/wa-review.json \
+  --current tools/wa-ci/examples/aws-well-architected-framework-review.json \
   --fail-on high
 ```
 

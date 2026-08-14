@@ -21,7 +21,7 @@
     "codify review findings as controls"
   ],
   "not_for": [
-    "one-time gap assessment (use wa-review or a pillar assessment instead)",
+    "one-time gap assessment (use aws-well-architected-framework-review or a pillar assessment instead)",
     "fixing a specific existing finding in code (remediate the code directly instead)",
     "learning Well-Architected or producing diagrams (use wa-builder instead)",
     "documenting a design decision (use architecture-decision-record instead)"

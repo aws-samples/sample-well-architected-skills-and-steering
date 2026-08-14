@@ -1,23 +1,23 @@
 #!/usr/bin/env python3
 """wa-ci: gate a pull request on the Well-Architected delta.
 
-Diffs a fresh wa-review.json against a committed baseline and classifies each
+Diffs a fresh aws-well-architected-framework-review.json against a committed baseline and classifies each
 best practice as Resolved, Still-open, New, or Regressed. Exits non-zero when
 the delta introduces a gap at or above a severity threshold, so a pipeline can
 block a change that erodes the workload's Well-Architected posture.
 
 Stdlib only. No AWS credentials, no network. Reads the structured output
-contract in schemas/wa-review-v1.schema.json (identity key: bp_id).
+contract in schemas/aws-well-architected-framework-review-v1.schema.json (identity key: bp_id).
 
 Design boundary: this reports and gates. It never mutates a workload's code.
 
 Usage:
     python3 wa_ci.py --baseline .well-architected/baseline.json \\
-                     --current wa-review.json \\
+                     --current aws-well-architected-framework-review.json \\
                      --fail-on high
 
     # Refresh the baseline after a review is accepted (no gating):
-    python3 wa_ci.py --current wa-review.json --update-baseline .well-architected/baseline.json
+    python3 wa_ci.py --current aws-well-architected-framework-review.json --update-baseline .well-architected/baseline.json
 """
 
 import argparse
@@ -49,7 +49,7 @@ def severity_rank(severity):
 
 
 def load_review(path):
-    """Load and minimally validate a wa-review document."""
+    """Load and minimally validate a aws-well-architected-framework-review document."""
     try:
         with open(path, encoding="utf-8") as handle:
             doc = json.load(handle)
@@ -58,7 +58,7 @@ def load_review(path):
     except json.JSONDecodeError as err:
         raise SystemExit(f"wa-ci: {path} is not valid JSON: {err}")
     if not isinstance(doc, dict) or "findings" not in doc:
-        raise SystemExit(f"wa-ci: {path} does not look like a wa-review document (no 'findings').")
+        raise SystemExit(f"wa-ci: {path} does not look like a aws-well-architected-framework-review document (no 'findings').")
     return doc
 
 
@@ -300,8 +300,8 @@ def build_parser():
         prog="wa-ci",
         description="Gate a pull request on the Well-Architected delta between a baseline and a fresh review.",
     )
-    parser.add_argument("--current", required=True, help="Path to the fresh wa-review.json.")
-    parser.add_argument("--baseline", help="Path to the committed baseline wa-review.json.")
+    parser.add_argument("--current", required=True, help="Path to the fresh aws-well-architected-framework-review.json.")
+    parser.add_argument("--baseline", help="Path to the committed baseline aws-well-architected-framework-review.json.")
     parser.add_argument(
         "--fail-on",
         default="high",

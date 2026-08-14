@@ -2,8 +2,8 @@
 #
 # Copy this into your workload repo at .github/workflows/wa-gate.yml and adjust
 # the paths. It assumes:
-#   - .well-architected/baseline.json is committed (an accepted wa-review.json).
-#   - A fresh wa-review.json is produced for the PR head and made available to
+#   - .well-architected/baseline.json is committed (an accepted aws-well-architected-framework-review.json).
+#   - A fresh aws-well-architected-framework-review.json is produced for the PR head and made available to
 #     this job (see the "Produce a fresh review" note below).
 #
 # This job runs no AWS calls and needs no credentials. It only diffs two JSON
@@ -33,16 +33,16 @@ jobs:
 
       # Produce a fresh review for the PR head.
       #
-      # wa-review runs inside an AI coding agent, not a headless CI runner, so
-      # teams typically generate wa-review.json as part of the change and commit
+      # aws-well-architected-framework-review runs inside an AI coding agent, not a headless CI runner, so
+      # teams typically generate aws-well-architected-framework-review.json as part of the change and commit
       # it (or attach it as an artifact) rather than running the skill in CI.
-      # This step assumes the fresh review is already at ./wa-review.json.
+      # This step assumes the fresh review is already at ./aws-well-architected-framework-review.json.
       #
       # If you do not have one yet, fail early with a clear message:
       - name: Check for a fresh review
         run: |
-          if [ ! -f wa-review.json ]; then
-            echo "No wa-review.json found. Run the wa-review skill on this change and commit the result."
+          if [ ! -f aws-well-architected-framework-review.json ]; then
+            echo "No aws-well-architected-framework-review.json found. Run the aws-well-architected-framework-review skill on this change and commit the result."
             exit 1
           fi
 
@@ -50,5 +50,5 @@ jobs:
         run: |
           python3 tools/wa-ci/wa_ci.py \
             --baseline .well-architected/baseline.json \
-            --current wa-review.json \
+            --current aws-well-architected-framework-review.json \
             --fail-on high
