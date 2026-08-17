@@ -90,13 +90,21 @@ def _openai_compatible_request(endpoint: str, body: dict, api_key: str, timeout:
     """Send a bearer-authenticated request to an OpenAI-compatible endpoint."""
     import requests as req
 
-    response = req.post(
-        endpoint,
-        json=body,
-        headers={"Authorization": f"Bearer {api_key}"},
-        timeout=timeout,
-    )
-    response.raise_for_status()
+    try:
+        response = req.post(
+            endpoint,
+            json=body,
+            headers={"Authorization": f"Bearer {api_key}"},
+            timeout=timeout,
+        )
+        response.raise_for_status()
+    except req.RequestException as e:
+        # requests exceptions can embed the prepared request, whose
+        # Authorization header carries the API key, and callers log str(e).
+        # Re-raise with a message built only from non-sensitive parts.
+        status = getattr(getattr(e, "response", None), "status_code", None)
+        detail = f" (HTTP {status})" if status else ""
+        raise RuntimeError(f"{type(e).__name__} calling {endpoint}{detail}") from None
     return response.json()
 
 
