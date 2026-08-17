@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 # Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
 # SPDX-License-Identifier: MIT-0
-"""Measure wa-review effectiveness via real Claude Code CLI runs.
+"""Measure aws-well-architected-framework-review effectiveness via real Claude Code CLI runs.
 
 For each eval case, invokes `claude -p --output-format json` with the
-wa-review skill available (mounted at ~/.claude/skills). The skill's SKILL.md
+aws-well-architected-framework-review skill available (mounted at ~/.claude/skills). The skill's SKILL.md
 instructs Claude Code to dispatch 6 parallel Task subagents (one per pillar).
 
 For each (case, run) we capture:
@@ -44,7 +44,7 @@ DEFAULT_OUTPUT = SCRIPT_DIR / "wa_review_effectiveness.json"
 # require canonical BP citations so downstream regex extraction works.
 AUTONOMOUS_PREAMBLE = """[NON-INTERACTIVE EVAL MODE — no follow-up questions possible]
 
-Use the wa-review skill. Skip the discovery checkpoint. Proceed directly to the
+Use the aws-well-architected-framework-review skill. Skip the discovery checkpoint. Proceed directly to the
 full review based ONLY on the workload description below — do NOT ask for code,
 scope confirmation, or clarification. Treat omitted or inconclusive details as
 unknown, not as evidence that a control is absent. Mark each such BP `Cannot
@@ -72,7 +72,7 @@ def _extract_bps(text: str) -> set[str]:
 
 def build_canonical_bps() -> set[str]:
     """Extract the 307 canonical BPs from the corpus (H1 headings in pillar files)."""
-    refs_dir = REPO_ROOT / "skills" / "wa-review" / "references" / "pillars"
+    refs_dir = REPO_ROOT / "skills" / "aws-well-architected-framework-review" / "references" / "pillars"
     canonical: set[str] = set()
     canonical_re = re.compile(r"^# ([A-Z]{2,}\d{1,3}-BP\d{1,3})\b", re.MULTILINE)
     for f in refs_dir.glob("*.md"):
@@ -82,7 +82,7 @@ def build_canonical_bps() -> set[str]:
 
 
 def load_eval_cases() -> list[dict]:
-    evals_file = REPO_ROOT / "skills" / "wa-review" / "evals" / "evals.json"
+    evals_file = REPO_ROOT / "skills" / "aws-well-architected-framework-review" / "evals" / "evals.json"
     data = json.loads(evals_file.read_text())
     return data["evals"]
 
@@ -361,7 +361,7 @@ def aggregate(runs: list[dict]) -> dict:
 
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
-        description="Measure wa-review citation effectiveness with Claude Code.",
+        description="Measure aws-well-architected-framework-review citation effectiveness with Claude Code.",
     )
     parser.add_argument(
         "--cases",
@@ -384,10 +384,10 @@ def build_parser() -> argparse.ArgumentParser:
         "--variant",
         choices=["parallel", "sequential"],
         default="parallel",
-        help="Which wa-review variant to measure: 'parallel' (SKILL.md — dispatches "
+        help="Which aws-well-architected-framework-review variant to measure: 'parallel' (SKILL.md — dispatches "
              "6 Task subagents) or 'sequential' (SKILL-sequential.md — no Task, one "
              "pillar at a time). Default: parallel. NOTE: you must install the matching "
-             "SKILL file at ~/.claude/skills/wa-review/SKILL.md first (see README).",
+             "SKILL file at ~/.claude/skills/aws-well-architected-framework-review/SKILL.md first (see README).",
     )
     parser.add_argument(
         "--timeout",
@@ -444,13 +444,13 @@ def main(argv: list[str] | None = None) -> int:
     print(f"Eval cases: {', '.join(str(case['id']) for case in cases)}")
     print(f"Model: {args.model}, runs per case: {args.runs}")
     print(f"Variant: {args.variant} (Task {'enabled' if allow_task else 'DISABLED'})")
-    print(f"  Required skill at ~/.claude/skills/wa-review/SKILL.md: {required_skill}")
-    print(f"  Install with: cp skills/wa-review/{required_skill} ~/.claude/skills/wa-review/SKILL.md")
+    print(f"  Required skill at ~/.claude/skills/aws-well-architected-framework-review/SKILL.md: {required_skill}")
+    print(f"  Install with: cp skills/aws-well-architected-framework-review/{required_skill} ~/.claude/skills/aws-well-architected-framework-review/SKILL.md")
     print(f"Total CLI invocations: {len(cases) * args.runs}")
 
     results = {
         "model": args.model,
-        "mode": "wa-review",
+        "mode": "aws-well-architected-framework-review",
         "variant": args.variant,
         "runs_per_case": args.runs,
         "cases": [],

@@ -24,21 +24,21 @@ jobs:
           uv run pytest -m "not eval" -q
 
   drift-guard:
-    # The Kiro Power at powers/wa-review/ ships hand-copied mirrors of two things
+    # The Kiro Power at powers/aws-well-architected-framework-review/ ships hand-copied mirrors of two things
     # that MUST stay byte-identical to their source, or a stale copy silently
     # ships (this is the #110/#118 drift class):
-    #   1. the whole skills/wa-review/references/ tree (pillars, playbooks, lenses,
+    #   1. the whole skills/aws-well-architected-framework-review/references/ tree (pillars, playbooks, lenses,
     #      manifest, wa-questions), and
     #   2. the well-architected.md steering body.
-    # steering/wa-review.md is deliberately NOT mirrored — the Power's wa-review.md
+    # steering/aws-well-architected-framework-review.md is deliberately NOT mirrored — the Power's aws-well-architected-framework-review.md
     # diverges by design — so it is intentionally excluded here.
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - name: skills/ vs powers/ reference trees must match
-        run: diff -rq skills/wa-review/references powers/wa-review/steering/references
+        run: diff -rq skills/aws-well-architected-framework-review/references powers/aws-well-architected-framework-review/steering/references
       - name: well-architected.md steering body must match its Power mirror
-        run: diff -q steering/well-architected.md powers/wa-review/steering/well-architected.md
+        run: diff -q steering/well-architected.md powers/aws-well-architected-framework-review/steering/well-architected.md
 
   link-check:
     # Gating: fails the build on broken relative links in authored Markdown.
@@ -56,10 +56,10 @@ jobs:
           args: >-
             --offline --no-progress
             --root-dir "${{ github.workspace }}"
-            --exclude-path skills/wa-review/references
+            --exclude-path skills/aws-well-architected-framework-review/references
             --exclude-path skills/wa-builder/references
             --exclude-path skills/example-skill/references
-            --exclude-path powers/wa-review/steering/references
+            --exclude-path powers/aws-well-architected-framework-review/steering/references
             "./**/*.md"
           fail: true
 

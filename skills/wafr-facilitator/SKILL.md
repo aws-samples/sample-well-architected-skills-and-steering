@@ -1,7 +1,7 @@
 ---
 name: wafr-facilitator
 description: Help a facilitator run a conversational Well-Architected Framework Review (WAFR) with a customer — generates tailored facilitator questions, probing follow-ups, and "things to look out for" per WA question and best practice, adapted to the workload context.
-not_for: automated code reviews (use wa-review), learning WA concepts (use wa-builder), generating guardrails (use wa-guardrails), writing ADRs (use architecture-decision-record)
+not_for: automated code reviews (use aws-well-architected-framework-review), learning WA concepts (use wa-builder), generating guardrails (use wa-guardrails), writing ADRs (use architecture-decision-record)
 version: 1.0.0
 ---
 
@@ -331,14 +331,14 @@ Do NOT generate all pillars at once when multiple are requested. Wait for approv
 
 ## Step 5: Load reference material for depth
 
-When generating facilitator cards, load reference files from the `wa-review` skill to ground your questions in actual best practices. This skill does NOT bundle its own references — it reads from the shared corpus.
+When generating facilitator cards, load reference files from the `aws-well-architected-framework-review` skill to ground your questions in actual best practices. This skill does NOT bundle its own references — it reads from the shared corpus.
 
 **Reference loading strategy:**
-- Load `skills/wa-review/references/pillars/{pillar-slug}.md` for each pillar you need — one pillar file contains every question and every best practice for that pillar (OPS, SEC, REL, PERF, COST, SUS)
+- Load `skills/aws-well-architected-framework-review/references/pillars/{pillar-slug}.md` for each pillar you need — one pillar file contains every question and every best practice for that pillar (OPS, SEC, REL, PERF, COST, SUS)
 - Use the best practices, anti-patterns, and implementation guidance to craft SPECIFIC probing questions (not generic ones)
 - The facilitator card should reflect BP-level depth without exposing BP IDs to the customer
 
-If a lens applies to the workload, also load `skills/wa-review/references/lenses/{lens}/` files for lens-specific questions.
+If a lens applies to the workload, also load `skills/aws-well-architected-framework-review/references/lenses/{lens}/` files for lens-specific questions.
 
 ## Step 6: Handle "during the session" requests
 

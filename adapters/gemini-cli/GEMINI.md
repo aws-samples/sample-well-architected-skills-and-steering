@@ -53,13 +53,13 @@ When delivering Well-Architected guidance:
 Well-Architected skills are available as reusable playbooks in the `skills/` directory. If the user requests a specific audit or plan (e.g. WA review, security assessment, reliability improvement plan), locate and follow the step-by-step instructions in the corresponding skill directory:
 
 **Core skills:**
-- [wa-review](../../skills/wa-review/SKILL.md) — Full or pillar-scoped Well-Architected review (all 6 pillars supported as deep-dives)
+- [aws-well-architected-framework-review](../../skills/aws-well-architected-framework-review/SKILL.md) — Full or pillar-scoped Well-Architected review (all 6 pillars supported as deep-dives)
 - [wa-builder](../../skills/wa-builder/SKILL.md) — Learn Well-Architected for your workload and generate visual artifacts: annotated diagrams, decision trees, roadmaps, ADRs
 - [wa-guardrails](../../skills/wa-guardrails/SKILL.md) — Generate preventive guardrails: Config rules, SCPs, CI policy checks, and alarms that keep a workload aligned with Well-Architected best practices over time
 - [wafr-facilitator](../../skills/wafr-facilitator/SKILL.md) — Prepare conversational Well-Architected Framework Review facilitation with customers
 - [migration-readiness](../../skills/migration-readiness/SKILL.md) — 7 Rs migration readiness assessment
 
-**Pillar-scoped variants** route to `wa-review` with a single-pillar focus — security assessment, reliability improvement plan, cost optimization review, performance efficiency review, sustainability optimization, and operational excellence — while an architecture decision record maps to `wa-builder`'s ADR mode.
+**Pillar-scoped variants** route to `aws-well-architected-framework-review` with a single-pillar focus — security assessment, reliability improvement plan, cost optimization review, performance efficiency review, sustainability optimization, and operational excellence — while an architecture decision record maps to `wa-builder`'s ADR mode.
 
 <!--
 Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.

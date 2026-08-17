@@ -31,10 +31,10 @@ This project embeds WA best practices **where development actually happens**: in
 ```text
 steering/                           Always-on context (Kiro)
   well-architected.md                 Pillars, design principles, review process
-  wa-review.md                        Deep multi-step WA review (evidence-based, constrained)
+  aws-well-architected-framework-review.md                        Deep multi-step WA review (evidence-based, constrained)
 
 skills/                             Step-by-step playbooks (tool-agnostic)
-  wa-review/                          Full or pillar-scoped review (all 6 pillars + 27 lenses)
+  aws-well-architected-framework-review/                          Full or pillar-scoped review (all 6 pillars + 27 lenses)
     references/manifest.md              Canonical catalog of all 307 BP IDs (loaded first)
     references/pillars/                 6 pillar-merged files (one per pillar; subagent references)
     references/lenses/                  Lens-specific references (27 lenses)
@@ -48,7 +48,7 @@ scripts/                            Maintenance tooling
   crawl-wa-framework.py               Crawl AWS docs to regenerate reference files
 
 schemas/                            Structured output contracts
-  wa-review-v1.schema.json            Versioned JSON Schema for wa-review.json
+  aws-well-architected-framework-review-v1.schema.json            Versioned JSON Schema for aws-well-architected-framework-review.json
   README.md                           Contract, versioning policy, guarantees
 
 tools/                              Standalone tooling (stdlib Python, no AWS)
@@ -72,7 +72,7 @@ adapters/                           Tool-specific configuration
   devops-agent/                       Packaging for AWS DevOps Agent
 
 powers/                             Kiro Powers
-  wa-review/                          Full WA review with auto-activation and progressive references
+  aws-well-architected-framework-review/                          Full WA review with auto-activation and progressive references
 
 evals/                              Automated evaluation runner (Bedrock)
   run.py                              CLI entry point
@@ -124,7 +124,7 @@ Auto-detects your AI agent and installs skills directly. Use `--list` to preview
 npx skills add aws-samples/sample-well-architected-skills-and-steering --list
 
 # Install a specific skill
-npx skills add aws-samples/sample-well-architected-skills-and-steering --skill wa-review
+npx skills add aws-samples/sample-well-architected-skills-and-steering --skill aws-well-architected-framework-review
 
 # Install globally (user-level, applies to all projects)
 npx skills add aws-samples/sample-well-architected-skills-and-steering -g
@@ -235,7 +235,7 @@ Copy-Item -Recurse path\to\this-repo\skills\* .kiro\skills\
 <details>
 <summary><strong>🔹 Kiro Power (recommended for Kiro users)</strong></summary>
 
-The Kiro Power bundles the wa-review skill + steering + all reference material into a single installable unit with keyword-based auto-activation.
+The Kiro Power bundles the aws-well-architected-framework-review skill + steering + all reference material into a single installable unit with keyword-based auto-activation.
 
 **Install from local clone:**
 
@@ -243,7 +243,7 @@ The Kiro Power bundles the wa-review skill + steering + all reference material i
 git clone https://github.com/aws-samples/sample-well-architected-skills-and-steering.git
 ```
 
-Then in Kiro: Powers panel → **Add Custom Power** → **Import power from a folder** → select `powers/wa-review/`
+Then in Kiro: Powers panel → **Add Custom Power** → **Import power from a folder** → select `powers/aws-well-architected-framework-review/`
 
 **What you get:**
 
@@ -252,7 +252,7 @@ Then in Kiro: Powers panel → **Add Custom Power** → **Import power from a fo
 - Parallel per-pillar reference loading (6 pillar files + 27 lens packs, one file per Task subagent) — managed automatically
 
 > [!NOTE]
-> Kiro's "Import from GitHub" expects `POWER.md` at the repository root. Since this repo contains multiple skills and adapters, the Power lives under `powers/wa-review/` and must be imported from a local folder. If you want GitHub-based import, you can fork just the `powers/wa-review/` directory into its own repo.
+> Kiro's "Import from GitHub" expects `POWER.md` at the repository root. Since this repo contains multiple skills and adapters, the Power lives under `powers/aws-well-architected-framework-review/` and must be imported from a local folder. If you want GitHub-based import, you can fork just the `powers/aws-well-architected-framework-review/` directory into its own repo.
 
 </details>
 
@@ -516,7 +516,7 @@ graph LR
     A --> OC[OpenClaw]
     A --> CL[Cline]
     A --> DA[DevOps Agent<br/>generic skills]
-    A --> DAR[DevOps Agent<br/>wa-review autonomous]
+    A --> DAR[DevOps Agent<br/>aws-well-architected-framework-review autonomous]
 ```
 
 | Component | What it does |
@@ -543,15 +543,15 @@ graph LR
 | Junie | `.junie/guidelines/*.md` | `.junie/skills/*/SKILL.md` |
 | Amp | `AGENTS.md` | `.agents/skills/*/SKILL.md` |
 | OpenClaw | `AGENTS.md` | `.agents/skills/*/SKILL.md` |
-| AWS DevOps Agent | N/A (skills are self-contained) | `SKILL.md` zip upload to Agent Space — use `SKILL-devops-agent.md` for `wa-review` (see [AWS DevOps Agent](#aws-devops-agent)) |
+| AWS DevOps Agent | N/A (skills are self-contained) | `SKILL.md` zip upload to Agent Space — use `SKILL-devops-agent.md` for `aws-well-architected-framework-review` (see [AWS DevOps Agent](#aws-devops-agent)) |
 
 ---
 
 ## 🔁 Continuous Well-Architected (structured output + CI gate)
 
-A review is a snapshot. To keep a workload aligned as it changes, `wa-review` also emits a
-machine-readable `wa-review.json` alongside its markdown report (Step 6b), conforming to the
-versioned contract in [`schemas/wa-review-v1.schema.json`](schemas/wa-review-v1.schema.json).
+A review is a snapshot. To keep a workload aligned as it changes, `aws-well-architected-framework-review` also emits a
+machine-readable `aws-well-architected-framework-review.json` alongside its markdown report (Step 6b), conforming to the
+versioned contract in [`schemas/aws-well-architected-framework-review-v1.schema.json`](schemas/aws-well-architected-framework-review-v1.schema.json).
 The markdown is for people; the JSON is for tools.
 
 [`tools/wa-ci`](tools/wa-ci/) turns that artifact into a merge gate. Commit an accepted review as
@@ -560,7 +560,7 @@ The markdown is for people; the JSON is for tools.
 ```bash
 python3 tools/wa-ci/wa_ci.py \
   --baseline .well-architected/baseline.json \
-  --current wa-review.json \
+  --current aws-well-architected-framework-review.json \
   --fail-on high
 ```
 
@@ -577,12 +577,12 @@ The same contract is the input a portfolio view would aggregate across many work
 
 ## 🤖 Agent runtime effectiveness
 
-Skills work across all supported runtimes, but effectiveness varies by runtime architecture — specifically whether the runtime supports parallel subagent dispatch (the mechanism wa-review's full-review path uses to achieve 100% BP coverage).
+Skills work across all supported runtimes, but effectiveness varies by runtime architecture — specifically whether the runtime supports parallel subagent dispatch (the mechanism aws-well-architected-framework-review's full-review path uses to achieve 100% BP coverage).
 
 The table below summarises measured results. The "Full review" path dispatches 6 parallel Task subagents; runtimes without this capability run sequentially.
 
 <details>
-<summary><strong>Measured effectiveness — wa-review v2.2 across runtimes</strong></summary>
+<summary><strong>Measured effectiveness — aws-well-architected-framework-review v2.2 across runtimes</strong></summary>
 
 **Methodology:** same 6 eval cases × 3 runs each, scored against a 2-model × 5-run ground-truth consensus panel (270–306 applicable BPs per case). All runtimes use Opus-tier or equivalent top-tier models.
 
@@ -603,7 +603,7 @@ The table below summarises measured results. The "Full review" path dispatches 6
 
 **Kiro note:** Kiro's non-interactive mode (`--no-interactive`) requires the explicit instruction "do NOT offer follow-up actions" in the eval preamble — without it, score mode offers the Full BP Ledger as a separate step rather than producing it inline, dropping F1 to ~0.68. With the instruction it matches Claude Code exactly. This is an eval harness detail, not a production concern (interactive Kiro sessions don't have this issue).
 
-**Codex note:** Token usage is highly variable (270K–835K per run) because Codex's path through the skill is non-deterministic. Pillar-scoped reviews are more consistent and nearly as effective as full reviews on parallel runtimes. For full coverage on runtimes without parallel `Task` dispatch (Codex, Cursor, GitHub Copilot, Gemini CLI, Amazon Q Developer), install [`SKILL-sequential.md`](skills/wa-review/SKILL-sequential.md) **instead of** `SKILL.md` — it walks the 6 pillars one at a time into the same Full BP Ledger, trading wall-clock (~30–40 min) for a deterministic full-coverage path with no `Task` tool. (Effectiveness measurement via `evals/cli_effectiveness/measure_wa_review.py` is still pending; expected F1 close to the parallel runtimes.)
+**Codex note:** Token usage is highly variable (270K–835K per run) because Codex's path through the skill is non-deterministic. Pillar-scoped reviews are more consistent and nearly as effective as full reviews on parallel runtimes. For full coverage on runtimes without parallel `Task` dispatch (Codex, Cursor, GitHub Copilot, Gemini CLI, Amazon Q Developer), install [`SKILL-sequential.md`](skills/aws-well-architected-framework-review/SKILL-sequential.md) **instead of** `SKILL.md` — it walks the 6 pillars one at a time into the same Full BP Ledger, trading wall-clock (~30–40 min) for a deterministic full-coverage path with no `Task` tool. (Effectiveness measurement via `evals/cli_effectiveness/measure_wa_review.py` is still pending; expected F1 close to the parallel runtimes.)
 
 </details>
 
@@ -613,13 +613,13 @@ The table below summarises measured results. The "Full review" path dispatches 6
 
 | Skill | Pillar(s) | Use when you need to... |
 | ----- | --------- | ----------------------- |
-| `wa-review` | All 6 | Full or pillar-scoped WA assessment with BP-level citations |
+| `aws-well-architected-framework-review` | All 6 | Full or pillar-scoped WA assessment with BP-level citations |
 | `wa-builder` | All 6 | Learn WA + produce artifacts (diagrams, decision trees, roadmaps, ADRs) |
 | `wa-guardrails` | All 6 | Generate preventive controls (Config rules, SCPs, CI checks, alarms) |
 | `wafr-facilitator` | All 6 | Prepare conversational WAFR facilitation with customers |
 | `migration-readiness` | All 6 | Assess readiness to migrate a workload to AWS |
 
-**Pillar aliases** (route to `wa-review` with pillar scope):
+**Pillar aliases** (route to `aws-well-architected-framework-review` with pillar scope):
 
 | Command | Scope |
 |---------|-------|
@@ -635,7 +635,7 @@ The table below summarises measured results. The "Full review" path dispatches 6
 
 ## 📊 Reference data and token consumption
 
-The `wa-review` skill includes **307 best practices** across **57 framework questions** plus **27 lens extensions** — sourced directly from the [AWS Well-Architected public documentation](https://docs.aws.amazon.com/wellarchitected/latest/framework/welcome.html). This reference data lives in `skills/wa-review/references/` and is loaded one pillar file at a time (via parallel `Task` subagents in v4.2+), not all at once.
+The `aws-well-architected-framework-review` skill includes **307 best practices** across **57 framework questions** plus **27 lens extensions** — sourced directly from the [AWS Well-Architected public documentation](https://docs.aws.amazon.com/wellarchitected/latest/framework/welcome.html). This reference data lives in `skills/aws-well-architected-framework-review/references/` and is loaded one pillar file at a time (via parallel `Task` subagents in v4.2+), not all at once.
 
 ### Reference data summary
 
@@ -690,7 +690,7 @@ A **full review** loads all 6 pillar files (~500K–600K input tokens of referen
 > This typically loads 1–2 pillar files (~100–300 KB) instead of all 6 (~2.2 MB) plus lenses.
 
 > [!NOTE]
-> **How the agent manages context:** In v4.2+, the skill dispatches **6 parallel `Task` subagents** (one per pillar) so each subagent's context holds only its own pillar file — the full 2.2 MB corpus is never in a single context. The manifest (~24 KB) is the only file the top-level agent loads upfront. See the `Coverage strategy` section in [wa-review/SKILL.md](skills/wa-review/SKILL.md) for full details.
+> **How the agent manages context:** In v4.2+, the skill dispatches **6 parallel `Task` subagents** (one per pillar) so each subagent's context holds only its own pillar file — the full 2.2 MB corpus is never in a single context. The manifest (~24 KB) is the only file the top-level agent loads upfront. See the `Coverage strategy` section in [aws-well-architected-framework-review/SKILL.md](skills/aws-well-architected-framework-review/SKILL.md) for full details.
 
 ### Estimated costs
 
@@ -733,11 +733,11 @@ uv run scripts/crawl-wa-framework.py --lens https://docs.aws.amazon.com/wellarch
 
 ### Data strategy — why static pillar files, not MCP
 
-The reference corpus lives in `skills/wa-review/references/pillars/*.md` as **6 pre-crawled markdown files**, not as an MCP retrieval server. This is a deliberate choice backed by measurement, not convention. The trade-offs:
+The reference corpus lives in `skills/aws-well-architected-framework-review/references/pillars/*.md` as **6 pre-crawled markdown files**, not as an MCP retrieval server. This is a deliberate choice backed by measurement, not convention. The trade-offs:
 
 **Static pillar files (what this repo ships):**
 
-- **One file load per subagent.** wa-review's full-review dispatches 6 parallel Task subagents; each subagent loads exactly one pillar file and holds the entire pillar (30–55 BPs) in a single context window. Zero back-and-forth.
+- **One file load per subagent.** aws-well-architected-framework-review's full-review dispatches 6 parallel Task subagents; each subagent loads exactly one pillar file and holds the entire pillar (30–55 BPs) in a single context window. Zero back-and-forth.
 - **Snapshot in time.** The files are a snapshot of the AWS Well-Architected docs at the last crawl. Users must check freshness before use (see the regeneration section above). This is honest — we can't lie about live data if we hold static data.
 - **Predictable token cost.** Loading a pillar file is a one-shot input-token charge (~50–150K tokens per subagent, cache-friendly since the corpus is static). Total review cost stays deterministic per invocation.
 - **No infrastructure to run.** No MCP server, no auth, no availability concerns. The skill works offline once installed.
@@ -786,7 +786,7 @@ What Well-Architected pillars should I consider for this architecture?
 If configured correctly, it will reference all six pillars with specific guidance rather than giving a generic answer.
 
 > [!TIP]
-> **Claude Code users**: try `/wa-review` to invoke the full review skill as a slash command.
+> **Claude Code users**: try `/aws-well-architected-framework-review` to invoke the full review skill as a slash command.
 >
 > **Kiro users**: the steering loads automatically — just start discussing architecture and the agent applies WA principles.
 
@@ -800,9 +800,9 @@ Each skill includes structured evaluations in `skills/*/evals/evals.json` follow
 > **Two frameworks — pick the right one for your skill.** This repo ships two eval harnesses because a single one can't fairly measure both kinds of skills:
 >
 > - **[`evals/run.py`](./evals) (raw Bedrock Converse + LLM-as-judge)** — cheap, fast, fair for skills whose value lives entirely in the `SKILL.md` prose (`wa-builder`, `wa-guardrails`, `wafr-facilitator`, `migration-readiness`). Cannot execute `Task` subagents or MCP tools.
-> - **[`evals/cli_effectiveness/`](./evals/cli_effectiveness) (real `claude -p` CLI + paired baseline + F1 vs ground truth)** — the honest framework for skills that depend on runtime tools. **Use this for `wa-review`.** Costs more (~$125/full run at Opus tier) but measures what the skill actually delivers.
+> - **[`evals/cli_effectiveness/`](./evals/cli_effectiveness) (real `claude -p` CLI + paired baseline + F1 vs ground truth)** — the honest framework for skills that depend on runtime tools. **Use this for `aws-well-architected-framework-review`.** Costs more (~$125/full run at Opus tier) but measures what the skill actually delivers.
 >
-> Running `evals/run.py --skill wa-review` produces misleading numbers because Converse can't dispatch the pillar subagents wa-review relies on. The runner prints a banner warning about this — but the honest measure is under `cli_effectiveness/`.
+> Running `evals/run.py --skill aws-well-architected-framework-review` produces misleading numbers because Converse can't dispatch the pillar subagents aws-well-architected-framework-review relies on. The runner prints a banner warning about this — but the honest measure is under `cli_effectiveness/`.
 
 Each test case includes:
 
@@ -836,7 +836,7 @@ macOS / Linux / Windows (PowerShell):
 uv run python run.py --list
 
 # Evaluate a single skill
-uv run python run.py --skill wa-review --verbose
+uv run python run.py --skill aws-well-architected-framework-review --verbose
 
 # Evaluate all skills with parallel case execution
 uv run python run.py --parallel --verbose
@@ -883,7 +883,7 @@ Cost breakdown assumes ~1K input tokens and ~8K output tokens per generation cal
 > Then update `generation_model` in `config.yaml` to try a different model. The grading model should remain a strong model (Claude Opus/Sonnet) for reliable assertion grading. Note: Opus 4.8 does not support the `temperature` parameter — the runner handles this automatically.
 
 > [!TIP]
-> Start by running a single skill eval (`--skill wa-review --verbose`) to see detailed per-assertion grading. The delta between baseline and with-skill scores quantifies the value each skill adds.
+> Start by running a single skill eval (`--skill aws-well-architected-framework-review --verbose`) to see detailed per-assertion grading. The delta between baseline and with-skill scores quantifies the value each skill adds.
 
 **Using this framework for your own skills**
 
@@ -897,7 +897,7 @@ The `evals/` runner is skill-agnostic — it reads `skills/{name}/SKILL.md` and 
 The paired-comparison approach (with skill vs bare model, same prompts) is the fair way to measure whether SKILL.md content is actually earning the tokens it costs. If your skill's delta is <10%, the guidance is probably too generic to move the model — worth revisiting.
 
 > [!NOTE]
-> **Limitation to be aware of.** The `evals/` runner uses raw Bedrock Converse API, which has no `Task` tool. Skills whose value depends on subagent dispatch (like wa-review's full-review mode) will look weaker here than they actually are in Claude Code / Kiro. See the [Real Agent evaluation](#real-agent-evaluation) section for how wa-review is measured in a Task-capable runtime.
+> **Limitation to be aware of.** The `evals/` runner uses raw Bedrock Converse API, which has no `Task` tool. Skills whose value depends on subagent dispatch (like aws-well-architected-framework-review's full-review mode) will look weaker here than they actually are in Claude Code / Kiro. See the [Real Agent evaluation](#real-agent-evaluation) section for how aws-well-architected-framework-review is measured in a Task-capable runtime.
 
 ---
 
@@ -907,22 +907,22 @@ Two frameworks measure different kinds of skills. Both compare with-skill agains
 
 | Skill | Baseline | With Skill | Delta | Framework |
 | ----- | -------- | ---------- | ----- | --------- |
-| `wa-review` † | F1 0.264 | **F1 0.960** | **+0.70 F1** | CC CLI + F1 vs ground truth |
+| `aws-well-architected-framework-review` † | F1 0.264 | **F1 0.960** | **+0.70 F1** | CC CLI + F1 vs ground truth |
 | `wa-builder` | 61% | **94%** | +33% | LLM-as-judge (raw Converse) |
 | `wa-guardrails` | 76% | **99%** | +23% | LLM-as-judge (raw Converse) |
 | `wafr-facilitator` | 61% | **97%** | +35% | LLM-as-judge (raw Converse) |
 | `migration-readiness` | 85% | **100%** | +15% | LLM-as-judge (raw Converse) |
 
-† `wa-review` is measured in the real Agents CLI runtime because its full-review path depends on the `Task` tool (6 parallel pillar subagents per review, v4.2+). Raw Bedrock Converse has no Task tool, so it can't execute the skill's subagent-dispatch pattern; scoring `wa-review` there produces misleading numbers. See [Real Agent evaluation](#real-agent-evaluation) below for the measurement setup, and [`evals/cli_effectiveness/`](./evals/cli_effectiveness) for the harness code + ground truth to reproduce.
+† `aws-well-architected-framework-review` is measured in the real Agents CLI runtime because its full-review path depends on the `Task` tool (6 parallel pillar subagents per review, v4.2+). Raw Bedrock Converse has no Task tool, so it can't execute the skill's subagent-dispatch pattern; scoring `aws-well-architected-framework-review` there produces misleading numbers. See [Real Agent evaluation](#real-agent-evaluation) below for the measurement setup, and [`evals/cli_effectiveness/`](./evals/cli_effectiveness) for the harness code + ground truth to reproduce.
 
 > [!IMPORTANT]
-> **Don't run `evals/run.py --skill wa-review` and trust the number.** The raw Converse framework can't execute Task subagents, and wa-review's value is largely in that dispatch pattern. Use [`evals/cli_effectiveness/`](./evals/cli_effectiveness) instead — it measures the skill in a real `claude -p` runtime with a paired `--safe-mode` baseline. If you're evaluating a skill you're developing that ALSO depends on runtime tools (Task, MCP, etc.), use the CC CLI harness as a template rather than the Converse runner.
+> **Don't run `evals/run.py --skill aws-well-architected-framework-review` and trust the number.** The raw Converse framework can't execute Task subagents, and aws-well-architected-framework-review's value is largely in that dispatch pattern. Use [`evals/cli_effectiveness/`](./evals/cli_effectiveness) instead — it measures the skill in a real `claude -p` runtime with a paired `--safe-mode` baseline. If you're evaluating a skill you're developing that ALSO depends on runtime tools (Task, MCP, etc.), use the CC CLI harness as a template rather than the Converse runner.
 
 ### Real agent evaluation
 
 To measure what the skill actually delivers in production, we run it inside real agent runtimes against 6 eval cases × 3 runs each, scored against a ground truth built from a 2-model × 5-run consensus panel (270–306 applicable BPs per case).
 
-**Results by runtime (wa-review v2.2, Opus-tier models, 18 runs per runtime):**
+**Results by runtime (aws-well-architected-framework-review v2.2, Opus-tier models, 18 runs per runtime):**
 
 | Case | Claude Code | Kiro | Codex (GPT-5.5) | Baseline |
 | ---- | ----------- | ---- | --------------- | -------- |
@@ -958,7 +958,7 @@ To measure what the skill actually delivers in production, we run it inside real
 - **Subagent analysis** — the raw output of the 6 parallel pillar subagents combined. This is the *underlying analysis* the skill produces.
 - **Assembled report** — what the top-level agent synthesizes into the final user-facing report after the subagents return. This is *what the user actually sees*.
 
-In wa-review v2.2 these two numbers are identical — the mandatory Full BP Ledger section (see [SKILL.md Step 4c](skills/wa-review/SKILL.md)) forces the assembler to preserve every citation the subagents produce. In v2.1 the report layer dropped 30–70% of the subagent findings; that gap ("compression cost") is now zero.
+In aws-well-architected-framework-review v2.2 these two numbers are identical — the mandatory Full BP Ledger section (see [SKILL.md Step 4c](skills/aws-well-architected-framework-review/SKILL.md)) forces the assembler to preserve every citation the subagents produce. In v2.1 the report layer dropped 30–70% of the subagent findings; that gap ("compression cost") is now zero.
 
 **How "applicable" is decided (ground truth)**
 
@@ -966,11 +966,11 @@ For each workload we ran a separate consensus panel: 2 top-tier models (Claude S
 
 **Baseline definition**
 
-The "without skill" column is `claude -p --safe-mode --disable-slash-commands` invoked from an empty scratch workdir (`/tmp/wa-review-baseline-scratch/`). `--safe-mode` disables all skills, CLAUDE.md discovery, plugins, hooks, and MCP servers. `--disable-slash-commands` blocks explicit skill invocation. Same case prompts, same model (Opus), same ground truth scoring — the only variable removed is the wa-review skill.
+The "without skill" column is `claude -p --safe-mode --disable-slash-commands` invoked from an empty scratch workdir (`/tmp/aws-well-architected-framework-review-baseline-scratch/`). `--safe-mode` disables all skills, CLAUDE.md discovery, plugins, hooks, and MCP servers. `--disable-slash-commands` blocks explicit skill invocation. Same case prompts, same model (Opus), same ground truth scoring — the only variable removed is the aws-well-architected-framework-review skill.
 
 **Scope**
 
-Numbers reflect: `claude -p` CLI (real Claude Code runtime) + Opus + wa-review v2.2 + n=3 runs per case + 6 workload cases. Not a universal claim about all models or runtimes — results will vary with the underlying LLM's capability and the runtime's tool support.
+Numbers reflect: `claude -p` CLI (real Claude Code runtime) + Opus + aws-well-architected-framework-review v2.2 + n=3 runs per case + 6 workload cases. Not a universal claim about all models or runtimes — results will vary with the underlying LLM's capability and the runtime's tool support.
 </details>
 
 **Other modes** (score / quick / pillar-scoped) work in raw Converse and improve output there (case-level scores 80–100%). Skills never produce catastrophically worse output than baseline.
@@ -983,7 +983,7 @@ The evaluation framework is included in [`evals/`](./evals) so you can reproduce
 
 Compare how different foundation models perform on Well-Architected review tasks — measuring **quality**, **latency**, **throughput**, and **token cost** side by side. All models are consumed through **Amazon Bedrock** (`bedrock-runtime` for Converse API models, `bedrock-mantle` for OpenAI Responses/Chat Completions API models) — no direct provider APIs used.
 
-The benchmark below measures **subagent-mode full reviews** — the shipped skill's default path for `wa-review` full reviews, which dispatches 6 parallel Converse calls (one per pillar) per model with pre-loaded pillar references. This is what real users experience. Cost figures include all 6 subagent calls per review.
+The benchmark below measures **subagent-mode full reviews** — the shipped skill's default path for `aws-well-architected-framework-review` full reviews, which dispatches 6 parallel Converse calls (one per pillar) per model with pre-loaded pillar references. This is what real users experience. Cost figures include all 6 subagent calls per review.
 
 > [!IMPORTANT]
 > **These results reflect a controlled evaluation environment** — a single workload prompt, a fixed region, and a specific point in time. Model performance, pricing, and availability vary across workloads, regions, and Bedrock tiers. **Customers are responsible for running their own evaluations and benchmarks** before making model selection or cost decisions for their specific use cases. Use the harness in `evals/` and the reproduction instructions below to run benchmarks against your own prompts and requirements.
@@ -1045,7 +1045,7 @@ Configure models and prompts in [`evals/benchmark_config.yaml`](evals/benchmark_
 
 ## AWS DevOps Agent
 
-The AWS DevOps Agent operates differently from coding agents — it runs **autonomously** in response to incidents and operational events, not developer prompts. `wa-review` ships a dedicated variant that fits this model.
+The AWS DevOps Agent operates differently from coding agents — it runs **autonomously** in response to incidents and operational events, not developer prompts. `aws-well-architected-framework-review` ships a dedicated variant that fits this model.
 
 | File | Use when |
 | ---- | -------- |
@@ -1064,14 +1064,14 @@ The AWS DevOps Agent operates differently from coding agents — it runs **auton
 **To upload to your Agent Space:**
 
 ```bash
-# Generate a DevOps Agent-compatible zip for wa-review (16 files, <1 MB)
-./install.sh --devops-agent --skill wa-review
-# -> wa-review-devops-agent.zip in the current directory
+# Generate a DevOps Agent-compatible zip for aws-well-architected-framework-review (16 files, <1 MB)
+./install.sh --devops-agent --skill aws-well-architected-framework-review
+# -> aws-well-architected-framework-review-devops-agent.zip in the current directory
 
 # Windows (PowerShell):
-#   .\install.ps1 -DevOpsAgent -Skill wa-review
+#   .\install.ps1 -DevOpsAgent -Skill aws-well-architected-framework-review
 
-# Then upload wa-review-devops-agent.zip via the Operator Web App.
+# Then upload aws-well-architected-framework-review-devops-agent.zip via the Operator Web App.
 ```
 
 The `--devops-agent` flag packages `SKILL.md`, `metadata.json`, and everything

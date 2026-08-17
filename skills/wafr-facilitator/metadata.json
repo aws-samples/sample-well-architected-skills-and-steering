@@ -17,7 +17,7 @@
     "customer-facing Well-Architected review"
   ],
   "not_for": [
-    "automated code-based WA reviews (use wa-review instead)",
+    "automated code-based WA reviews (use aws-well-architected-framework-review instead)",
     "learning WA concepts or generating visual artifacts (use wa-builder instead)",
     "generating guardrails or enforcement controls (use wa-guardrails instead)",
     "creating architecture decision records (use architecture-decision-record instead)"

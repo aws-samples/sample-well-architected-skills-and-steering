@@ -6,7 +6,7 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 TARGET_DIR="."
 
-VERSION="1.3.0"
+VERSION="6.0.0"
 
 usage() {
   cat <<EOF
@@ -27,7 +27,7 @@ Options:
                   and all references/ EXCEPT the lens corpus, so the result stays
                   under the DevOps Agent 100-file-per-zip upload limit.
   --skill SKILL   Skill to package with --devops-agent. Can be repeated.
-                  Defaults to all skills. (e.g. wa-review)
+                  Defaults to all skills. (e.g. aws-well-architected-framework-review)
   --symlink     Use symlinks instead of copies (auto-updates when this repo changes)
   --global      Install to global config (~/.kiro, ~/.claude, etc.) instead of project
   --force       Overwrite existing files without prompting
@@ -42,7 +42,7 @@ Examples:
   ./install.sh ~/my-project --tool all --force
   ./install.sh ~/my-project --uninstall --tool claude-code
   ./install.sh --check-update
-  ./install.sh --devops-agent --skill wa-review
+  ./install.sh --devops-agent --skill aws-well-architected-framework-review
 EOF
   exit 0
 }
@@ -222,7 +222,7 @@ install_cursor() {
     copy_or_link "$skill_dir/SKILL.md" "$base/.cursor/skills/$skill_name/SKILL.md"
     copy_skill_references "$skill_dir" "$base/.cursor/skills/$skill_name"
   done
-  echo "  Done. The well-architected rule is always-on; wa-review activates on demand."
+  echo "  Done. The well-architected rule is always-on; aws-well-architected-framework-review activates on demand."
   echo ""
 }
 
@@ -560,7 +560,7 @@ uninstall_tool() {
       echo "  Removed: Claude Code CLAUDE.md, commands, and skills"
       ;;
     cursor)
-      rm -f "$base/.cursor/rules/well-architected.md" "$base/.cursor/rules/wa-review.md"
+      rm -f "$base/.cursor/rules/well-architected.md" "$base/.cursor/rules/aws-well-architected-framework-review.md"
       for skill_dir in "$SCRIPT_DIR/skills"/*/; do
         local skill_name
         skill_name="$(basename "$skill_dir")"
@@ -624,7 +624,7 @@ uninstall_tool() {
           rm -rf "$base/skills/$skill_name"
         done
       else
-        rm -f "$base/.agents/rules/well-architected.md" "$base/.agents/rules/wa-review.md"
+        rm -f "$base/.agents/rules/well-architected.md" "$base/.agents/rules/aws-well-architected-framework-review.md"
         for skill_dir in "$SCRIPT_DIR/skills"/*/; do
           local skill_name
           skill_name="$(basename "$skill_dir")"

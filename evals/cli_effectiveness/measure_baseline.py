@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
 # SPDX-License-Identifier: MIT-0
-"""Baseline: run each eval case in Claude Code CLI WITHOUT wa-review skill.
+"""Baseline: run each eval case in Claude Code CLI WITHOUT aws-well-architected-framework-review skill.
 
 For each case × run:
   - Invoke `claude -p --safe-mode --disable-slash-commands ...` from a scratch
@@ -38,7 +38,7 @@ from measure_wa_review import (  # noqa: E402
 )
 
 # For the baseline we do NOT wrap with the AUTONOMOUS_PREAMBLE — that preamble
-# specifically instructs the agent to use the wa-review skill. In the baseline
+# specifically instructs the agent to use the aws-well-architected-framework-review skill. In the baseline
 # the agent has no skill loaded, so we just pass the raw case prompt with a
 # minimal cover note asking for a WA review.
 BASELINE_COVER = """[NON-INTERACTIVE EVAL MODE — no follow-up questions possible]
@@ -62,7 +62,7 @@ def run_baseline_cli(prompt: str, workdir: Path) -> dict:
 
     --safe-mode disables all skills, CLAUDE.md discovery, plugins, hooks, MCP
     servers. --disable-slash-commands adds explicit skill-blocking. This
-    guarantees the wa-review skill is not loaded and no auto-trigger fires.
+    guarantees the aws-well-architected-framework-review skill is not loaded and no auto-trigger fires.
     """
     start = time.time()
     try:
@@ -153,7 +153,7 @@ def score_baseline_run(cli_result: dict, gt_bps: set[str], canonical: set[str]) 
 
 def main() -> int:
     # Create scratch workdir with no .claude/ subdir so nothing auto-loads
-    scratch = Path("/tmp/wa-review-baseline-scratch")
+    scratch = Path("/tmp/aws-well-architected-framework-review-baseline-scratch")
     scratch.mkdir(exist_ok=True)
     # Ensure no .claude subdir exists here (defensive)
     if (scratch / ".claude").exists():
@@ -170,7 +170,7 @@ def main() -> int:
     results = {
         "model": MODEL,
         "runs_per_case": RUNS_PER_CASE,
-        "mode": "baseline (no wa-review skill, --safe-mode)",
+        "mode": "baseline (no aws-well-architected-framework-review skill, --safe-mode)",
         "cases": [],
     }
 

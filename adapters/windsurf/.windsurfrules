@@ -56,7 +56,7 @@ When delivering Well-Architected guidance:
 
 For structured assessments, read and follow the step-by-step instructions in the corresponding `skills/{skill-name}/SKILL.md` file:
 
-- `wa-review` — Full 6-pillar review with prioritized findings report
+- `aws-well-architected-framework-review` — Full 6-pillar review with prioritized findings report
 - `security-assessment` — Deep-dive security posture assessment
 - `reliability-improvement-plan` — Find SPOFs and produce remediation plan
 - `cost-optimization-review` — Identify waste and right-sizing opportunities

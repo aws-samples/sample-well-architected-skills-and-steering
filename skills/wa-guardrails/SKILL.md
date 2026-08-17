@@ -17,7 +17,7 @@ Ask the user (skip any already provided or inferable from the codebase):
 > I can generate guardrails to keep your workload Well-Architected. Let me know:
 > - **Workload name** and code packages/directories (IaC, CI/CD configs)
 > - **IaC dialect**: CDK (which language), CloudFormation, Terraform, SAM, or mixed
-> - **Source of controls**: a prior `/wa-review` or assessment output, specific concerns, or "scan and propose"
+> - **Source of controls**: a prior `/aws-well-architected-framework-review` or assessment output, specific concerns, or "scan and propose"
 > - **Enforcement points available**: CI pipeline (which one), AWS Organizations/SCPs, AWS Config, account-level admin — so controls target what you can actually deploy
 > - **Pillars to prioritize** (optional; default: Security and Reliability)
 

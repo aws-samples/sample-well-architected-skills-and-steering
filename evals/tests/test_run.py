@@ -28,11 +28,11 @@ def test_load_config():
 def test_list_skills():
     skills = list_skills()
     assert len(skills) >= 1
-    assert "wa-review" in skills
+    assert "aws-well-architected-framework-review" in skills
 
 
 def test_load_skill():
-    content = load_skill("wa-review")
+    content = load_skill("aws-well-architected-framework-review")
     assert "Well-Architected" in content
     assert len(content) > 100
 
@@ -43,7 +43,7 @@ def test_load_skill_not_found():
 
 
 def test_load_evals():
-    evals = load_evals("wa-review")
+    evals = load_evals("aws-well-architected-framework-review")
     assert "skill_name" in evals
     assert "evals" in evals
     assert len(evals["evals"]) >= 1

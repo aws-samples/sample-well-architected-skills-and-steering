@@ -14,8 +14,8 @@ Each skill directory is already structured for DevOps Agent zip upload:
 
 ```bash
 # Package a single skill
-cd skills/wa-review
-zip -r wa-review.zip SKILL.md
+cd skills/aws-well-architected-framework-review
+zip -r aws-well-architected-framework-review.zip SKILL.md
 
 # Package a skill with references/assets (if present)
 cd skills/security-assessment
@@ -49,7 +49,7 @@ This creates zip files ready for upload in the target directory.
 
 | Skill | Recommended Agent Type |
 |-------|----------------------|
-| `wa-review` | On-demand, Evaluation |
+| `aws-well-architected-framework-review` | On-demand, Evaluation |
 | `security-assessment` | On-demand, Evaluation |
 | `reliability-improvement-plan` | On-demand, Incident RCA |
 | `cost-optimization-review` | On-demand, Evaluation |

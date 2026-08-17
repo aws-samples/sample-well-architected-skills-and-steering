@@ -22,7 +22,7 @@
     "architecture decision records (use architecture-decision-record instead)",
     "single-pillar assessments like security or reliability (use the specific pillar skill instead)",
     "cost optimization of existing AWS workloads (use cost-optimization-review instead)",
-    "full cross-pillar WA review of existing AWS workloads (use wa-review instead)",
+    "full cross-pillar WA review of existing AWS workloads (use aws-well-architected-framework-review instead)",
     "learning WA concepts (use wa-builder instead)"
   ],
   "metadata": {

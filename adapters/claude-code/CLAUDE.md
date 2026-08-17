@@ -53,13 +53,13 @@ When delivering Well-Architected guidance:
 Well-Architected skills are available as slash commands:
 
 **Core skills:**
-- `/wa-review` — Full or pillar-scoped WA assessment (supports all 6 pillars as deep-dives)
+- `/aws-well-architected-framework-review` — Full or pillar-scoped WA assessment (supports all 6 pillars as deep-dives)
 - `/wa-builder` — Learn WA + produce artifacts (diagrams, decision trees, roadmaps, ADRs)
 - `/wa-guardrails` — Generate preventive controls (Config rules, SCPs, CI checks)
 - `/wafr-facilitator` — Prepare conversational WAFR facilitation with customers
 - `/migration-readiness` — 7 Rs migration assessment
 
-**Pillar aliases** (route to wa-review with pillar scope):
+**Pillar aliases** (route to aws-well-architected-framework-review with pillar scope):
 - `/security-assessment` → Security pillar deep-dive
 - `/reliability-improvement-plan` → Reliability pillar deep-dive
 - `/cost-optimization-review` → Cost Optimization pillar deep-dive

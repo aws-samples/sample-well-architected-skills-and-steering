@@ -1,7 +1,7 @@
 ---
 name: wa-builder
 description: '"Learn then Build" — help developers understand AWS Well-Architected best practices for their specific workload, then produce actionable visual artifacts (architecture diagrams with WA annotations, decision trees, improvement roadmaps) they can commit and use. Adapts explanations for beginners and generates artifacts faster for experienced builders. Use when the user wants to understand WA for their project, create architecture diagrams with pillar health overlays, get guided decision flows for architectural choices, or generate a visual improvement roadmap.'
-not_for: assessments or reviews that produce findings (use wa-review), migration planning (use migration-readiness), generating guardrails (use wa-guardrails), facilitating a WAFR (use wafr-facilitator)
+not_for: assessments or reviews that produce findings (use aws-well-architected-framework-review), migration planning (use migration-readiness), generating guardrails (use wa-guardrails), facilitating a WAFR (use wafr-facilitator)
 version: 1.0.0
 ---
 
@@ -9,7 +9,7 @@ version: 1.0.0
 
 ## Overview
 
-This skill helps developers **understand** Well-Architected for their specific workload and **produce visual artifacts** they can commit. Unlike wa-review (which assesses and scores), wa-builder teaches and enables.
+This skill helps developers **understand** Well-Architected for their specific workload and **produce visual artifacts** they can commit. Unlike aws-well-architected-framework-review (which assesses and scores), wa-builder teaches and enables.
 
 **What you'll produce:**
 1. Architecture diagram with WA annotations (color-coded pillar health, risk hotspots)
@@ -28,7 +28,7 @@ Ask the user:
 > - **Workload name** and brief description (or point me at your code)
 > - **Your WA familiarity**: New to WA / Familiar / Practitioner
 > - **What you want**: Architecture diagram, decision tree, roadmap, or all three
-> - **Existing review** (optional): If you have a wa-review output, share it for richer artifacts
+> - **Existing review** (optional): If you have a aws-well-architected-framework-review output, share it for richer artifacts
 
 If context is already provided or you're in a codebase, proceed directly.
 
@@ -65,9 +65,9 @@ Produce a **workload profile**:
 - Per-pillar health signals (3-5 strongest indicators per pillar)
 - Top 3 risk hotspots
 
-### Path B — Post-review (consumes wa-review output)
+### Path B — Post-review (consumes aws-well-architected-framework-review output)
 
-Parse the wa-review report to extract:
+Parse the aws-well-architected-framework-review report to extract:
 - Pillar scores (1-5) from the scorecard
 - Findings by severity (Critical, High, Medium, Low)
 - Evidence locations (file:line)
@@ -299,7 +299,7 @@ Would you like me to:
 - **Deep-dive** into a specific decision with more BP context?
 - **Generate IaC** for a specific improvement from the roadmap?
 - **Create an ADR** for a decision you've made from the tree?
-- **Run a full /wa-review** for precise per-BP scoring?
+- **Run a full /aws-well-architected-framework-review** for precise per-BP scoring?
 ```
 
 ## Mode: Architecture Decision Record
@@ -411,7 +411,7 @@ For rejected options:
 - Decision trees should present OPTIONS not mandates — the builder decides
 - Roadmap should be REALISTIC — don't pack 50 items into "Quick Wins"
 - Always tie back to WA Framework question IDs (OPS 4, SEC 3, REL 9, etc.) so builders can look up details
-- When generating artifacts from a wa-review, USE the review's findings — don't re-assess
+- When generating artifacts from a aws-well-architected-framework-review, USE the review's findings — don't re-assess
 - PlantUML is primary (most tools support it), Mermaid is the alternative (renders in GitHub/VS Code)
 - ASCII fallbacks for dependency graphs work everywhere including terminals
 

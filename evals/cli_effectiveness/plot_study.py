@@ -47,8 +47,8 @@ FONT_DISPLAY = "Amazon Ember Display" if "Amazon Ember Display" in _AVAILABLE el
 FONT_MONO    = "Amazon Ember Mono"    if "Amazon Ember Mono"    in _AVAILABLE else "monospace"
 
 MCP_DATA_FILE = SCRIPT_DIR / "mcp_effectiveness.json"
-V21_MEANS = {1: 0.62, 2: 0.95, 3: 0.51, 4: 0.21, 5: 0.74, 6: 0.35}  # wa-review v2.1
-V22_MEANS = {1: 0.947, 2: 0.998, 3: 0.968, 4: 0.955, 5: 0.936, 6: 0.958}  # wa-review v2.2
+V21_MEANS = {1: 0.62, 2: 0.95, 3: 0.51, 4: 0.21, 5: 0.74, 6: 0.35}  # aws-well-architected-framework-review v2.1
+V22_MEANS = {1: 0.947, 2: 0.998, 3: 0.968, 4: 0.955, 5: 0.936, 6: 0.958}  # aws-well-architected-framework-review v2.2
 
 
 def load_mcp() -> dict:
@@ -63,7 +63,7 @@ def fig1_recall_evolution() -> None:
     approaches = [
         "AWS Knowledge MCP\n(Dec 2025, Claude)", "AWS Knowledge MCP\n(Dec 2025, ChatGPT)",
         "BPVendingService\nagent-style (Jul 2026)", "BPVendingService\nexhaustive (Jul 2026)",
-        "wa-review v2.1\n(static + dispatch)", "wa-review v2.2\n(static + dispatch + ledger)",
+        "aws-well-architected-framework-review v2.1\n(static + dispatch)", "aws-well-architected-framework-review v2.2\n(static + dispatch + ledger)",
     ]
     recalls = [0.024, 0.225, 0.070, 0.997, 0.53, 0.960]
     colors = [OI["vermillion"], OI["orange"], OI["sky"], OI["green"], OI["blue"], OI["blue"]]
@@ -118,7 +118,7 @@ def fig2_three_way() -> None:
     fig, ax = plt.subplots(figsize=(13, 6))
     ax.bar(x - w, agent,      w, label="MCP agent-style",     color=OI["vermillion"])
     ax.bar(x,     exhaustive, w, label="MCP exhaustive sweep", color=OI["orange"])
-    ax.bar(x + w, wa22,       w, label="wa-review v2.2",       color=OI["blue"])
+    ax.bar(x + w, wa22,       w, label="aws-well-architected-framework-review v2.2",       color=OI["blue"])
 
     ax.set_xticks(x); ax.set_xticklabels(labels)
     ax.set_ylim(0, 1.12)
@@ -146,8 +146,8 @@ def fig3_plateau() -> None:
         "Dec 2025\nAWS Knowledge\nMCP (ChatGPT)",
         "Jul 2026\nBPVendingService\nagent-style",
         "Jul 2026\nBPVendingService\nexhaustive",
-        "Jul 2026\nwa-review v2.1\n(skill only)",
-        "Jul 2026\nwa-review v2.2\n(skill + ledger)",
+        "Jul 2026\naws-well-architected-framework-review v2.1\n(skill only)",
+        "Jul 2026\naws-well-architected-framework-review v2.2\n(skill + ledger)",
     ]
     recalls   = [0.024, 0.225, 0.070, 0.997, 0.530, 0.960]
     bp_counts = [int(r * 307) for r in recalls]
@@ -194,8 +194,8 @@ def fig4_token_economy() -> None:
         ("AWS Knowledge MCP\n(ChatGPT, Dec 2025)",   0.56,  0.225, OI["orange"],     80),
         ("BPVendingService\nagent-style",             0.01,  0.07,  OI["sky"],        80),
         ("BPVendingService\nexhaustive sweep",        0.01,  0.997, OI["green"],      80),
-        ("wa-review v2.1\n(static + dispatch)",       4.00,  0.53,  OI["blue"],       60),
-        ("wa-review v2.2\n(static + dispatch\n+ Full BP Ledger)", 7.00, 0.96, OI["blue"], 120),
+        ("aws-well-architected-framework-review v2.1\n(static + dispatch)",       4.00,  0.53,  OI["blue"],       60),
+        ("aws-well-architected-framework-review v2.2\n(static + dispatch\n+ Full BP Ledger)", 7.00, 0.96, OI["blue"], 120),
     ]
 
     for label, cost, recall, color, size in points:
@@ -291,7 +291,7 @@ def fig5_model_benchmark() -> None:
 
 # -- Figure 6: v2.1 vs v2.2 before/after -----------------------------------
 def fig6_compression() -> None:
-    """Before/after: wa-review v2.1 vs v2.2 per case."""
+    """Before/after: aws-well-architected-framework-review v2.1 vs v2.2 per case."""
     cases = list(range(1, 7))
     v21 = [V21_MEANS[c] for c in cases]
     v22 = [V22_MEANS[c] for c in cases]
@@ -300,8 +300,8 @@ def fig6_compression() -> None:
     w = 0.35
 
     fig, ax = plt.subplots(figsize=(11, 6))
-    ax.bar(x - w/2, v21, w, label="wa-review v2.1 (report F1)", color=OI["orange"], alpha=0.8)
-    ax.bar(x + w/2, v22, w, label="wa-review v2.2 (report F1)", color=OI["blue"])
+    ax.bar(x - w/2, v21, w, label="aws-well-architected-framework-review v2.1 (report F1)", color=OI["orange"], alpha=0.8)
+    ax.bar(x + w/2, v22, w, label="aws-well-architected-framework-review v2.2 (report F1)", color=OI["blue"])
 
     for i, (a, b) in enumerate(zip(v21, v22)):
         ax.annotate("", xy=(i + w/2, b + 0.02), xytext=(i - w/2, a + 0.02),
@@ -312,7 +312,7 @@ def fig6_compression() -> None:
     ax.set_xticks(x); ax.set_xticklabels(labels)
     ax.set_ylim(0, 1.22)
     ax.set_ylabel("Report F1 (what the user sees)")
-    ax.set_title("Full BP Ledger impact: wa-review v2.1 -> v2.2\n(same subagents, same data; only assembler instructions changed)",
+    ax.set_title("Full BP Ledger impact: aws-well-architected-framework-review v2.1 -> v2.2\n(same subagents, same data; only assembler instructions changed)",
                  family=FONT_DISPLAY, fontsize=13, weight="bold")
     ax.legend(loc="upper center", bbox_to_anchor=(0.5, -0.08), ncol=2, frameon=False)
     ax.grid(axis="y", alpha=0.2)
@@ -344,7 +344,7 @@ def fig0_summary_grid() -> None:
             "AWS Knowledge MCP (ChatGPT, Dec 2025)",
             "BPVendingService agent-style",
             "BPVendingService exhaustive",
-            "wa-review v2.1", "wa-review v2.2",
+            "aws-well-architected-framework-review v2.1", "aws-well-architected-framework-review v2.2",
         ]
         recalls = [0.024, 0.225, 0.070, 0.997, 0.530, 0.960]
         colors  = [OI["vermillion"], OI["orange"], OI["sky"], OI["green"], OI["blue"], OI["blue"]]
@@ -366,7 +366,7 @@ def fig0_summary_grid() -> None:
         x = np.arange(6); w = 0.25
         ax.bar(x-w, ag, w, color=OI["vermillion"], label="MCP naive")
         ax.bar(x,   ex, w, color=OI["orange"],     label="MCP exhaustive")
-        ax.bar(x+w, wa, w, color=OI["blue"],        label="wa-review v2.2")
+        ax.bar(x+w, wa, w, color=OI["blue"],        label="aws-well-architected-framework-review v2.2")
         ax.set_xticks(x); ax.set_xticklabels([f"C{i}" for i in range(1,7)])
         ax.set_ylim(0, 1.12); ax.set_title("F1 by case", fontsize=11)
         ax.legend(loc="upper center", bbox_to_anchor=(0.5,-0.18), ncol=3, frameon=False, fontsize=8)
@@ -389,8 +389,8 @@ def fig0_summary_grid() -> None:
             ("AWS Knwl MCP\n(GPT)",    0.56, 0.225, OI["orange"]),
             ("BPV agent",              0.01, 0.07,  OI["sky"]),
             ("BPV exhaustive",         0.01, 0.997, OI["green"]),
-            ("wa-review v2.1",         4.00, 0.53,  OI["blue"]),
-            ("wa-review v2.2",         7.00, 0.96,  OI["blue"]),
+            ("aws-well-architected-framework-review v2.1",         4.00, 0.53,  OI["blue"]),
+            ("aws-well-architected-framework-review v2.2",         7.00, 0.96,  OI["blue"]),
         ]
         for name, cost, recall, color in pts:
             ax.scatter(cost, recall, s=60, color=color, zorder=3, edgecolor="white", linewidth=1)
@@ -428,7 +428,7 @@ def fig0_summary_grid() -> None:
             "Jul 2026 — BPVendingService:\n"
             "  Naive agent: 7% recall\n"
             "  Exhaustive:  99.7% recall\n\n"
-            "Jul 2026 — wa-review v2.2:\n"
+            "Jul 2026 — aws-well-architected-framework-review v2.2:\n"
             "  Report F1:  0.960\n"
             "  Recall:     1.00\n\n"
             "Key insight:\n"

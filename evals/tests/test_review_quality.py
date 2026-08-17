@@ -1,6 +1,6 @@
 # Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
 # SPDX-License-Identifier: MIT-0
-"""Offline tests for blind and adversarial wa-review evaluation."""
+"""Offline tests for blind and adversarial aws-well-architected-framework-review evaluation."""
 
 import json
 import sys
@@ -447,7 +447,7 @@ def test_blind_prompt_does_not_receive_candidate_identity_metadata():
 
 def test_skill_contract_includes_cannot_determine_as_fifth_status():
     for filename in ("SKILL.md", "SKILL-devops-agent.md"):
-        text = (EVALS_DIR.parent / "skills" / "wa-review" / filename).read_text()
+        text = (EVALS_DIR.parent / "skills" / "aws-well-architected-framework-review" / filename).read_text()
 
         assert "one of four statuses" not in text
         assert "all four statuses" not in text

@@ -425,13 +425,13 @@ def main():
             print(f"Available: {', '.join(list_skills())}")
             sys.exit(1)
 
-    # Warn when wa-review is being measured with raw Converse — it needs Task
+    # Warn when aws-well-architected-framework-review is being measured with raw Converse — it needs Task
     # subagents which this framework can't execute. Point at the real harness.
-    if "wa-review" in skills_to_run:
+    if "aws-well-architected-framework-review" in skills_to_run:
         print(
             "\n"
             "  " + "!" * 68 + "\n"
-            "  ! wa-review's full-review path depends on the Task tool (v4.2+):    !\n"
+            "  ! aws-well-architected-framework-review's full-review path depends on the Task tool (v4.2+):    !\n"
             "  ! it dispatches 6 parallel pillar subagents. This runner uses raw   !\n"
             "  ! Bedrock Converse API — no Task tool available — so scores here    !\n"
             "  ! reflect single-agent guidance only, NOT what the skill delivers.  !\n"

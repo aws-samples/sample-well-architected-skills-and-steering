@@ -14,7 +14,7 @@ from report import print_report, save_results
 def make_sample_results():
     return [
         {
-            "skill_name": "wa-review",
+            "skill_name": "aws-well-architected-framework-review",
             "cases": [
                 {
                     "id": 1,
@@ -41,7 +41,7 @@ def make_sample_results():
 def test_print_report_no_crash(capsys):
     print_report(make_sample_results())
     captured = capsys.readouterr()
-    assert "wa-review" in captured.out
+    assert "aws-well-architected-framework-review" in captured.out
     assert "EVALUATION RESULTS" in captured.out
 
 
@@ -69,4 +69,4 @@ def test_save_results(tmp_path, monkeypatch):
     assert "timestamp" in data
     assert "results" in data
     assert "summary" in data
-    assert "wa-review" in data["summary"]
+    assert "aws-well-architected-framework-review" in data["summary"]

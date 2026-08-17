@@ -2,7 +2,7 @@
 # Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
 # SPDX-License-Identifier: MIT-0
 """
-Model Benchmark — Compare configured models on wa-review quality, cost, and latency.
+Model Benchmark — Compare configured models on aws-well-architected-framework-review quality, cost, and latency.
 
 Sends the same WA review prompt to multiple models via Bedrock Converse or
 OpenAI-compatible chat endpoints,
@@ -343,7 +343,7 @@ PILLAR_FILES = [
 
 def _load_pillar_content() -> dict[str, str]:
     """Load the 6 pillar-merged reference files from the shipped skill."""
-    pillars_dir = SCRIPT_DIR.parent / "skills" / "wa-review" / "references" / "pillars"
+    pillars_dir = SCRIPT_DIR.parent / "skills" / "aws-well-architected-framework-review" / "references" / "pillars"
     content = {}
     for slug, _ in PILLAR_FILES:
         p = pillars_dir / f"{slug}.md"

@@ -4,7 +4,7 @@
 """Generate references/manifest.md — a single lightweight index of all 307 BPs.
 
 Scans references/pillars/*.md for canonical BP definitions (H1 headings matching
-`# {ID} {title}`) and emits a compact manifest the wa-review skill loads first.
+`# {ID} {title}`) and emits a compact manifest the aws-well-architected-framework-review skill loads first.
 """
 
 from __future__ import annotations
@@ -15,8 +15,8 @@ from pathlib import Path
 
 SCRIPT_DIR = Path(__file__).resolve().parent
 REPO_ROOT = SCRIPT_DIR.parent
-REFS = REPO_ROOT / "skills" / "wa-review" / "references" / "pillars"
-OUTPUT = REPO_ROOT / "skills" / "wa-review" / "references" / "manifest.md"
+REFS = REPO_ROOT / "skills" / "aws-well-architected-framework-review" / "references" / "pillars"
+OUTPUT = REPO_ROOT / "skills" / "aws-well-architected-framework-review" / "references" / "manifest.md"
 
 # Match H1 heading of question or BP.
 Q_H1 = re.compile(r"^# ((OPS|SEC|REL|PERF|COST|SUS) \d+)\s*[—-]\s*(.+)$", re.MULTILINE)
