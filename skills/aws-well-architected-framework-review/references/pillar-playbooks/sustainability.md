@@ -85,6 +85,13 @@ Flag:
 - Older generation instances (m4 instead of m7g, t2 instead of t4g)
 - Resources in high-carbon regions without latency justification
 
+## Named Anti-Patterns
+
+The starter anti-pattern set is weighted toward Security and Reliability, and sustainability-relevant entries live in the playbook of their primary pillar. When reviewing this pillar, explicitly check for these cross-pillar patterns and cite their IDs when they match:
+
+- **AP-COST-01: gp2 volumes where gp3 applies** (`cost-optimization.md`) — gp3 delivers the same baseline performance on more efficient infrastructure at lower cost; maps here to SUS05 (hardware and services selection).
+- **AP-PERF-01: No auto-scaling on stateless compute** (`performance-efficiency.md`) — fixed-size fleets hold idle capacity powered on around the clock; maps here to SUS02 (align cloud resources to demand).
+
 ## Sustainability-Specific Report Format
 
 When producing a pillar-scoped sustainability report, include:

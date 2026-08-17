@@ -94,6 +94,40 @@ Flag:
 - Missing batch operations (individual PutItem instead of BatchWriteItem)
 - Unbounded data retrieval without pagination
 
+## Named Anti-Patterns
+
+High-frequency Well-Architected failures codified as named patterns. Check every detection heuristic explicitly during discovery. When one matches, cite the anti-pattern ID alongside the BP ID in the finding, and base the remediation on the Right example (adapted to the workload's IaC dialect and actual resource names).
+
+### AP-PERF-01: No auto-scaling on stateless compute
+**Detect:** Terraform `aws_autoscaling_group` with `min_size == max_size` or no `aws_autoscaling_policy`; ECS services with a fixed `desired_count` and no `aws_appautoscaling_target`/`aws_appautoscaling_policy`; CloudFormation ASGs without scaling policies; CDK services without `autoScaleTaskCount` — on stateless compute serving variable load.
+**Maps to:** PERF02-BP05 (related: COST09, AP-COST-01 in `cost-optimization.md`)
+**Wrong:**
+```hcl
+resource "aws_autoscaling_group" "web" {
+  min_size         = 4
+  max_size         = 4
+  desired_capacity = 4
+}
+```
+**Right:**
+```hcl
+resource "aws_autoscaling_group" "web" {
+  min_size = 2
+  max_size = 10
+}
+
+resource "aws_autoscaling_policy" "web_cpu" {
+  autoscaling_group_name = aws_autoscaling_group.web.name
+  policy_type            = "TargetTrackingScaling"
+  target_tracking_configuration {
+    predefined_metric_specification {
+      predefined_metric_type = "ASGAverageCPUUtilization"
+    }
+    target_value = 60
+  }
+}
+```
+
 ## Performance-Specific Report Format
 
 When producing a pillar-scoped performance report, include:
