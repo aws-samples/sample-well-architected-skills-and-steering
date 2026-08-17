@@ -647,6 +647,32 @@ After delivering the report, offer:
 > - Generate automated checks (Config rules, custom metrics) for ongoing compliance?
 > - Set up a continuous WA gate: commit `aws-well-architected-framework-review.json` as a baseline and run `tools/wa-ci` in CI?
 > - Produce a WA Tool import for tracking in the AWS console?
+> - File the 🔴/🟡 findings as tracking issues with a summary epic? (Step 7b — offer only when an issue tracker CLI is available)
+
+## Step 7b: File findings as tracking issues (optional — confirmation-gated)
+
+An optional output mode that turns report findings into tracked work so the report does not go stale. **Never run it automatically** — it is gated behind one explicit user confirmation per review, and the default is no (design principle: keep the user in control).
+
+**Tracker detection.** Before offering, check that an issue tracker is actually reachable: `gh` CLI first (`gh auth status` succeeds and the workload repo has a GitHub remote); another tracker only if the runtime exposes an equivalent tool. If none is available, skip silently — do not offer — and add one line to the report footer: `Tracking-issue filing skipped — no issue tracker CLI available.`
+
+**Ask once** (only when a tracker is available), as part of the Step 7 offer:
+
+> Shall I file these findings as tracking issues? I would create one issue per 🔴 Critical/High and 🟡 Medium finding, plus one summary epic with a prioritized checklist. Low and Cannot Determine items stay in the report only. (default: no)
+
+**If — and only if — the user confirms**, create:
+
+1. **One issue per 🔴 Critical/High and 🟡 Medium finding**
+   - Title: `[WA][<PILLAR>] <finding title>` (e.g., `[WA][SEC] Uploads bucket lacks Block Public Access`)
+   - Body: severity, BP ID in canonical `SEC01-BP02` format (or the lens + finding title when the lens exposes no BP ID), the evidence citation (file:line), and the remediation next step from the report — including its **Fix:** block when present.
+2. **One summary epic**
+   - Title: `[WA] Well-Architected review — {workload name} ({date})`
+   - Body: the pillar scorecard table plus a checklist linking every finding issue (`- [ ] #<n> …`), grouped by Eisenhower quadrant (Do First → Plan → Delegate → Defer).
+
+**Rules:**
+- Issues are review artifacts, not code changes — bodies carry guidance and fix snippets to copy, never applied diffs.
+- Do not add labels, assignees, or milestones unless the user asks — leave triage to the team.
+- Do not file Low or Cannot Determine rows (tracker noise); they remain in the report.
+- When done, list the created issue URLs and note the epic as the tracking entry point.
 
 ## Calibration Guidance
 
