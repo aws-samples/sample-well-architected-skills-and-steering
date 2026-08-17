@@ -700,7 +700,7 @@ fi
 
 # Package a single skill into a DevOps Agent-compatible zip in the current
 # directory. Includes SKILL.md, metadata.json, and every references/ file EXCEPT
-# the lens corpus (900+ files on its own, which blows past the DevOps Agent
+# the lens corpus (~170 files; with it the skill blows past the DevOps Agent
 # 100-file-per-zip upload limit). When the skill ships DevOps Agent variants
 # (SKILL-devops-agent.md / metadata-devops-agent.json) those are packaged, but
 # written under the standard SKILL.md / metadata.json names the Agent expects.

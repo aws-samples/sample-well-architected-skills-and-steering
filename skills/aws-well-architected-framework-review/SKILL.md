@@ -326,6 +326,8 @@ Lenses are **additive** — they expand the core 57-question framework with doma
 - Then load the relevant lens from `references/lenses/{lens-name}/` and evaluate additional lens-specific best practices
 - Report lens findings in a separate section after the core findings
 
+Lens directories are pillar-merged, matching the core corpus: each contains at most 6 files named by pillar slug (`security.md`, `cost-optimization.md`, …), and every pillar file opens with a `**Pillar**:` header. Two exceptions: `devops-guidance/` is organized by DevOps saga (5 files, e.g. `automated-governance.md`), and `responsible-ai/` is a single `guidance.md`. For pillar-scoped work or per-pillar subagent dispatch, load only the lens file(s) for the pillar in scope.
+
 **If the user ONLY asks for a lens review** (e.g., "review my app against the serverless lens") — that is also valid. Load only the lens references and evaluate against those.
 
 Available lenses:
