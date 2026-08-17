@@ -436,10 +436,10 @@ Empirical measurement shows this section is where recall reaches the user. Skipp
 {After writing this table, count the rows and confirm the count matches the sum of subagent rows. If not, you dropped citations — go back and add them.}
 
 ## Critical and High Risk Findings
-{For each: ID, pillar, title, description, evidence (file:line), impact assessment, recommendation, effort, AWS services. This section EXPANDS on rows in the Full BP Ledger — it does NOT replace them.}
+{For each: ID, pillar, title, description, evidence (file:line), impact assessment, recommendation, **Fix:** block — a minimal ready-to-copy snippet in the workload's IaC dialect (AWS CLI when no IaC), using the actual resource names from the evidence; shown in the report only, never applied — effort, AWS services. This section EXPANDS on rows in the Full BP Ledger — it does NOT replace them.}
 
 ## Medium Risk Findings
-{Same format, condensed. Also references ledger rows.}
+{Same format, condensed — each finding still carries its **Fix:** block. Also references ledger rows.}
 
 ## Low Risk Findings
 {Summary table: ID | Pillar | Title | Recommendation. Also references ledger rows.}

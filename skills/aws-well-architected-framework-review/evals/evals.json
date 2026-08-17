@@ -71,7 +71,8 @@
         "BP IDs cited: SEC04 (detective controls/GuardDuty), SEC05 (network protection/WAF), REL10 (fault isolation/single-AZ RDS), and DLQ gap referenced as REL06 or REL07",
         "Risk assessment: no WAF = Medium, no GuardDuty = Medium, single-AZ RDS = High, no DLQ = High",
         "Eisenhower prioritization covers only the scoped findings",
-        "Pillar scorecard shows only Security and Reliability scores (not all 6)"
+        "Pillar scorecard shows only Security and Reliability scores (not all 6)",
+        "High Risk findings each include a Fix: block with a concrete remediation snippet (AWS CLI or IaC, since only a verbal description was provided) referencing the named resources (e.g., the metadata RDS instance, the SQS queue)"
       ]
     },
     {
@@ -104,6 +105,20 @@
         "Score mode is activated — output format is scorecard, not full review",
         "Depth filter is respected — only Critical and High findings shown",
         "All 6 pillars receive a score even though findings are filtered"
+      ]
+    },
+    {
+      "id": 7,
+      "prompt": "Review the Security and Reliability pillars of this Terraform workload:\n\n```hcl\nresource \"aws_s3_bucket\" \"uploads\" {\n  bucket = \"acme-uploads\"\n}\n\nresource \"aws_db_instance\" \"orders\" {\n  engine                  = \"postgres\"\n  instance_class          = \"db.t3.medium\"\n  backup_retention_period = 0\n}\n\nresource \"aws_iam_role_policy\" \"app\" {\n  role   = aws_iam_role.app.id\n  policy = jsonencode({\n    Version   = \"2012-10-17\"\n    Statement = [{ Effect = \"Allow\", Action = \"*\", Resource = \"*\" }]\n  })\n}\n```",
+      "expected_output": "A pillar-scoped Security + Reliability review whose High/Medium findings each include a ready-to-copy Fix: block written in Terraform (the workload's IaC dialect), referencing the actual resource names from the input.",
+      "assertions": [
+        "Every High Risk finding includes a Fix: block containing a syntactically plausible Terraform (HCL) snippet — not CloudFormation, CDK, or bare CLI",
+        "Fix blocks reference the actual resource identifiers from the input (aws_s3_bucket.uploads / acme-uploads, aws_db_instance.orders, aws_iam_role_policy.app), not generic placeholders",
+        "The wildcard IAM policy is flagged (SEC03) with a fix narrowing Action and Resource to least privilege",
+        "The disabled backup retention is flagged (REL09) with a fix setting backup_retention_period to a value greater than 0",
+        "The bucket's missing public-access block or missing encryption at rest is flagged (SEC08) with a corresponding Terraform fix resource",
+        "Fix snippets are presented in the report only — the response does not claim to have modified or applied changes to the user's files",
+        "The review stays scoped to Security and Reliability — no findings for the other four pillars"
       ]
     }
   ]

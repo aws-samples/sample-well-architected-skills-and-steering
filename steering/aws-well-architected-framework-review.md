@@ -629,10 +629,10 @@ Compile all analyses into a comprehensive report.
 | Sustainability | {score} | {strength} | {gap} |
 
 ## Critical and High Risk Findings
-{For each finding: ID, pillar, title, description, evidence (file:line), impact, recommendation, effort, AWS services}
+{For each finding: ID, pillar, title, description, evidence (file:line), impact, recommendation, **Fix:** block — a minimal ready-to-copy snippet in the workload's IaC dialect (AWS CLI when no IaC), using the actual resource names from the evidence; shown in the report only, never applied — effort, AWS services}
 
 ## Medium Risk Findings
-{Same format, condensed}
+{Same format, condensed — each finding still carries its **Fix:** block}
 
 ## Low Risk Findings
 {Summary table only}

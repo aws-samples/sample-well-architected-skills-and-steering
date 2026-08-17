@@ -55,6 +55,8 @@ For each infrastructure component, document:
 - Resilience configs (multi-AZ, backups, scaling)
 - Cost-relevant configs (instance types, capacity mode)
 
+Record the workload's **primary IaC dialect** (CDK, CloudFormation, Terraform, or SAM) — Step 6 emits a per-finding **Fix:** block in this dialect. When the workload has no IaC, note that fix blocks will fall back to AWS CLI commands.
+
 You MUST create an architecture diagram in PlantUML showing:
 - All major components and their relationships
 - Data flows and external dependencies
@@ -465,10 +467,10 @@ Empirical measurement shows this section is where recall reaches the user. Skipp
 {After writing this table, count the rows and confirm the count matches the sum of per-pillar rows. If not, you dropped citations — go back and add them.}
 
 ## Critical and High Risk Findings
-{For each: ID, pillar, title, description, evidence (file:line), impact assessment, recommendation, effort, AWS services. This section EXPANDS on rows in the Full BP Ledger — it does NOT replace them.}
+{For each: ID, pillar, title, description, evidence (file:line), impact assessment, recommendation, **Fix:** block (see "Fix blocks" below), effort, AWS services. This section EXPANDS on rows in the Full BP Ledger — it does NOT replace them.}
 
 ## Medium Risk Findings
-{Same format, condensed. Also references ledger rows.}
+{Same format, condensed — each finding still carries its **Fix:** block. Also references ledger rows.}
 
 ## Low Risk Findings
 {Summary table: ID | Pillar | Title | Recommendation. Also references ledger rows.}
@@ -537,6 +539,28 @@ For each solution in "Do First" and "Plan":
 
 ## Next Steps
 {Top 5 concrete actions from the "Do First" quadrant — the team should start this week}
+```
+
+### Fix blocks — ready-to-copy remediation snippets
+
+Every 🔴 Critical/High and 🟡 Medium finding in the report MUST include a **Fix:** block — a minimal, ready-to-copy remediation snippet the user can apply themselves:
+
+- **Language-matched.** Emit the snippet in the primary IaC dialect recorded in Step 2 (CDK / CloudFormation / Terraform / SAM). When the workload has no IaC (e.g., a verbal review), fall back to equivalent AWS CLI commands.
+- **Evidence-grounded.** Use the actual resource names and identifiers from the finding's evidence — not generic placeholders — whenever the source is available.
+- **Minimal.** Only the lines needed to close the gap; elide unchanged surrounding configuration with a comment.
+- **Report-only.** The fix appears in the report for the user to review and apply. Do NOT apply it to the user's codebase and do NOT emit it as a diff/patch (repo design principle: review and guidance, not code mutation). The JSON artifact's `recommendation` field (Step 6b) stays prose-only; fix blocks live in the markdown report.
+- **Reuse anti-pattern examples.** When a finding matches a named anti-pattern from the pillar playbooks, start from that entry's Right example.
+- **Scope.** Applies to full and pillar-scoped reports. Score mode and quick review stay snippet-free, and the Full BP Ledger table stays snippet-free — fixes belong in the findings sections.
+
+Example (finding SEC08-BP02, Terraform workload, evidence `infra/rds.tf:12`):
+
+**Fix:**
+```hcl
+# infra/rds.tf — aws_db_instance.orders (line 12)
+resource "aws_db_instance" "orders" {
+  # ...existing configuration...
+  storage_encrypted = true
+}
 ```
 
 ## Step 6b: Emit structured output (`aws-well-architected-framework-review.json`)
