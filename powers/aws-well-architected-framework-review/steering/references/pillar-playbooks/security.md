@@ -86,6 +86,102 @@ Flag HIGH RISK:
 - No container image scanning
 - SSH access where SSM Session Manager would suffice
 
+## Named Anti-Patterns
+
+High-frequency Well-Architected failures codified as named patterns. Check every detection heuristic explicitly during discovery. When one matches, cite the anti-pattern ID alongside the BP ID in the finding, and base the remediation on the Right example (adapted to the workload's IaC dialect and actual resource names).
+
+### AP-SEC-01: Wildcard IAM action grants
+**Detect:** `"Action": "*"` or service-wide wildcards (`"Action": ["s3:*", ...]`) combined with `"Resource": "*"` in any IAM policy document — Terraform `aws_iam_policy` / `aws_iam_role_policy`, CloudFormation `AWS::IAM::Policy` or inline role policies, CDK `iam.PolicyStatement` with `actions: ["*"]`.
+**Maps to:** SEC03-BP02
+**Wrong:**
+```hcl
+resource "aws_iam_role_policy" "app" {
+  role = aws_iam_role.app.id
+  policy = jsonencode({
+    Version   = "2012-10-17"
+    Statement = [{ Effect = "Allow", Action = "*", Resource = "*" }]
+  })
+}
+```
+**Right:**
+```hcl
+resource "aws_iam_role_policy" "app" {
+  role = aws_iam_role.app.id
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [{
+      Effect   = "Allow"
+      Action   = ["s3:GetObject", "s3:PutObject"]
+      Resource = "${aws_s3_bucket.uploads.arn}/*"
+    }]
+  })
+}
+```
+
+### AP-SEC-02: Public S3 bucket / missing Block Public Access
+**Detect:** No `aws_s3_bucket_public_access_block` for a bucket (or any of its four flags false); CloudFormation `AWS::S3::Bucket` without `PublicAccessBlockConfiguration`; CDK `Bucket` with `blockPublicAccess` unset or weakened; bucket ACLs `public-read`/`public-read-write`; bucket policies with `"Principal": "*"` and no restricting condition.
+**Maps to:** SEC08-BP04 (related: SEC03-BP07)
+**Wrong:**
+```hcl
+resource "aws_s3_bucket" "uploads" {
+  bucket = "app-uploads"
+}
+# no aws_s3_bucket_public_access_block anywhere in the module
+```
+**Right:**
+```hcl
+resource "aws_s3_bucket_public_access_block" "uploads" {
+  bucket                  = aws_s3_bucket.uploads.id
+  block_public_acls       = true
+  block_public_policy     = true
+  ignore_public_acls      = true
+  restrict_public_buckets = true
+}
+```
+
+### AP-SEC-03: Unencrypted data at rest (S3, EBS, RDS)
+**Detect:** Terraform `aws_db_instance` without `storage_encrypted = true`; `aws_ebs_volume` or launch-template block devices without `encrypted = true`; no `aws_s3_bucket_server_side_encryption_configuration` for a bucket; CloudFormation `AWS::RDS::DBInstance` without `StorageEncrypted: true` or `AWS::EC2::Volume` without `Encrypted: true`; CDK storage constructs with encryption explicitly disabled or left to an unencrypted default.
+**Maps to:** SEC08-BP02
+**Wrong:**
+```hcl
+resource "aws_db_instance" "orders" {
+  engine         = "postgres"
+  instance_class = "db.t3.medium"
+}
+```
+**Right:**
+```hcl
+resource "aws_db_instance" "orders" {
+  engine            = "postgres"
+  instance_class    = "db.t3.medium"
+  storage_encrypted = true
+  kms_key_id        = aws_kms_key.data.arn
+}
+```
+
+### AP-SEC-04: Hardcoded credentials or secrets in code
+**Detect:** String literals assigned to names matching `password|secret|api[_-]?key|token` in application code or IaC; secrets passed as plaintext Lambda/ECS environment variables; committed `.env` files; connection strings with embedded credentials.
+**Maps to:** SEC02-BP03
+**Wrong:**
+```hcl
+resource "aws_lambda_function" "api" {
+  # ...
+  environment {
+    variables = { DB_PASSWORD = "p@ssw0rd123" }
+  }
+}
+```
+**Right:**
+```hcl
+resource "aws_lambda_function" "api" {
+  # ...
+  environment {
+    variables = { DB_SECRET_ARN = aws_secretsmanager_secret.db.arn }
+  }
+}
+# function code resolves the secret at runtime via secretsmanager:GetSecretValue
+```
+
 ## Security-Specific Report Format
 
 When producing a pillar-scoped security report, include:

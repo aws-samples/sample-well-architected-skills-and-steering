@@ -82,6 +82,28 @@ Flag IMPROVEMENT OPPORTUNITY:
 - No AWS Budget or Cost Anomaly Detection
 - No lifecycle policies on temporary resources
 
+## Named Anti-Patterns
+
+High-frequency Well-Architected failures codified as named patterns. Check every detection heuristic explicitly during discovery. When one matches, cite the anti-pattern ID alongside the BP ID in the finding, and base the remediation on the Right example (adapted to the workload's IaC dialect and actual resource names).
+
+### AP-COST-01: gp2 volumes where gp3 applies
+**Detect:** Terraform `aws_ebs_volume` / launch-template block devices / `aws_instance` `root_block_device` with `volume_type = "gp2"` (or unset where the default resolves to gp2); CloudFormation `VolumeType: gp2`; CDK `EbsDeviceVolumeType.GP2`. gp3 delivers the same or better baseline performance at ~20% lower cost, with IOPS/throughput configurable independently of size.
+**Maps to:** COST06-BP02 (related: SUS05 hardware efficiency, AP-PERF-01 in `performance-efficiency.md`)
+**Wrong:**
+```hcl
+resource "aws_ebs_volume" "data" {
+  size        = 500
+  volume_type = "gp2"
+}
+```
+**Right:**
+```hcl
+resource "aws_ebs_volume" "data" {
+  size        = 500
+  volume_type = "gp3"
+}
+```
+
 ## Cost-Specific Report Format
 
 When producing a pillar-scoped cost report, include:

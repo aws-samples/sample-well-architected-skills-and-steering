@@ -59,6 +59,36 @@ Flag:
 - No runbooks for critical components
 - Health checks that only verify HTTP 200 (no deep checks)
 
+## Named Anti-Patterns
+
+High-frequency Well-Architected failures codified as named patterns. Check every detection heuristic explicitly during discovery. When one matches, cite the anti-pattern ID alongside the BP ID in the finding, and base the remediation on the Right example (adapted to the workload's IaC dialect and actual resource names).
+
+### AP-OPS-01: No CloudWatch alarms on critical resources
+**Detect:** The workload defines production compute, database, queue, or API resources (Lambda, ECS, RDS, ALB, SQS, API Gateway) but no `aws_cloudwatch_metric_alarm` (CloudFormation `AWS::CloudWatch::Alarm`, CDK `cloudwatch.Alarm`) covers their key health metrics (errors, latency, throttles, queue depth, CPU/memory) — or alarms exist with no `alarm_actions` wired to a notification channel.
+**Maps to:** OPS08-BP04
+**Wrong:**
+```hcl
+resource "aws_lambda_function" "checkout" {
+  # ...
+}
+# no aws_cloudwatch_metric_alarm references this function
+```
+**Right:**
+```hcl
+resource "aws_cloudwatch_metric_alarm" "checkout_errors" {
+  alarm_name          = "checkout-lambda-errors"
+  namespace           = "AWS/Lambda"
+  metric_name         = "Errors"
+  dimensions          = { FunctionName = aws_lambda_function.checkout.function_name }
+  statistic           = "Sum"
+  period              = 60
+  evaluation_periods  = 5
+  threshold           = 1
+  comparison_operator = "GreaterThanOrEqualToThreshold"
+  alarm_actions       = [aws_sns_topic.oncall.arn]
+}
+```
+
 ## Operational Excellence-Specific Report Format
 
 When producing a pillar-scoped operational excellence report, include:

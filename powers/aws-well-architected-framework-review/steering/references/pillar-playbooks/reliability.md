@@ -91,6 +91,75 @@ Flag HIGH RISK:
 - Database migrations that aren't backward-compatible
 - No pre-production environment mirroring production topology
 
+## Named Anti-Patterns
+
+High-frequency Well-Architected failures codified as named patterns. Check every detection heuristic explicitly during discovery. When one matches, cite the anti-pattern ID alongside the BP ID in the finding, and base the remediation on the Right example (adapted to the workload's IaC dialect and actual resource names).
+
+### AP-REL-01: Single-AZ production database
+**Detect:** Terraform `aws_db_instance` without `multi_az = true`; CloudFormation `AWS::RDS::DBInstance` with `MultiAZ` absent or false; CDK `DatabaseInstance` without `multiAz: true` — for any workload of standard or higher business criticality. (Aurora clusters: fewer than 2 instances across AZs.)
+**Maps to:** REL10-BP01
+**Wrong:**
+```hcl
+resource "aws_db_instance" "orders" {
+  engine         = "postgres"
+  instance_class = "db.r6g.large"
+}
+```
+**Right:**
+```hcl
+resource "aws_db_instance" "orders" {
+  engine         = "postgres"
+  instance_class = "db.r6g.large"
+  multi_az       = true
+}
+```
+
+### AP-REL-02: No backup plan / retention policy
+**Detect:** `aws_db_instance` with `backup_retention_period = 0` (or unset); DynamoDB tables without `point_in_time_recovery`; stateful resources (EBS, EFS, RDS) not covered by an `aws_backup_plan` / `AWS::Backup::BackupPlan` selection; CloudFormation `AWS::RDS::DBInstance` with `BackupRetentionPeriod: 0`.
+**Maps to:** REL09-BP01 (related: REL09-BP03)
+**Wrong:**
+```hcl
+resource "aws_db_instance" "orders" {
+  engine                  = "postgres"
+  backup_retention_period = 0
+}
+```
+**Right:**
+```hcl
+resource "aws_db_instance" "orders" {
+  engine                  = "postgres"
+  backup_retention_period = 30
+}
+
+resource "aws_dynamodb_table" "sessions" {
+  # ...
+  point_in_time_recovery { enabled = true }
+}
+```
+
+### AP-REL-03: Async processing without DLQ / on-failure destination
+**Detect:** `aws_lambda_function` invoked asynchronously (SNS, S3, EventBridge triggers) with no `dead_letter_config` and no on-failure `aws_lambda_function_event_invoke_config` destination; `aws_lambda_event_source_mapping` from an SQS queue whose source queue has no `redrive_policy`; CloudFormation `AWS::Lambda::Function` without `DeadLetterConfig` on async paths; CDK functions without `deadLetterQueue` / `onFailure`.
+**Maps to:** REL04-BP02
+**Wrong:**
+```hcl
+resource "aws_lambda_function" "order_events" {
+  # invoked by EventBridge — failures are silently dropped after retries
+}
+```
+**Right:**
+```hcl
+resource "aws_sqs_queue" "order_events_dlq" {
+  message_retention_seconds = 1209600
+}
+
+resource "aws_lambda_function" "order_events" {
+  # ...
+  dead_letter_config {
+    target_arn = aws_sqs_queue.order_events_dlq.arn
+  }
+}
+```
+
 ## Reliability-Specific Report Format
 
 When producing a pillar-scoped reliability report, include:
