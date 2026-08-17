@@ -117,8 +117,8 @@ Structure:
 - Executive Summary (date, workload, criticality, lens, findings count, overall maturity 1-5)
 - Architecture Overview (PlantUML diagram)
 - Pillar Scorecard (table: pillar, score 1-5, key strength, key gap)
-- Critical and High Risk Findings (ID, pillar, title, evidence file:line, impact, recommendation, effort, AWS services)
-- Medium Risk Findings (condensed)
+- Critical and High Risk Findings (ID, pillar, title, evidence file:line, impact, recommendation, fix — ready-to-copy snippet in the workload's IaC dialect, AWS CLI when no IaC, report-only, effort, AWS services)
+- Medium Risk Findings (condensed, each with its fix snippet)
 - Low Risk Findings (summary table)
 - Cross-Pillar Trade-offs
 - Prioritized Remediation Plan (Quick Wins < 1 week, Foundation 1-4 weeks, Strategic 1-3 months)

@@ -110,6 +110,11 @@ For each infrastructure component, document:
 - Resilience configs (multi-AZ, backups, scaling)
 - Cost-relevant configs (instance types, capacity mode)
 
+Record the workload's **primary IaC dialect** (CDK, CloudFormation, Terraform, or
+SAM) — Step 6 emits a per-finding **Fix:** block in this dialect. When the
+workload has no IaC (on-premises or legacy), fix blocks fall back to AWS CLI
+commands or explicit configuration guidance.
+
 Create an architecture diagram in PlantUML showing major components, data flows,
 and trust boundaries.
 
@@ -369,11 +374,11 @@ paraphrase. Target row count: 250-307.
 subagent rows. If not, you dropped citations — go back and add them.}
 
 ## Critical and High Risk Findings
-{For each: ID, pillar, title, description, evidence, impact, recommendation, effort, AWS services.
+{For each: ID, pillar, title, description, evidence, impact, recommendation, **Fix:** block (see "Fix blocks" below), effort, AWS services.
  This section EXPANDS on rows in the Full BP Ledger — it does NOT replace them.}
 
 ## Medium Risk Findings
-{Same format, condensed.}
+{Same format, condensed — each finding still carries its **Fix:** block.}
 
 ## Low Risk Findings
 {Summary table: ID | Pillar | Title | Recommendation}
@@ -410,6 +415,24 @@ subagent rows. If not, you dropped citations — go back and add them.}
 ## Next Steps
 {Top 5 concrete actions from the "Do First" quadrant}
 ```
+
+### Fix blocks — ready-to-copy remediation snippets
+
+Every 🔴 Critical/High and 🟡 Medium finding in the report MUST include a **Fix:**
+block — a minimal, ready-to-copy remediation snippet:
+
+- **Language-matched.** Use the primary IaC dialect recorded in Step 2
+  (CDK / CloudFormation / Terraform / SAM); fall back to AWS CLI commands or
+  explicit configuration guidance when the workload has no IaC.
+- **Evidence-grounded.** Use the actual resource names and identifiers from the
+  finding's evidence — not generic placeholders — whenever the source is available.
+- **Minimal.** Only the lines needed to close the gap; elide unchanged
+  surrounding configuration with a comment.
+- **Report-only.** The fix appears in the report for the team to review and
+  apply. Do NOT apply it to the workload's codebase and do NOT emit it as a
+  diff/patch (repo design principle: review and guidance, not code mutation).
+- **Reuse anti-pattern examples.** When a finding matches a named anti-pattern
+  from the pillar playbooks, start from that entry's Right example.
 
 ## Calibration Guidance
 
