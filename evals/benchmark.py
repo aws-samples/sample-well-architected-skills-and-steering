@@ -122,12 +122,16 @@ def call_openai_compatible_model(config: dict, model_id: str, messages: list[dic
         }
 
     provider_name, provider = provider_match
-    api_key_env = provider["api_key_env"]
-    api_key = os.getenv(api_key_env)
+    # `credentials_env` holds the *name* of an environment variable, never a key
+    # value. That name is echoed in the error below, so this field must keep a
+    # non-credential name — a credential-shaped one makes every read of it a
+    # sensitive-data source (py/clear-text-logging-sensitive-data).
+    credentials_env = provider["credentials_env"]
+    api_key = os.getenv(credentials_env)
     if not api_key:
         return {
             "model_id": model_id,
-            "error": f"{api_key_env} is not set",
+            "error": f"{credentials_env} is not set",
             "latency_s": 0,
         }
 
