@@ -39,9 +39,11 @@ concurrency: 4
 
 # OpenAI-compatible provider configuration. Set MINIMAX_API_KEY before invoking
 # the MiniMax models. Change endpoint_region to cn_zh for the China endpoint.
+# credentials_env is the name of the environment variable to read the key from —
+# never put a key value in this file.
 openai_compatible_providers:
   MiniMax:
-    api_key_env: MINIMAX_API_KEY
+    credentials_env: MINIMAX_API_KEY
     endpoint_region: global_en
     endpoints:
       global_en: https://api.minimax.io/v1

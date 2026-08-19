@@ -39,6 +39,10 @@ def test_minimax_config_contains_current_models_and_metadata():
     provider = config["openai_compatible_providers"]["MiniMax"]
 
     assert config["models"][-2:] == ["MiniMax-M3", "MiniMax-M2.7"]
+    # The field names an environment variable and is echoed in error output, so it
+    # must not carry a credential-shaped name (py/clear-text-logging-sensitive-data).
+    assert provider["credentials_env"] == "MINIMAX_API_KEY"
+    assert "api_key_env" not in provider
     assert provider["endpoint_region"] == "global_en"
     assert provider["endpoints"] == {
         "global_en": "https://api.minimax.io/v1",
