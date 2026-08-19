@@ -105,5 +105,42 @@ class TestPillarMatching(unittest.TestCase):
         self.assertEqual(secs.get("Cost optimization"), ["co-1.html"])
 
 
+class TestLensPillarMergedWriter(unittest.TestCase):
+    def test_groups_questions_by_pillar_and_guidance(self):
+        """BP-style lens questions merge into one file per pillar; questions
+        whose ID has no pillar (responsible-ai style) merge into guidance.md
+        (issue #99)."""
+        import tempfile
+        from pathlib import Path
+
+        def bp(bp_id, group=None):
+            return {"bp_id": bp_id, "title": bp_id, "content": f"# {bp_id} body",
+                    "url": "https://example.test/x.html", "group": group}
+
+        questions = {
+            "GENSEC01": [bp("GENSEC01-BP01", "Endpoint security")],
+            "GENSEC02": [bp("GENSEC02-BP01"), bp("GENSEC02-BP02")],
+            "GENCOST01": [bp("GENCOST01-BP01")],
+            "RAIBR01": [bp("RAIBR01-BP01")],
+        }
+        with tempfile.TemporaryDirectory() as td:
+            out = Path(td)
+            written = cwf.write_output_lens_pillar_merged(questions, out, "generative-ai")
+            self.assertEqual(written, 3)
+            self.assertEqual(sorted(p.name for p in out.glob("*.md")),
+                             ["cost-optimization.md", "guidance.md", "security.md"])
+
+            sec = (out / "security.md").read_text()
+            self.assertIn("**Pillar**: Security", sec)
+            self.assertIn("**Questions**: 2", sec)
+            for bp_id in ("GENSEC01-BP01", "GENSEC02-BP01", "GENSEC02-BP02"):
+                self.assertIn(bp_id, sec)
+
+            guidance = (out / "guidance.md").read_text()
+            self.assertIn("Generative AI Lens — Guidance", guidance)
+            self.assertIn("RAIBR01-BP01", guidance)
+            self.assertNotIn("**Pillar**:", guidance.split("---")[0])
+
+
 if __name__ == "__main__":
     unittest.main()

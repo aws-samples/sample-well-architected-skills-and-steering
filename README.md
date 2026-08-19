@@ -34,10 +34,10 @@ steering/                           Always-on context (Kiro)
   aws-well-architected-framework-review.md                        Deep multi-step WA review (evidence-based, constrained)
 
 skills/                             Step-by-step playbooks (tool-agnostic)
-  aws-well-architected-framework-review/                          Full or pillar-scoped review (all 6 pillars + 27 lenses)
+  aws-well-architected-framework-review/                          Full or pillar-scoped review (all 6 pillars + 29 lenses)
     references/manifest.md              Canonical catalog of all 307 BP IDs (loaded first)
     references/pillars/                 6 pillar-merged files (one per pillar; subagent references)
-    references/lenses/                  Lens-specific references (27 lenses)
+    references/lenses/                  Lens-specific references (29 lenses, pillar-merged)
     references/pillar-playbooks/        Per-pillar deep-dive discovery procedures
   wa-builder/                         Learn WA + produce artifacts (diagrams, trees, roadmaps, ADRs)
   wa-guardrails/                      Preventive controls (Config rules, SCPs, CI checks)
@@ -88,22 +88,28 @@ install.sh                          One-command setup (macOS/Linux)
 install.ps1                         One-command setup (Windows PowerShell)
 ```
 
-### Lens layouts and the pillar-lookup contract
+### Lens layout and the pillar-lookup contract
 
-The 27 lenses under `references/lenses/` ship in two layouts, mirroring how AWS
-publishes each lens. Both are intentional and the crawler handles both:
+The 29 lenses under `references/lenses/` all use the same pillar-merged layout
+as the core framework corpus (normalized in #99, matching the v5.0 core
+migration):
 
-- **Pillar-per-file** (10 lenses, e.g. `government/`, `migration/`) — one file
-  per pillar, named for the pillar (`security.md`, `cost-optimization.md`).
-- **Best-practice-per-file** (17 lenses, e.g. `iot/`, `telco/`) — one file per
-  best practice, named for its BP ID (`IOTCOST01.md`, `TELCOOPS02.md`).
+- **Pillar-organized lenses** (27, e.g. `iot/`, `telco/`, `migration/`) — at
+  most 6 files per lens, one per pillar, named for the pillar (`security.md`,
+  `cost-optimization.md`). This matches the subagent dispatch pattern: a pillar
+  subagent loads exactly one file per lens in scope instead of navigating
+  question-ID filenames.
+- **`devops-guidance/`** — organized by DevOps saga, not pillars: one file per
+  saga (5 files, e.g. `automated-governance.md`), best practices grouped by
+  capability.
+- **`responsible-ai/`** — not pillar-organized: a single merged `guidance.md`.
 
-**Pillar-lookup contract:** a lens file's pillar is given by its `**Pillar**:`
-header. Every pillar-organized lens file carries this field in both layouts, so
-consumers walking the reference tree can read the pillar the same way regardless
-of a lens's source shape. (Lenses that AWS does not organize by the 6 pillars —
-e.g. `responsible-ai`, `devops-guidance` — omit the field.) Filenames remain a
-secondary signal but are no longer required to derive the pillar.
+**Pillar-lookup contract:** a pillar-organized lens file's pillar is given by
+its `**Pillar**:` header (the first metadata line). Consumers walking the
+reference tree read the pillar the same way for every lens; filenames remain a
+secondary signal. Non-pillar lenses (`devops-guidance`, `responsible-ai`) omit
+the field. BP IDs (e.g. `IOTCOST01-BP01`) live unchanged inside the merged
+files, so structured-output citation rules are unaffected.
 
 ---
 
@@ -249,7 +255,7 @@ Then in Kiro: Powers panel → **Add Custom Power** → **Import power from a fo
 
 - Auto-activates when you mention "well-architected", "architecture review", "security review", "reliability", etc.
 - Loads only relevant steering based on your current task
-- Parallel per-pillar reference loading (6 pillar files + 27 lens packs, one file per Task subagent) — managed automatically
+- Parallel per-pillar reference loading (6 pillar files + 29 lens packs, one file per Task subagent) — managed automatically
 
 > [!NOTE]
 > Kiro's "Import from GitHub" expects `POWER.md` at the repository root. Since this repo contains multiple skills and adapters, the Power lives under `powers/aws-well-architected-framework-review/` and must be imported from a local folder. If you want GitHub-based import, you can fork just the `powers/aws-well-architected-framework-review/` directory into its own repo.
@@ -635,40 +641,42 @@ The table below summarises measured results. The "Full review" path dispatches 6
 
 ## 📊 Reference data and token consumption
 
-The `aws-well-architected-framework-review` skill includes **307 best practices** across **57 framework questions** plus **27 lens extensions** — sourced directly from the [AWS Well-Architected public documentation](https://docs.aws.amazon.com/wellarchitected/latest/framework/welcome.html). This reference data lives in `skills/aws-well-architected-framework-review/references/` and is loaded one pillar file at a time (via parallel `Task` subagents in v4.2+), not all at once.
+The `aws-well-architected-framework-review` skill includes **307 best practices** across **57 framework questions** plus **29 lens extensions** — sourced directly from the [AWS Well-Architected public documentation](https://docs.aws.amazon.com/wellarchitected/latest/framework/welcome.html). This reference data lives in `skills/aws-well-architected-framework-review/references/` and is loaded one pillar file at a time (via parallel `Task` subagents in v4.2+), not all at once.
 
 ### Reference data summary
 
 | Content | Files | Size | Loaded when |
 |---------|-------|------|-------------|
 | Framework pillars (merged) | 6 | 2.2 MB | Full review — one pillar file per parallel `Task` subagent (v4.2+) |
-| Serverless Lens | 6 | 120 KB | Workload uses Lambda/API Gateway/Step Functions |
-| Generative AI Lens | 29 | 368 KB | LLM, RAG, or fine-tuning workloads |
-| Agentic AI Lens | 41 | 1.2 MB | AI agent workloads |
-| Responsible AI Lens | 28 | 780 KB | AI governance and fairness requirements |
-| Hybrid Networking Lens | 30 | 480 KB | Direct Connect, VPN, Transit Gateway |
-| Migration Lens | 6 | 76 KB | Migration planning |
-| DevOps Guidance Lens | 196 | 820 KB | CI/CD, automated governance, dev lifecycle, observability |
-| Machine Learning Lens | 35 | 852 KB | ML lifecycle (MLOPS), training/deployment, data engineering, responsible ML |
-| Data Analytics Lens | 6 | 180 KB | Data pipelines, governance, catalogs, lineage, analytics perf & cost |
-| Games Industry Lens | 32 | 316 KB | Game backends, real-time multiplayer, player data, live ops |
-| SaaS Lens | 6 | 112 KB | Multi-tenancy, tenant isolation, onboarding, metering, tiering |
-| Financial Services Lens | 79 | 432 KB | FSI compliance, data residency, resilience, auditability |
-| Life Sciences Lens | 56 | 468 KB | GxP, validated systems, clinical/research data, compliance |
-| End User Computing Lens | 69 | 372 KB | Virtual desktops/apps, streaming, identity, endpoint delivery |
-| Supply Chain Lens | 51 | 244 KB | Supply chain data, integration, traceability, resilience |
-| Video Streaming & Advertising Lens | 43 | 296 KB | Video pipelines, streaming delivery, ad tech, monetization |
-| Telco Lens | 34 | 272 KB | Telecom workloads, 5G/edge, OSS/BSS, carrier-grade reliability |
-| SAP Lens | 6 | 380 KB | SAP on AWS, S/4HANA, HANA databases, SAP landscape resilience |
-| Modern Industrial Data Technology Lens | 34 | 300 KB | Industrial data platforms, OT/IT convergence, manufacturing analytics |
-| Microsoft Workloads Lens | 23 | 368 KB | Windows Server, SQL Server, Active Directory, .NET on AWS |
-| Connected Mobility Lens | 6 | 284 KB | Connected vehicles, telematics, fleet data, automotive platforms |
-| Healthcare Industry Lens | 6 | 92 KB | HIPAA, clinical data, interoperability, patient privacy |
-| Container Build Lens | 6 | 76 KB | Container image builds, supply chain security, registries, CI/CD |
-| High Performance Computing Lens | 23 | 104 KB | HPC clusters, parallel workloads, scheduling, low-latency networking |
-| Streaming Media Lens | 6 | 96 KB | Media streaming, live/VOD delivery, encoding, content workflows |
-| IoT Lens | 59 | 369 KB | IoT devices, telemetry, edge computing, fleet provisioning, OTA updates |
-| Government Lens | 6 | 46 KB | Public sector, privacy-by-design, compliance, real-time security |
+| Serverless Lens | 6 | 106 KB | Workload uses Lambda/API Gateway/Step Functions |
+| Generative AI Lens | 6 | 315 KB | LLM, RAG, or fine-tuning workloads |
+| Agentic AI Lens | 6 | 1.1 MB | AI agent workloads |
+| Responsible AI Lens | 1 | 260 KB | AI governance and fairness requirements |
+| Hybrid Networking Lens | 6 | 108 KB | Direct Connect, VPN, Transit Gateway |
+| Migration Lens | 6 | 245 KB | Migration planning |
+| DevOps Guidance Lens | 5 | 429 KB | CI/CD, automated governance, dev lifecycle, observability |
+| Machine Learning Lens | 6 | 792 KB | ML lifecycle (MLOPS), training/deployment, data engineering, responsible ML |
+| Data Analytics Lens | 6 | 172 KB | Data pipelines, governance, catalogs, lineage, analytics perf & cost |
+| Games Industry Lens | 6 | 255 KB | Game backends, real-time multiplayer, player data, live ops |
+| SaaS Lens | 6 | 104 KB | Multi-tenancy, tenant isolation, onboarding, metering, tiering |
+| Financial Services Lens | 6 | 275 KB | FSI compliance, data residency, resilience, auditability |
+| Life Sciences Lens | 6 | 368 KB | GxP, validated systems, clinical/research data, compliance |
+| End User Computing Lens | 6 | 220 KB | Virtual desktops/apps, streaming, identity, endpoint delivery |
+| Supply Chain Lens | 6 | 168 KB | Supply chain data, integration, traceability, resilience |
+| Video Streaming & Advertising Lens | 6 | 208 KB | Video pipelines, streaming delivery, ad tech, monetization |
+| Telco Lens | 6 | 224 KB | Telecom workloads, 5G/edge, OSS/BSS, carrier-grade reliability |
+| SAP Lens | 6 | 366 KB | SAP on AWS, S/4HANA, HANA databases, SAP landscape resilience |
+| Modern Industrial Data Technology Lens | 6 | 242 KB | Industrial data platforms, OT/IT convergence, manufacturing analytics |
+| Microsoft Workloads Lens | 6 | 315 KB | Windows Server, SQL Server, Active Directory, .NET on AWS |
+| Connected Mobility Lens | 6 | 273 KB | Connected vehicles, telematics, fleet data, automotive platforms |
+| Healthcare Industry Lens | 6 | 85 KB | HIPAA, clinical data, interoperability, patient privacy |
+| Container Build Lens | 6 | 67 KB | Container image builds, supply chain security, registries, CI/CD |
+| High Performance Computing Lens | 6 | 81 KB | HPC clusters, parallel workloads, scheduling, low-latency networking |
+| Streaming Media Lens | 6 | 84 KB | Media streaming, live/VOD delivery, encoding, content workflows |
+| IoT Lens | 6 | 267 KB | IoT devices, telemetry, edge computing, fleet provisioning, OTA updates |
+| Government Lens | 6 | 47 KB | Public sector, privacy-by-design, compliance, real-time security |
+| Mergers & Acquisitions Lens | 6 | 44 KB | M&A due diligence, multi-account governance, integration, post-acquisition cost & security |
+| Māori Data Lens | 6 | 42 KB | Māori data governance, data sovereignty, Te Ao Māori principles |
 
 ### Token strategies
 
@@ -1081,7 +1089,7 @@ packaged under the standard `SKILL.md` / `metadata.json` names. Omit `--skill`
 to package every skill. Run without arguments to package all skills.
 
 > [!NOTE]
-> The zip excludes lens files — the full skill directory (970+ files) exceeds the DevOps Agent 100-file-per-zip upload limit. Full-review subagent dispatch uses only the 6 pillar files; lenses can be added per-deployment if needed.
+> The zip excludes lens files — the full skill directory (~190 files after the pillar-merged lens migration) still exceeds the DevOps Agent 100-file-per-zip upload limit. Full-review subagent dispatch uses only the 6 pillar files; lenses can be added per-deployment if needed.
 
 ---
 
