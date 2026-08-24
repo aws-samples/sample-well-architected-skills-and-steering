@@ -7,6 +7,11 @@
       "skills": ["aws-well-architected-framework-review", "architecture-decision-record", "migration-readiness", "wa-builder"]
     },
     {
+      "title": "Verified Reviews (kernel-backed)",
+      "description": "Evidence-backed, verifiable reviews driven by the offline AI-WAFR kernel: an evidence ledger, a pinned framework contract, agent proposals kept separate from human decisions, and a hash-chained re-verifiable bundle.",
+      "skills": ["ai-wafr"]
+    },
+    {
       "title": "Pillar Assessments",
       "description": "Deep-dive assessments for individual Well-Architected pillars.",
       "skills": [

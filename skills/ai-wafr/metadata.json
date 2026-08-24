@@ -1,0 +1,47 @@
+{
+  "version": "0.1.0",
+  "organization": "AWS",
+  "date": "August 2026",
+  "abstract": "Run a Well-Architected review through the AI-WAFR kernel: a deterministic, offline binary that records an evidence ledger, verifies findings against a pinned framework contract, separates agent proposals from human decisions, and emits a hash-chained verifiable review bundle plus an explorable localhost report. The evidence-verified counterpart to the prompt-layer aws-well-architected-framework-review skill.",
+  "references": [
+    "https://docs.aws.amazon.com/wellarchitected/latest/framework/welcome.html"
+  ],
+  "triggers": [
+    "verifiable Well-Architected review",
+    "evidence-backed WA review",
+    "auditable architecture review",
+    "governance-grade Well-Architected review",
+    "reproducible WA review bundle",
+    "run ai-wafr",
+    "kernel-backed WA review",
+    "Well-Architected review with an evidence ledger",
+    "verify my Well-Architected findings"
+  ],
+  "not_for": [
+    "a fast prompt-only review with no binary (use aws-well-architected-framework-review instead)",
+    "learning WA concepts or generating diagrams (use wa-builder instead)",
+    "migration readiness assessment (use migration-readiness instead)",
+    "generating guardrails or enforcement controls (use wa-guardrails instead)"
+  ],
+  "metadata": {
+    "service": [
+      "well-architected"
+    ],
+    "task": [
+      "review",
+      "assess",
+      "audit",
+      "verify"
+    ],
+    "persona": [
+      "solutions-architect",
+      "developer",
+      "platform-engineer",
+      "security-engineer",
+      "devops-engineer"
+    ],
+    "workload": [
+      "any"
+    ]
+  }
+}
