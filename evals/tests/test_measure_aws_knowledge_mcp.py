@@ -19,13 +19,13 @@ def _assistant_event(*tool_names: str) -> dict:
     return {"type": "assistant", "message": {"content": content}}
 
 
-def test_count_mcp_calls_main_and_subagents(tmp_path):
+def test_count_retrieval_calls_main_and_subagents(tmp_path):
     session = tmp_path / "abc.jsonl"
     session.write_text(
         "\n".join(json.dumps(e) for e in [
             _assistant_event("mcp__aws-knowledge__search"),
-            _assistant_event("Read"),  # not MCP
-            _assistant_event("mcp__aws-knowledge__read", "Grep"),
+            _assistant_event("Read"),  # not retrieval
+            _assistant_event("mcp__aws-knowledge__read", "WebFetch"),
         ])
     )
     # subagent transcript under {stem}/subagents/
@@ -34,16 +34,31 @@ def test_count_mcp_calls_main_and_subagents(tmp_path):
     (sub_dir / "agent-1.jsonl").write_text(
         json.dumps(_assistant_event("mcp__aws-knowledge__list"))
     )
-    # 2 in main + 1 in subagent = 3
-    assert mcp._count_mcp_calls(str(session)) == 3
+    got = mcp._count_retrieval_calls(str(session))
+    # 3 MCP (2 main + 1 subagent) + 1 WebFetch
+    assert got["mcp_tool_calls"] == 3
+    assert got["webfetch_calls"] == 1
+    assert got["retrieval_tool_calls"] == 4
 
 
-def test_count_mcp_calls_missing_or_none():
-    assert mcp._count_mcp_calls(None) == 0
-    assert mcp._count_mcp_calls("/nonexistent/path.jsonl") == 0
+def test_count_retrieval_calls_missing_or_none():
+    for arg in (None, "/nonexistent/path.jsonl"):
+        got = mcp._count_retrieval_calls(arg)
+        assert got == {"mcp_tool_calls": 0, "webfetch_calls": 0, "retrieval_tool_calls": 0}
 
 
-def test_count_mcp_calls_ignores_non_mcp_tools(tmp_path):
+def test_count_retrieval_calls_webfetch_fallback(tmp_path):
+    # MCP server did not register: only WebFetch retrieval fired.
+    session = tmp_path / "s.jsonl"
+    session.write_text(json.dumps(_assistant_event("WebFetch", "WebFetch", "Bash")))
+    got = mcp._count_retrieval_calls(str(session))
+    assert got["mcp_tool_calls"] == 0
+    assert got["webfetch_calls"] == 2
+    assert got["retrieval_tool_calls"] == 2
+
+
+def test_count_retrieval_calls_ignores_non_retrieval_tools(tmp_path):
     session = tmp_path / "s.jsonl"
     session.write_text(json.dumps(_assistant_event("Read", "Grep", "Bash")))
-    assert mcp._count_mcp_calls(str(session)) == 0
+    got = mcp._count_retrieval_calls(str(session))
+    assert got["retrieval_tool_calls"] == 0

@@ -48,25 +48,28 @@ RESULTS_FILE = SCRIPT_DIR / "aws_knowledge_mcp_effectiveness.json"
 RUNS_PER_CASE = 3
 
 
-def _count_mcp_calls(session_file: str | None) -> int:
-    """Count MCP tool_use events across the main + subagent transcripts.
+def _count_retrieval_calls(session_file: str | None) -> dict:
+    """Count retrieval tool_use events across main + subagent transcripts.
 
-    Claude Code names MCP tools `mcp__<server>__<tool>` (here the server is
-    `aws-knowledge`). We count every such tool_use block so RAE can condition
-    on cases where retrieval actually fired (rae.py --conditioned-field
-    mcp_tool_calls), rather than falling back to all cases.
+    The aws-knowledge MCP tools are named `mcp__aws-knowledge__*` in Claude Code.
+    BUT if the MCP server fails to register (observed in ASBX Claude Code with a
+    remote --mcp-config), the model falls back to WebFetch of AWS docs to satisfy
+    the "retrieval-grounded" mandate. Both are genuine external retrieval, so the
+    RAE conditioning signal counts them together (`retrieval_tool_calls`) while
+    also reporting the strict MCP-only count (`mcp_tool_calls`) so we can tell
+    which transport actually fired.
     """
+    out = {"mcp_tool_calls": 0, "webfetch_calls": 0, "retrieval_tool_calls": 0}
     if not session_file:
-        return 0
+        return out
     main = Path(session_file)
     if not main.exists():
-        return 0
+        return out
     files = [main]
     sub_dir = main.parent / main.stem / "subagents"
     if sub_dir.exists():
         files.extend(sorted(sub_dir.glob("*.jsonl")))
 
-    count = 0
     for f in files:
         try:
             lines = f.read_text().splitlines()
@@ -83,11 +86,15 @@ def _count_mcp_calls(session_file: str | None) -> int:
             if ev.get("type") != "assistant":
                 continue
             for block in ev.get("message", {}).get("content", []):
-                if block.get("type") == "tool_use":
-                    name = block.get("name", "")
-                    if name.startswith("mcp__") or "aws-knowledge" in name:
-                        count += 1
-    return count
+                if block.get("type") != "tool_use":
+                    continue
+                name = block.get("name", "")
+                if name.startswith("mcp__") or "aws-knowledge" in name:
+                    out["mcp_tool_calls"] += 1
+                elif name == "WebFetch":
+                    out["webfetch_calls"] += 1
+    out["retrieval_tool_calls"] = out["mcp_tool_calls"] + out["webfetch_calls"]
+    return out
 
 # Remote MCP server — no local install needed
 MCP_CONFIG = json.dumps({
@@ -276,9 +283,11 @@ def main(argv: list[str] | None = None) -> int:
             r = run_mcp_only(prompt)
             s = score_run(r, gt_scoring, canonical)
             s["run_idx"] = run_idx
-            # Record MCP retrieval activity so RAE can condition on cases where
-            # retrieval actually fired (rae.py --conditioned-field mcp_tool_calls).
-            s["mcp_tool_calls"] = _count_mcp_calls(r.get("session_file"))
+            # Record retrieval activity so RAE can condition on cases where
+            # retrieval actually fired (rae.py --conditioned-field
+            # retrieval_tool_calls). Includes WebFetch fallback when the MCP
+            # server does not register; mcp_tool_calls isolates true MCP use.
+            s.update(_count_retrieval_calls(r.get("session_file")))
             case_runs.append(s)
             if "error" in s:
                 print(f" ✗ {s['error']}")
