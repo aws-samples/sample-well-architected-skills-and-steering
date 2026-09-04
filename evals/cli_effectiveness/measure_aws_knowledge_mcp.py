@@ -205,17 +205,46 @@ def run_mcp_with_skill(prompt: str) -> dict:
     }
 
 
-def main() -> int:
+def build_parser() -> "argparse.ArgumentParser":
+    import argparse
+    p = argparse.ArgumentParser(
+        description="Measure aws-knowledge MCP recall (SE arm for RAE) via Claude Code CLI.",
+    )
+    p.add_argument("--cases", type=int, nargs="+", default=None,
+                   help="Evaluate only these case IDs (default: all).")
+    p.add_argument("--runs", type=int, default=RUNS_PER_CASE,
+                   help=f"Runs per case (default: {RUNS_PER_CASE}).")
+    p.add_argument("--model", default=MODEL, help=f"Model (default: {MODEL}).")
+    p.add_argument("--output", type=Path, default=RESULTS_FILE, help="Result JSON path.")
+    return p
+
+
+def main(argv: list[str] | None = None) -> int:
+    args = build_parser().parse_args(argv)
+    if args.runs < 1:
+        raise SystemExit("--runs must be >= 1")
+
     canonical = build_canonical_bps()
     cases = load_eval_cases()
-    print(f"Canonical: {len(canonical)} BPs | Cases: {len(cases)} | Runs: {RUNS_PER_CASE}")
+    available = {int(c["id"]) for c in cases}
+    if args.cases:
+        unknown = set(args.cases) - available
+        if unknown:
+            raise SystemExit(f"unknown case IDs: {sorted(unknown)}")
+        cases = [c for c in cases if int(c["id"]) in set(args.cases)]
+
+    runs = args.runs
+    output_path = args.output.expanduser().resolve()
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+
+    print(f"Canonical: {len(canonical)} BPs | Cases: {[c['id'] for c in cases]} | Runs: {runs}")
     print(f"MCP server: https://knowledge-mcp.global.api.aws")
-    print(f"Total CLI invocations: {len(cases) * RUNS_PER_CASE} ({len(cases)} cases × {RUNS_PER_CASE} runs)\n")
+    print(f"Total CLI invocations: {len(cases) * runs}\n")
 
     results = {
         "mcp_server": "https://knowledge-mcp.global.api.aws",
-        "model": MODEL,
-        "runs_per_case": RUNS_PER_CASE,
+        "model": args.model,
+        "runs_per_case": runs,
         "configuration": "mcp_only_systematic",
         "cases": [],
     }
@@ -231,8 +260,8 @@ def main() -> int:
         print(f"  {prompt[:80]}...")
 
         case_runs: list[dict] = []
-        for run_idx in range(1, RUNS_PER_CASE + 1):
-            print(f"  Run {run_idx}/{RUNS_PER_CASE}...", end="", flush=True)
+        for run_idx in range(1, runs + 1):
+            print(f"  Run {run_idx}/{runs}...", end="", flush=True)
             r = run_mcp_only(prompt)
             s = score_run(r, gt_scoring, canonical)
             s["run_idx"] = run_idx
@@ -260,9 +289,9 @@ def main() -> int:
         rf1 = agg.get("report_f1", {}).get("mean", "n/a")
         print(f"  Case {case_id} mean report F1: {rf1}")
 
-        RESULTS_FILE.write_text(json.dumps(results, indent=2))
+        output_path.write_text(json.dumps(results, indent=2))
 
-    print(f"\nSaved: {RESULTS_FILE.name}")
+    print(f"\nSaved: {output_path}")
     return 0
 
 
