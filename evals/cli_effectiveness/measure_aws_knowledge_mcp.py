@@ -96,11 +96,16 @@ def _count_retrieval_calls(session_file: str | None) -> dict:
     out["retrieval_tool_calls"] = out["mcp_tool_calls"] + out["webfetch_calls"]
     return out
 
-# Remote MCP server — no local install needed
+# Remote MCP server — no local install needed. Claude Code's --mcp-config needs
+# BOTH the explicit http transport type AND the /mcp endpoint path: the bare host
+# 302-redirects to GitHub docs, and without "type":"http" the server never
+# registers (the model then silently falls back to WebFetch). Verified via a
+# direct POST .../mcp initialize handshake (AWSKnowledgeMCP v1.0.0).
 MCP_CONFIG = json.dumps({
     "mcpServers": {
         "aws-knowledge": {
-            "url": "https://knowledge-mcp.global.api.aws"
+            "type": "http",
+            "url": "https://knowledge-mcp.global.api.aws/mcp"
         }
     }
 })
@@ -143,8 +148,13 @@ def run_mcp_only(prompt: str) -> dict:
                 "claude", "-p",
                 "--output-format", "json",
                 "--model", MODEL,
-                "--safe-mode",
+                # NOT --safe-mode: it disables MCP entirely, so the aws-knowledge
+                # server never registers and the model falls back to WebFetch.
+                # --disable-slash-commands disables all skills (keeps this a true
+                # MCP-only arm), and --strict-mcp-config loads ONLY our server
+                # (not the ambient plugin MCPs).
                 "--disable-slash-commands",
+                "--strict-mcp-config",
                 "--mcp-config", MCP_CONFIG,
                 "--dangerously-skip-permissions",
             ],
