@@ -47,6 +47,48 @@ RESULTS_FILE = SCRIPT_DIR / "aws_knowledge_mcp_effectiveness.json"
 
 RUNS_PER_CASE = 3
 
+
+def _count_mcp_calls(session_file: str | None) -> int:
+    """Count MCP tool_use events across the main + subagent transcripts.
+
+    Claude Code names MCP tools `mcp__<server>__<tool>` (here the server is
+    `aws-knowledge`). We count every such tool_use block so RAE can condition
+    on cases where retrieval actually fired (rae.py --conditioned-field
+    mcp_tool_calls), rather than falling back to all cases.
+    """
+    if not session_file:
+        return 0
+    main = Path(session_file)
+    if not main.exists():
+        return 0
+    files = [main]
+    sub_dir = main.parent / main.stem / "subagents"
+    if sub_dir.exists():
+        files.extend(sorted(sub_dir.glob("*.jsonl")))
+
+    count = 0
+    for f in files:
+        try:
+            lines = f.read_text().splitlines()
+        except OSError:
+            continue
+        for line in lines:
+            line = line.strip()
+            if not line:
+                continue
+            try:
+                ev = json.loads(line)
+            except json.JSONDecodeError:
+                continue
+            if ev.get("type") != "assistant":
+                continue
+            for block in ev.get("message", {}).get("content", []):
+                if block.get("type") == "tool_use":
+                    name = block.get("name", "")
+                    if name.startswith("mcp__") or "aws-knowledge" in name:
+                        count += 1
+    return count
+
 # Remote MCP server — no local install needed
 MCP_CONFIG = json.dumps({
     "mcpServers": {
@@ -194,6 +236,9 @@ def main() -> int:
             r = run_mcp_only(prompt)
             s = score_run(r, gt_scoring, canonical)
             s["run_idx"] = run_idx
+            # Record MCP retrieval activity so RAE can condition on cases where
+            # retrieval actually fired (rae.py --conditioned-field mcp_tool_calls).
+            s["mcp_tool_calls"] = _count_mcp_calls(r.get("session_file"))
             case_runs.append(s)
             if "error" in s:
                 print(f" ✗ {s['error']}")
