@@ -98,17 +98,28 @@ MCP_CONFIG = json.dumps({
     }
 })
 
-# Preamble for MCP-only (no skill): ask for systematic WA review using the MCP
+# Preamble for MCP-only (no skill): ask for systematic WA review using the MCP.
+# This preamble MANDATES real tool calls: the RAE conditioning signal
+# (mcp_tool_calls) is only meaningful if the model actually invokes retrieval
+# rather than answering from parametric knowledge. A prior run cited 123 BPs with
+# ZERO MCP calls, which makes the "MCP" arm indistinguishable from no-retrieval.
 MCP_ONLY_PREAMBLE = """[NON-INTERACTIVE EVAL MODE — no follow-up questions possible]
 
 Perform a comprehensive AWS Well-Architected Framework review of the workload below.
-Use the aws-knowledge MCP tools to look up AWS Well-Architected best practices.
-Cover ALL 6 pillars: Operational Excellence, Security, Reliability, Performance Efficiency,
-Cost Optimization, Sustainability.
 
-For each pillar, search for and list relevant best practices. Cite specific Best Practice
-IDs in canonical format: PILLAR##-BP## (e.g. SEC03-BP02, REL06-BP04, COST05-BP03).
-Be exhaustive — search multiple times per pillar to find all applicable BPs.
+MANDATORY TOOL USE — this is a retrieval-grounded review, not a memory test:
+- You MUST call the aws-knowledge MCP tool to look up best practices. Make AT
+  LEAST ONE aws-knowledge search/read call PER PILLAR before citing any BP for
+  that pillar.
+- Ground every cited Best Practice in content you retrieved via the tool THIS
+  session. Do NOT cite BPs from prior knowledge. If you did not retrieve
+  material for a pillar, do not cite BPs for that pillar.
+- If a tool call returns nothing useful, issue another query with different
+  terms before moving on. Search multiple times per pillar to be exhaustive.
+
+Cover ALL 6 pillars: Operational Excellence, Security, Reliability, Performance
+Efficiency, Cost Optimization, Sustainability. Cite specific Best Practice IDs in
+canonical format: PILLAR##-BP## (e.g. SEC03-BP02, REL06-BP04, COST05-BP03).
 Do NOT ask clarifying questions. Proceed directly.
 
 ===== WORKLOAD =====
