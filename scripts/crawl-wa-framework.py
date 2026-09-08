@@ -6,7 +6,7 @@
 # SPDX-License-Identifier: MIT-0
 """
 Crawl AWS Well-Architected Framework public documentation and produce
-per-question reference files for the aws-well-architected-framework-review skill.
+pillar-merged reference files for the aws-well-architected-framework-review skill.
 
 Architecture:
     AWS docs publish a toc-contents.json manifest alongside each pillar/lens
@@ -16,14 +16,17 @@ Architecture:
     clean markdown, and group all BPs belonging to the same WA question into a
     single consolidated file.
 
-Three content modes are supported:
+Three content modes are supported (all emit pillar-merged output — issue #99):
     1. BP-style (modern pillars + newer lenses like GenAI, Agentic AI, ML):
        TOC titles follow the pattern "{PREFIX}{NUM}-BP{NUM} Title".
-       Output: one file per question, containing all BPs for that question.
+       Output: one file per pillar containing all that pillar's questions;
+       questions whose ID has no pillar (e.g. responsible-ai) merge into a
+       single guidance.md.
 
     2. Dotted-BP-style (e.g. DevOps Guidance):
        TOC titles follow the bracketed dotted pattern "[AREA.SUB.N] Title".
-       Output: one file per best practice, named by its ID (OA.LS.1 -> OALS01.md).
+       Output: one file per top-level saga (e.g. automated-governance.md),
+       containing all of that saga's best practices grouped by capability.
 
     3. Topic-page-style (older lenses like Serverless, Migration, Data Analytics):
        TOC has no BP-pattern titles. Instead, content is organized under
@@ -32,7 +35,7 @@ Three content modes are supported:
 
 Output structure:
     skills/aws-well-architected-framework-review/references/pillars/{pillar-name}.md   (framework pillars, one per pillar)
-    skills/aws-well-architected-framework-review/references/lenses/{lens-name}/*.md    (WA lenses, per-question)
+    skills/aws-well-architected-framework-review/references/lenses/{lens-name}/*.md    (WA lenses, pillar-merged: at most 6 pillar files, or saga files / guidance.md for non-pillar lenses)
 
 Usage:
     uv run scripts/crawl-wa-framework.py [--output-dir DIR] [--delay SECS] [--pillar PILLAR] [--dry-run]
@@ -450,21 +453,6 @@ def discover_bp_pages(toc_json: dict) -> list[dict]:
     return results
 
 
-def dotted_bp_filename(bp_id: str) -> str:
-    """
-    Convert a dotted BP ID to an ID-derived filename matching the convention
-    used by other BP-style lenses (e.g. "AGENTCOST01.md"): drop the dots and
-    zero-pad the trailing number to two digits.
-
-    "OA.LS.1"  -> "OALS01.md"
-    "QA.ST.4"  -> "QAST04.md"
-    "AG.ACG.4" -> "AGACG04.md"
-    """
-    parts = bp_id.split(".")
-    num = parts[-1].zfill(2)
-    return "".join(parts[:-1]) + num + ".md"
-
-
 def discover_dotted_bp_pages(toc_json: dict) -> list[dict]:
     """
     Walk the TOC tree and find Best Practice pages that use the dotted-ID
@@ -671,7 +659,7 @@ _EMBEDDED_BP_HEADING = re.compile(r"^#{1,6}\s+([A-Z]{2,}\d+-BP\d+)", re.M)
 def split_embedded_bps(section_pages: dict) -> dict | None:
     """
     Detect and split topic-page bodies that embed BP-ID headings into a
-    per-question structure compatible with write_output().
+    per-question structure compatible with write_output_lens_pillar_merged().
 
     Some lenses (e.g. IoT) have a flat TOC whose leaf pages are pillar
     "focus areas" (Identity and access management, Detective controls, ...),
@@ -679,7 +667,7 @@ def split_embedded_bps(section_pages: dict) -> dict | None:
     those page bodies rather than separate TOC pages. This slices each focus-area
     body at its BP headings, groups the resulting blocks by question ID
     (IOTSEC02-BP01/02/03 -> IOTSEC02), and returns a dict shaped like the
-    ``{question_id: [bp, ...]}`` that write_output() consumes.
+    ``{question_id: [bp, ...]}`` that write_output_lens_pillar_merged() consumes.
 
     Returns None when no page body contains an embedded BP heading — so every
     existing topic-page lens (serverless, migration, saas, connected-mobility,
@@ -849,16 +837,59 @@ def _question_block(question_id: str, bps: list[dict]) -> str:
     return "\n".join(lines)
 
 
-def write_output_per_question(all_questions: dict[str, list[dict]], output_dir: Path) -> int:
-    """Per-question output — used by lenses (each question stays in its own file)."""
+def _slugify(name: str) -> str:
+    """Filesystem-safe slug: 'Cost Optimization' -> 'cost-optimization'."""
+    return re.sub(r"[^a-z0-9]+", "-", name.lower()).strip("-")
+
+
+def _lens_display(lens_name: str) -> str:
+    """Human title for a lens output name: 'responsible-ai' -> 'Responsible AI'."""
+    acronyms = {"ai", "ml", "iot", "sap", "hpc", "saas"}
+    return " ".join(
+        w.upper() if w in acronyms else w.capitalize()
+        for w in lens_name.replace("-", " ").replace("_", " ").split()
+    )
+
+
+def write_output_lens_pillar_merged(all_questions: dict[str, list[dict]], output_dir: Path,
+                                    lens_name: str) -> int:
+    """Pillar-merged lens output — one file per pillar, plus guidance.md (issue #99).
+
+    Same contract as the core framework (write_output_pillar_merged) and the
+    topic-page lenses: a lens directory holds at most 6 pillar files named by
+    pillar slug, each opening with a "**Pillar**:" header. wa-review dispatches
+    one subagent per pillar, so each lens subagent loads one file per pillar
+    instead of navigating N question-ID filenames. Questions whose ID doesn't
+    resolve to one of the 6 pillars (e.g. responsible-ai's RAIBR/RAIMON) are
+    merged into a single guidance.md.
+    """
     output_dir.mkdir(parents=True, exist_ok=True)
+    by_pillar: dict[str | None, list[str]] = defaultdict(list)
+    for qid in sorted(all_questions):
+        if all_questions[qid]:
+            by_pillar[pillar_for_id(qid)].append(qid)
+
     written = 0
-    for question_id in sorted(all_questions.keys()):
-        bps = all_questions[question_id]
-        if not bps:
+    ordered = [PILLAR_DISPLAY[prefix] for _, prefix, _ in PILLAR_MERGED_ORDER]
+    for pillar in ordered + [None]:
+        qids = by_pillar.get(pillar)
+        if not qids:
             continue
-        content = _question_block(question_id, bps)
-        write_markdown(output_dir / f"{question_id}.md", content)
+        if pillar:
+            slug = _slugify(pillar)
+            lines = [f"# {pillar}", "",
+                     f"**Pillar**: {pillar}  ",
+                     f"**Questions**: {len(qids)}",
+                     "", "---", ""]
+        else:
+            slug = "guidance"
+            lines = [f"# {_lens_display(lens_name)} Lens — Guidance", "",
+                     f"**Questions**: {len(qids)}",
+                     "", "---", ""]
+        for qid in qids:
+            lines.append(_question_block(qid, all_questions[qid]).strip())
+            lines.append("")
+        write_markdown(output_dir / f"{slug}.md", "\n".join(lines))
         written += 1
     return written
 
@@ -934,10 +965,12 @@ def crawl_lens(lens_url: str, lens_name: str, output_dir: Path, delay: float, dr
     a title matches at most one pattern):
 
     - Dotted-BP-style: TOC has bracketed dotted IDs (e.g. "[OA.LS.1] ...", DevOps
-      Guidance). One file per best practice, named by ID (OA.LS.1 -> OALS01.md).
+      Guidance). One merged file per saga (e.g. automated-governance.md), best
+      practices grouped by capability.
 
     - BP-style: TOC has "{PREFIX}{NUM}-BP{NUM}" entries (e.g. "GENSEC01-BP01").
-      Same crawling as pillars: group by question, one file per question.
+      Same crawling as pillars: group by question, then merge one file per
+      pillar (plus guidance.md for questions with no pillar).
 
     - Topic-page-style: no BP-pattern titles (older lenses like Serverless,
       Migration, Data Analytics). Finds leaf pages under pillar section headings,
@@ -970,20 +1003,22 @@ def crawl_lens(lens_url: str, lens_name: str, output_dir: Path, delay: float, dr
 
     if dotted_pages and len(dotted_pages) >= len(bp_pages):
         # --- Dotted-ID lens (DevOps Guidance: "[OA.LS.1] ..." format) ---
-        # Each best practice is its own page. Write one file per best
-        # practice, named by its ID (OA.LS.1 -> OALS01.md), mirroring the
-        # one-file-per-question convention used by the other BP-style lenses
-        # (e.g. agentic-ai's AGENTCOST01.md) and the pillar question corpus.
+        # DevOps Guidance is organized as Sagas -> Capabilities -> best
+        # practices, not by the 6 WA pillars. Write one merged file per saga
+        # (e.g. automated-governance.md), keeping best practices in TOC order
+        # grouped under their capability — the saga is the loading unit the
+        # skill consumes, mirroring the pillar-merged layout (issue #99).
         print(f"  Mode: Dotted-BP-style ({len(dotted_pages)} best practices)")
         if dry_run:
             for bp in dotted_pages[:20]:
-                print(f"    {bp['bp_id']} -> {dotted_bp_filename(bp['bp_id'])}")
+                print(f"    {bp['bp_id']} [{bp.get('saga') or 'no saga'}]")
             if len(dotted_pages) > 20:
                 print(f"    ... and {len(dotted_pages) - 20} more")
             return
 
         output_dir.mkdir(parents=True, exist_ok=True)
-        written = 0
+        by_saga: dict[str, list[str]] = defaultdict(list)
+        fetched = 0
         for i, bp in enumerate(dotted_pages):
             time.sleep(delay)
             url = f"{base_url}/{bp['href']}"
@@ -1002,33 +1037,39 @@ def crawl_lens(lens_url: str, lens_name: str, output_dir: Path, delay: float, dr
                 print("TOO_SHORT")
                 continue
 
-            filename = dotted_bp_filename(bp["bp_id"])
-            # Lead with grouping metadata (saga + capability), then the fetched
-            # content — which already begins with its own "# [OA.AWE.1] Title"
-            # heading, so we don't emit a synthetic title (avoids duplication).
-            # Capability pairs the code with its human name when known
-            # (e.g. "OA.LS — Leader sponsorship").
+            # Lead each entry with its capability (code paired with the human
+            # name when known, e.g. "OA.LS — Leader sponsorship"); the fetched
+            # content already begins with its own "# [OA.AWE.1] Title" heading.
             cap = bp["group_id"]
             if bp.get("capability"):
                 cap = f"{bp['group_id']} — {bp['capability']}"
-            lines = []
-            if bp.get("saga"):
-                lines.append(f"**Saga**: {bp['saga']}")
-            lines += [
+            entry = "\n".join([
                 f"**Capability**: {cap}",
-                "",
-                "---",
                 "",
                 md,
                 "",
                 f"*Source: {url}*",
                 "",
-            ]
-            write_markdown(output_dir / filename, "\n".join(lines))
-            written += 1
+                "---",
+            ])
+            by_saga[bp.get("saga") or "General"].append(entry)
+            fetched += 1
             print("OK")
 
-        print(f"\n  Done: {written} files, {len(dotted_pages)} best practices -> {output_dir}/")
+        written = 0
+        for saga in sorted(by_saga):
+            entries = by_saga[saga]
+            lines = [f"# {saga}", "",
+                     f"**Saga**: {saga}  ",
+                     f"**Best Practices**: {len(entries)}",
+                     "", "---", ""]
+            for entry in entries:
+                lines.append(entry)
+                lines.append("")
+            write_markdown(output_dir / f"{_slugify(saga)}.md", "\n".join(lines))
+            written += 1
+
+        print(f"\n  Done: {written} saga files, {fetched} best practices -> {output_dir}/")
 
     elif bp_pages:
         # --- BP-style lens (GenAI, Agentic AI, Responsible AI, Hybrid Networking) ---
@@ -1070,9 +1111,9 @@ def crawl_lens(lens_url: str, lens_name: str, output_dir: Path, delay: float, dr
             })
             print("OK")
 
-        written = write_output_per_question(dict(question_bps), output_dir)
+        written = write_output_lens_pillar_merged(dict(question_bps), output_dir, lens_name)
         total = sum(len(v) for v in question_bps.values())
-        print(f"\n  Done: {written} files, {total} best practices -> {output_dir}/")
+        print(f"\n  Done: {written} pillar-merged files, {total} best practices -> {output_dir}/")
 
     else:
         # --- Topic-page-style lens (Serverless, Migration, Data Analytics) ---
@@ -1122,42 +1163,53 @@ def crawl_lens(lens_url: str, lens_name: str, output_dir: Path, delay: float, dr
         # Some flat-TOC lenses (IoT) are really BP-style: the focus-area pages
         # embed "## IOTSEC01-BP01 ..." headings in their bodies rather than
         # exposing each BP as its own TOC page. When detected, split those bodies
-        # into per-question files (IOTSEC01.md, ...) via the shared write_output,
-        # so IoT reads like the other BP-style lenses. Returns None — and this
+        # into per-question groups and merge them per pillar via the shared
+        # write_output_lens_pillar_merged, so IoT reads like the other BP-style lenses. Returns None — and this
         # branch is skipped — for every lens without embedded BP headings, so
         # they stay byte-identical.
         embedded = split_embedded_bps(section_pages)
         if embedded:
-            written = write_output_per_question(embedded, output_dir)
+            written = write_output_lens_pillar_merged(embedded, output_dir, lens_name)
             total = sum(len(v) for v in embedded.values())
-            print(f"\n  Done: {written} question files, {total} best practices -> {output_dir}/")
+            print(f"\n  Done: {written} pillar-merged files, {total} best practices -> {output_dir}/")
             return
 
         # If every captured page carries a question ID (e.g. Financial Services'
-        # "FSISEC01: ..."), write one file per question — finer-grained and
-        # consistent with the BP-style lenses. Otherwise keep the per-pillar
-        # grouping used by serverless/migration/data-analytics. The branch is
-        # all-or-nothing so a lens without qids is byte-identical to before.
+        # "FSISEC01: ..."), group the questions by the pillar embedded in the
+        # qid (FSISEC01 -> Security) and write one merged file per pillar —
+        # the same layout as the BP-style lenses (issue #99). Questions whose
+        # qid has no pillar go to guidance.md. Lenses without qids keep the
+        # per-pillar-section grouping used by serverless/migration below.
         all_pages = [p for pages in section_pages.values() for p in pages]
         if all_pages and all(p.get("qid") for p in all_pages):
-            written = 0
+            by_pillar = defaultdict(list)
             for p in sorted(all_pages, key=lambda x: x["qid"]):
-                # Prepend the pillar when derivable from the qid (FSISEC01 ->
-                # Security). The content already carries its own "# FSISEC01:"
-                # title heading, so we only add the metadata line.
-                lines = []
-                pillar = pillar_for_id(p["qid"])
+                by_pillar[pillar_for_id(p["qid"])].append(p)
+
+            written = 0
+            ordered = [PILLAR_DISPLAY[prefix] for _, prefix, _ in PILLAR_MERGED_ORDER]
+            for pillar in ordered + [None]:
+                pages = by_pillar.get(pillar)
+                if not pages:
+                    continue
                 if pillar:
-                    lines += [f"**Pillar**: {pillar}", ""]
-                lines += [
-                    p["content"],
-                    "",
-                    f"*Source: {p['url']}*",
-                    "",
-                ]
-                write_markdown(output_dir / f"{p['qid']}.md", "\n".join(lines))
+                    slug = _slugify(pillar)
+                    lines = [f"# {pillar}", "",
+                             f"**Pillar**: {pillar}  ",
+                             f"**Questions**: {len(pages)}",
+                             "", "---", ""]
+                else:
+                    slug = "guidance"
+                    lines = [f"# {_lens_display(lens_name)} Lens — Guidance", "",
+                             f"**Questions**: {len(pages)}",
+                             "", "---", ""]
+                # The content already carries its own "# FSISEC01:" title
+                # heading, so only the Source line and separator are added.
+                for p in pages:
+                    lines += [p["content"], "", f"*Source: {p['url']}*", "", "---", ""]
+                write_markdown(output_dir / f"{slug}.md", "\n".join(lines))
                 written += 1
-            print(f"\n  Done: {written} question files, {len(all_pages)} pages -> {output_dir}/")
+            print(f"\n  Done: {written} pillar-merged files, {len(all_pages)} pages -> {output_dir}/")
         else:
             # Write one file per section (e.g., "security.md", "reliability.md")
             written = 0
@@ -1220,7 +1272,7 @@ def main():
     """
     parser = argparse.ArgumentParser(
         description="Crawl AWS WA docs. Framework mode → pillar-merged files "
-                    "(6 files, one per pillar). Lens mode → per-question files."
+                    "(6 files, one per pillar). Lens mode → pillar-merged lens files."
     )
     parser.add_argument("--output-dir", default="skills/aws-well-architected-framework-review/references/pillars",
                         help="Output directory for framework pillars "

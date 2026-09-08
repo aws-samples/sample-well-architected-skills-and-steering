@@ -284,7 +284,10 @@ Lenses are **additive**. When the incident or workload matches a domain, load th
 - `references/lenses/generative-ai/` — LLM workloads, RAG, fine-tuning
 - `references/lenses/devops-guidance/` — CI/CD, automated governance, observability
 
-Full lens list available in `references/lenses/`.
+Full lens list available in `references/lenses/`. Each lens directory is
+pillar-merged (at most 6 pillar files such as `security.md`; `devops-guidance/`
+groups by saga; `responsible-ai/` is a single `guidance.md`) — load only the
+file(s) for the pillar in scope.
 
 ## Step 5: Risk Assessment
 
