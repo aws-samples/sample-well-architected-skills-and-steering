@@ -236,11 +236,11 @@ Task(subagent_type="general-purpose",
 
 **Total: 6 Task calls in one turn.** Each subagent runs independently with its own context, so each can be exhaustive without stealing from the others. The uniform table format means aggregation is a mechanical concatenation, not an interpretive summary — narrative subagent output invites the aggregator to drop citations it judges redundant.
 
-**Cost/latency:** ~3-4x the tokens of a single-agent review (each subagent duplicates workload context), but wall-clock is bounded by the slowest single pillar (~2-3 min). Users trade cost for coverage.
+**Cost/latency:** the dispatch costs materially more tokens than a single-agent review, because each subagent duplicates the workload context. Wall-clock is bounded by the slowest single pillar rather than the sum of six, because the subagents run concurrently. Users trade cost for coverage — measure both in your own runtime with the harness in `evals/cli_effectiveness/`.
 
 **When to skip subagent dispatch:**
 - User explicitly asked for **quick review** / **score mode** / **pillar-scoped review** — those modes stay single-agent
-- **Cost-constrained** environments where 3-4x token usage is unacceptable — do a single-agent review but be honest with the user that coverage will be ~50-60 BPs, not 307
+- **Cost-constrained** environments where the extra token usage is unacceptable — do a single-agent review but be honest with the user that it covers a fraction of the 307 BPs, not all of them
 
 **Step 4c — Aggregate subagent findings (PRESERVE citations verbatim):**
 

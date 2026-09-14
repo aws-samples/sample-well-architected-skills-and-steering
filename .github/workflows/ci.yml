@@ -41,11 +41,14 @@ jobs:
         run: diff -q steering/well-architected.md powers/aws-well-architected-framework-review/steering/well-architected.md
 
   metrics-guard:
-    # This repository ships the measurement tooling, not its results. AWS
-    # marketing rules bar publishing measurable claims about AWS or its services
-    # that are not approved AWS Public Stats or AWS Metrics, and bar endorsing
-    # third-party estimates — so no F1 score, skill-lift delta, per-run cost,
-    # throughput number, or model-vs-model table may enter a tracked file.
+    # This repository ships the measurement tooling, not its results: no F1
+    # score, skill-lift delta, per-run cost, wall-clock figure, token or speed
+    # multiplier, throughput number, or model-vs-model table may enter a tracked
+    # file. Readers measure in their own environment, on their own models and
+    # prompts, which is the only comparison that describes what they will get.
+    # Methodology stays — metric definitions, the run recipe, the ground-truth
+    # rule and the known limitations all belong here. See CONTRIBUTING.md,
+    # "Measurement results stay local".
     # The check reads `git ls-files` only: local result files stay gitignored and
     # unscanned, so contributors can measure freely.
     runs-on: ubuntu-latest

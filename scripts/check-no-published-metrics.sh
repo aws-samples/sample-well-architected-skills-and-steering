@@ -6,8 +6,9 @@
 #
 # This repository ships the measurement tooling and tells you how to run it. It
 # does not publish result figures or result datasets — no F1 scores, skill-lift
-# deltas, per-run costs, throughput numbers, or head-to-head model tables. See
-# CONTRIBUTING.md, "Measurement results stay local".
+# deltas, per-run costs, wall-clock figures, token or speed multipliers,
+# throughput numbers, or head-to-head model tables. See CONTRIBUTING.md,
+# "Measurement results stay local".
 #
 # Scope: `git ls-files` only. Your local runs write into gitignored paths
 # (evals/results/, evals/cli_effectiveness/*.json, evals/pricing.local.yaml) and
@@ -93,8 +94,26 @@ scan "Percentage result for a measured metric" \
   "[0-9]+(\.[0-9]+)? *% *(${METRIC})|(${METRIC})${SEP}{0,12}[0-9]+(\.[0-9]+)? *%([^}]|\$)" \
   "${FILES[@]}"
 
-scan "Speedup multiplier" \
-  '[0-9]+(\.[0-9]+)? *x *(faster|slower|speedup|more|better)' \
+# Covers both directions of the trade: `3x faster` and `3-4x the tokens`. The
+# unit word is required so a workload description ("peak traffic 5x during flash
+# sales") and image dimensions stay clean.
+scan "Measured multiplier (speed, cost, or token volume)" \
+  '[0-9]+(\.[0-9]+)?([-–][0-9]+(\.[0-9]+)?)? *x *(the +)?(faster|slower|speedup|more|better|cheaper|token|tokens|cost|price|spend|latency|throughput)' \
+  "${FILES[@]}"
+
+# A duration carries no metric word, so the patterns above cannot see it. Two
+# forms: an approximated wall-clock figure (`~11 min`), and an exact one stated
+# next to a latency word. Timeouts and facilitation time-boxes are neither — they
+# are configuration and advice, not something we measured.
+scan "Wall-clock figure stated as a measurement" \
+  "~ *[0-9]+(\.[0-9]+)?([-–][0-9]+(\.[0-9]+)?)? *(min|mins|minute|minutes|hour|hours|hr|hrs)\b|(wall[- ]clock|latency|elapsed|end[- ]to[- ]end)${SEP}{0,48}[0-9]+(\.[0-9]+)?([-–][0-9]+(\.[0-9]+)?)? *(ms|sec|secs|second|seconds|min|mins|minute|minutes|hour|hours|hr|hrs)\b" \
+  "${FILES[@]}"
+
+# Coverage reported as a count rather than a percentage. An approximation or a
+# range is the tell: the corpus inventory (307 BPs, 57 questions) is exact, a
+# measured result never is.
+scan "Coverage or recall stated as a measured count" \
+  "(${METRIC})${SEP}{0,32}((~|about +|roughly +|approximately +) *[0-9]+|[0-9]+ *[-–] *[0-9]+) *(BPs?|best practices|rows|findings)\b" \
   "${FILES[@]}"
 
 scan "Measured throughput" \

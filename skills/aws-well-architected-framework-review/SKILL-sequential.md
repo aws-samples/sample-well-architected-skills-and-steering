@@ -12,9 +12,9 @@ version: 2.3.0
 > time** instead of dispatching 6 parallel `Task` subagents. Install this file
 > instead of `SKILL.md` on runtimes without parallel subagent support (Cursor,
 > Codex, GitHub Copilot, Gemini CLI, Amazon Q Developer, etc.). Coverage is the
-> same (all 307 BPs, Full BP Ledger mandatory); it trades wall-clock (~30–40 min
-> vs ~11 min) for not needing the `Task` tool. On runtimes that DO support
-> parallel subagents, use `SKILL.md` — it is faster.
+> same (all 307 BPs, Full BP Ledger mandatory); it trades wall-clock for not
+> needing the `Task` tool. On runtimes that DO support parallel subagents, use
+> `SKILL.md` — it is faster.
 
 ## Step 1: Define the workload scope
 
@@ -268,11 +268,11 @@ Pillar slugs: `operational-excellence`, `security`, `reliability`, `performance-
 
 **Total: 6 sequential pillar passes.** Because each pass keeps only one pillar in context, it can be exhaustive without competing for the window — the same property the parallel variant gets from separate subagent contexts. The uniform table format means the final assembly is a mechanical concatenation, not an interpretive summary — narrative output invites the assembler to drop citations it judges redundant.
 
-**Cost/latency:** roughly the same total token volume as a single-agent review (no per-pillar context duplication, unlike the parallel variant), but wall-clock is ~30-40 min because the passes run one after another rather than concurrently. Users on runtimes without parallel subagents trade wall-clock for coverage.
+**Cost/latency:** roughly the same total token volume as a single-agent review (no per-pillar context duplication, unlike the parallel variant), but wall-clock is substantially longer because the passes run one after another rather than concurrently. Users on runtimes without parallel subagents trade wall-clock for coverage.
 
 **When to skip the full sequential loop:**
 - User explicitly asked for **quick review** / **score mode** / **pillar-scoped review** — those modes evaluate a single scope directly, no 6-pillar loop
-- **Cost-constrained** environments where full 307-BP coverage is unnecessary — do a single-pass review but be honest with the user that coverage will be ~50-60 BPs, not 307
+- **Cost-constrained** environments where full 307-BP coverage is unnecessary — do a single-pass review but be honest with the user that it covers a fraction of the 307 BPs, not all of them
 
 **Step 4c — Aggregate the per-pillar findings (PRESERVE citations verbatim):**
 
