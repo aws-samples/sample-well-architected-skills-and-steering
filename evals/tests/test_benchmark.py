@@ -7,10 +7,12 @@ from pathlib import Path
 from unittest.mock import patch
 
 import pytest
+import yaml
 
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from benchmark import (  # noqa: E402
+    CONFIG_PATH,
     _openai_provider_for_model,
     call_openai_compatible_model,
     compute_cost,
@@ -54,19 +56,35 @@ def test_minimax_config_contains_current_models_and_metadata():
         "input_modalities": ["text"],
         "thinking": ["always_on"],
     }
-    assert config["pricing"]["MiniMax-M3"] == {
-        "input": 0.6,
-        "output": 2.4,
-        "cache_read": 0.12,
-        "cache_write": None,
-    }
-    assert config["pricing"]["MiniMax-M2.7"] == {
-        "input": 0.3,
-        "output": 1.2,
-        "cache_read": 0.06,
-        "cache_write": 0.375,
-    }
     assert "MiniMax-M3" in config["grading"]["panel"]
+
+
+def test_tracked_config_carries_no_pricing():
+    """Rates are looked up locally, never committed. See pricing.local.yaml.example."""
+    with open(CONFIG_PATH, encoding="utf-8") as f:
+        tracked = yaml.safe_load(f)
+
+    assert "pricing" not in tracked
+
+
+def test_local_pricing_merges_over_the_tracked_config(tmp_path, monkeypatch):
+    local = tmp_path / "pricing.local.yaml"
+    local.write_text(
+        "pricing:\n"
+        "  test.model-a:\n"
+        "    input: 1.0\n"
+        "    output: 2.0\n"
+        # Placeholder entries stay out: compute_cost would divide by None.
+        "  test.model-b:\n"
+        "    input: null\n"
+        "    output: null\n",
+        encoding="utf-8",
+    )
+    monkeypatch.setattr("benchmark.PRICING_PATH", local)
+
+    pricing = load_config().get("pricing", {})
+
+    assert pricing == {"test.model-a": {"input": 1.0, "output": 2.0}}
 
 
 @pytest.mark.parametrize(
@@ -156,20 +174,28 @@ def test_run_benchmark_routes_minimax_to_openai_compatible_transport():
 
 def test_compute_cost_accounts_for_cached_input_tokens():
     result = {
-        "model_id": "MiniMax-M3",
+        "model_id": "test.model",
         "input_tokens": 1000,
         "cached_input_tokens": 400,
         "output_tokens": 500,
     }
+    # Synthetic round rates, not any provider's real prices: 600 uncached input
+    # at 10.0, 400 cached at 5.0, 500 output at 20.0, all per 1M tokens.
     pricing = {
-        "MiniMax-M3": {
-            "input": 0.6,
-            "output": 2.4,
-            "cache_read": 0.12,
+        "test.model": {
+            "input": 10.0,
+            "output": 20.0,
+            "cache_read": 5.0,
         }
     }
 
-    assert compute_cost(result, pricing) == 0.001608
+    assert compute_cost(result, pricing) == 0.018
+
+
+def test_compute_cost_is_none_without_a_rate_for_the_model():
+    result = {"model_id": "test.model", "input_tokens": 1000, "output_tokens": 500}
+
+    assert compute_cost(result, {}) is None
 
 
 def test_openai_provider_lookup_is_model_specific():

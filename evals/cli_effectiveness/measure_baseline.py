@@ -11,7 +11,8 @@ For each case × run:
   - Save to evals/cli_effectiveness/wa_review_baseline.json
     (parallel to wa_review_effectiveness.json)
 
-Enables paired comparison: "with skill" (0.96) vs "without skill" (?).
+Enables a paired comparison: run this and measure_wa_review.py over the same
+cases, then diff the two local result files for your own with-skill delta.
 """
 from __future__ import annotations
 

@@ -40,7 +40,7 @@ from measure_wa_review import (  # noqa: E402
 
 CODEX_SESSIONS = Path.home() / ".codex" / "sessions"
 CLI_TIMEOUT_SEC = 3600
-CODEX_MODEL = "openai.gpt-5.5"  # latest GPT via Amazon Bedrock mantle
+CODEX_MODEL = "openai.gpt-5.5"  # GPT via an OpenAI-compatible Amazon Bedrock endpoint
 RUNS_PER_CASE = 3
 RESULTS_FILE = SCRIPT_DIR / "codex_effectiveness.json"
 ANSI_ESCAPE = re.compile(r"\x1B(?:[@-Z\\-_]|\[[0-?]*[ -/]*[@-~])")

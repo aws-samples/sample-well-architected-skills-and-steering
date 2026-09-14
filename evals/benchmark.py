@@ -33,12 +33,34 @@ from botocore.credentials import Credentials
 
 SCRIPT_DIR = Path(__file__).parent
 CONFIG_PATH = SCRIPT_DIR / "benchmark_config.yaml"
+PRICING_PATH = SCRIPT_DIR / "pricing.local.yaml"
 RESULTS_DIR = SCRIPT_DIR / "results"
 
 
 def load_config(path: Path = CONFIG_PATH) -> dict:
+    """Load the benchmark config, merging local per-token rates if present.
+
+    Rates are not tracked here: they are each provider's own published pricing,
+    they change, and this repository does not restate them. Copy
+    pricing.local.yaml.example to pricing.local.yaml and fill in the current
+    rates from the pricing pages it links. Without that file the cost column is
+    simply omitted from the report.
+    """
     with open(path, encoding="utf-8") as f:
-        return yaml.safe_load(f)
+        config = yaml.safe_load(f)
+
+    if PRICING_PATH.exists():
+        with open(PRICING_PATH, encoding="utf-8") as f:
+            local = yaml.safe_load(f) or {}
+        rates = {
+            model_id: entry
+            for model_id, entry in (local.get("pricing") or {}).items()
+            if entry and entry.get("input") is not None and entry.get("output") is not None
+        }
+        if rates:
+            config["pricing"] = {**config.get("pricing", {}), **rates}
+
+    return config
 
 
 def _extract_text(response: dict, include_reasoning: bool = True) -> str:
@@ -54,13 +76,33 @@ def _extract_text(response: dict, include_reasoning: bool = True) -> str:
     return "\n".join(text_parts)
 
 
-MANTLE_CHAT_MODELS = {"openai.gpt-oss-120b", "openai.gpt-oss-20b"}
-MANTLE_RESPONSES_MODELS = {"openai.gpt-5.5", "openai.gpt-5.4"}
+BEDROCK_OPENAI_CHAT_MODELS = {"openai.gpt-oss-120b", "openai.gpt-oss-20b"}
+BEDROCK_OPENAI_RESPONSES_MODELS = {"openai.gpt-5.5", "openai.gpt-5.4"}
+
+# Base URL of the OpenAI-compatible Bedrock endpoint. Set this yourself; this
+# repository ships no default host.
+ENDPOINT_ENV = "BEDROCK_OPENAI_ENDPOINT"
 
 
-def _is_mantle_model(model_id: str) -> bool:
-    """Check if a model requires the bedrock-mantle endpoint."""
-    return model_id in MANTLE_CHAT_MODELS or model_id in MANTLE_RESPONSES_MODELS
+def _is_bedrock_openai_model(model_id: str) -> bool:
+    """Check if a model is served by the OpenAI-compatible Bedrock endpoint."""
+    return model_id in BEDROCK_OPENAI_CHAT_MODELS or model_id in BEDROCK_OPENAI_RESPONSES_MODELS
+
+
+def _bedrock_openai_endpoint(region: str, path: str) -> str:
+    """Build a request URL from $BEDROCK_OPENAI_ENDPOINT.
+
+    No host is hardcoded: point the variable at the OpenAI-compatible endpoint
+    available to your account, or drop the openai.* models from the config.
+    """
+    base = os.environ.get(ENDPOINT_ENV, "").rstrip("/")
+    if not base:
+        raise RuntimeError(
+            f"{ENDPOINT_ENV} is not set. Point it at the base URL of the "
+            f"OpenAI-compatible Bedrock endpoint for {region}, or remove the "
+            "openai.* models from benchmark_config.yaml."
+        )
+    return f"{base}{path}"
 
 
 def _openai_provider_for_model(config: dict, model_id: str) -> tuple[str, dict] | None:
@@ -187,8 +229,8 @@ def call_openai_compatible_model(config: dict, model_id: str, messages: list[dic
     }
 
 
-def _mantle_request(endpoint: str, body: dict, region: str, timeout: int = 300):
-    """Send a SigV4-signed request to bedrock-mantle."""
+def _signed_openai_request(endpoint: str, body: dict, region: str, timeout: int = 300):
+    """Send a SigV4-signed request to an OpenAI-compatible Bedrock endpoint."""
     import requests as req
 
     session = boto3.Session()
@@ -208,15 +250,15 @@ def _mantle_request(endpoint: str, body: dict, region: str, timeout: int = 300):
     return resp.json()
 
 
-def call_mantle_model(model_id: str, messages: list[dict], system: str | None = None,
+def call_bedrock_openai_model(model_id: str, messages: list[dict], system: str | None = None,
                       max_tokens: int = 4096, temperature: float = 0, region: str = "us-east-1") -> dict:
-    """Call a model via bedrock-mantle with SigV4 auth. Routes to correct API path."""
+    """Call an OpenAI-compatible Bedrock model with SigV4 auth. Routes to the correct API path."""
 
     start = time.time()
     try:
-        if model_id in MANTLE_RESPONSES_MODELS:
+        if model_id in BEDROCK_OPENAI_RESPONSES_MODELS:
             # GPT-5.5/5.4 use /openai/v1/responses (Responses API)
-            endpoint = f"https://bedrock-mantle.{region}.api.aws/openai/v1/responses"
+            endpoint = _bedrock_openai_endpoint(region, "/openai/v1/responses")
             user_input = ""
             if system:
                 user_input += f"[System: {system}]\n\n"
@@ -241,7 +283,7 @@ def call_mantle_model(model_id: str, messages: list[dict], system: str | None = 
             if system:
                 body["instructions"] = system
 
-            data = _mantle_request(endpoint, body, region)
+            data = _signed_openai_request(endpoint, body, region)
 
             # Extract text from Responses API format
             output_text = ""
@@ -257,7 +299,7 @@ def call_mantle_model(model_id: str, messages: list[dict], system: str | None = 
 
         else:
             # GPT-OSS models use /v1/chat/completions (Chat Completions API)
-            endpoint = f"https://bedrock-mantle.{region}.api.aws/v1/chat/completions"
+            endpoint = _bedrock_openai_endpoint(region, "/v1/chat/completions")
             oai_messages = []
             if system:
                 oai_messages.append({"role": "system", "content": system})
@@ -274,7 +316,7 @@ def call_mantle_model(model_id: str, messages: list[dict], system: str | None = 
                 "temperature": temperature,
             }
 
-            data = _mantle_request(endpoint, body, region)
+            data = _signed_openai_request(endpoint, body, region)
 
             choice = data.get("choices", [{}])[0]
             output_text = choice.get("message", {}).get("content", "")
@@ -289,7 +331,7 @@ def call_mantle_model(model_id: str, messages: list[dict], system: str | None = 
     latency = time.time() - start
 
     if not output_text:
-        return {"model_id": model_id, "error": "empty response from mantle", "latency_s": round(latency, 2)}
+        return {"model_id": model_id, "error": "empty response from endpoint", "latency_s": round(latency, 2)}
 
     return {
         "model_id": model_id,
@@ -416,8 +458,8 @@ pillar is included below.
                 config, model_id, messages, system=system,
                 max_tokens=max_tokens, temperature=temperature,
             )
-        if _is_mantle_model(model_id):
-            return call_mantle_model(model_id, messages, system=system,
+        if _is_bedrock_openai_model(model_id):
+            return call_bedrock_openai_model(model_id, messages, system=system,
                                      max_tokens=max_tokens, temperature=temperature,
                                      region=region)
         return call_model(client, model_id, messages, system=system,
@@ -631,8 +673,8 @@ def run_benchmark(config: dict, models: list[str], grade: bool = False) -> dict:
                     config, model_id, messages, system=system_prompt,
                     max_tokens=max_tokens, temperature=temperature,
                 )
-            elif _is_mantle_model(model_id):
-                result = call_mantle_model(model_id, messages, system=system_prompt,
+            elif _is_bedrock_openai_model(model_id):
+                result = call_bedrock_openai_model(model_id, messages, system=system_prompt,
                                            max_tokens=max_tokens, temperature=temperature, region=region)
             else:
                 result = call_model(client, model_id, messages, system=system_prompt,
@@ -702,7 +744,7 @@ def run_benchmark(config: dict, models: list[str], grade: bool = False) -> dict:
             judge_scores = []
             for judge in eligible_judges:
                 print(f"  {r['model_id']} ← judged by {judge}...")
-                if _is_mantle_model(judge) or _openai_provider_for_model(config, judge):
+                if _is_bedrock_openai_model(judge) or _openai_provider_for_model(config, judge):
                     # Use the configured OpenAI-compatible transport for grading.
                     grading_prompt = f"""You are an expert evaluator for AWS Well-Architected reviews.
 
@@ -726,8 +768,8 @@ Respond with ONLY a JSON object:
   }},
   "overall": <1-5 average rounded to 1 decimal>
 }}"""
-                    if _is_mantle_model(judge):
-                        transport_result = call_mantle_model(
+                    if _is_bedrock_openai_model(judge):
+                        transport_result = call_bedrock_openai_model(
                             judge,
                             [{"role": "user", "content": [{"text": grading_prompt}]}],
                             max_tokens=2048, temperature=0, region=region,

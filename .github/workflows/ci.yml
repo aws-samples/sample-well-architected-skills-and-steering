@@ -40,8 +40,24 @@ jobs:
       - name: well-architected.md steering body must match its Power mirror
         run: diff -q steering/well-architected.md powers/aws-well-architected-framework-review/steering/well-architected.md
 
+  metrics-guard:
+    # This repository ships the measurement tooling, not its results. AWS
+    # marketing rules bar publishing measurable claims about AWS or its services
+    # that are not approved AWS Public Stats or AWS Metrics, and bar endorsing
+    # third-party estimates — so no F1 score, skill-lift delta, per-run cost,
+    # throughput number, or model-vs-model table may enter a tracked file.
+    # The check reads `git ls-files` only: local result files stay gitignored and
+    # unscanned, so contributors can measure freely.
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: No published measurement results in tracked files
+        run: bash scripts/check-no-published-metrics.sh
+
   link-check:
-    # Gating: fails the build on broken relative links in authored Markdown.
+    # Gating: fails the build on broken relative links in authored Markdown and
+    # in llms.txt, which is the first file most crawlers read and therefore the
+    # worst place for a dead path.
     # (Generated crawler corpora are excluded below — their .md files carry
     # intentional relative .html cross-links that resolve on the AWS docs site,
     # not on disk.)
@@ -61,6 +77,7 @@ jobs:
             --exclude-path skills/example-skill/references
             --exclude-path powers/aws-well-architected-framework-review/steering/references
             "./**/*.md"
+            "./llms.txt"
           fail: true
 
   secret-scan:

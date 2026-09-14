@@ -47,9 +47,17 @@ This is a public repository. Do not add measurement results to it, in any file, 
 
 Describing **how** something is measured is fine and encouraged — metric definitions, the run recipe, what the ground truth is, and the known limitations all belong in the repository. Only the resulting figures stay out.
 
-Result files stay out of version control too. `.gitignore` already covers `evals/results/` and the `evals/cli_effectiveness/` measurement outputs; if you add a harness that writes results, ignore its output path in the same commit.
+Result files stay out of version control too. `.gitignore` already covers `evals/results/`, `evals/pricing.local.yaml`, and the `evals/cli_effectiveness/` measurement outputs; if you add a harness that writes results, ignore its output path in the same commit.
 
 In a pull request, say that you ran the evals and whether the with-skill arm improved on the baseline arm. Do not paste the numbers.
+
+CI enforces this. The `metrics-guard` job runs `scripts/check-no-published-metrics.sh`, which scans tracked files only — your local result files are gitignored and never read, so measure as much as you like. Run it before opening a PR:
+
+```bash
+bash scripts/check-no-published-metrics.sh
+```
+
+If it flags a line that is genuinely not a published result, narrow the pattern in that script and say why in the PR. Do not add a blanket path exclusion.
 
 ### Style Guidelines
 

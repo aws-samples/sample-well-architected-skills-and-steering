@@ -431,13 +431,15 @@ def main():
         print(
             "\n"
             "  " + "!" * 68 + "\n"
-            "  ! aws-well-architected-framework-review's full-review path depends on the Task tool (v4.2+):    !\n"
-            "  ! it dispatches 6 parallel pillar subagents. This runner uses raw   !\n"
-            "  ! Bedrock Converse API — no Task tool available — so scores here    !\n"
-            "  ! reflect single-agent guidance only, NOT what the skill delivers.  !\n"
-            "  !                                                                    !\n"
-            "  ! For the real measurement (F1 = 0.96 with skill vs 0.26 baseline), !\n"
-            "  ! see evals/cli_effectiveness/                                       !\n"
+            "  ! WARNING: this runner cannot exercise the full-review path.\n"
+            "  !\n"
+            "  ! Full review dispatches 6 parallel pillar subagents via the Task\n"
+            "  ! tool. This runner uses the raw Bedrock Converse API, where no Task\n"
+            "  ! tool exists, so scores here reflect single-agent guidance only —\n"
+            "  ! not what the skill delivers in a parallel-dispatch runtime.\n"
+            "  !\n"
+            "  ! To measure the full path in your own environment, use the harness\n"
+            "  ! in evals/cli_effectiveness/.\n"
             "  " + "!" * 68 + "\n"
         )
 

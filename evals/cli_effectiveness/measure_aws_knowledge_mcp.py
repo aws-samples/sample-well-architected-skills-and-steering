@@ -6,8 +6,8 @@
 Configuration A (MCP-only baseline):
   claude -p --safe-mode --disable-slash-commands
   + aws-knowledge MCP loaded via --mcp-config
-  No skill, no systematic coverage instructions.
-  Expected: 2-22% recall (replicates Dec 2025 study conditions in CC CLI).
+  No skill, no systematic coverage instructions. Establishes what retrieval
+  alone reaches without a coverage strategy.
 
 Configuration B (MCP + aws-well-architected-framework-review skill):
   claude -p (normal mode, aws-well-architected-framework-review skill installed)

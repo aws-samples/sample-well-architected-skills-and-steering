@@ -2,25 +2,26 @@
 # Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
 # SPDX-License-Identifier: MIT-0
 """
-Generate a markdown report from benchmark results and optionally update the README.
+Generate a markdown report from your own benchmark results.
+
+The report is a measurement of your models in your account. It prints to stdout
+and, with --out, writes under evals/results/, which is gitignored. There is
+deliberately no path from this script into a tracked file: this repository ships
+the benchmark, not its results. See CONTRIBUTING.md, "Measurement results stay
+local".
 
 Usage:
-    python benchmark_report.py results/benchmark-20260701-143022.json
-    python benchmark_report.py results/benchmark-20260701-143022.json --update-readme
+    uv run python benchmark_report.py results/benchmark-20260701-143022.json
+    uv run python benchmark_report.py results/benchmark-20260701-143022.json --out report.md
 """
 
 import argparse
 import json
 import re
-import sys
 from pathlib import Path
 
-REPO_ROOT = Path(__file__).parent.parent
-README_PATH = REPO_ROOT / "README.md"
-
-# Markers in README where benchmark table gets inserted
-BENCH_START = "<!-- BENCHMARK-START -->"
-BENCH_END = "<!-- BENCHMARK-END -->"
+EVALS_DIR = Path(__file__).parent
+RESULTS_DIR = EVALS_DIR / "results"
 
 
 def load_results(path: Path) -> dict:
@@ -104,40 +105,33 @@ def generate_markdown(benchmark: dict) -> str:
         grading_model = benchmark.get("config", {}).get("grading_model", "unknown")
         lines.append(f"- Quality graded by: {grading_model}")
         lines.append(f"- Criteria: coverage of 6 pillars, identification of key risks, actionability")
-    lines.append(f"- Run with: `cd evals && python benchmark.py --grade`")
+    lines.append(f"- Run with: `cd evals && uv run python benchmark.py --grade`")
     lines.append(f"")
     lines.append(f"</details>")
 
     return "\n".join(lines)
 
 
-def update_readme(markdown: str):
-    """Insert benchmark markdown between markers in README."""
-    if not README_PATH.exists():
-        print(f"README not found at {README_PATH}", file=sys.stderr)
-        sys.exit(1)
+def resolve_out_path(out: Path) -> Path:
+    """Resolve --out under evals/results/, which is gitignored.
 
-    content = README_PATH.read_text(encoding="utf-8")
-
-    if BENCH_START not in content:
-        print(f"Marker '{BENCH_START}' not found in README. Add it where you want the table.", file=sys.stderr)
-        sys.exit(1)
-
-    pattern = re.compile(
-        rf"({re.escape(BENCH_START)})\n.*?\n({re.escape(BENCH_END)})",
-        re.DOTALL,
-    )
-    replacement = f"{BENCH_START}\n{markdown}\n{BENCH_END}"
-    new_content = pattern.sub(replacement, content)
-
-    README_PATH.write_text(new_content, encoding="utf-8")
-    print(f"✓ README updated with benchmark results")
+    A bare filename lands in evals/results/. An absolute or parent-relative path
+    is rejected rather than silently written somewhere tracked.
+    """
+    candidate = (RESULTS_DIR / out).resolve() if not out.is_absolute() else out.resolve()
+    if RESULTS_DIR.resolve() not in candidate.parents:
+        raise SystemExit(
+            f"--out must stay under {RESULTS_DIR.relative_to(EVALS_DIR.parent)}/ "
+            "(gitignored). Benchmark results are not published from this repo."
+        )
+    return candidate
 
 
 def main():
     parser = argparse.ArgumentParser(description="Generate benchmark report")
     parser.add_argument("results_file", type=Path, help="Path to benchmark JSON results")
-    parser.add_argument("--update-readme", action="store_true", help="Update README.md with results")
+    parser.add_argument("--out", type=Path,
+                        help="Also write the report to this file under evals/results/")
     args = parser.parse_args()
 
     benchmark = load_results(args.results_file)
@@ -145,8 +139,11 @@ def main():
 
     print(markdown)
 
-    if args.update_readme:
-        update_readme(markdown)
+    if args.out:
+        out_path = resolve_out_path(args.out)
+        out_path.parent.mkdir(parents=True, exist_ok=True)
+        out_path.write_text(markdown + "\n", encoding="utf-8")
+        print(f"\n✓ Report written to {out_path} (local only)")
 
 
 if __name__ == "__main__":

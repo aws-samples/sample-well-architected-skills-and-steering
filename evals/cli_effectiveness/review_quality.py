@@ -38,8 +38,8 @@ DEFAULT_OUTPUT = SCRIPT_DIR / "review_quality_results.json"
 
 sys.path.insert(0, str(EVALS_DIR))
 from benchmark import (  # noqa: E402
-    _is_mantle_model,
-    call_mantle_model,
+    _is_bedrock_openai_model,
+    call_bedrock_openai_model,
     call_model,
     compute_cost,
     load_config as load_benchmark_config,
@@ -910,8 +910,8 @@ def _invoke_model(
         MODEL_OUTPUT_LIMITS.get(model_family(model_id), max_tokens),
     )
     messages = [{"role": "user", "content": [{"text": prompt}]}]
-    if _is_mantle_model(model_id):
-        result = call_mantle_model(
+    if _is_bedrock_openai_model(model_id):
+        result = call_bedrock_openai_model(
             model_id,
             messages,
             max_tokens=effective_max_tokens,

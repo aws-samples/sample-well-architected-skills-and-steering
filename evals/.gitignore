@@ -1,4 +1,5 @@
 results/*
+pricing.local.yaml
 
 __pycache__/
 *.pyc

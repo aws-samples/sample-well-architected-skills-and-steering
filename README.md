@@ -82,6 +82,7 @@ evals/                              Automated evaluation runner (Bedrock)
   benchmark.py                        Multi-model comparison runner
   benchmark_report.py                 Generate markdown tables from benchmark results
   benchmark_config.yaml               Models, prompt, and grading criteria
+  pricing.local.yaml.example          Template for your own per-token rates (rates not tracked)
   pyproject.toml                      Dependencies (use uv sync)
 
 plugin.json                         Agent Plugins 1.0.0 manifest (portable plugin package)
@@ -968,9 +969,9 @@ Both harnesses live in [`evals/`](./evals) so you can measure on your own models
 
 ## 🏎️ Model Benchmark
 
-`evals/benchmark.py` compares foundation models on a Well-Architected review task — **quality**, **latency**, **throughput**, and **token cost**, side by side. Models are consumed through **Amazon Bedrock**; no direct provider APIs.
+`evals/benchmark.py` compares foundation models on a Well-Architected review task — **quality**, **latency**, **throughput**, and **token usage**, side by side. Models are consumed through **Amazon Bedrock**; no direct provider APIs.
 
-It benchmarks the **subagent-mode full review** — the shipped skill's default path, which dispatches one Converse call per pillar with pre-loaded pillar references — so what it measures is what your users would actually experience. Cost accounting covers every subagent call in the review, not just one.
+It benchmarks the **subagent-mode full review** — the shipped skill's default path, which dispatches one Converse call per pillar with pre-loaded pillar references — so what it measures is what your users would actually experience. Token accounting covers every subagent call in the review, not just one.
 
 > [!IMPORTANT]
 > **No benchmark results are published here, by design.** Model quality, pricing, latency, and availability differ by workload, region, and Bedrock tier, and they change over time — a table we measured on one prompt at one moment is not a basis for your model-selection or cost decision. **Run the benchmark on your own prompts and requirements.** The harness is below; results are written to `evals/results/`, which is gitignored and stays on your machine.
@@ -994,7 +995,9 @@ uv run python benchmark.py --models us.anthropic.claude-sonnet-5 us.amazon.nova-
 uv run python benchmark_report.py results/benchmark-YYYYMMDD-HHMMSS.json
 ```
 
-What you get: one row per model with input and output tokens, wall-clock latency, throughput, cost, and — with `--grade` — a quality score from a grading model, judged on pillar coverage, identification of key risks, and actionability. Configure models, prompts, and grading in [`evals/benchmark_config.yaml`](evals/benchmark_config.yaml). Add models as they become available in Bedrock and re-run to keep your own comparison current.
+What you get: one row per model with input and output tokens, wall-clock latency, throughput, and — with `--grade` — a quality score from a grading model, judged on pillar coverage, identification of key risks, and actionability. Configure models, prompts, and grading in [`evals/benchmark_config.yaml`](evals/benchmark_config.yaml). Add models as they become available in Bedrock and re-run to keep your own comparison current.
+
+**To get a cost column too,** copy [`evals/pricing.local.yaml.example`](evals/pricing.local.yaml.example) to `evals/pricing.local.yaml` and fill in the current per-token rates for the models you run. The example ships every rate as `null` and links the pricing pages to look them up on: this repository does not restate AWS's or any other provider's published prices, and your file is gitignored. Without it, the cost column is omitted.
 
 ---
 

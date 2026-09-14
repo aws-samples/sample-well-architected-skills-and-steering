@@ -1,5 +1,5 @@
 # Model Benchmark Configuration
-# Run: python benchmark.py [--grade] [--models model1 model2 ...]
+# Run: uv run python benchmark.py [--grade] [--models model1 model2 ...]
 
 region: us-east-1
 
@@ -22,7 +22,7 @@ models:
   - us.meta.llama3-3-70b-instruct-v1:0
   # Mistral
   - us.mistral.pixtral-large-2502-v1:0
-  # OpenAI (bedrock-mantle endpoint)
+  # OpenAI (requires BEDROCK_OPENAI_ENDPOINT — see benchmark.py)
   - openai.gpt-oss-120b
   - openai.gpt-5.5
   # MiniMax (OpenAI-compatible endpoint)
@@ -122,56 +122,10 @@ prompt:
 
     Perform a Well-Architected review covering all six pillars.
 
-# Pricing per 1M tokens (USD) — used to compute cost per invocation.
-# Source: https://aws.amazon.com/bedrock/pricing/ (checked 2026-07-01)
-# Update these when pricing changes or new models are added.
-pricing:
-  us.anthropic.claude-sonnet-5:
-    input: 3.00
-    output: 15.00
-  us.anthropic.claude-haiku-4-5-20251001-v1:0:
-    input: 0.80
-    output: 4.00
-  us.anthropic.claude-fable-5:
-    input: 3.00
-    output: 15.00
-  us.amazon.nova-pro-v1:0:
-    input: 0.80
-    output: 3.20
-  us.amazon.nova-lite-v1:0:
-    input: 0.06
-    output: 0.24
-  us.amazon.nova-2-lite-v1:0:
-    input: 0.04
-    output: 0.16
-  us.deepseek.r1-v1:0:
-    input: 1.35
-    output: 5.40
-  us.meta.llama4-maverick-17b-instruct-v1:0:
-    input: 0.34
-    output: 0.34
-  us.meta.llama3-3-70b-instruct-v1:0:
-    input: 0.72
-    output: 0.72
-  us.mistral.pixtral-large-2502-v1:0:
-    input: 2.00
-    output: 6.00
-  openai.gpt-5.5:
-    input: 2.50
-    output: 10.00
-  openai.gpt-oss-120b:
-    input: 0.1545
-    output: 0.6180
-  MiniMax-M3:
-    input: 0.60
-    output: 2.40
-    cache_read: 0.12
-    cache_write: null
-  MiniMax-M2.7:
-    input: 0.30
-    output: 1.20
-    cache_read: 0.06
-    cache_write: 0.375
+# Per-token rates live in pricing.local.yaml, which is gitignored — this file
+# does not restate any provider's published prices. Copy
+# pricing.local.yaml.example, fill in the current rates from the pricing pages
+# it links, and the report gains a cost column. Without it, cost reads "—".
 
 # Quality grading (used with --grade flag)
 # Multi-model judge panel: 4 judges, no self-grading (a model never judges itself).

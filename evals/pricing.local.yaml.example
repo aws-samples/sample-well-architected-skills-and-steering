@@ -1,0 +1,73 @@
+# Per-token rates for the benchmark's cost column — local only.
+#
+# Copy this file to pricing.local.yaml (gitignored) and fill in the rates that
+# apply to your account. Every value here is null on purpose: this repository
+# does not publish or restate any provider's prices, and rates change often
+# enough that a committed copy would be wrong by the time you read it.
+#
+# Look the current numbers up yourself:
+#   Amazon Bedrock (all models served through Bedrock)
+#     https://aws.amazon.com/bedrock/pricing/
+#   Anthropic          https://www.anthropic.com/pricing
+#   OpenAI             https://openai.com/api/pricing/
+#   Meta Llama         https://www.llama.com/
+#   Mistral AI         https://mistral.ai/pricing
+#   DeepSeek           https://platform.deepseek.com/pricing
+#   MiniMax            https://www.minimax.io/platform/pricing
+#
+# Units: USD per 1M tokens.
+#   input       — uncached input tokens (required for a model to be priced)
+#   output      — output tokens (required)
+#   cache_read  — cached input tokens; defaults to `input` when omitted
+#   cache_write — cache-write tokens, where the provider bills them separately
+#
+# benchmark.py skips any model whose entry is empty or missing, so delete the
+# models you do not run rather than guessing their rates.
+
+pricing:
+  us.anthropic.claude-sonnet-5:
+    input: null
+    output: null
+  us.anthropic.claude-haiku-4-5-20251001-v1:0:
+    input: null
+    output: null
+  us.anthropic.claude-fable-5:
+    input: null
+    output: null
+  us.amazon.nova-pro-v1:0:
+    input: null
+    output: null
+  us.amazon.nova-lite-v1:0:
+    input: null
+    output: null
+  us.amazon.nova-2-lite-v1:0:
+    input: null
+    output: null
+  us.deepseek.r1-v1:0:
+    input: null
+    output: null
+  us.meta.llama4-maverick-17b-instruct-v1:0:
+    input: null
+    output: null
+  us.meta.llama3-3-70b-instruct-v1:0:
+    input: null
+    output: null
+  us.mistral.pixtral-large-2502-v1:0:
+    input: null
+    output: null
+  openai.gpt-5.5:
+    input: null
+    output: null
+  openai.gpt-oss-120b:
+    input: null
+    output: null
+  MiniMax-M3:
+    input: null
+    output: null
+    cache_read: null
+    cache_write: null
+  MiniMax-M2.7:
+    input: null
+    output: null
+    cache_read: null
+    cache_write: null

@@ -2,6 +2,8 @@
 .claude/
 CLAUDE.md
 evals/results/*
+# Per-token rates you look up yourself (see evals/pricing.local.yaml.example)
+evals/pricing.local.yaml
 
 # Local study/design artifacts kept out of the shipped repo
 evals/STUDY_MCP_VS_BUNDLED.md
