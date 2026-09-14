@@ -27,7 +27,7 @@ Produce a **control candidate list**: pillar, WA Question/BP ID, resource type, 
 
 For each candidate pick the strongest control the user's enforcement points allow. Prefer **preventive** over detective:
 
-- Catchable in IaC before deploy → **CI policy check** (CDK Aspect, `cfn-guard`/`cfn-lint`, Terraform OPA/Sentinel). Strongest and cheapest.
+- Catchable in IaC before deploy → **CI policy check** (CDK Aspect, `cfn-guard`/`cfn-lint`, Terraform OPA/Sentinel). Strongest: it blocks the change before anything is deployed.
 - Must be blocked org-wide → **SCP / permission boundary**.
 - Only observable on the live resource (drift, runtime) → **AWS Config rule** (detective; auto-remediation only if confirmed).
 - Continuous reliability/cost/performance signal → **CloudWatch metric + alarm**.

@@ -37,7 +37,7 @@ support, rather than assume the shape.
   This is deliberate. Gating on an identity that can drift between reviews would make the gate
   noisy and untrustworthy. Every finding therefore has a `bp_id` OR a `title` (enforced by the
   schema's `anyOf`).
-- **Coverage is not exhaustiveness.** `aws-well-architected-framework-review` measures F1 = 0.96, not 1.0. The absence of a
+- **Coverage is not exhaustiveness.** A review is high-recall, never exhaustive. The absence of a
   finding is NOT proof a control exists. Every document carries a `recall_note` stating this, and
   `review_mode` tells a consumer how much was evaluated (a `score` or `pillar-scoped` run does not
   cover all 307 BPs). Gates MUST NOT read "no finding" as "implemented".
@@ -78,7 +78,7 @@ A minimal valid document:
       "recommendation": "Enable SSE and BlockPublicAccess on the uploads bucket."
     }
   ],
-  "recall_note": "Full review, F1 approx 0.96. High recall but not exhaustive; absence of a finding is not proof of implementation."
+  "recall_note": "Full review. High recall but not exhaustive; absence of a finding is not proof of implementation."
 }
 ```
 

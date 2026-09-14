@@ -4,7 +4,7 @@ The `evals/run.py` framework (one directory up) uses raw Amazon Bedrock Converse
 
 This directory ships the real-measurement harness we used to validate `aws-well-architected-framework-review` end-to-end. It invokes **Claude Code CLI** (`claude -p`) as the runtime and scores output against a **frozen ground truth of applicable Best Practices** derived from a 2-model × 5-run consensus panel.
 
-> **Note on published results:** The F1 and recall numbers in this repository (aws-well-architected-framework-review v2.2: F1 = 0.960, recall = 1.00) reflect a controlled evaluation — specific workload prompts, Opus tier, a specific ground truth panel, and a fixed point in time. **Customers are responsible for running their own evaluations** against their workloads, model tiers, and requirements before making data-driven decisions. The harness scripts and ground truth are provided so you can do exactly that.
+> **This directory publishes no results.** It publishes the harness. Any number this harness produces is specific to the workload prompts, the model tier, the ground truth panel, and the moment it ran — which is exactly why the figures are not useful to you second-hand. **Run the harness against your own workloads, model tiers, and requirements** before making a data-driven decision. The scripts and the ground truth are here so you can. Your results are written to gitignored files and stay local; see [CONTRIBUTING.md](../../CONTRIBUTING.md#measurement-results-stay-local).
 
 ## What you get
 
@@ -23,7 +23,7 @@ This directory ships the real-measurement harness we used to validate `aws-well-
 
 `evals/run.py` remains the appropriate framework for `wa-builder`, `wa-guardrails`, `wafr-facilitator`, and `migration-readiness` — none of those depend on Task subagents. For `aws-well-architected-framework-review`, only the CLI effectiveness harness produces honest numbers.
 
-## Reproducing our published F1 = 0.96
+## Running the full-review measurement
 
 **Prerequisites:**
 
@@ -74,16 +74,17 @@ uv run python cli_effectiveness/measure_wa_review.py \
 cp skills/aws-well-architected-framework-review/SKILL.md ~/.claude/skills/aws-well-architected-framework-review/SKILL.md
 ```
 
-Expected: F1 close to the ~0.96 of the parallel runtimes, with higher wall-clock
-(~30–40 min total vs ~11 min) and no `Task` usage. Compare
-`wa_review_sequential.json` against `wa_review_effectiveness.json` (parallel).
-Smoke-test a single case first with `--cases 1 --runs 1`.
+The sequential path trades wall-clock for runtime independence: it visits the six
+pillars one after another instead of dispatching them concurrently, and makes no
+`Task` calls. Compare `wa_review_sequential.json` against
+`wa_review_effectiveness.json` (parallel) to see what that costs you on your
+models. Smoke-test a single case first with `--cases 1 --runs 1`.
 
-> **Slow runtimes:** the per-invocation `claude` timeout defaults to 900s. On
-> slower models a full review can exceed it — a parallel Case 1 run measured
-> **979s on Bedrock/`claude-opus-5`** (F1 = 0.947, matching the published
-> number), and the sequential path is slower still. Raise the cap with
-> `--timeout` (e.g. `--timeout 2400`) so legitimate runs aren't killed mid-flight.
+> **Slow runtimes:** the per-invocation `claude` timeout defaults to 900s. A full
+> review on a slower model can exceed it, and the sequential path is slower than
+> the parallel one — a killed run looks like a harness failure, not a slow model.
+> Raise the cap with `--timeout` (e.g. `--timeout 2400`) so legitimate runs
+> aren't cut off mid-flight.
 
 ## Blind and adversarial quality review
 
@@ -179,37 +180,46 @@ DeepSeek model as adversary. Candidate-family self-grading and same-family
 reviewer panels are rejected. Override model IDs with `--reviewers` and
 `--adversary` when evaluating a different candidate family.
 
-**Expected results (v2.2 aws-well-architected-framework-review, Opus tier):**
+**Reading your own results.** Each configuration writes a gitignored JSON next to
+the harness: per-case report F1, recall, precision, cost, and wall-clock, plus the
+means across cases. The number that means something is the *delta* between the
+with-skill file and the baseline file on your models and your workloads — a single
+absolute score has no reference point. Run both arms before drawing a conclusion,
+and keep the files local.
 
-| Configuration | Mean report F1 | Mean recall | Cost/run | Wall/run |
-| ------------- | -------------- | ----------- | -------- | -------- |
-| With skill | **0.960** | **1.00** | ~$7 | ~11 min |
-| Baseline | 0.264 | 0.15 | ~$0.10 | ~1 min |
-| **Delta** | **+0.70** | **+0.85** | 69× | 11× |
+If the with-skill arm scores near or below the baseline arm, check these before
+concluding the skill doesn't help:
 
-If your numbers land far below this (say, report F1 < 0.85 with skill), likely causes:
-
-1. **Older aws-well-architected-framework-review version** — v2.2's Full BP Ledger is what closes the compression gap. Check `~/.claude/skills/aws-well-architected-framework-review/SKILL.md` header for `version: 2.2.0` or later.
-2. **Different model tier** — these numbers are Opus. Sonnet or Haiku produce different results.
-3. **Skill install location** — Claude Code reads `~/.claude/skills/`. If the skill lives elsewhere (e.g. project-local `.claude/`) the harness may not find it.
+1. **Older aws-well-architected-framework-review version** — the Full BP Ledger, added in v2.2, is what closes the compression gap. Check `~/.claude/skills/aws-well-architected-framework-review/SKILL.md` for `version: 2.2.0` or later.
+2. **Model tier** — tiers differ substantially on this task. Score both arms on the *same* tier, or the delta measures the tier, not the skill.
+3. **Skill install location** — Claude Code reads `~/.claude/skills/`. If the skill lives elsewhere (e.g. project-local `.claude/`) the harness may not find it, and the with-skill arm silently becomes a second baseline.
 
 ## Ground truth methodology
 
 For each of the 6 eval cases, we ran a workload-only consensus panel:
 
-- **2 top-tier models**: Claude Sonnet 5 and OpenAI GPT OSS 120B, both via Amazon Bedrock
+- **2 models from different provider families**: Claude Sonnet 5 and OpenAI GPT OSS 120B, both via Amazon Bedrock
 - **5 independent runs per model** with subagent-per-pillar dispatch (`call_model_subagent` from `evals/benchmark.py`) — 60 runs total per case
 - **Consensus rule**: a BP is "applicable" only if cited by **both models** in **≥3 of their 5 runs**
 
-This yields 270–306 applicable BPs per case out of the 307-BP canonical corpus — a defensible set of "what a strong review should catch" that neither model alone could have hallucinated into existence.
+What survives that rule is a defensible set of "what a strong review should catch"
+that neither model alone could have hallucinated into existence. Read the size of
+each shipped set out of `ground_truth/case_N.json` (`consensus_bp_count`); the
+canonical corpus it is drawn from is the 307 BPs in
+`skills/aws-well-architected-framework-review/references/pillars/`.
 
-Newly generated ground truth also includes a structured reference ledger with
-consensus applicability, expected status, acceptable severity, evidence basis,
-confidence, and model votes. Raw panel responses are written only to the
-gitignored review-artifact directory; tracked ground truth contains derived
-consensus.
+The generator also builds a structured reference ledger — consensus applicability,
+expected status, acceptable severity, evidence basis, confidence, and model votes.
+That ledger, the per-model citation frequencies, and the raw panel responses are
+all measurements of the panel, so they are written only to gitignored paths
+(`ground_truth/panel/` and the review-artifact directory). The tracked fixture
+carries the consensus set the scorers read and nothing else.
 
-The two-model panel was chosen after Claude Fable 5 (originally the third judge) was heavily throttled on both `bedrock-runtime` and `bedrock-mantle` endpoints, producing zero successful runs. Sonnet 5 and GPT OSS 120B both scored 5.0/5 in our earlier per-question quality benchmark, so their intersection is a strong signal.
+The panel is two models rather than three because a third candidate was throttled
+so heavily under this concurrency pattern that it produced no usable runs. Two
+independent models from different families are enough for the consensus rule — the
+point is that neither one alone can put a BP into the ground truth. Swap in the
+models you want to panel with and re-derive.
 
 To regenerate:
 
@@ -218,19 +228,23 @@ cd evals
 uv run python cli_effectiveness/generate_ground_truth.py
 ```
 
-Cost: ~$40, ~30 min. Not needed unless you're deliberately re-deriving the ground truth (e.g., updated framework, different consensus rule, or new judge models).
+This makes `2 models × 5 runs × 6 cases` structured-ledger calls over the full
+canonical corpus, so it is the most expensive thing in this directory — budget for
+it against your own provider's pricing. Not needed unless you're deliberately
+re-deriving the ground truth (updated framework, different consensus rule, or new
+panel models).
 
 ## Scoring details
 
-- **Case 4** is a pillar-scoped test ("Review only Security and Reliability"). It's scored against the SEC + REL subset of its ground truth (116 of 280 consensus BPs) so pillar-scoped mode is measured fairly — the skill correctly runs only 2 subagents on Case 4 and should not be penalized for the 4 pillars it was told not to review.
-- **Precision denominator** is BPs cited by the review that appear in the 307-BP canonical corpus (drops hallucinations at the extraction layer). Precision at both layers stays ≥ 0.88.
-- **Recall denominator** is the case's ground truth (270–306 BPs, or 116 for Case 4).
+- **Case 4** is a pillar-scoped test ("Review only Security and Reliability"). It's scored against the SEC + REL subset of its ground truth so pillar-scoped mode is measured fairly — the skill correctly runs only 2 subagents on Case 4 and should not be penalized for the 4 pillars it was told not to review.
+- **Precision denominator** is BPs cited by the review that appear in the canonical corpus (drops hallucinations at the extraction layer).
+- **Recall denominator** is the case's ground truth — its full consensus set, or the SEC + REL subset for Case 4.
 - **BP citation extraction** normalizes Unicode hyphens — models frequently emit `SEC03‑BP02` (non-breaking hyphen U+2011) or `SEC03‐BP02` (hyphen U+2010) instead of ASCII `SEC03-BP02`. The extractor accepts all common variants.
 
 ## Limitations
 
-- **Six cases is a small sample.** The variance we measure (zero in v2.2, moderate in baseline) is within-configuration; between-workload generalization is a separate question.
-- **Consensus ground truth is not oracle truth.** Two models agreeing on a BP doesn't guarantee it's actually applicable; it means two strong models thought so. Case 3's slightly weaker consensus (4.2% borderline BPs vs 1.3% for Case 2) hints at this.
-- **F1 is not the whole story.** A review that hits F1 = 1.00 by enumerating every BP is not automatically useful — the *severity* assignment and *recommendation* content matter too. This harness measures citation coverage only.
+- **Six cases is a small sample.** Repeat runs on the same case measure within-configuration variance; whether a result generalizes to a *different* workload is a separate question this harness does not answer. Add your own cases before you trust it for yours.
+- **Consensus ground truth is not oracle truth.** Two models agreeing on a BP doesn't guarantee it's actually applicable; it means two strong models thought so. The cases differ in how cleanly the panel agreed — borderline BPs sit just either side of the ≥3/5 threshold, and they are the ones to look at when a score surprises you.
+- **F1 is not the whole story.** A review can maximize F1 by enumerating every BP and still be useless — the *severity* assignment and *recommendation* content matter too. This harness measures citation coverage only.
 - **Model review is not human adjudication.** Blind and adversarial scores expose disagreement and unsupported claims, but shared model bias remains possible. Preserve unresolved outcomes instead of treating the panel as an oracle.
-- **Opus tier is expensive.** ~$7 per with-skill run × 18 runs = ~$125 to reproduce the full effectiveness measurement. The baseline is ~$2 total.
+- **The with-skill arm is the expensive one.** A full review loads all six pillar files and writes a long report; the baseline arm does neither. Price both arms on your own provider's rates before launching the default 18 invocations, and smoke-test with `--cases 1 --runs 1` first.

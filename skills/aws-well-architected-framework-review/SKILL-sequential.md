@@ -207,9 +207,9 @@ This gives you every BP ID and title in ~24 KB.
 
 **Step 4b — Evaluate the 6 pillars sequentially, one at a time (MANDATORY for full coverage):**
 
-**Why this pattern:** Empirical measurement shows that when a single agent tries to enumerate all 307 BPs in one response, it produces **20-60 findings and stops** — regardless of prompt strength, retrieval strategy (local files, MCP, or hybrid), or explicit "evaluate all 307" instructions. This is a stable behavioral equilibrium of the model's concision priors.
+**Why this pattern:** A single agent asked to enumerate all 307 BPs in one response **stops early** — it returns a partial list and treats the review as done, regardless of prompt strength, retrieval strategy (local files, MCP, or hybrid), or explicit "evaluate all 307" instructions. The limit is the model's concision priors, not missing reference material, so a stronger prompt does not fix it.
 
-**The fix:** narrow scope to ONE pillar at a time. When the review is scoped to a single pillar, it naturally enumerates that pillar's 30-55 BPs. Walking all **6 pillars in sequence** and appending each pillar's table to a running ledger aggregates to **~307 BPs of coverage**. (The `SKILL.md` variant achieves the same by dispatching 6 parallel `Task` subagents; this variant needs no `Task` tool, so it works on any runtime — at the cost of longer wall-clock.)
+**The fix:** narrow scope to ONE pillar at a time. When the review is scoped to a single pillar, it enumerates that pillar's 30-55 BPs without competing for the window. Walking all **6 pillars in sequence** and appending each pillar's table to a running ledger is what puts the full 307-BP corpus in reach. (The `SKILL.md` variant achieves the same by dispatching 6 parallel `Task` subagents; this variant needs no `Task` tool, so it works on any runtime — at the cost of longer wall-clock.)
 
 **The sequential loop.** Process the pillars strictly in this order, completing each fully before starting the next:
 
@@ -266,7 +266,7 @@ For pillar in [OPS, SEC, REL, PERF, COST, SUS]:
 
 Pillar slugs: `operational-excellence`, `security`, `reliability`, `performance-efficiency`, `cost-optimization`, `sustainability`.
 
-**Total: 6 sequential pillar passes.** Because each pass keeps only one pillar in context, it can be exhaustive without competing for the window — the same property the parallel variant gets from separate subagent contexts. The uniform table format means the final assembly is a mechanical concatenation, not an interpretive summary — this prevents the ~30-70% recall loss observed with narrative output.
+**Total: 6 sequential pillar passes.** Because each pass keeps only one pillar in context, it can be exhaustive without competing for the window — the same property the parallel variant gets from separate subagent contexts. The uniform table format means the final assembly is a mechanical concatenation, not an interpretive summary — narrative output invites the assembler to drop citations it judges redundant.
 
 **Cost/latency:** roughly the same total token volume as a single-agent review (no per-pillar context duplication, unlike the parallel variant), but wall-clock is ~30-40 min because the passes run one after another rather than concurrently. Users on runtimes without parallel subagents trade wall-clock for coverage.
 
@@ -276,7 +276,7 @@ Pillar slugs: `operational-excellence`, `security`, `reliability`, `performance-
 
 **Step 4c — Aggregate the per-pillar findings (PRESERVE citations verbatim):**
 
-Once all 6 pillar passes are complete, merge their tables into a single structured report. **CRITICAL**: preserve every BP citation each pillar pass produced. The aggregation step is a merge, NOT a summary — do not paraphrase, cluster, or omit BP citations that a pillar pass surfaced. Empirical measurement shows the assembly step is where recall is typically lost: the passes surface 250-307 BPs but naive aggregation collapses to 60-90 in the final report.
+Once all 6 pillar passes are complete, merge their tables into a single structured report. **CRITICAL**: preserve every BP citation each pillar pass produced. The aggregation step is a merge, NOT a summary — do not paraphrase, cluster, or omit BP citations that a pillar pass surfaced. Assembly is where coverage is typically lost: the passes surface the whole corpus, and a naive aggregation carries a fraction of it into the final report.
 
 **Aggregation rules — follow all of these:**
 1. **Full BP Ledger required.** The report MUST contain a "Full BP Ledger" section (see Step 6) with a row per BP-status pair from every pillar pass. If the SEC pass cited `SEC03-BP02` as Not Implemented, that row appears in the ledger — verbatim, no paraphrase.
@@ -455,7 +455,7 @@ Output a structured report:
 
 **This section MUST list every BP citation produced by every pillar pass.** Concatenate all 6 per-pillar tables here, sorted by pillar then BP ID. Do NOT filter, cluster, or paraphrase. If a pillar pass surfaced 45 BPs for its pillar, this ledger shows 45 rows for that pillar. Target row count: 250-307 (one row per BP evaluated across all pillars).
 
-Empirical measurement shows this section is where recall reaches the user. Skipping it or truncating it drops final-report recall from ~1.00 (what the pillar passes surface) to ~0.30 (what the assembler compresses to). **Do not skip this section.**
+This section is where the pillar passes' coverage actually reaches the user. Skipping or truncating it discards most of what they surfaced, however complete their tables were. **Do not skip this section.**
 
 | BP ID | Pillar | Status | Severity | Evidence | Recommendation |
 |-------|--------|--------|----------|----------|-----------------|
@@ -592,8 +592,9 @@ Ledger already contains.
 - Every gap (`not_implemented` / `partially_implemented`) MUST carry a `severity`
   (`critical`/`high`/`medium`/`low`). The CI gate ranks by severity, so an unrated gap fails the
   build closed. Leave `severity` off only for `implemented` / `not_applicable` / `cannot_determine`.
-- `recall_note` MUST state that coverage is high-recall but not exhaustive (aws-well-architected-framework-review measures
-  F1 ~0.96), so downstream gates never read a missing finding as proof a control exists.
+- `recall_note` MUST state that coverage is high-recall but not exhaustive, so downstream gates never
+  read a missing finding as proof a control exists. Do not assert a coverage figure you have not
+  measured in this environment.
 - `recommendation` stays prose guidance — never a code diff (repo design principle).
 
 **Shape** (see the schema for the authoritative, complete definition):
@@ -631,7 +632,7 @@ Ledger already contains.
       "recommendation": "Move the notification path to async invocation so the request path is not blocked."
     }
   ],
-  "recall_note": "Full review, F1 approx 0.96. High recall but not exhaustive; absence of a finding is not proof of implementation."
+  "recall_note": "Full review. High recall but not exhaustive; absence of a finding is not proof of implementation."
 }
 ```
 

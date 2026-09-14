@@ -1,6 +1,6 @@
 # 🏗️ Well-Architected Skills & Steering for AI Coding Agents
 
-Reusable skills and steering that teach AI coding agents how to apply the [AWS Well-Architected Framework](https://docs.aws.amazon.com/wellarchitected/latest/framework/welcome.html). One set of playbooks, **14 supported tools**.
+Reusable skills and steering that teach AI coding agents how to apply the [AWS Well-Architected Framework](https://docs.aws.amazon.com/wellarchitected/latest/framework/welcome.html). One set of playbooks, **15 supported tools**.
 
 <div align="center">
 
@@ -20,8 +20,8 @@ Developers don't stop to consult documentation — they ask their AI assistant. 
 This project embeds WA best practices **where development actually happens**: in the IDE, at the moment code is being written. Instead of treating architecture reviews as a separate gate, teams get continuous, contextual guidance that:
 
 - ✅ Reduces rework by catching misalignments early
-- ✅ Works across 14 AI coding tools with a single source of truth
-- ✅ Requires no AWS credentials, no API calls — everything runs locally
+- ✅ Works across 15 AI coding tools with a single source of truth
+- ✅ Needs no AWS credentials to install or use — the skills and reference data are files on disk (the optional eval harnesses in `evals/` are the exception; they call models and need credentials)
 - ✅ Follows the open [Agent Skills specification](https://agentskills.io/)
 
 ---
@@ -544,6 +544,7 @@ graph LR
 | Tool | Steering mechanism | Skills mechanism |
 | ---- | ------------------ | ---------------- |
 | Kiro | `.kiro/steering/*.md` | `.kiro/skills/*/SKILL.md` |
+| Kiro CLI | `.kiro/steering/*.md` | `.kiro/agents/well-architected.json` — run `kiro-cli chat --agent well-architected` |
 | Claude Code | `CLAUDE.md` | `.claude/commands/*.md` (slash commands) |
 | Cursor | `.cursor/rules/*.md` | Rules with conditional activation |
 | Codex | `AGENTS.md` | References `skills/` directory |
@@ -555,6 +556,7 @@ graph LR
 | Junie | `.junie/guidelines/*.md` | `.junie/skills/*/SKILL.md` |
 | Amp | `AGENTS.md` | `.agents/skills/*/SKILL.md` |
 | OpenClaw | `AGENTS.md` | `.agents/skills/*/SKILL.md` |
+| Cortex Code | `AGENTS.md` | References `skills/` directory |
 | AWS DevOps Agent | N/A (skills are self-contained) | `SKILL.md` zip upload to Agent Space — use `SKILL-devops-agent.md` for `aws-well-architected-framework-review` (see [AWS DevOps Agent](#aws-devops-agent)) |
 
 ---
@@ -587,37 +589,19 @@ The same contract is the input a portfolio view would aggregate across many work
 
 ---
 
-## 🤖 Agent runtime effectiveness
+## 🤖 Runtime capability matters
 
-Skills work across all supported runtimes, but effectiveness varies by runtime architecture — specifically whether the runtime supports parallel subagent dispatch (the mechanism aws-well-architected-framework-review's full-review path uses to achieve 100% BP coverage).
+The skills work in every supported runtime, but one runtime capability changes how the full review behaves: **parallel subagent dispatch**. The full-review path dispatches one subagent per pillar, concurrently, and merges their findings into a single Full BP Ledger. A runtime that can't do that has to walk the pillars some other way.
 
-The table below summarises measured results. The "Full review" path dispatches 6 parallel Task subagents; runtimes without this capability run sequentially.
+**If your runtime has parallel `Task` dispatch** (Claude Code, Kiro), install `SKILL.md` and you get the pillar-per-subagent path by default.
 
-<details>
-<summary><strong>Measured effectiveness — aws-well-architected-framework-review v2.2 across runtimes</strong></summary>
+**If it doesn't** (Codex, Cursor, GitHub Copilot, Gemini CLI, Amazon Q Developer), install [`SKILL-sequential.md`](skills/aws-well-architected-framework-review/SKILL-sequential.md) **instead of** `SKILL.md`. It walks the six pillars one at a time into the same Full BP Ledger — a deterministic path that needs no `Task` tool, in exchange for wall-clock. Installing the parallel `SKILL.md` on a runtime without `Task` is the failure mode worth avoiding: the review may stop after two or three pillars, and how far it gets varies run to run.
 
-**Methodology:** same 6 eval cases × 3 runs each, scored against a 2-model × 5-run ground-truth consensus panel (270–306 applicable BPs per case). All runtimes use Opus-tier or equivalent top-tier models.
+**Pillar-scoped mode is the pragmatic middle ground** on those runtimes. Scoping to one or two pillars keeps the work inside a single pass, so it behaves consistently even without subagent dispatch.
 
-| Case | Claude Code | Kiro | Codex (GPT-5.5) |
-| ---- | ----------- | ---- | --------------- |
-| 1 — Serverless e-commerce | 0.947 | 0.947 | 0.633 |
-| 2 — Monolithic Java on EC2 | **0.998** | **0.998** | 0.675 |
-| 3 — ECS + Aurora multi-tenant | 0.968 | 0.968 | 0.605 |
-| 4 — Pillar-scoped (SEC+REL) | 0.955 | 0.951 | **0.902** |
-| 5 — GenAI (Bedrock + Claude) | 0.936 | 0.936 | 0.674 |
-| 6 — Score mode | 0.958 | 0.958 | 0.615 |
-| **Mean** | **0.960** | **0.960** | **0.684** |
-| Run-to-run variance | zero | zero | high (stdev 0.03–0.28) |
+**Kiro tip:** in non-interactive mode (`--no-interactive`), add "do NOT offer follow-up actions" to your prompt. Without it, score mode offers the Full BP Ledger as a follow-up step instead of producing it inline, and you get a truncated report. This is a prompting detail of headless runs — interactive Kiro sessions don't have the issue.
 
-**Claude Code and Kiro** produce identical results. Both use the 6-parallel-subagent dispatch and the Full BP Ledger enforcement (v2.2). Zero run-to-run variance.
-
-**Codex** runs the skill sequentially — it doesn't use parallel Task dispatch. Coverage is non-deterministic: some runs load all 6 pillar files and reach near-perfect recall (Case 2 Run 3 hit F1 = 0.998); others stop after 2–3 pillars (F1 ~0.45). **Pillar-scoped mode** significantly improves Codex results — Case 4 (SEC+REL scoped) averaged 0.902, close to the parallel runtimes.
-
-**Kiro note:** Kiro's non-interactive mode (`--no-interactive`) requires the explicit instruction "do NOT offer follow-up actions" in the eval preamble — without it, score mode offers the Full BP Ledger as a separate step rather than producing it inline, dropping F1 to ~0.68. With the instruction it matches Claude Code exactly. This is an eval harness detail, not a production concern (interactive Kiro sessions don't have this issue).
-
-**Codex note:** Token usage is highly variable (270K–835K per run) because Codex's path through the skill is non-deterministic. Pillar-scoped reviews are more consistent and nearly as effective as full reviews on parallel runtimes. For full coverage on runtimes without parallel `Task` dispatch (Codex, Cursor, GitHub Copilot, Gemini CLI, Amazon Q Developer), install [`SKILL-sequential.md`](skills/aws-well-architected-framework-review/SKILL-sequential.md) **instead of** `SKILL.md` — it walks the 6 pillars one at a time into the same Full BP Ledger, trading wall-clock (~30–40 min) for a deterministic full-coverage path with no `Task` tool. (Effectiveness measurement via `evals/cli_effectiveness/measure_wa_review.py` is still pending; expected F1 close to the parallel runtimes.)
-
-</details>
+**Don't take our word for any of this.** [`evals/cli_effectiveness/`](evals/cli_effectiveness/) is the harness we use to compare a runtime, a model tier, or a skill variant against a paired baseline. Point it at your runtime and read your own numbers — results are written to gitignored files and stay on your machine.
 
 ---
 
@@ -684,7 +668,7 @@ The `aws-well-architected-framework-review` skill includes **307 best practices*
 
 ### Token strategies
 
-A **full review** loads all 6 pillar files (~500K–600K input tokens of reference material). Most single-context models have limits below that, which is why v4.2+ dispatches **one Task subagent per pillar** — each subagent loads only its own pillar file (~150–580 KB), so no single context holds the whole corpus. Alternative modes for smaller footprints:
+A **full review** covers all 6 pillar files. Combined, that corpus is larger than most single-context windows can hold, which is why v4.2+ dispatches **one Task subagent per pillar** — each subagent loads only its own pillar file (~150–580 KB), so no single context has to hold the whole thing. Alternative modes for smaller footprints:
 
 | Strategy | How | Best for |
 |----------|-----|----------|
@@ -704,24 +688,24 @@ A **full review** loads all 6 pillar files (~500K–600K input tokens of referen
 > [!NOTE]
 > **How the agent manages context:** In v4.2+, the skill dispatches **6 parallel `Task` subagents** (one per pillar) so each subagent's context holds only its own pillar file — the full 2.2 MB corpus is never in a single context. The manifest (~24 KB) is the only file the top-level agent loads upfront. See the `Coverage strategy` section in [aws-well-architected-framework-review/SKILL.md](skills/aws-well-architected-framework-review/SKILL.md) for full details.
 
-### Estimated costs
+### Estimating cost in your environment
 
-Token estimates assume ~4 characters per token. Costs use [Claude Opus 4 pricing](https://docs.anthropic.com/en/docs/about-claude/models#model-comparison-table) ($15/M input, $75/M output) as a reference — actual costs vary by model, provider, and whether you use caching. Pricing checked June 2026; verify current rates at the link above.
+What you pay is set by your provider's rates and by how much reference material the review loads. This repository publishes no cost figures — read your provider's current rates from their own pricing page ([Amazon Bedrock](https://aws.amazon.com/bedrock/pricing/), or your model vendor's) and multiply through the drivers below.
 
-| Review type | Reference tokens loaded | Est. input cost | Est. total cost |
-|-------------|------------------------|-----------------|-----------------|
-| **Quick review** (no reference files) | ~5K (SKILL.md only) | < $0.01 | ~$0.50–$1.00 |
-| **Pillar-scoped** (1–2 pillar files) | ~50–150K | ~$0.75–$2.25 | ~$2–$5 |
-| **Full review, subagent-mode** (6 pillars in parallel, one per subagent) | ~550K total | ~$8.25 | ~$10–$15 |
-| **+ Serverless Lens** | +27K | +$0.40 | +$0.50–$1.00 |
-| **+ Generative AI Lens** | +80K | +$1.20 | +$1.50–$3.00 |
-| **+ Agentic AI Lens** | +294K | +$4.40 | +$5–$8 |
+The drivers, heaviest first:
 
-Total cost includes output tokens (the report itself, typically 8K–30K tokens depending on findings).
+| Review type | Reference material loaded |
+|-------------|---------------------------|
+| **Quick review** | `SKILL.md` summaries only — no BP reference files |
+| **Pillar-scoped** | 1–2 pillar files |
+| **Full review, subagent-mode** | all 6 pillar files, one per parallel subagent |
+| **+ a lens** | that lens's files on top of the above — see the sizes in the table above (they range from tens of KB to over a MB) |
+
+Output tokens add to that: the report itself is the output, so a review that finds more gaps costs more to write than one that finds few.
 
 **Cost-saving tips:**
 - Use the two-pass approach (default) — only loads files for questions with gaps
-- Scope to specific pillars — e.g., "review security only" loads ~10 files instead of 57
+- Scope to specific pillars — e.g., "review security only" loads one pillar file instead of six
 - Use a smaller model for Pass 1 (quick scan) and a stronger model for Pass 2 (deep dive)
 - Enable prompt caching if your provider supports it — the reference files are static and cache well
 
@@ -745,13 +729,13 @@ uv run scripts/crawl-wa-framework.py --lens https://docs.aws.amazon.com/wellarch
 
 ### Data strategy — why static pillar files, not MCP
 
-The reference corpus lives in `skills/aws-well-architected-framework-review/references/pillars/*.md` as **6 pre-crawled markdown files**, not as an MCP retrieval server. This is a deliberate choice backed by measurement, not convention. The trade-offs:
+The reference corpus lives in `skills/aws-well-architected-framework-review/references/pillars/*.md` as **6 pre-crawled markdown files**, not as an MCP retrieval server. This is a deliberate design choice, not convention. The trade-offs:
 
 **Static pillar files (what this repo ships):**
 
 - **One file load per subagent.** aws-well-architected-framework-review's full-review dispatches 6 parallel Task subagents; each subagent loads exactly one pillar file and holds the entire pillar (30–55 BPs) in a single context window. Zero back-and-forth.
 - **Snapshot in time.** The files are a snapshot of the AWS Well-Architected docs at the last crawl. Users must check freshness before use (see the regeneration section above). This is honest — we can't lie about live data if we hold static data.
-- **Predictable token cost.** Loading a pillar file is a one-shot input-token charge (~50–150K tokens per subagent, cache-friendly since the corpus is static). Total review cost stays deterministic per invocation.
+- **Predictable token cost.** Loading a pillar file is a one-shot input-token charge, and it caches well because the corpus is static. The same review loads the same material every time, so cost doesn't wander between runs.
 - **No infrastructure to run.** No MCP server, no auth, no availability concerns. The skill works offline once installed.
 
 **Why not MCP retrieval per BP?**
@@ -759,31 +743,31 @@ The reference corpus lives in `skills/aws-well-architected-framework-review/refe
 MCP servers do incremental retrieval — the agent asks "give me guidance for SEC03-BP02," gets a chunk, decides what to look up next, and iterates. That model has real drawbacks for this workload:
 
 - **Turn explosion.** Full-review coverage needs 307 BPs evaluated. If retrieval is one BP per call, the agent spends 300+ tool-use turns on retrieval alone — before it's written a single finding.
-- **Empirical plateau.** In our exhaustive study of retrieval strategies, models that had to iteratively fetch citations reliably plateaued at **20–60 BPs** cited before stopping. This wasn't a prompt problem — no amount of "evaluate all 307" pressure changed the behavior. Once the agent has enough material to write *some* findings, it converges on writing them.
-- **Token overhead.** Each MCP call carries protocol overhead, tool-use framing, and the accumulated agent context. Pre-loading one pillar file per subagent uses 30–50% fewer input tokens than the same content retrieved incrementally, because the pillar file amortizes the framing cost once.
+- **Coverage stops early.** Models that have to fetch citations one at a time stop well short of full coverage, and it isn't a prompt problem — no amount of "evaluate all 307" pressure changes it. Once the agent has enough material to write *some* findings, it converges on writing them instead of continuing to retrieve.
+- **Token overhead.** Each MCP call carries protocol overhead, tool-use framing, and the accumulated agent context. Pre-loading one pillar file per subagent pays the framing cost once instead of paying it per call.
 - **Cache-unfriendly.** MCP responses vary by query; static pillar files are byte-identical across runs and cache perfectly.
 
-**The pillar-merged shape specifically** (not 57 per-question files) — this was also measured. Per-question files force the agent to navigate 57 file names to figure out what to read; pillar-merged files map 1:1 to the subagent dispatch pattern, and the subagent sees the pillar as a coherent whole. The pillar-file layout was validated in the [subagent-coverage empirical study](https://github.com/aws-samples/sample-well-architected-skills-and-steering/pull/93).
+**The pillar-merged shape specifically** (not 57 per-question files): per-question files force the agent to navigate 57 file names to guess what to read, and every guess is a chance to read the wrong thing. Pillar-merged files map 1:1 onto the subagent dispatch pattern, so each subagent gets exactly one file and sees its pillar as a coherent whole. If you want to compare the two layouts on your own models, [`evals/cli_effectiveness/`](evals/cli_effectiveness/) is the harness for it.
 
 ### When to use each review mode (CI/CD guidance)
 
-Full-review mode (v2.2) achieves recall = 1.00 with F1 ≈ 0.96, but at **~$7 per invocation and ~11 min wall clock**. That's designed for **one-shot architecture assessments** — the kind of review that would take a human reviewer half a day. Not designed for per-commit CI checks.
+Full review is the heaviest mode — it loads all six pillar files and writes a full BP ledger. It's built for **one-shot architecture assessments**, the kind of review a human would set aside a large block of time for. It is not built for per-commit CI checks.
 
 For CI/CD workflows, reach for lighter modes:
 
-| Mode | Trigger phrase | Cost | Latency | Use when |
-| ---- | -------------- | ---- | ------- | -------- |
-| **Score** | "score this architecture", "grade this" | ~$0.30–$1 | 30–90s | Fast pass/fail signal, pillar scorecard only |
-| **Quick review** | "quick review", "high-level" | ~$0.50–$1 | 30–90s | Question-level assessment, no BP files loaded |
-| **Pillar-scoped** | "review only security and reliability" | ~$2–$5 | 2–5 min | Deep-dive on 1–2 pillars (loads only those pillar files) |
-| **Full review** | "WA review", "comprehensive review" | ~$7 | ~11 min | One-time architecture assessment |
+| Mode | Trigger phrase | Reference material loaded | Use when |
+| ---- | -------------- | ------------------------- | -------- |
+| **Score** | "score this architecture", "grade this" | none — scorecard only | Fast pass/fail signal, pillar scorecard only |
+| **Quick review** | "quick review", "high-level" | none — `SKILL.md` summaries | Question-level assessment, no BP files loaded |
+| **Pillar-scoped** | "review only security and reliability" | 1–2 pillar files | Deep-dive on 1–2 pillars |
+| **Full review** | "WA review", "comprehensive review" | all 6 pillar files | One-time architecture assessment |
 
 Practical guidance:
 
-- **PR gates**: Score or pillar-scoped for the pillar most affected by the change (e.g. IaC change → REL + SEC scope, not full review). Wall clock stays under 5 min so PR feedback loops don't stall.
-- **Weekly / monthly audits**: Full review is appropriate. Cost amortizes over the audit cycle.
+- **PR gates**: Score or pillar-scoped for the pillar most affected by the change (e.g. IaC change → REL + SEC scope, not full review). These are the light paths; time them on your own workload before wiring one into a blocking gate.
+- **Weekly / monthly audits**: Full review is appropriate — the cost lands once per audit cycle rather than once per commit.
 - **Deployment gates**: Score mode filtered to Critical/High severity — fast, actionable, doesn't block on Medium/Low findings.
-- **Human review supplement**: Full review before a human WA session; the ledger becomes the reviewer's checklist. Human catches nuance; the skill catches nothing missed.
+- **Human review supplement**: Full review before a human WA session; the ledger becomes the reviewer's checklist. Coverage is high-recall but not exhaustive, so the reviewer's judgement is still the authority — an absent finding is not proof a control exists.
 
 ---
 
@@ -812,7 +796,7 @@ Each skill includes structured evaluations in `skills/*/evals/evals.json` follow
 > **Two frameworks — pick the right one for your skill.** This repo ships two eval harnesses because a single one can't fairly measure both kinds of skills:
 >
 > - **[`evals/run.py`](./evals) (raw Bedrock Converse + LLM-as-judge)** — cheap, fast, fair for skills whose value lives entirely in the `SKILL.md` prose (`wa-builder`, `wa-guardrails`, `wafr-facilitator`, `migration-readiness`). Cannot execute `Task` subagents or MCP tools.
-> - **[`evals/cli_effectiveness/`](./evals/cli_effectiveness) (real `claude -p` CLI + paired baseline + F1 vs ground truth)** — the honest framework for skills that depend on runtime tools. **Use this for `aws-well-architected-framework-review`.** Costs more (~$125/full run at Opus tier) but measures what the skill actually delivers.
+> - **[`evals/cli_effectiveness/`](./evals/cli_effectiveness) (real `claude -p` CLI + paired baseline + F1 vs ground truth)** — the honest framework for skills that depend on runtime tools. **Use this for `aws-well-architected-framework-review`.** It executes real agent runs end to end, so it is materially more expensive than the Converse runner — check your provider's rates before launching a full sweep, and smoke-test with `--cases 1 --runs 1`.
 >
 > Running `evals/run.py --skill aws-well-architected-framework-review` produces misleading numbers because Converse can't dispatch the pillar subagents aws-well-architected-framework-review relies on. The runner prints a banner warning about this — but the honest measure is under `cli_effectiveness/`.
 
@@ -878,14 +862,16 @@ grading_model: us.anthropic.claude-opus-4-8
 max_tokens: 16384
 ```
 
-**Estimated cost per run:**
+**How cost scales:**
 
-| Scope | Generation calls | Grading calls | Estimated cost |
-| ----- | ---------------- | ------------- | -------------- |
-| Single skill (3 cases) | 6 (Opus) | 6 (Opus) | ~$1.50 – $2.50 |
-| All 11 skills (33 cases) | 66 (Opus) | 66 (Opus) | ~$15 – $25 |
+Each eval case costs two model calls per arm — one generation, one grading — so a run's cost is linear in the number of cases:
 
-Cost breakdown assumes ~1K input tokens and ~8K output tokens per generation call (16k max), and ~9K input / ~500 output per grading call. Actual cost depends on response length and Bedrock pricing in your region. Use `--parallel` for ~3x faster wall-clock time. You can use cheaper models (Sonnet, Haiku) by updating `config.yaml`.
+| Scope | Generation calls | Grading calls |
+| ----- | ---------------- | ------------- |
+| Single skill (3 cases) | 6 | 6 |
+| All skills | 2 × total cases | 2 × total cases |
+
+Multiply that by the current [Amazon Bedrock pricing](https://aws.amazon.com/bedrock/pricing/) for your region and the models in `config.yaml` to get your own estimate. Generation calls dominate — they produce the long output; grading calls are short. Two levers: `--parallel` runs cases concurrently, which cuts wall-clock but not cost, and switching `config.yaml` to a cheaper model (Sonnet, Haiku) cuts cost directly.
 
 > [!TIP]
 > **Experiment with other models!** The eval runner works with any model available in Bedrock — try Amazon Nova, Meta Llama, Mistral, or others to see how different foundation models respond to skill guidance. Use the discovery utility to see what's available in your region:
@@ -906,7 +892,7 @@ The `evals/` runner is skill-agnostic — it reads `skills/{name}/SKILL.md` and 
 3. Run `uv run python run.py --skill your-skill --verbose`.
 4. Iterate on `SKILL.md` until the with-skill score meaningfully beats baseline.
 
-The paired-comparison approach (with skill vs bare model, same prompts) is the fair way to measure whether SKILL.md content is actually earning the tokens it costs. If your skill's delta is <10%, the guidance is probably too generic to move the model — worth revisiting.
+The paired-comparison approach (with skill vs bare model, same prompts) is the fair way to measure whether SKILL.md content is actually earning the tokens it costs. If the two arms score about the same, the guidance is probably too generic to move the model — worth revisiting.
 
 > [!NOTE]
 > **Limitation to be aware of.** The `evals/` runner uses raw Bedrock Converse API, which has no `Task` tool. Skills whose value depends on subagent dispatch (like aws-well-architected-framework-review's full-review mode) will look weaker here than they actually are in Claude Code / Kiro. See the [Real Agent evaluation](#real-agent-evaluation) section for how aws-well-architected-framework-review is measured in a Task-capable runtime.
@@ -915,124 +901,81 @@ The paired-comparison approach (with skill vs bare model, same prompts) is the f
 
 ## 📈 Effectiveness
 
-Two frameworks measure different kinds of skills. Both compare with-skill against a matched baseline; the metric differs by framework:
+**This repository publishes the harnesses, not our numbers.** Every skill ships eval cases, and both runners print a baseline-vs-skill comparison you produce yourself — on your models, in your region, against your workloads. A figure measured on our prompts at some past moment wouldn't tell you what the skill does for you, so you won't find one here.
 
-| Skill | Baseline | With Skill | Delta | Framework |
-| ----- | -------- | ---------- | ----- | --------- |
-| `aws-well-architected-framework-review` † | F1 0.264 | **F1 0.960** | **+0.70 F1** | CC CLI + F1 vs ground truth |
-| `wa-builder` | 61% | **94%** | +33% | LLM-as-judge (raw Converse) |
-| `wa-guardrails` | 76% | **99%** | +23% | LLM-as-judge (raw Converse) |
-| `wafr-facilitator` | 61% | **97%** | +35% | LLM-as-judge (raw Converse) |
-| `migration-readiness` | 85% | **100%** | +15% | LLM-as-judge (raw Converse) |
+Two frameworks, because a single one can't fairly measure both kinds of skills. Both compare with-skill against a matched baseline; the metric differs:
 
-† `aws-well-architected-framework-review` is measured in the real Agents CLI runtime because its full-review path depends on the `Task` tool (6 parallel pillar subagents per review, v4.2+). Raw Bedrock Converse has no Task tool, so it can't execute the skill's subagent-dispatch pattern; scoring `aws-well-architected-framework-review` there produces misleading numbers. See [Real Agent evaluation](#real-agent-evaluation) below for the measurement setup, and [`evals/cli_effectiveness/`](./evals/cli_effectiveness) for the harness code + ground truth to reproduce.
+| Skill | Framework | Metric you get |
+| ----- | --------- | -------------- |
+| `aws-well-architected-framework-review` † | [`evals/cli_effectiveness/`](./evals/cli_effectiveness) — real `claude -p` runtime, paired `--safe-mode` baseline | Citation F1, recall, and precision against a consensus ground truth |
+| `wa-builder` | [`evals/run.py`](./evals) — raw Bedrock Converse | Share of PASS assertions, LLM-as-judge |
+| `wa-guardrails` | [`evals/run.py`](./evals) — raw Bedrock Converse | Share of PASS assertions, LLM-as-judge |
+| `wafr-facilitator` | [`evals/run.py`](./evals) — raw Bedrock Converse | Share of PASS assertions, LLM-as-judge |
+| `migration-readiness` | [`evals/run.py`](./evals) — raw Bedrock Converse | Share of PASS assertions, LLM-as-judge |
+
+† `aws-well-architected-framework-review` needs the CLI harness because its full-review path depends on the `Task` tool (one pillar subagent per pillar, v4.2+). Raw Bedrock Converse has no Task tool, so it can't execute the skill's dispatch pattern at all; scoring the skill there measures a crippled version of it. See [Real agent evaluation](#real-agent-evaluation) below for the measurement design, and [`evals/cli_effectiveness/`](./evals/cli_effectiveness) for the harness code and ground truth.
 
 > [!IMPORTANT]
 > **Don't run `evals/run.py --skill aws-well-architected-framework-review` and trust the number.** The raw Converse framework can't execute Task subagents, and aws-well-architected-framework-review's value is largely in that dispatch pattern. Use [`evals/cli_effectiveness/`](./evals/cli_effectiveness) instead — it measures the skill in a real `claude -p` runtime with a paired `--safe-mode` baseline. If you're evaluating a skill you're developing that ALSO depends on runtime tools (Task, MCP, etc.), use the CC CLI harness as a template rather than the Converse runner.
 
 ### Real agent evaluation
 
-To measure what the skill actually delivers in production, we run it inside real agent runtimes against 6 eval cases × 3 runs each, scored against a ground truth built from a 2-model × 5-run consensus panel (270–306 applicable BPs per case).
+The design of the measurement, which is the part worth publishing:
 
-**Results by runtime (aws-well-architected-framework-review v2.2, Opus-tier models, 18 runs per runtime):**
+- **Real runtime.** The skill runs inside an actual agent CLI, not a bare model API, so the pillar-subagent dispatch actually executes.
+- **Paired arms.** Every case runs twice: once with the skill installed, once against a `--safe-mode` baseline from an empty scratch workdir. Same prompts, same model, same scoring. The only variable removed is the skill.
+- **Repeated runs per case**, so run-to-run variance is visible instead of averaged into a single lucky number.
+- **Six workload cases** spanning serverless, a financial multi-account estate, SaaS multi-tenancy, ML/GenAI, a pillar-scoped request, and score mode.
+- **Consensus ground truth**, not a hand-written answer key: two models from different provider families, several independent runs each, and a BP counts as applicable only when both models cite it in a majority of their runs.
+- **Pillar-scoped cases are scored against only their own pillars' subset** of the ground truth — the skill correctly reviews two pillars when asked for two, and shouldn't be penalized for the four it was told to skip.
 
-| Case | Claude Code | Kiro | Codex (GPT-5.5) | Baseline |
-| ---- | ----------- | ---- | --------------- | -------- |
-| 1 (Serverless e-commerce) | 0.947 | 0.947 | 0.633 | 0.225 |
-| 2 (Financial multi-account) | **0.998** | **0.998** | 0.675 | 0.194 |
-| 3 (SaaS multi-tenant) | 0.968 | 0.968 | 0.605 | 0.319 |
-| 4 (Pillar-scoped, SEC+REL) † | 0.955 | 0.951 | **0.902** | 0.381 |
-| 5 (ML / GenAI) | 0.936 | 0.936 | 0.674 | 0.210 |
-| 6 (Score mode) | 0.958 | 0.958 | 0.615 | 0.255 |
-| **Mean** | **0.960** | **0.960** | **0.684** | **0.264** |
-| Run-to-run variance | zero | zero | high | moderate |
-
-† Case 4 is a pillar-scoped test ("Review only Security and Reliability"). Scored against the SEC + REL subset of the ground truth (116 of 280 BPs).
-
-**Takeaways:**
-
-- **Skill vs baseline: +0.70 F1** — without the skill, agents cite ~15% of applicable BPs regardless of runtime. With it, parallel-dispatch runtimes reach 100% recall deterministically.
-- **Claude Code and Kiro: identical results** — same model (`claude-opus-4.6`), same F1, zero variance. The skill's architecture determines effectiveness, not which runtime runs it.
-- **Codex (GPT-5.5): mean F1 0.684**, high variance (stdev up to 0.28). Pillar-scoped mode significantly improves Codex — Case 4 averaged 0.902, near-parity with parallel runtimes. One Codex run hit F1 = 0.998 (Case 2), confirming full coverage is possible but non-deterministic on sequential runtimes.
-- **Cost**: Claude Code/Kiro ~$7/run at Opus tier; Codex ~$5–12/run at GPT-5.5 tier (token usage varies 270K–835K). Baseline (no skill) ~$0.10/run.
+Run it: [`evals/cli_effectiveness/README.md`](evals/cli_effectiveness/README.md) has the commands. Results land in gitignored files on your machine.
 
 <details>
-<summary><b>How to interpret these results</b></summary>
+<summary><b>How to read the numbers the harness gives you</b></summary>
 
 **The metrics**
 
-- **Recall** — "of every BP that applies to this workload, how many did the review cite?" Range 0–1. A recall of 1.00 means the review surfaced every applicable BP.
-- **Precision** — "of the BPs the review cited, how many were actually applicable?" Range 0–1. A precision of 1.00 means every cited BP was on the mark.
-- **F1** — the harmonic mean of recall and precision. A single number that only stays high when *both* are high. Cheating by citing all 307 BPs would tank precision; cheating by citing 5 obvious ones would tank recall. F1 = 1.00 is perfect on both axes.
+- **Recall** — "of every BP that applies to this workload, how many did the review cite?" Range 0–1. Higher means fewer applicable BPs went unmentioned.
+- **Precision** — "of the BPs the review cited, how many were actually applicable?" Range 0–1. Higher means less noise.
+- **F1** — the harmonic mean of recall and precision. One number that only stays high when *both* are high. Citing all 307 BPs would tank precision; citing five obvious ones would tank recall. Neither shortcut scores well.
 
 **The two layers**
 
-- **Subagent analysis** — the raw output of the 6 parallel pillar subagents combined. This is the *underlying analysis* the skill produces.
+- **Subagent analysis** — the raw output of the pillar subagents, combined. This is the *underlying analysis* the skill produces.
 - **Assembled report** — what the top-level agent synthesizes into the final user-facing report after the subagents return. This is *what the user actually sees*.
 
-In aws-well-architected-framework-review v2.2 these two numbers are identical — the mandatory Full BP Ledger section (see [SKILL.md Step 4c](skills/aws-well-architected-framework-review/SKILL.md)) forces the assembler to preserve every citation the subagents produce. In v2.1 the report layer dropped 30–70% of the subagent findings; that gap ("compression cost") is now zero.
+Score both. The gap between them is compression: findings the subagents produced and the assembler dropped. The mandatory Full BP Ledger section (see [SKILL.md Step 4c](skills/aws-well-architected-framework-review/SKILL.md)) exists to close that gap by requiring the assembler to carry every citation forward, and comparing the two layers is how you check that it did.
 
 **How "applicable" is decided (ground truth)**
 
-For each workload we ran a separate consensus panel: 2 top-tier models (Claude Sonnet 5, GPT OSS 120B) × 5 runs each. A BP counts as applicable only if **both** models cited it in **≥3 of their 5 runs**. This yields 270–306 applicable BPs per workload out of the 307 canonical corpus — a defensible set of "what a strong review should catch."
+For each workload, a separate consensus panel: two models from different provider families (Claude Sonnet 5 and GPT OSS 120B, in the shipped ground truth), five independent runs each. A BP counts as applicable only if **both** models cited it in **≥3 of their 5 runs** — a set neither model alone could have hallucinated into existence. See [`evals/cli_effectiveness/README.md`](evals/cli_effectiveness/README.md) for how to re-derive it with your own panel.
 
 **Baseline definition**
 
-The "without skill" column is `claude -p --safe-mode --disable-slash-commands` invoked from an empty scratch workdir (`/tmp/aws-well-architected-framework-review-baseline-scratch/`). `--safe-mode` disables all skills, CLAUDE.md discovery, plugins, hooks, and MCP servers. `--disable-slash-commands` blocks explicit skill invocation. Same case prompts, same model (Opus), same ground truth scoring — the only variable removed is the aws-well-architected-framework-review skill.
+The "without skill" arm is `claude -p --safe-mode --disable-slash-commands` invoked from an empty scratch workdir. `--safe-mode` disables all skills, CLAUDE.md discovery, plugins, hooks, and MCP servers. `--disable-slash-commands` blocks explicit skill invocation. Same case prompts, same model, same ground truth scoring — the only variable removed is the skill.
 
 **Scope**
 
-Numbers reflect: `claude -p` CLI (real Claude Code runtime) + Opus + aws-well-architected-framework-review v2.2 + n=3 runs per case + 6 workload cases. Not a universal claim about all models or runtimes — results will vary with the underlying LLM's capability and the runtime's tool support.
+Whatever you measure is scoped to what you ran: your runtime, your model tier, your skill version, your number of runs, your cases. It is not a universal claim about all models or runtimes — results vary with the underlying model's capability and the runtime's tool support. Ours were no different, which is why they aren't published here.
 </details>
 
-**Other modes** (score / quick / pillar-scoped) work in raw Converse and improve output there (case-level scores 80–100%). Skills never produce catastrophically worse output than baseline.
+**Other modes** (score / quick / pillar-scoped) don't depend on subagent dispatch, so they work in raw Converse too and `evals/run.py` measures them fairly.
 
-The evaluation framework is included in [`evals/`](./evals) so you can reproduce results on your own models and prompts. Use `--parallel` for ~3x faster runs.
+Both harnesses live in [`evals/`](./evals) so you can measure on your own models and prompts. `--parallel` runs cases concurrently to cut wall-clock.
 
 ---
 
 ## 🏎️ Model Benchmark
 
-Compare how different foundation models perform on Well-Architected review tasks — measuring **quality**, **latency**, **throughput**, and **token cost** side by side. All models are consumed through **Amazon Bedrock** (`bedrock-runtime` for Converse API models, `bedrock-mantle` for OpenAI Responses/Chat Completions API models) — no direct provider APIs used.
+`evals/benchmark.py` compares foundation models on a Well-Architected review task — **quality**, **latency**, **throughput**, and **token cost**, side by side. Models are consumed through **Amazon Bedrock**; no direct provider APIs.
 
-The benchmark below measures **subagent-mode full reviews** — the shipped skill's default path for `aws-well-architected-framework-review` full reviews, which dispatches 6 parallel Converse calls (one per pillar) per model with pre-loaded pillar references. This is what real users experience. Cost figures include all 6 subagent calls per review.
+It benchmarks the **subagent-mode full review** — the shipped skill's default path, which dispatches one Converse call per pillar with pre-loaded pillar references — so what it measures is what your users would actually experience. Cost accounting covers every subagent call in the review, not just one.
 
 > [!IMPORTANT]
-> **These results reflect a controlled evaluation environment** — a single workload prompt, a fixed region, and a specific point in time. Model performance, pricing, and availability vary across workloads, regions, and Bedrock tiers. **Customers are responsible for running their own evaluations and benchmarks** before making model selection or cost decisions for their specific use cases. Use the harness in `evals/` and the reproduction instructions below to run benchmarks against your own prompts and requirements.
+> **No benchmark results are published here, by design.** Model quality, pricing, latency, and availability differ by workload, region, and Bedrock tier, and they change over time — a table we measured on one prompt at one moment is not a basis for your model-selection or cost decision. **Run the benchmark on your own prompts and requirements.** The harness is below; results are written to `evals/results/`, which is gitignored and stays on your machine.
 
-<!-- BENCHMARK-START -->
-### Model Benchmark Results
-
-**Last run:** 2026-07-11T00:24:45Z | **Region:** us-east-1 | **Prompt:** 1,595 chars | **Max tokens:** 4,096
-
-| Model | Input Tokens | Output Tokens | Latency (s) | Tokens/s | Cost | Quality |
-|-------|-------------:|--------------:|------------:|---------:|------:|--------:|
-| claude-sonnet-5 | 798,959 | 24,039 | 41.9 | 573 | $2.7575 | 5.0/5 |
-| openai.gpt-5.5 | 466,596 | 23,948 | 80.5 | 298 | $1.4060 | 5.0/5 |
-| openai.gpt-oss-120b | 466,962 | 23,834 | 100.7 | 237 | $0.0869 | 5.0/5 |
-| claude-haiku-4-5-20251001 | 551,338 | 24,576 | 38.6 | 637 | $0.5394 | 4.9/5 |
-| claude-fable-5 | 798,959 | 24,576 | 70.7 | 348 | $2.7655 | 4.8/5 |
-| r1 | 487,939 | 14,749 | 59.7 | 247 | $0.7384 | 4.7/5 |
-| nova-lite | 530,811 | 22,406 | 38.8 | 578 | $0.0372 | 4.2/5 |
-| llama4-maverick-17b-instruct | 459,380 | 14,339 | 25.5 | 562 | $0.1611 | 4.1/5 |
-| nova-2-lite | 455,426 | 16,944 | 43.0 | 394 | $0.0209 | 4.1/5 |
-| nova-pro | 530,811 | 23,306 | 72.4 | 322 | $0.4992 | 3.2/5 |
-| pixtral-large-2502 | 293,570 | 12,663 | 64.9 | 195 | $0.6631 | 2.5/5 |
-| llama3-3-70b-instruct | 470,011 | 10,511 | 45.3 | 232 | $0.3460 | 1.5/5 |
-
-<details><summary>Benchmark details</summary>
-
-- Task: Well-Architected review of an e-commerce Terraform architecture
-- Temperature: 0
-- Models tested: 12
-- Quality graded by: unknown
-- Criteria: coverage of 6 pillars, identification of key risks, actionability
-- Run with: `cd evals && python benchmark.py --grade`
-
-</details>
-<!-- BENCHMARK-END -->
-
-**Run it yourself:**
+**Run it:**
 
 ```bash
 cd evals
@@ -1047,11 +990,11 @@ uv run python benchmark.py --grade
 # Test specific models
 uv run python benchmark.py --models us.anthropic.claude-sonnet-5 us.amazon.nova-pro-v1:0
 
-# Publish results to this README
-uv run python benchmark_report.py results/benchmark-YYYYMMDD-HHMMSS.json --update-readme
+# Render a results file as a comparison table
+uv run python benchmark_report.py results/benchmark-YYYYMMDD-HHMMSS.json
 ```
 
-Configure models and prompts in [`evals/benchmark_config.yaml`](evals/benchmark_config.yaml). Add new models as they become available in Bedrock and re-run to keep the table current.
+What you get: one row per model with input and output tokens, wall-clock latency, throughput, cost, and — with `--grade` — a quality score from a grading model, judged on pillar coverage, identification of key risks, and actionability. Configure models, prompts, and grading in [`evals/benchmark_config.yaml`](evals/benchmark_config.yaml). Add models as they become available in Bedrock and re-run to keep your own comparison current.
 
 ---
 
@@ -1093,7 +1036,7 @@ packaged under the standard `SKILL.md` / `metadata.json` names. Omit `--skill`
 to package every skill. Run without arguments to package all skills.
 
 > [!NOTE]
-> The zip excludes lens files — the full skill directory (970+ files) exceeds the DevOps Agent 100-file-per-zip upload limit. Full-review subagent dispatch uses only the 6 pillar files; lenses can be added per-deployment if needed.
+> The zip excludes lens files — the full skill directory (970+ files) exceeds the DevOps Agent documented per-zip file limit. Full-review subagent dispatch uses only the 6 pillar files; lenses can be added per-deployment if needed.
 
 ---
 

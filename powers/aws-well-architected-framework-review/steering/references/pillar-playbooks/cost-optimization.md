@@ -37,7 +37,7 @@ Flag HIGH RISK:
 - CloudWatch log groups with "never expire" retention
 - DynamoDB provisioned capacity that should use on-demand (or vice versa)
 - Over-provisioned IOPS on EBS/RDS
-- EBS volumes not using gp3 (gp2 is more expensive for same performance)
+- EBS volumes still on gp2 where gp3 applies (check current pricing and baseline performance)
 - Backup retention > 35 days without justification
 - S3 versioning without lifecycle rules for old versions
 
@@ -49,10 +49,10 @@ Examine:
 - VPC endpoint configurations (or absence for S3/DynamoDB)
 - CloudFront distributions (or absence for static content)
 - Cross-AZ traffic patterns
-- API Gateway type (REST vs HTTP API — 70% price difference)
+- API Gateway type (REST vs HTTP API — materially different pricing; check current API Gateway pricing)
 
 Flag HIGH RISK:
-- S3/DynamoDB access going through NAT Gateway (VPC endpoint would be free)
+- S3/DynamoDB access going through NAT Gateway (a gateway VPC endpoint avoids NAT Gateway data-processing charges — confirm against current VPC and NAT pricing)
 - No CloudFront for static content delivery
 - REST API Gateway where HTTP API would suffice
 - Cross-region replication without business justification
@@ -87,7 +87,7 @@ Flag IMPROVEMENT OPPORTUNITY:
 High-frequency Well-Architected failures codified as named patterns. Check every detection heuristic explicitly during discovery. When one matches, cite the anti-pattern ID alongside the BP ID in the finding, and base the remediation on the Right example (adapted to the workload's IaC dialect and actual resource names).
 
 ### AP-COST-01: gp2 volumes where gp3 applies
-**Detect:** Terraform `aws_ebs_volume` / launch-template block devices / `aws_instance` `root_block_device` with `volume_type = "gp2"` (or unset where the default resolves to gp2); CloudFormation `VolumeType: gp2`; CDK `EbsDeviceVolumeType.GP2`. gp3 delivers the same or better baseline performance at ~20% lower cost, with IOPS/throughput configurable independently of size.
+**Detect:** Terraform `aws_ebs_volume` / launch-template block devices / `aws_instance` `root_block_device` with `volume_type = "gp2"` (or unset where the default resolves to gp2); CloudFormation `VolumeType: gp2`; CDK `EbsDeviceVolumeType.GP2`. gp3 decouples IOPS/throughput from volume size and is generally lower cost than gp2 for the same baseline performance — verify against current EBS pricing.
 **Maps to:** COST06-BP02 (related: SUS05 hardware efficiency, AP-PERF-01 in `performance-efficiency.md`)
 **Wrong:**
 ```hcl

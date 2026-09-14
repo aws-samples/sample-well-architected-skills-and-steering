@@ -234,7 +234,7 @@ findings you just reported — do not re-run the analysis.
       "recommendation": "Enable SSE and BlockPublicAccess on the uploads bucket."
     }
   ],
-  "recall_note": "Full review, F1 approx 0.96. High recall but not exhaustive; absence of a finding is not proof of implementation."
+  "recall_note": "Full review. High recall but not exhaustive; absence of a finding is not proof of implementation."
 }
 ```
 

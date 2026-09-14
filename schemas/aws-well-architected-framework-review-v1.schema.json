@@ -79,7 +79,7 @@
     "recall_note": {
       "type": "string",
       "minLength": 1,
-      "description": "Honest statement of coverage limits. aws-well-architected-framework-review measures F1=0.96 (not 1.0), so this output is high-recall but not guaranteed exhaustive. Consumers and gates MUST NOT treat the absence of a finding as proof a control exists. State the measured recall and the review mode's coverage here."
+      "description": "Honest statement of coverage limits, written by the producer of this document. A review is high-recall but never guaranteed exhaustive. Consumers and gates MUST NOT treat the absence of a finding as proof a control exists. State the review mode's coverage here, plus any coverage you have measured in your own environment — do not assert a figure you have not measured."
     }
   },
   "$defs": {

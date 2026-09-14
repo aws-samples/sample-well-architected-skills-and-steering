@@ -17,7 +17,7 @@ Flag:
 - Lambda with default 128MB memory (under-provisioned, slower execution)
 - Lambda timeout >= caller's timeout (always appears as timeout)
 - General-purpose instances for compute-heavy or memory-heavy workloads
-- x86 where Graviton provides better price-performance
+- x86 instance types where a Graviton equivalent exists (evaluate price-performance for the workload)
 - Over-provisioned Fargate tasks for simple workloads
 
 ## Storage and Database Performance

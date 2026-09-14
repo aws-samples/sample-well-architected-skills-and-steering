@@ -5,7 +5,7 @@ When aws-well-architected-framework-review is scoped to the Sustainability pilla
 ## Compute Efficiency
 
 Examine:
-- Instance type selections (Graviton vs x86 — up to 40% better price-performance per watt)
+- Instance type selections (Graviton vs x86 — Graviton offers better price-performance and energy efficiency for compatible workloads)
 - Auto-scaling configs (can resources scale to zero?)
 - Lambda configs (memory right-sizing, arm64 vs x86_64)
 - Container configs (base image size, multi-stage builds)
@@ -89,7 +89,7 @@ Flag:
 
 The starter anti-pattern set is weighted toward Security and Reliability, and sustainability-relevant entries live in the playbook of their primary pillar. When reviewing this pillar, explicitly check for these cross-pillar patterns and cite their IDs when they match:
 
-- **AP-COST-01: gp2 volumes where gp3 applies** (`cost-optimization.md`) — gp3 delivers the same baseline performance on more efficient infrastructure at lower cost; maps here to SUS05 (hardware and services selection).
+- **AP-COST-01: gp2 volumes where gp3 applies** (`cost-optimization.md`) — gp3 provides the same baseline performance on more efficient infrastructure and is generally lower cost — verify against current EBS pricing; maps here to SUS05 (hardware and services selection).
 - **AP-PERF-01: No auto-scaling on stateless compute** (`performance-efficiency.md`) — fixed-size fleets hold idle capacity powered on around the clock; maps here to SUS02 (align cloud resources to demand).
 
 ## Sustainability-Specific Report Format

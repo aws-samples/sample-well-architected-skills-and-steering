@@ -188,7 +188,7 @@ Read: references/manifest.md
 
 **Step 4b — Dispatch 6 parallel pillar subagents (MANDATORY for full coverage):**
 
-**Why this pattern:** Empirical measurement shows that when a single agent tries to enumerate all 307 BPs in one response, it produces **20-60 findings and stops** — regardless of prompt strength or explicit "evaluate all 307" instructions. Dispatching **6 parallel subagents (one per pillar)** aggregates to **~307 BPs of coverage** — measured empirically at **100% (307/307)** with **zero hallucinations**.
+**Why this pattern:** A single agent asked to enumerate all 307 BPs in one response **stops early** — it returns a partial list and treats the review as done, regardless of prompt strength or explicit "evaluate all 307" instructions. Dispatching **6 parallel subagents (one per pillar)** narrows each one's scope to a pillar it can enumerate in full, which is what puts the 307-BP corpus in reach.
 
 Dispatch all 6 Task calls in a single turn (parallel execution). **Each subagent MUST return a structured markdown table** so the top-level aggregator can merge findings verbatim without paraphrasing.
 
@@ -243,7 +243,7 @@ Task(subagent_type="general-purpose",
      prompt="Read references/pillars/sustainability.md and references/pillar-playbooks/sustainability.md (domain-specific evidence-collection checklist), then review the workload ONLY for the SUS pillar. [same table format, every BP as a row] Workload: {workload}")
 ```
 
-**Total: 6 Task calls in one turn.** Each subagent runs independently with its own context, so each can be exhaustive without stealing from the others. The uniform table format means aggregation is a mechanical concatenation, not an interpretive summary — this prevents ~30-70% recall loss observed with narrative subagent output.
+**Total: 6 Task calls in one turn.** Each subagent runs independently with its own context, so each can be exhaustive without stealing from the others. The uniform table format means aggregation is a mechanical concatenation, not an interpretive summary — narrative subagent output invites the aggregator to drop citations it judges redundant.
 
 **Step 4c — Aggregate subagent findings (PRESERVE citations verbatim):**
 

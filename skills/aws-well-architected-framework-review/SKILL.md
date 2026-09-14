@@ -198,9 +198,9 @@ This gives you every BP ID and title in ~24 KB.
 
 **Step 4b — Dispatch 6 parallel pillar subagents (MANDATORY for full coverage):**
 
-**Why this pattern:** Empirical measurement shows that when a single agent tries to enumerate all 307 BPs in one response, it produces **20-60 findings and stops** — regardless of prompt strength, retrieval strategy (local files, MCP, or hybrid), or explicit "evaluate all 307" instructions. This is a stable behavioral equilibrium of the model's concision priors.
+**Why this pattern:** A single agent asked to enumerate all 307 BPs in one response **stops early** — it returns a partial list and treats the review as done, regardless of prompt strength, retrieval strategy (local files, MCP, or hybrid), or explicit "evaluate all 307" instructions. The limit is the model's concision priors, not missing reference material, so a stronger prompt does not fix it.
 
-**The fix:** narrow scope per subagent. When one agent reviews ONE pillar, it naturally enumerates the pillar's 30-55 BPs. Dispatching **6 parallel subagents (one per pillar)** aggregates to **~307 BPs of coverage** — measured empirically at **100% (307/307)** in evals/study_mcp with **zero hallucinations**.
+**The fix:** narrow scope per subagent. When one agent reviews ONE pillar, it enumerates that pillar's 30-55 BPs without competing for the window. Dispatching **6 parallel subagents (one per pillar)** is what puts the full 307-BP corpus in reach. Measure the difference in your own runtime with the harness in `evals/cli_effectiveness/`.
 
 Dispatch all 6 Task calls in a single turn (parallel execution). **Each subagent MUST return a structured markdown table** so the top-level aggregator can merge findings verbatim without paraphrasing.
 
@@ -255,7 +255,7 @@ Task(subagent_type="general-purpose",
      prompt="Read references/pillars/sustainability.md and references/pillar-playbooks/sustainability.md (domain-specific evidence-collection checklist), then review the workload ONLY for the SUS pillar. [same table format, every BP as a row] Workload: {workload}")
 ```
 
-**Total: 6 Task calls in one turn.** Each subagent runs independently with its own context, so each can be exhaustive without stealing from the others. The uniform table format means aggregation is a mechanical concatenation, not an interpretive summary — this prevents ~30-70% recall loss observed with narrative subagent output.
+**Total: 6 Task calls in one turn.** Each subagent runs independently with its own context, so each can be exhaustive without stealing from the others. The uniform table format means aggregation is a mechanical concatenation, not an interpretive summary — narrative subagent output invites the aggregator to drop citations it judges redundant.
 
 **Cost/latency:** ~3-4x the tokens of a single-agent review (each subagent duplicates workload context), but wall-clock is bounded by the slowest single pillar (~2-3 min). Users trade cost for coverage.
 
@@ -265,7 +265,7 @@ Task(subagent_type="general-purpose",
 
 **Step 4c — Aggregate subagent findings (PRESERVE citations verbatim):**
 
-Once all 6 subagents return, merge their findings into a single structured report. **CRITICAL**: preserve every BP citation each subagent produced. The aggregation step is a merge, NOT a summary — do not paraphrase, cluster, or omit BP citations that a subagent surfaced. Empirical measurement shows the assembly step is where recall is typically lost: subagents surface 250-307 BPs but naive aggregation collapses to 60-90 in the final report.
+Once all 6 subagents return, merge their findings into a single structured report. **CRITICAL**: preserve every BP citation each subagent produced. The aggregation step is a merge, NOT a summary — do not paraphrase, cluster, or omit BP citations that a subagent surfaced. Assembly is where coverage is typically lost: the subagents surface the whole corpus, and a naive aggregation carries a fraction of it into the final report.
 
 **Aggregation rules — follow all of these:**
 1. **Full BP Ledger required.** The report MUST contain a "Full BP Ledger" section (see Step 6) with a row per BP-status pair from every subagent. If subagent A cited `SEC03-BP02` as Not Implemented, that row appears in the ledger — verbatim, no paraphrase.
@@ -446,7 +446,7 @@ Output a structured report:
 
 **This section MUST list every BP citation produced by every subagent.** Concatenate all 6 subagent tables here, sorted by pillar then BP ID. Do NOT filter, cluster, or paraphrase. If a subagent surfaced 45 BPs for its pillar, this ledger shows 45 rows for that pillar. Target row count: 250-307 (one row per BP evaluated across all pillars).
 
-Empirical measurement shows this section is where recall reaches the user. Skipping it or truncating it drops final-report recall from ~1.00 (what the subagents surface) to ~0.30 (what the assembler compresses to). **Do not skip this section.**
+This section is where the subagents' coverage actually reaches the user. Skipping or truncating it discards most of what they surfaced, however complete their tables were. **Do not skip this section.**
 
 | BP ID | Pillar | Status | Severity | Evidence | Recommendation |
 |-------|--------|--------|----------|----------|-----------------|
@@ -583,8 +583,9 @@ Ledger already contains.
 - Every gap (`not_implemented` / `partially_implemented`) MUST carry a `severity`
   (`critical`/`high`/`medium`/`low`). The CI gate ranks by severity, so an unrated gap fails the
   build closed. Leave `severity` off only for `implemented` / `not_applicable` / `cannot_determine`.
-- `recall_note` MUST state that coverage is high-recall but not exhaustive (aws-well-architected-framework-review measures
-  F1 ~0.96), so downstream gates never read a missing finding as proof a control exists.
+- `recall_note` MUST state that coverage is high-recall but not exhaustive, so downstream gates never
+  read a missing finding as proof a control exists. Do not assert a coverage figure you have not
+  measured in this environment.
 - `recommendation` stays prose guidance — never a code diff (repo design principle).
 
 **Shape** (see the schema for the authoritative, complete definition):
@@ -622,7 +623,7 @@ Ledger already contains.
       "recommendation": "Move the notification path to async invocation so the request path is not blocked."
     }
   ],
-  "recall_note": "Full review, F1 approx 0.96. High recall but not exhaustive; absence of a finding is not proof of implementation."
+  "recall_note": "Full review. High recall but not exhaustive; absence of a finding is not proof of implementation."
 }
 ```
 

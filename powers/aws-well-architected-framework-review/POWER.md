@@ -35,7 +35,7 @@ The power includes the AWS Well-Architected Framework reference corpus in two co
 - `steering/references/pillars/` — 6 pillar-merged reference files (one per pillar, containing every question and every best practice for that pillar). Each is passed to a subagent when a full review dispatches parallel pillar reviews.
 - `steering/references/lenses/` — 27 lens-specific best-practice extensions (serverless, generative-ai, agentic-ai, responsible-ai, hybrid-networking, migration, devops-guidance, machine-learning, data-analytics, games-industry, saas, financial-services, life-sciences, end-user-computing, supply-chain, video-streaming-advertising, telco, sap, modern-industrial-data-technology, microsoft-workloads, connected-mobility, healthcare-industry, container-build, high-performance-computing, streaming-media, iot, government).
 
-For a full review, the agent dispatches 6 parallel subagents (one per pillar) — an empirically-validated pattern that achieves ~100% BP coverage. Empirical measurement shows single-agent full reviews plateau at 20-60 BP citations regardless of prompt engineering; narrow-scope subagents naturally enumerate each pillar's ~30-55 BPs, aggregating to 307. Quick review, score, and pillar-scoped modes remain single-agent for cheaper/faster paths.
+For a full review, the agent dispatches 6 parallel subagents (one per pillar). A single agent asked to cover the whole corpus stops early regardless of prompt engineering; a narrow-scope subagent enumerates its pillar's ~30-55 BPs without competing for the window, and the six aggregate to 307. Quick review, score, and pillar-scoped modes stay single-agent, so they load less reference material and finish sooner.
 
 ## License and support
 
