@@ -11,8 +11,17 @@ report is revealed.
 Ground-truth criteria (both-models consensus):
   - A BP is "applicable" if cited by BOTH models in ≥3 of 5 runs each.
 
-Outputs one JSON file per case at:
-  evals/cli_effectiveness/ground_truth/case_{N}.json
+Outputs, per case:
+  evals/cli_effectiveness/ground_truth/case_{N}.json        the consensus BP set
+                                                            the scorers read
+  evals/cli_effectiveness/ground_truth/panel/case_{N}.json   full panel record
+                                                            (per-run latency,
+                                                            tokens, per-model
+                                                            citation frequency,
+                                                            reference ledger)
+
+The panel record is a measurement of the panel, so it stays local and
+gitignored. Only the consensus set is tracked.
 """
 
 from __future__ import annotations
@@ -33,7 +42,19 @@ SCRIPT_DIR = Path(__file__).resolve().parent
 EVALS_DIR = SCRIPT_DIR.parent
 REPO_ROOT = EVALS_DIR.parent
 GT_DIR = SCRIPT_DIR / "ground_truth"
+PANEL_DIR = GT_DIR / "panel"
 RAW_ARTIFACTS_DIR = SCRIPT_DIR / "review_artifacts" / "ground_truth"
+
+# Fields of the case record that are measurements of the panel rather than
+# inputs the scorers need. They are written to PANEL_DIR only.
+PANEL_ONLY_TOP_LEVEL = ("panel_runs",)
+PANEL_ONLY_GROUND_TRUTH = (
+    "all_cited_bps",
+    "all_cited_count",
+    "critical_high_bps",
+    "per_model_bp_frequency",
+    "reference_ledger",
+)
 
 sys.path.insert(0, str(EVALS_DIR))
 from benchmark import call_model_subagent  # noqa: E402
@@ -46,9 +67,10 @@ from review_quality import (  # noqa: E402
 MODELS = [
     "us.anthropic.claude-sonnet-5",
     "openai.gpt-oss-120b",
-    # Fable 5 dropped: both bedrock-runtime and bedrock-mantle throttle it heavily
-    # under this concurrency pattern. Sonnet 5 + GPT OSS 120B are both 5.0/5 quality
-    # in our benchmarks; their intersection is a strong ground-truth signal.
+    # A third model was dropped: it was throttled heavily under this concurrency
+    # pattern. Two independent top-tier models are enough for the consensus rule —
+    # their intersection is what makes the ground truth defensible. Swap in the
+    # models you want to panel with; re-derive the ground truth when you do.
 ]
 
 RUNS_PER_MODEL = 5
@@ -395,8 +417,31 @@ def process_case(case: dict, canonical: set[str], client) -> dict:
     }
 
 
+def split_case_record(record: dict) -> tuple[dict, dict]:
+    """Split a case record into the tracked consensus set and the local panel record.
+
+    The tracked file carries only what the scorers read (see load_ground_truth in
+    measure_wa_review.py) plus the protocol fields needed to interpret it. Every
+    per-run and per-model measurement goes to the panel record, which is
+    gitignored — this repository does not publish measurement results.
+    """
+    gt = record["ground_truth"]
+    tracked = {
+        key: value
+        for key, value in record.items()
+        if key not in PANEL_ONLY_TOP_LEVEL and key != "ground_truth"
+    }
+    tracked["ground_truth"] = {
+        key: value
+        for key, value in gt.items()
+        if key not in PANEL_ONLY_GROUND_TRUTH
+    }
+    return tracked, record
+
+
 def main() -> int:
     GT_DIR.mkdir(parents=True, exist_ok=True)
+    PANEL_DIR.mkdir(parents=True, exist_ok=True)
 
     canonical = build_canonical_bps()
     print(f"Canonical corpus: {len(canonical)} BPs")
@@ -412,9 +457,16 @@ def main() -> int:
 
     for case in cases:
         gt_result = process_case(case, canonical, client)
+        tracked, panel = split_case_record(gt_result)
+
         out_file = GT_DIR / f"case_{gt_result['case_id']}.json"
-        out_file.write_text(json.dumps(gt_result, indent=2))
+        out_file.write_text(json.dumps(tracked, indent=2) + "\n")
         print(f"  Saved: {out_file.relative_to(REPO_ROOT)}")
+
+        panel_file = PANEL_DIR / f"case_{gt_result['case_id']}.json"
+        panel_file.write_text(json.dumps(panel, indent=2) + "\n")
+        print(f"  Panel record (local only): {panel_file.relative_to(REPO_ROOT)}")
+
         print(f"  Consensus (both models, ≥3/5 runs each): "
               f"{gt_result['ground_truth']['consensus_bp_count']} BPs")
 

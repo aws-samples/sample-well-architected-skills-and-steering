@@ -2,20 +2,21 @@
 
 <!-- Brief description of what this PR does -->
 
-## Eval results (required for skill changes)
+## Evals (required for skill changes)
 
-<!-- 
+<!--
 If this PR adds a new skill or modifies an existing skill (SKILL.md or evals.json),
-you MUST include eval numbers. PRs without eval data will not be merged.
+run the evals locally and confirm the with-skill arm improves on the baseline arm.
+PRs that skip this step will not be merged.
 
 Run: uv run python run.py --skill <skill-name> --verbose
 
-Paste the output below showing:
-- Baseline score vs. with-skill score
-- Delta and statistical significance (p-value)
-- Per-assertion breakdown (--verbose)
+Then state in prose that you ran it, which cases you ran, and whether the
+with-skill arm improved on the baseline arm.
 
-If adding/changing eval cases, show before-and-after results.
+DO NOT paste scores, deltas, p-values, cost, latency, or token figures here.
+This is a public repository: measurement results stay local. Keep result files out
+of the commit as well — see CONTRIBUTING.md, "Measurement results stay local".
 -->
 
 ## Test plan

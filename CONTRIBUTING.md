@@ -20,7 +20,7 @@ Open an issue on GitHub describing the problem, including which steering file or
    - Include at least 3 test cases with realistic user prompts
    - Each case should have 5–7 concrete assertions (gradable as PASS/FAIL)
    - Cover a range of scenarios: critical gaps, well-architected baselines, and edge cases
-   - Run `uv run python run.py --skill my-new-skill --verbose` from the `evals/` directory to verify skill impact
+   - Run `uv run python run.py --skill my-new-skill --verbose` from the `evals/` directory to verify skill impact. Keep the output local — see [Measurement results stay local](#measurement-results-stay-local).
 4. Open a pull request with a description of what the skill does and which WA pillar(s) it covers.
 
 ### Modifying a Steering File
@@ -33,6 +33,23 @@ Open an issue on GitHub describing the problem, including which steering file or
 
 - **Review and guidance, not code mutation.** Skills should help users *understand* their workload's alignment with Well-Architected best practices — not prescriptively rewrite their code. The output of a skill is findings, plans, controls, or visual artifacts; it is never a PR-ready diff applied to the user's codebase. This keeps the user in control of their implementation decisions and avoids the risk profile of model-generated code changes.
 - **Aligned, not compliant.** Skills help workloads align with Well-Architected best practices. They do not make a workload "compliant" with any program. Avoid language that implies a compliance guarantee — use "aligned with best practices," "adherent to WA guidance," or similar phrasing.
+- **Ship the tooling, not the numbers.** This repository provides the harnesses so you can measure a skill in your own environment. It does not publish our measurement results — see below.
+
+### Measurement results stay local
+
+This is a public repository. Do not add measurement results to it, in any file, in a pull request description, or in a release note. That covers:
+
+- Eval or benchmark scores, and baseline-vs-skill deltas or "lift"
+- Cost figures (per run, per review, per million tokens) and any provider's per-token rates
+- Latency, wall-clock, throughput, or token-count figures presented as measurements
+- Speedup multipliers and percentage improvements or reductions
+- Model-vs-model or tool-vs-tool comparison tables, and any third-party product's scores or prices
+
+Describing **how** something is measured is fine and encouraged — metric definitions, the run recipe, what the ground truth is, and the known limitations all belong in the repository. Only the resulting figures stay out.
+
+Result files stay out of version control too. `.gitignore` already covers `evals/results/` and the `evals/cli_effectiveness/` measurement outputs; if you add a harness that writes results, ignore its output path in the same commit.
+
+In a pull request, say that you ran the evals and whether the with-skill arm improved on the baseline arm. Do not paste the numbers.
 
 ### Style Guidelines
 

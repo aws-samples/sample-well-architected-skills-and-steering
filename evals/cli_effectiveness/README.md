@@ -10,8 +10,8 @@ This directory ships the real-measurement harness we used to validate `aws-well-
 
 - `measure_wa_review.py` — invokes `claude -p` with the aws-well-architected-framework-review skill installed and scores against ground truth
 - `measure_baseline.py` — paired baseline: `claude -p --safe-mode --disable-slash-commands` from a scratch workdir (no skill, no CLAUDE.md, no plugins). Same prompts, same ground truth. The delta between the two is the honest measure of what the skill adds.
-- `generate_ground_truth.py` — regenerates the ground truth. Not needed for the shipped v1 data (already in `ground_truth/`), but useful if you want to re-derive against different consensus rules or additional models.
-- `ground_truth/case_N.json` — six frozen consensus datasets, one per eval case. Each JSON contains the consensus applicable-BP list and per-model per-run citation frequencies.
+- `generate_ground_truth.py` — regenerates the ground truth. Not needed for the shipped data (already in `ground_truth/`), but useful if you want to re-derive against different consensus rules or additional models. It writes the consensus set to `ground_truth/case_N.json` and the full panel record — per-run latency, tokens, per-model citation frequency, reference ledger — to `ground_truth/panel/case_N.json`, which is gitignored. Measurement results stay local; see [CONTRIBUTING.md](../../CONTRIBUTING.md#measurement-results-stay-local).
+- `ground_truth/case_N.json` — six frozen consensus sets, one per eval case: the applicable-BP list the scorers compare against, plus the panel protocol (models, runs per model, canonical corpus size) needed to interpret it.
 - `review_quality.py` — evaluation-only blind and adversarial review of captured reports. It measures evidence, status, severity, recommendation, and uncertainty quality without changing the skill.
 
 ## When to use this vs `evals/run.py`

@@ -2,10 +2,11 @@
 .claude/
 CLAUDE.md
 evals/results/*
-!evals/results/baseline.json
 
 # Local study/design artifacts kept out of the shipped repo
 evals/STUDY_MCP_VS_BUNDLED.md
+evals/cli_effectiveness/plot_study.py
+evals/cli_effectiveness/ground_truth/panel/
 skills/aws-well-architected-framework-review/DESIGN.md
 # Measurement outputs from evals/cli_effectiveness/
 evals/cli_effectiveness/wa_review_effectiveness.json
