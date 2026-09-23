@@ -1,5 +1,9 @@
 # aws-well-architected-framework-review structured output schema
 
+> **Note:** the producing skill is deprecated in favor of `aws-well-architected-review`
+> in [Agent Toolkit for AWS](https://github.com/aws/agent-toolkit-for-aws). This schema
+> contract remains versioned and available to existing consumers.
+
 `aws-well-architected-framework-review-v1.schema.json` is the versioned contract for `aws-well-architected-framework-review.json`, the machine-readable
 artifact the [`aws-well-architected-framework-review`](../skills/aws-well-architected-framework-review/SKILL.md) skill emits alongside its markdown report.
 It exists so downstream tools consume a stable shape instead of parsing prose:

@@ -22,6 +22,12 @@ version: 2.2.1-devops-agent
 
 # Well-Architected Review — DevOps Agent Variant
 
+> [!NOTE]
+> **Deprecated.** This skill is superseded by `aws-well-architected-review` in
+> [Agent Toolkit for AWS](https://github.com/aws/agent-toolkit-for-aws). New
+> feature work is not accepted here; see
+> [issue #147](https://github.com/aws-samples/sample-well-architected-skills-and-steering/issues/147).
+
 This skill is optimized for the AWS DevOps Agent context: autonomous execution,
 post-incident triggering, and workload evidence derived from the investigation
 already in progress. No interactive checkpoints. No user prompts for workload

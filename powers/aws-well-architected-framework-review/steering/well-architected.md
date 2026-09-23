@@ -1,5 +1,12 @@
 # Well-Architected Framework
 
+> [!NOTE]
+> **The `aws-well-architected-framework-review` skill referenced below is
+> deprecated**, superseded by `aws-well-architected-review` in
+> [Agent Toolkit for AWS](https://github.com/aws/agent-toolkit-for-aws). See
+> [issue #147](https://github.com/aws-samples/sample-well-architected-skills-and-steering/issues/147).
+> This always-on steering content itself is unaffected.
+
 ## Purpose
 
 Guide the agent to apply AWS Well-Architected Framework principles when reviewing architectures, writing code, or advising on design decisions. Route user intent to the most specific skill available.

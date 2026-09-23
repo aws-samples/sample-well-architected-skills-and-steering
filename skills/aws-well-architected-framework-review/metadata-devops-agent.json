@@ -2,7 +2,7 @@
   "version": "2.2.1-devops-agent",
   "organization": "AWS",
   "date": "July 2026",
-  "abstract": "Well-Architected Framework review optimized for the AWS DevOps Agent context: autonomous execution, post-incident triggering, and evidence derived from incident history, metrics, logs, and source code already accessed during the investigation.",
+  "abstract": "Well-Architected Framework review optimized for the AWS DevOps Agent context: autonomous execution, post-incident triggering, and evidence derived from incident history, metrics, logs, and source code already accessed during the investigation. Deprecated: superseded by the aws-well-architected-review skill in Agent Toolkit for AWS (github.com/aws/agent-toolkit-for-aws).",
   "references": [
     "https://docs.aws.amazon.com/wellarchitected/latest/framework/welcome.html"
   ],
