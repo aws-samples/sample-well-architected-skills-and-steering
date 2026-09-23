@@ -11,6 +11,17 @@ Reusable skills and steering that teach AI coding agents how to apply the [AWS W
 > [!IMPORTANT]
 > This sample is provided for educational and demonstrative purposes. It is not intended for production use without additional review and testing appropriate to your environment. Reference content is current as of the download date — keeping it up to date is the responsibility of the user.
 
+> [!NOTE]
+> **Deprecated.** AWS now ships an actively maintained equivalent — the
+> `aws-well-architected-review` skill in
+> [Agent Toolkit for AWS](https://github.com/aws/agent-toolkit-for-aws)
+> ([product page](https://aws.amazon.com/products/developer-tools/agent-toolkit-for-aws/)).
+> New feature/skill contributions to this repo are no longer accepted. This
+> repository remains the portable contract, fixture, and regression source —
+> see [SUCCESSOR_HANDOFF.md](SUCCESSOR_HANDOFF.md) and
+> [issue #147](https://github.com/aws-samples/sample-well-architected-skills-and-steering/issues/147)
+> for the full migration plan.
+
 ---
 
 ## 🎯 Why this exists

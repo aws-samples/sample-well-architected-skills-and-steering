@@ -1,5 +1,11 @@
 # Security Checklist
 
+> **Note:** This repo's skill is deprecated (see
+> [issue #147](https://github.com/aws-samples/sample-well-architected-skills-and-steering/issues/147)).
+> This checklist is frozen for new contributions since new skill/feature PRs
+> are not being accepted; the "Reporting Security Issues" section below still
+> applies.
+
 This checklist applies to all skills, scripts, and reference content in this repository. Contributors MUST verify each item before submitting changes.
 
 ## Skills (SKILL.md and references/)

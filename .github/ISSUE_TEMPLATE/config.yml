@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Agent Toolkit for AWS (successor)
+    url: https://github.com/aws/agent-toolkit-for-aws
+    about: This repo's skill is deprecated in favor of the actively maintained aws-well-architected-review skill here. New skill/tool-integration requests belong in this repo.
