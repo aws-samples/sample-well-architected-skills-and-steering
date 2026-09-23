@@ -22,6 +22,35 @@ Reusable skills and steering that teach AI coding agents how to apply the [AWS W
 > [issue #147](https://github.com/aws-samples/sample-well-architected-skills-and-steering/issues/147)
 > for the full migration plan.
 
+### Installing the successor: `aws-well-architected-review` in Agent Toolkit for AWS
+
+New users should install from [Agent Toolkit for AWS](https://github.com/aws/agent-toolkit-for-aws) directly rather than from this repo. The skill ships as part of the **aws-core** plugin, at [`skills/core-skills/aws-well-architected-review`](https://github.com/aws/agent-toolkit-for-aws/tree/main/skills/core-skills/aws-well-architected-review) — it fetches Well-Architected Framework and Lens content live from AWS documentation at review time, rather than a periodically-crawled snapshot.
+
+**Claude Code, Codex, or Cursor** (plugin install — bundles the AWS MCP Server too):
+
+```
+# Claude Code (plugins are on the official Anthropic marketplace by default)
+/plugin install aws-core@claude-plugins-official
+```
+
+```
+# Codex
+codex plugin marketplace add aws/agent-toolkit-for-aws
+# then in Codex: /plugins, and install aws-core
+```
+
+For Cursor: **Settings → Plugins → Team Marketplaces → Add Marketplace → Import from Repo**, pointing at `aws/agent-toolkit-for-aws`, then install **aws-core** from the Plugins panel.
+
+**Kiro, fx, or any other agent** (skill only, no plugin marketplace):
+
+```
+npx skills add aws/agent-toolkit-for-aws/skills
+```
+
+This installs the full Agent Toolkit skill set, including `aws-well-architected-review`. Browse [`skills/`](https://github.com/aws/agent-toolkit-for-aws/tree/main/skills) in that repo to install selectively. Kiro discovers installed skills automatically; fx also picks up skills already installed under `.agents/skills/`, `.claude/skills/`, or `.codex/skills/`.
+
+Once installed, use it the same way you'd request any Well-Architected review — describe the workload and ask for a review; the agent discovers and loads the skill on demand. Prerequisites and full setup (including the optional AWS MCP Server for live AWS API access) are in the [Agent Toolkit for AWS user guide](https://docs.aws.amazon.com/agent-toolkit/latest/userguide/).
+
 ---
 
 ## 🎯 Why this exists
