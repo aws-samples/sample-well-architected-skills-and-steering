@@ -5,6 +5,12 @@ not_for: single-pillar deep-dives (use the specific pillar skill), learning WA (
 version: 2.3.0
 ---
 
+> [!NOTE]
+> **Deprecated.** This skill is superseded by `aws-well-architected-review` in
+> [Agent Toolkit for AWS](https://github.com/aws/agent-toolkit-for-aws). New
+> feature work is not accepted here; see
+> [issue #147](https://github.com/aws-samples/sample-well-architected-skills-and-steering/issues/147).
+
 # Well-Architected Review
 
 ## Step 1: Define the workload scope

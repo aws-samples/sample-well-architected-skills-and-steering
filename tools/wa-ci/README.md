@@ -5,6 +5,12 @@ on the Well-Architected delta. A review is a point-in-time snapshot; this turns 
 tripwire, so a change that erodes the workload's posture fails the build instead of landing
 silently.
 
+> **Note:** the `aws-well-architected-framework-review` skill that produces this
+> contract is deprecated in favor of `aws-well-architected-review` in
+> [Agent Toolkit for AWS](https://github.com/aws/agent-toolkit-for-aws). This gate is
+> schema-driven, not skill-name-coupled — it keeps functioning unchanged for any repo
+> with an existing baseline.
+
 It consumes the structured output the [`aws-well-architected-framework-review`](../../skills/aws-well-architected-framework-review/SKILL.md) skill emits
 (Step 6b), validated by [`schemas/aws-well-architected-framework-review-v1.schema.json`](../../schemas/aws-well-architected-framework-review-v1.schema.json).
 

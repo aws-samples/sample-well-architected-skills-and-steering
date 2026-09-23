@@ -11,6 +11,9 @@ contract in schemas/aws-well-architected-framework-review-v1.schema.json (identi
 
 Design boundary: this reports and gates. It never mutates a workload's code.
 
+Note: the producing skill is deprecated in favor of Agent Toolkit for AWS
+(github.com/aws/agent-toolkit-for-aws); see tools/wa-ci/README.md.
+
 Usage:
     python3 wa_ci.py --baseline .well-architected/baseline.json \\
                      --current aws-well-architected-framework-review.json \\

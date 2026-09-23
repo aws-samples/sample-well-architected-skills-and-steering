@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://github.com/aws-samples/sample-well-architected-skills-and-steering/schemas/aws-well-architected-framework-review-v1.schema.json",
   "title": "aws-well-architected-framework-review structured output",
-  "description": "Machine-readable output of the aws-well-architected-framework-review skill. Emitted as aws-well-architected-framework-review.json alongside the markdown report so downstream tools (wa-ci baseline diff, wa-portfolio aggregation, WA Tool import) can consume a stable contract instead of parsing prose. Version this file; external tools depend on it.",
+  "description": "Machine-readable output of the aws-well-architected-framework-review skill. Emitted as aws-well-architected-framework-review.json alongside the markdown report so downstream tools (wa-ci baseline diff, wa-portfolio aggregation, WA Tool import) can consume a stable contract instead of parsing prose. Version this file; external tools depend on it. The producing skill is deprecated in favor of Agent Toolkit for AWS (github.com/aws/agent-toolkit-for-aws); this schema remains versioned and available to existing consumers.",
   "type": "object",
   "required": [
     "schema_version",
