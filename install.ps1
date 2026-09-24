@@ -563,10 +563,8 @@ function Test-Update {
 
     if ([string]::IsNullOrEmpty($latest)) {
         Write-Host "  Could not check for updates (no network or API rate limited)."
-        return
     }
-
-    if ($latest -eq $Version) {
+    elseif ($latest -eq $Version) {
         Write-Host "  You are up to date (v$Version)."
     }
     else {
@@ -574,6 +572,11 @@ function Test-Update {
         Write-Host "  Run the bootstrap one-liner or git pull to update."
         Write-Host "  https://github.com/aws-samples/sample-well-architected-skills-and-steering/releases/tag/v$latest"
     }
+
+    Write-Host ""
+    Write-Host "  NOTE: This skill is deprecated. New projects should use the"
+    Write-Host "  actively maintained aws-well-architected-review skill in Agent"
+    Write-Host "  Toolkit for AWS -> https://github.com/aws/agent-toolkit-for-aws"
 }
 
 # Main
@@ -598,6 +601,10 @@ if ($DevOpsAgent) {
 Write-Host "================================================"
 Write-Host " Well-Architected Skills & Steering Installer"
 Write-Host "================================================"
+Write-Host ""
+Write-Host "NOTE: This skill is deprecated. AWS now ships an actively maintained"
+Write-Host "equivalent: the aws-well-architected-review skill in Agent Toolkit for AWS"
+Write-Host "-> https://github.com/aws/agent-toolkit-for-aws"
 Write-Host ""
 Write-Host "Source:  $ScriptDir"
 Write-Host "Target:  $TargetDir"

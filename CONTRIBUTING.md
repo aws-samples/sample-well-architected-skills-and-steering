@@ -2,6 +2,14 @@
 
 Thank you for your interest in contributing to the Well-Architected Skills & Steering collection!
 
+> **Deprecation notice:** This repo's skill is deprecated in favor of the
+> actively maintained `aws-well-architected-review` skill in
+> [Agent Toolkit for AWS](https://github.com/aws/agent-toolkit-for-aws). New
+> skill or feature contributions are not being accepted — see
+> [issue #147](https://github.com/aws-samples/sample-well-architected-skills-and-steering/issues/147).
+> Bug fixes, corrections, and security reports are still welcome; the sections
+> below on reporting issues and security notifications remain in effect.
+
 ## How to Contribute
 
 ### Reporting Issues

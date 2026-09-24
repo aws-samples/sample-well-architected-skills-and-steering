@@ -1,3 +1,8 @@
+> **Note:** This repo's skill is deprecated in favor of
+> [Agent Toolkit for AWS](https://github.com/aws/agent-toolkit-for-aws) — see
+> issue #147. New skill or feature PRs are not being accepted; bug fixes and
+> corrections are.
+
 ## Summary
 
 <!-- Brief description of what this PR does -->

@@ -1,3 +1,6 @@
+# This repo's skill is deprecated (see SUCCESSOR_HANDOFF.md and issue #147),
+# but is retained as a compatibility/regression suite, not archived — these
+# gates stay active during the freeze window.
 name: CI
 on:
   pull_request:

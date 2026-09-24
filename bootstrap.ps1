@@ -21,6 +21,10 @@ $repoUrl = "https://github.com/aws-samples/sample-well-architected-skills-and-st
 $tmpDir = Join-Path ([System.IO.Path]::GetTempPath()) "wa-skills-install-$([guid]::NewGuid().ToString('N').Substring(0,8))"
 
 try {
+    Write-Host "NOTE: This skill is deprecated. AWS now ships an actively maintained"
+    Write-Host "equivalent: the aws-well-architected-review skill in Agent Toolkit for AWS"
+    Write-Host "-> https://github.com/aws/agent-toolkit-for-aws"
+    Write-Host ""
     Write-Host "Downloading Well-Architected Skills & Steering..."
     $zipPath = "$tmpDir.zip"
     Invoke-WebRequest -Uri $repoUrl -OutFile $zipPath -UseBasicParsing

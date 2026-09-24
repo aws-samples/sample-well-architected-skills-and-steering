@@ -681,16 +681,18 @@ check_update() {
 
   if [[ -z "$latest" ]]; then
     echo "  Could not check for updates (no network or API rate limited)."
-    return
-  fi
-
-  if [[ "$latest" == "$VERSION" ]]; then
+  elif [[ "$latest" == "$VERSION" ]]; then
     echo "  You are up to date (v$VERSION)."
   else
     echo "  Update available: v$VERSION → v$latest"
     echo "  Run the bootstrap one-liner or git pull to update."
     echo "  https://github.com/aws-samples/sample-well-architected-skills-and-steering/releases/tag/v$latest"
   fi
+
+  echo ""
+  echo "  NOTE: This skill is deprecated. New projects should use the"
+  echo "  actively maintained aws-well-architected-review skill in Agent"
+  echo "  Toolkit for AWS -> https://github.com/aws/agent-toolkit-for-aws"
 }
 
 if [[ "$CHECK_UPDATE" == true ]]; then
@@ -772,6 +774,10 @@ fi
 echo "================================================"
 echo " Well-Architected Skills & Steering Installer"
 echo "================================================"
+echo ""
+echo "NOTE: This skill is deprecated. AWS now ships an actively maintained"
+echo "equivalent: the aws-well-architected-review skill in Agent Toolkit for AWS"
+echo "-> https://github.com/aws/agent-toolkit-for-aws"
 echo ""
 echo "Source:  $SCRIPT_DIR"
 echo "Target:  $TARGET_DIR"

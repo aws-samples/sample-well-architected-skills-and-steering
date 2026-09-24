@@ -16,6 +16,10 @@ trap cleanup EXIT
 
 TMPDIR="$(mktemp -d -t "$TMPDIR_PREFIX.XXXXXX")"
 
+echo "NOTE: This skill is deprecated. AWS now ships an actively maintained"
+echo "equivalent: the aws-well-architected-review skill in Agent Toolkit for AWS"
+echo "-> https://github.com/aws/agent-toolkit-for-aws"
+echo ""
 echo "Downloading Well-Architected Skills & Steering..."
 curl -sL "$REPO_URL" | tar xz -C "$TMPDIR" --strip-components=1
 

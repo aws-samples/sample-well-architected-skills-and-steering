@@ -2,7 +2,7 @@
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "aws-well-architected",
   "version": "6.4.0",
-  "description": "Well-Architected skills and steering for AI coding agents: full and pillar-scoped Well-Architected reviews, guardrails, migration readiness, and guided build assistance across all 6 pillars.",
+  "description": "[Deprecated — superseded by the aws-well-architected-review skill in Agent Toolkit for AWS: https://github.com/aws/agent-toolkit-for-aws] Well-Architected skills and steering for AI coding agents: full and pillar-scoped Well-Architected reviews, guardrails, migration readiness, and guided build assistance across all 6 pillars.",
   "author": {
     "name": "AWS",
     "url": "https://github.com/aws-samples"
