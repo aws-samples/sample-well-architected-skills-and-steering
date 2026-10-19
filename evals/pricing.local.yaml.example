@@ -61,12 +61,12 @@ pricing:
   openai.gpt-oss-120b:
     input: null
     output: null
-  MiniMax-M3:
+  MiniMax-M3.1-Flash:
     input: null
     output: null
     cache_read: null
     cache_write: null
-  MiniMax-M2.7:
+  MiniMax-M3:
     input: null
     output: null
     cache_read: null
