@@ -26,8 +26,8 @@ models:
   - openai.gpt-oss-120b
   - openai.gpt-5.5
   # MiniMax (OpenAI-compatible endpoint)
+  - MiniMax-M3.1-Flash
   - MiniMax-M3
-  - MiniMax-M2.7
 
 # Generation settings
 max_tokens: 4096
@@ -46,15 +46,17 @@ openai_compatible_providers:
     endpoints:
       global_en: https://api.minimax.io/v1
       cn_zh: https://api.minimaxi.com/v1
+    # Informational capabilities; the transport leaves thinking/effort at API defaults.
+    # Explicit custom/legacy IDs remain usable when listed in a local provider config.
     models:
+      MiniMax-M3.1-Flash:
+        context_window: 1000000
+        input_modalities: [text, image, video]
+        thinking: [adaptive]
       MiniMax-M3:
         context_window: 1000000
         input_modalities: [text, image, video]
         thinking: [adaptive, disabled]
-      MiniMax-M2.7:
-        context_window: 204800
-        input_modalities: [text]
-        thinking: [always_on]
 
 # Prompt: a realistic WA review question with code context
 prompt:
@@ -135,7 +137,7 @@ grading:
     - us.anthropic.claude-sonnet-4-6
     - us.deepseek.r1-v1:0
     - openai.gpt-oss-120b
-    - MiniMax-M3
+    - MiniMax-M3.1-Flash
   criteria:
     - "Covers all 6 WA pillars (Operational Excellence, Security, Reliability, Performance Efficiency, Cost Optimization, Sustainability)"
     - "Identifies the single-AZ ECS deployment as a reliability risk"
