@@ -59,10 +59,7 @@ openai_compatible_providers:
       MiniMax-M3:
         context_window: 1000000
         input_modalities: [text, image, video]
-        thinking: [adaptive]
-        thinking_always_on: true
-        reasoning_effort: [low, medium, high, xhigh, max]
-        reasoning_effort_default: max
+        thinking: [adaptive, disabled]
 
 # Prompt: a realistic WA review question with code context
 prompt:
