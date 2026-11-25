@@ -47,26 +47,91 @@ RESULTS_FILE = SCRIPT_DIR / "aws_knowledge_mcp_effectiveness.json"
 
 RUNS_PER_CASE = 3
 
-# Remote MCP server — no local install needed
+
+def _count_retrieval_calls(session_file: str | None) -> dict:
+    """Count retrieval tool_use events across main + subagent transcripts.
+
+    The aws-knowledge MCP tools are named `mcp__aws-knowledge__*` in Claude Code.
+    BUT if the MCP server fails to register (observed in ASBX Claude Code with a
+    remote --mcp-config), the model falls back to WebFetch of AWS docs to satisfy
+    the "retrieval-grounded" mandate. Both are genuine external retrieval, so the
+    RAE conditioning signal counts them together (`retrieval_tool_calls`) while
+    also reporting the strict MCP-only count (`mcp_tool_calls`) so we can tell
+    which transport actually fired.
+    """
+    out = {"mcp_tool_calls": 0, "webfetch_calls": 0, "retrieval_tool_calls": 0}
+    if not session_file:
+        return out
+    main = Path(session_file)
+    if not main.exists():
+        return out
+    files = [main]
+    sub_dir = main.parent / main.stem / "subagents"
+    if sub_dir.exists():
+        files.extend(sorted(sub_dir.glob("*.jsonl")))
+
+    for f in files:
+        try:
+            lines = f.read_text().splitlines()
+        except OSError:
+            continue
+        for line in lines:
+            line = line.strip()
+            if not line:
+                continue
+            try:
+                ev = json.loads(line)
+            except json.JSONDecodeError:
+                continue
+            if ev.get("type") != "assistant":
+                continue
+            for block in ev.get("message", {}).get("content", []):
+                if block.get("type") != "tool_use":
+                    continue
+                name = block.get("name", "")
+                if name.startswith("mcp__") or "aws-knowledge" in name:
+                    out["mcp_tool_calls"] += 1
+                elif name == "WebFetch":
+                    out["webfetch_calls"] += 1
+    out["retrieval_tool_calls"] = out["mcp_tool_calls"] + out["webfetch_calls"]
+    return out
+
+# Remote MCP server — no local install needed. Claude Code's --mcp-config needs
+# BOTH the explicit http transport type AND the /mcp endpoint path: the bare host
+# 302-redirects to GitHub docs, and without "type":"http" the server never
+# registers (the model then silently falls back to WebFetch). Verified via a
+# direct POST .../mcp initialize handshake (AWSKnowledgeMCP v1.0.0).
 MCP_CONFIG = json.dumps({
     "mcpServers": {
         "aws-knowledge": {
-            "url": "https://knowledge-mcp.global.api.aws"
+            "type": "http",
+            "url": "https://knowledge-mcp.global.api.aws/mcp"
         }
     }
 })
 
-# Preamble for MCP-only (no skill): ask for systematic WA review using the MCP
+# Preamble for MCP-only (no skill): ask for systematic WA review using the MCP.
+# This preamble MANDATES real tool calls: the RAE conditioning signal
+# (mcp_tool_calls) is only meaningful if the model actually invokes retrieval
+# rather than answering from parametric knowledge. A prior run cited 123 BPs with
+# ZERO MCP calls, which makes the "MCP" arm indistinguishable from no-retrieval.
 MCP_ONLY_PREAMBLE = """[NON-INTERACTIVE EVAL MODE — no follow-up questions possible]
 
 Perform a comprehensive AWS Well-Architected Framework review of the workload below.
-Use the aws-knowledge MCP tools to look up AWS Well-Architected best practices.
-Cover ALL 6 pillars: Operational Excellence, Security, Reliability, Performance Efficiency,
-Cost Optimization, Sustainability.
 
-For each pillar, search for and list relevant best practices. Cite specific Best Practice
-IDs in canonical format: PILLAR##-BP## (e.g. SEC03-BP02, REL06-BP04, COST05-BP03).
-Be exhaustive — search multiple times per pillar to find all applicable BPs.
+MANDATORY TOOL USE — this is a retrieval-grounded review, not a memory test:
+- You MUST call the aws-knowledge MCP tool to look up best practices. Make AT
+  LEAST ONE aws-knowledge search/read call PER PILLAR before citing any BP for
+  that pillar.
+- Ground every cited Best Practice in content you retrieved via the tool THIS
+  session. Do NOT cite BPs from prior knowledge. If you did not retrieve
+  material for a pillar, do not cite BPs for that pillar.
+- If a tool call returns nothing useful, issue another query with different
+  terms before moving on. Search multiple times per pillar to be exhaustive.
+
+Cover ALL 6 pillars: Operational Excellence, Security, Reliability, Performance
+Efficiency, Cost Optimization, Sustainability. Cite specific Best Practice IDs in
+canonical format: PILLAR##-BP## (e.g. SEC03-BP02, REL06-BP04, COST05-BP03).
 Do NOT ask clarifying questions. Proceed directly.
 
 ===== WORKLOAD =====
@@ -83,8 +148,13 @@ def run_mcp_only(prompt: str) -> dict:
                 "claude", "-p",
                 "--output-format", "json",
                 "--model", MODEL,
-                "--safe-mode",
+                # NOT --safe-mode: it disables MCP entirely, so the aws-knowledge
+                # server never registers and the model falls back to WebFetch.
+                # --disable-slash-commands disables all skills (keeps this a true
+                # MCP-only arm), and --strict-mcp-config loads ONLY our server
+                # (not the ambient plugin MCPs).
                 "--disable-slash-commands",
+                "--strict-mcp-config",
                 "--mcp-config", MCP_CONFIG,
                 "--dangerously-skip-permissions",
             ],
@@ -163,17 +233,46 @@ def run_mcp_with_skill(prompt: str) -> dict:
     }
 
 
-def main() -> int:
+def build_parser() -> "argparse.ArgumentParser":
+    import argparse
+    p = argparse.ArgumentParser(
+        description="Measure aws-knowledge MCP recall (SE arm for RAE) via Claude Code CLI.",
+    )
+    p.add_argument("--cases", type=int, nargs="+", default=None,
+                   help="Evaluate only these case IDs (default: all).")
+    p.add_argument("--runs", type=int, default=RUNS_PER_CASE,
+                   help=f"Runs per case (default: {RUNS_PER_CASE}).")
+    p.add_argument("--model", default=MODEL, help=f"Model (default: {MODEL}).")
+    p.add_argument("--output", type=Path, default=RESULTS_FILE, help="Result JSON path.")
+    return p
+
+
+def main(argv: list[str] | None = None) -> int:
+    args = build_parser().parse_args(argv)
+    if args.runs < 1:
+        raise SystemExit("--runs must be >= 1")
+
     canonical = build_canonical_bps()
     cases = load_eval_cases()
-    print(f"Canonical: {len(canonical)} BPs | Cases: {len(cases)} | Runs: {RUNS_PER_CASE}")
+    available = {int(c["id"]) for c in cases}
+    if args.cases:
+        unknown = set(args.cases) - available
+        if unknown:
+            raise SystemExit(f"unknown case IDs: {sorted(unknown)}")
+        cases = [c for c in cases if int(c["id"]) in set(args.cases)]
+
+    runs = args.runs
+    output_path = args.output.expanduser().resolve()
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+
+    print(f"Canonical: {len(canonical)} BPs | Cases: {[c['id'] for c in cases]} | Runs: {runs}")
     print(f"MCP server: https://knowledge-mcp.global.api.aws")
-    print(f"Total CLI invocations: {len(cases) * RUNS_PER_CASE} ({len(cases)} cases × {RUNS_PER_CASE} runs)\n")
+    print(f"Total CLI invocations: {len(cases) * runs}\n")
 
     results = {
         "mcp_server": "https://knowledge-mcp.global.api.aws",
-        "model": MODEL,
-        "runs_per_case": RUNS_PER_CASE,
+        "model": args.model,
+        "runs_per_case": runs,
         "configuration": "mcp_only_systematic",
         "cases": [],
     }
@@ -189,11 +288,16 @@ def main() -> int:
         print(f"  {prompt[:80]}...")
 
         case_runs: list[dict] = []
-        for run_idx in range(1, RUNS_PER_CASE + 1):
-            print(f"  Run {run_idx}/{RUNS_PER_CASE}...", end="", flush=True)
+        for run_idx in range(1, runs + 1):
+            print(f"  Run {run_idx}/{runs}...", end="", flush=True)
             r = run_mcp_only(prompt)
             s = score_run(r, gt_scoring, canonical)
             s["run_idx"] = run_idx
+            # Record retrieval activity so RAE can condition on cases where
+            # retrieval actually fired (rae.py --conditioned-field
+            # retrieval_tool_calls). Includes WebFetch fallback when the MCP
+            # server does not register; mcp_tool_calls isolates true MCP use.
+            s.update(_count_retrieval_calls(r.get("session_file")))
             case_runs.append(s)
             if "error" in s:
                 print(f" ✗ {s['error']}")
@@ -215,9 +319,9 @@ def main() -> int:
         rf1 = agg.get("report_f1", {}).get("mean", "n/a")
         print(f"  Case {case_id} mean report F1: {rf1}")
 
-        RESULTS_FILE.write_text(json.dumps(results, indent=2))
+        output_path.write_text(json.dumps(results, indent=2))
 
-    print(f"\nSaved: {RESULTS_FILE.name}")
+    print(f"\nSaved: {output_path}")
     return 0
 
 

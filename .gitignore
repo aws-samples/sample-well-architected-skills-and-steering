@@ -20,6 +20,9 @@ evals/cli_effectiveness/codex_effectiveness.json
 evals/cli_effectiveness/kiro_effectiveness.json
 evals/cli_effectiveness/review_quality_results.json
 evals/cli_effectiveness/review_artifacts/
+evals/cli_effectiveness/rae_*.json
+evals/cli_effectiveness/lens_*_se.json
+evals/cli_effectiveness/lens_*_sd.json
 
 # Generated study charts
 docs/study/
